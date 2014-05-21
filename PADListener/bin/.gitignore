@@ -1,5 +1,9 @@
 /classes
+/dexedLibs
 /res
 /AndroidManifest.xml
+/classes.dex
 /jarlist.cache
+/PADListener.apk
 /R.txt
+/resources.ap_
