@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+
+    <string name="app_name">PADListener</string>
+    
+    <!-- Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_fetch_monster_info">Fetch monster info</string>
+    
+    
+    <!-- Settings -->
+    <string name="label_settings">Settings</string>
+    <string name="settings_listener_category">Listener</string>
+    <string name="settings_listener_proxy_http_port">Local proxy HTTP port</string>
+    <string name="settings_listener_proxy_https_port">Local proxy HTTP port</string>
+    <string name="settings_listener_iptables_destination">Iptables destination</string>
+    <string name="settings_padherder_category">PadHerder</string>
+    <string name="settings_padherder_login">Login</string>
+    <string name="settings_padherder_password">Password</string>
+    <string name="settings_sync_category">Sync</string>
+    <string name="settings_sync_monters_from_fav">Sync monsters from favorites</string>
+    <string name="settings_sync_monters_from_notfav">Sync monsters not from favorites</string>
+    <string name="settings_sync_materials_from_fav">Sync materials from favorites</string>
+    <string name="settings_sync_materials_from_notfav">Sync materials not from favorites</string>
+
+    <!-- Main activity -->
+    <string name="label_main_activity">PADListener</string>
+    <string name="toggleLabel">Listener active ?</string>
+    <string name="toggleLabel_on">Listener is running</string>
+    <string name="toggleLabel_off">Listener is stopped</string>
+    <string name="toggle_is_on">Stop</string>
+    <string name="toggle_is_off">Start</string>
+    <string name="viewCapturedData">View captured data</string>
+    <string name="viewMonsterInfo">View monster info</string>
+    <string name="viewPadHerderData">View PadHerder data</string>
+    <string name="computeSync">Compute sync</string>
+    
+    <!-- Main activity -->
+    <string name="label_view_monster_info_activity">View monster info</string>
+    <string name="view_monster_info_name">(%1$d) %2$s</string>
+    
+    
+    <!-- FetchPadHerderMonsterInfo activity -->
+    <string name="label_fetch_padherder_monster_info_activity">Fetch PadHerder monster info</string>
+    <string name="fetch_padherder_monster_info_fetching_failed">Fetching failed</string>
+    <string name="fetch_padherder_monster_info_fetching">Fetching PadHerder information</string>
+    <string name="fetch_padherder_monster_info_calling">Calling PadHerder API</string>
+    <string name="fetch_padherder_monster_info_parsing">Parsing PadHerder API result</string>
+    <string name="fetch_padherder_monster_info_saving">Saving data</string>
+    <string name="fetch_padherder_monster_info_fetching_done">Fetching done</string>
+    <string name="fetch_padherder_monster_info_fetching_images">Fetching images</string>
+    <string name="fetch_padherder_monster_info_fetching_image_text">Fetching image %1$d / %2$d for monster %3$d</string>
+    <string name="fetch_padherder_monster_info_fetching_image_done">%1$d images fetched</string>
+    
+    
+    <!-- ViewCapturedData activity -->
+    <string name="label_viewCapturedData">View captured data</string>
+    <string name="view_captured_no_data">No data captured</string>
+    <string name="view_captured_info_item_name"><b>%1$s</b> (updated at %2$s)</string>
+    <string name="view_captured_info_item_rank">Rank %1$d (%2$d xp)</string>
+    <string name="view_captured_info_item_maxrank">%1$d stam, %2$d cost</string>
+    <string name="view_captured_info_item_maxstats">%1$d max box, %2$d max friends</string>
+    <string name="view_captured_info_item_currency">%1$d coins, %2$d stones</string>
+    
+    <string name="view_captured_monster_item_name">%1$d (lv %2$d)</string>
+    <string name="view_captured_monster_item_plus">+%1$d +%2$d +%3$d %4$d</string>
+    
+    
+    
+</resources>

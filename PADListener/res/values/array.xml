@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="settings_sync_monters_from_fav_entries">
+        <item>All</item>
+        <item>Exlude materials</item>
+    </string-array>
+    <string-array name="settings_sync_monters_from_fav_entryValues">
+        <item>all</item>
+        <item>exclude_materials</item>
+    </string-array>
+    
+    <string-array name="settings_sync_monters_from_notfav_entries">
+        <item>All</item>
+        <item>Exlude materials</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="settings_sync_monters_from_notfav_entryValues">
+        <item>all</item>
+        <item>exclude_materials</item>
+        <item>none</item>
+    </string-array>
+
+    <string-array name="settings_sync_materials_from_fav_entries">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="settings_sync_materials_from_fav_entryValues">
+        <item>true</item>
+        <item>false</item>
+    </string-array>
+    
+    <string-array name="settings_sync_materials_from_notfav_entries">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="settings_sync_materials_from_notfav_entryValues">
+        <item>true</item>
+        <item>false</item>
+    </string-array>
+
+</resources>
