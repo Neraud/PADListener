@@ -20,12 +20,14 @@
             android:label="@string/label_main_activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".gui.SettingsActivity"
+            android:label="@string/label_settings" />
+        <activity
+            android:name=".gui.SwitchListenerActivity"
             android:label="@string/label_settings" />
         <activity
             android:name=".gui.ViewMonsterInfoActivity"

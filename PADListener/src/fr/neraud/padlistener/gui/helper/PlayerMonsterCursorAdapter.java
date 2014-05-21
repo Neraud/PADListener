@@ -3,9 +3,9 @@ package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.MonsterCardModel;

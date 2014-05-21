@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/switchListener"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/toggleLabel"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/viewMonsterInfo"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/viewMonsterInfo"
+        android:textSize="20sp" />
+    
+    <TextView
+        android:id="@+id/viewCapturedData"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/viewCapturedData"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/viewPadHerderData"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/viewPadHerderData"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/computeSync"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/computeSync"
+        android:textSize="20sp" />
+
+</LinearLayout>
