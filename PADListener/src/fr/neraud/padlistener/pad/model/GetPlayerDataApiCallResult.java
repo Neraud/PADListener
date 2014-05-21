@@ -3,27 +3,27 @@ package fr.neraud.padlistener.pad.model;
 
 import java.util.List;
 
-import fr.neraud.padlistener.model.MonsterCardModel;
-import fr.neraud.padlistener.model.PlayerInfoModel;
+import fr.neraud.padlistener.model.CapturedMonsterCardModel;
+import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 
 public class GetPlayerDataApiCallResult extends BaseApiCallResult {
 
-	private PlayerInfoModel playerInfo;
-	private List<MonsterCardModel> monsterCards;
+	private CapturedPlayerInfoModel playerInfo;
+	private List<CapturedMonsterCardModel> monsterCards;
 
-	public PlayerInfoModel getPlayerInfo() {
+	public CapturedPlayerInfoModel getPlayerInfo() {
 		return playerInfo;
 	}
 
-	public void setPlayerInfo(PlayerInfoModel playerInfo) {
+	public void setPlayerInfo(CapturedPlayerInfoModel playerInfo) {
 		this.playerInfo = playerInfo;
 	}
 
-	public List<MonsterCardModel> getMonsterCards() {
+	public List<CapturedMonsterCardModel> getMonsterCards() {
 		return monsterCards;
 	}
 
-	public void setMonsterCards(List<MonsterCardModel> monsterCards) {
+	public void setMonsterCards(List<CapturedMonsterCardModel> monsterCards) {
 		this.monsterCards = monsterCards;
 	}
 

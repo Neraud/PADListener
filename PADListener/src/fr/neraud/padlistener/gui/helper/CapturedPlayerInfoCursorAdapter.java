@@ -8,19 +8,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.model.PlayerInfoModel;
-import fr.neraud.padlistener.provider.helper.PlayerInfoHelper;
+import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
 
-public class PlayerInfoCursorAdapter extends SimpleCursorAdapter {
+public class CapturedPlayerInfoCursorAdapter extends SimpleCursorAdapter {
 
-	public PlayerInfoCursorAdapter(Context context, int layout) {
+	public CapturedPlayerInfoCursorAdapter(Context context, int layout) {
 		super(context, layout, null, new String[0], new int[0], 0);
 	}
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		Log.d(getClass().getName(), "bindView");
-		final PlayerInfoModel model = PlayerInfoHelper.cursorToModel(cursor);
+		final CapturedPlayerInfoModel model = CapturedPlayerInfoHelper.cursorToModel(cursor);
 
 		((TextView) view.findViewById(R.id.view_captured_data_info_item_name)).setText(model.getName());
 

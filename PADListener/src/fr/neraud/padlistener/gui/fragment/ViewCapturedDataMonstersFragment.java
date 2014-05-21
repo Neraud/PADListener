@@ -10,8 +10,8 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.gui.helper.PlayerMonsterCursorAdapter;
-import fr.neraud.padlistener.provider.descriptor.PlayerMonsterDescriptor;
+import fr.neraud.padlistener.gui.helper.CapturedPlayerMonsterCursorAdapter;
+import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 
 public class ViewCapturedDataMonstersFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -22,7 +22,7 @@ public class ViewCapturedDataMonstersFragment extends ListFragment implements Lo
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
 
-		adapter = new PlayerMonsterCursorAdapter(getActivity().getApplicationContext(),
+		adapter = new CapturedPlayerMonsterCursorAdapter(getActivity().getApplicationContext(),
 		        R.layout.view_captured_data_tab_monster_item);
 		setListAdapter(adapter);
 	}
@@ -37,7 +37,8 @@ public class ViewCapturedDataMonstersFragment extends ListFragment implements Lo
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(getClass().getName(), "onCreateLoader");
-		return new CursorLoader(getActivity(), PlayerMonsterDescriptor.UriHelper.uriForAll(), null, null, null, null);
+		return new CursorLoader(getActivity(), CapturedPlayerMonsterDescriptor.UriHelper.uriForAllWithInfo(), null, null, null,
+		        null);
 	}
 
 	@Override

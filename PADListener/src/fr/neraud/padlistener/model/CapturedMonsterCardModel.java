@@ -1,7 +1,7 @@
 
 package fr.neraud.padlistener.model;
 
-public class MonsterCardModel {
+public class CapturedMonsterCardModel {
 
 	private int id;
 	private long exp;

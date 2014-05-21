@@ -1,27 +1,43 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    tools:context=".gui.fragment.ViewCapturedDataMonstersFragment" >
 
-    <TextView
-        android:id="@+id/view_captured_data_monster_item_name"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
+    <ImageView
+        android:id="@+id/view_captured_data_monster_item_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/view_captured_monster_item_name" />
-    
-    <TextView
-        android:id="@+id/view_captured_data_monster_item_plus"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/view_captured_monster_item_plus" />
+        android:layout_marginRight="10dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-</TableLayout>
+        <TextView
+            android:id="@+id/view_captured_data_monster_item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/view_captured_monster_item_name" />
+
+        <TextView
+            android:id="@+id/view_captured_data_monster_item_plus"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/view_captured_monster_item_plus" />
+    </LinearLayout>
+
+</LinearLayout>

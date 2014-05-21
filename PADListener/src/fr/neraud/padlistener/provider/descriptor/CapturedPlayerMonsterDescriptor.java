@@ -11,7 +11,7 @@ import android.provider.BaseColumns;
  * 
  * @author Neraud
  */
-public class PlayerMonsterDescriptor {
+public class CapturedPlayerMonsterDescriptor {
 
 	public static final String TABLE_NAME = "player_monster";
 	private static final String AUTHORITY = "fr.neraud.padlistener.provider.player_monster";
@@ -34,6 +34,16 @@ public class PlayerMonsterDescriptor {
 		public static Uri uriForAll() {
 			return CONTENT_URI;
 		}
+
+		/**
+		 * @return the Uri to access all the PlayerMonster with info
+		 */
+		public static Uri uriForAllWithInfo() {
+			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
+			uriBuilder.appendPath("withInfo");
+
+			return uriBuilder.build();
+		}
 	}
 
 	/**
@@ -43,7 +53,9 @@ public class PlayerMonsterDescriptor {
 	 */
 	public enum Paths {
 
-		ALL(1, BASE_PATH, ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_monster");
+		ALL(1, BASE_PATH, ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_monster"),
+		ALL_WITH_INFO(2, BASE_PATH + "/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE
+		        + "/vnd.fr.neraud.padlistener.player_monster_with_info");
 
 		private final int id;
 		private final String path;
@@ -93,6 +105,7 @@ public class PlayerMonsterDescriptor {
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 		matcher.addURI(AUTHORITY, Paths.ALL.path, Paths.ALL.id);
+		matcher.addURI(AUTHORITY, Paths.ALL_WITH_INFO.path, Paths.ALL_WITH_INFO.id);
 
 		return matcher;
 	}

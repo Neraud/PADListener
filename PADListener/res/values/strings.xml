@@ -67,7 +67,7 @@
     <string name="view_captured_info_item_maxstats">%1$d max box, %2$d max friends</string>
     <string name="view_captured_info_item_currency">%1$d coins, %2$d stones</string>
     
-    <string name="view_captured_monster_item_name">%1$d (lv %2$d)</string>
+    <string name="view_captured_monster_item_name">(%1$d) %2$s (lv %3$d, %4$d xp)</string>
     <string name="view_captured_monster_item_plus">+%1$d +%2$d +%3$d %4$d</string>
     
     

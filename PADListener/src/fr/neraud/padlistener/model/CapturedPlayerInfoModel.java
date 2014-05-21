@@ -3,7 +3,7 @@ package fr.neraud.padlistener.model;
 
 import java.util.Date;
 
-public class PlayerInfoModel {
+public class CapturedPlayerInfoModel {
 
 	private Date lastUpdate;
 	private int friendMax;

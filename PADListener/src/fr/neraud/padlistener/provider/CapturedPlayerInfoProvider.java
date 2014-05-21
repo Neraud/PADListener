@@ -7,14 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
-import fr.neraud.padlistener.provider.descriptor.PlayerInfoDescriptor;
+import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
 /**
  * ContentProvider to manipulate the PlayerInfo
  * 
  * @author Neraud
  */
-public class PlayerInfoProvider extends AbstractPADListenerDbContentProvider {
+public class CapturedPlayerInfoProvider extends AbstractPADListenerDbContentProvider {
 
 	@Override
 	public boolean onCreate() {
@@ -24,7 +24,7 @@ public class PlayerInfoProvider extends AbstractPADListenerDbContentProvider {
 
 	@Override
 	public String getType(Uri uri) {
-		final PlayerInfoDescriptor.Paths path = PlayerInfoDescriptor.matchUri(uri);
+		final CapturedPlayerInfoDescriptor.Paths path = CapturedPlayerInfoDescriptor.matchUri(uri);
 		if (path != null) {
 			return path.getContentType();
 		} else {
@@ -36,13 +36,13 @@ public class PlayerInfoProvider extends AbstractPADListenerDbContentProvider {
 	public Uri insert(Uri uri, ContentValues values) {
 		Log.d(getClass().getName(), "insert : " + uri);
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
-		final PlayerInfoDescriptor.Paths path = PlayerInfoDescriptor.matchUri(uri);
+		final CapturedPlayerInfoDescriptor.Paths path = CapturedPlayerInfoDescriptor.matchUri(uri);
 
 		if (path == null) {
 			throw new UnsupportedOperationException("URI : " + uri + " not supported.");
 		}
 
-		db.insert(PlayerInfoDescriptor.TABLE_NAME, null, values);
+		db.insert(CapturedPlayerInfoDescriptor.TABLE_NAME, null, values);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return uri;
 	}
@@ -51,10 +51,10 @@ public class PlayerInfoProvider extends AbstractPADListenerDbContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		Log.d(getClass().getName(), "query : " + uri);
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
-		final PlayerInfoDescriptor.Paths path = PlayerInfoDescriptor.matchUri(uri);
+		final CapturedPlayerInfoDescriptor.Paths path = CapturedPlayerInfoDescriptor.matchUri(uri);
 
 		final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-		builder.setTables(PlayerInfoDescriptor.TABLE_NAME);
+		builder.setTables(CapturedPlayerInfoDescriptor.TABLE_NAME);
 
 		switch (path) {
 		case ALL:
@@ -72,7 +72,7 @@ public class PlayerInfoProvider extends AbstractPADListenerDbContentProvider {
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		Log.d(getClass().getName(), "update : " + uri);
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
-		final PlayerInfoDescriptor.Paths path = PlayerInfoDescriptor.matchUri(uri);
+		final CapturedPlayerInfoDescriptor.Paths path = CapturedPlayerInfoDescriptor.matchUri(uri);
 
 		int count;
 
@@ -83,7 +83,7 @@ public class PlayerInfoProvider extends AbstractPADListenerDbContentProvider {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
-		count = db.update(PlayerInfoDescriptor.TABLE_NAME, values, selection, selectionArgs);
+		count = db.update(CapturedPlayerInfoDescriptor.TABLE_NAME, values, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
@@ -92,13 +92,13 @@ public class PlayerInfoProvider extends AbstractPADListenerDbContentProvider {
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		Log.d(getClass().getName(), "delete : " + uri);
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
-		final PlayerInfoDescriptor.Paths path = PlayerInfoDescriptor.matchUri(uri);
+		final CapturedPlayerInfoDescriptor.Paths path = CapturedPlayerInfoDescriptor.matchUri(uri);
 
 		int count;
 
 		switch (path) {
 		case ALL:
-			count = db.delete(PlayerInfoDescriptor.TABLE_NAME, selection, selectionArgs);
+			count = db.delete(CapturedPlayerInfoDescriptor.TABLE_NAME, selection, selectionArgs);
 			getContext().getContentResolver().notifyChange(uri, null);
 			break;
 		default:

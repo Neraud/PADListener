@@ -52,11 +52,11 @@
         
 
         <provider
-            android:name=".provider.PlayerInfoProvider"
+            android:name=".provider.CapturedPlayerInfoProvider"
             android:authorities="fr.neraud.padlistener.provider.player_info"
             android:exported="true" />
         <provider
-            android:name=".provider.PlayerMonsterProvider"
+            android:name=".provider.CapturedPlayerMonsterProvider"
             android:authorities="fr.neraud.padlistener.provider.player_monster"
             android:exported="true" />
         <provider

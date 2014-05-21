@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import fr.neraud.padlistener.provider.sqlite.tables.ITable;
 import fr.neraud.padlistener.provider.sqlite.tables.MonsterInfoTable;
-import fr.neraud.padlistener.provider.sqlite.tables.PlayerInfoTable;
-import fr.neraud.padlistener.provider.sqlite.tables.PlayerMonsterTable;
+import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerInfoTable;
+import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerMonsterTable;
 
 /**
  * OpenHelper to access the accounts table in the database
@@ -25,8 +25,8 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 
 	private static final List<ITable> TABLES = new ArrayList<ITable>();
 	static {
-		addTable(new PlayerInfoTable());
-		addTable(new PlayerMonsterTable());
+		addTable(new CapturedPlayerInfoTable());
+		addTable(new CapturedPlayerMonsterTable());
 		addTable(new MonsterInfoTable());
 	}
 

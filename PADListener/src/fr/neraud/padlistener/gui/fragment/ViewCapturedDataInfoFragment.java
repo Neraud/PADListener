@@ -10,8 +10,8 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.gui.helper.PlayerInfoCursorAdapter;
-import fr.neraud.padlistener.provider.descriptor.PlayerInfoDescriptor;
+import fr.neraud.padlistener.gui.helper.CapturedPlayerInfoCursorAdapter;
+import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
 public class ViewCapturedDataInfoFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -22,7 +22,7 @@ public class ViewCapturedDataInfoFragment extends ListFragment implements Loader
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
 
-		adapter = new PlayerInfoCursorAdapter(getActivity().getApplicationContext(), R.layout.view_captured_data_tab_info_item);
+		adapter = new CapturedPlayerInfoCursorAdapter(getActivity().getApplicationContext(), R.layout.view_captured_data_tab_info_item);
 		setListAdapter(adapter);
 	}
 
@@ -36,7 +36,7 @@ public class ViewCapturedDataInfoFragment extends ListFragment implements Loader
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(getClass().getName(), "onCreateLoader");
-		return new CursorLoader(getActivity(), PlayerInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
+		return new CursorLoader(getActivity(), CapturedPlayerInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
 	}
 
 	@Override

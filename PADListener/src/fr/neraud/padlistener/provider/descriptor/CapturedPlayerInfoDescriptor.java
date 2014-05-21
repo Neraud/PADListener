@@ -11,7 +11,7 @@ import android.provider.BaseColumns;
  * 
  * @author Neraud
  */
-public class PlayerInfoDescriptor {
+public class CapturedPlayerInfoDescriptor {
 
 	public static final String TABLE_NAME = "player_info";
 	private static final String AUTHORITY = "fr.neraud.padlistener.provider.player_info";
