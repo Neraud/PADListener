@@ -1,6 +1,8 @@
 
 package fr.neraud.padlistener.service;
 
+import java.io.IOException;
+
 import org.sandrop.webscarab.model.Preferences;
 import org.sandroproxy.utils.PreferenceUtils;
 
@@ -20,7 +22,7 @@ import fr.neraud.padlistener.exception.RootCommandExecutionException;
 import fr.neraud.padlistener.gui.MainActivity;
 import fr.neraud.padlistener.proxy.helper.IptablesHelper;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
-import fr.neraud.padlistener.util.ScriptAssetUtils;
+import fr.neraud.padlistener.util.ScriptAssetHelper;
 
 public class ListenerService extends Service {
 
@@ -47,8 +49,12 @@ public class ListenerService extends Service {
 			Log.d(TAG, "onCreate : already started");
 		} else {
 			Log.d(TAG, "onCreate : starting !");
-			final ScriptAssetUtils scriptAssetUtils = new ScriptAssetUtils(getApplicationContext());
-			scriptAssetUtils.copyScriptsFromAssets();
+			try {
+				final ScriptAssetHelper scriptAssetUtils = new ScriptAssetHelper(getApplicationContext());
+				scriptAssetUtils.copyScriptsFromAssets();
+			} catch (final IOException e) {
+				Log.e(TAG, "PADListener stop failed  : " + e.getMessage(), e);
+			}
 
 			iptablesHelper = new IptablesHelper(getApplicationContext());
 			proxyHelper = new ProxyHelper(getApplicationContext());
@@ -135,7 +141,7 @@ public class ListenerService extends Service {
 			startForeground(NOTIFICATION_ID, notification);
 			showToast("PADListener started");
 		} catch (final Exception e) {
-			Log.e(TAG, "PADListener stop failed  : " + e.getMessage());
+			Log.e(TAG, "PADListener stop failed  : " + e.getMessage(), e);
 			showToast("PADListener stop failed !");
 		}
 	}

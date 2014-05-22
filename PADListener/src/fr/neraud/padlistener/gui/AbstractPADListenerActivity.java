@@ -2,14 +2,38 @@
 package fr.neraud.padlistener.gui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
+import fr.neraud.padlistener.service.InstallMonsterImagesService;
+import fr.neraud.padlistener.service.InstallMonsterInfoService;
 
 public class AbstractPADListenerActivity extends Activity {
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		Log.d(getClass().getName(), "onCreate");
+		super.onCreate(savedInstanceState);
+		final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
+		if (!prefHelper.isHasBeenInstalled()) {
+			Log.d(getClass().getName(), "onCreate : starting install");
+			startService(new Intent(getApplicationContext(), InstallMonsterInfoService.class));
+			startService(new Intent(getApplicationContext(), InstallMonsterImagesService.class));
+			prefHelper.setHasBeenInstalled(true);
+
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.install_dialog_title);
+			builder.setMessage(R.string.install_dialog_message);
+			builder.setPositiveButton(R.string.install_dialog_button_ok, null);
+			builder.create().show();
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

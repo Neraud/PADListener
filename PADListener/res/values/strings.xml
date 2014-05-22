@@ -23,6 +23,12 @@
     <string name="settings_sync_materials_from_fav">Sync materials from favorites</string>
     <string name="settings_sync_materials_from_notfav">Sync materials not from favorites</string>
 
+    <!-- Install Activity -->
+    <string name="install_dialog_title">Monster data</string>
+    <string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the settings.</string>
+    <string name="install_dialog_button_ok">OK</string>
+
+    
     <!-- Main activity -->
     <string name="label_main_activity">PADListener</string>
     <string name="toggleLabel">Switch listener</string>

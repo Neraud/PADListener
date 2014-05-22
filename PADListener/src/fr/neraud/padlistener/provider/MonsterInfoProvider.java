@@ -58,6 +58,7 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 
 		getContext().getContentResolver().notifyChange(uri, null);
 
+		Log.d(getClass().getName(), "bulkInsert finished");
 		return count;
 	}
 
