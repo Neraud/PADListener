@@ -10,7 +10,8 @@
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp" 
+        android:src="@drawable/no_monster_image"/>
 
     <TextView
         android:id="@+id/view_monster_info_item_name"

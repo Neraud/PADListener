@@ -11,7 +11,8 @@
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:src="@drawable/no_monster_image" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,10 +23,10 @@
             android:id="@+id/view_captured_data_monster_item_name"
             android:layout_width="fill_parent"
             android:layout_height="35dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="@string/view_captured_monster_item_name" />
 

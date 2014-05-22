@@ -39,8 +39,7 @@ public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 
 			((ImageView) view.findViewById(R.id.view_monster_info_item_image)).setImageDrawable(bm);
 		} catch (final FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			((ImageView) view.findViewById(R.id.view_monster_info_item_image)).setImageResource(R.drawable.no_monster_image);
 		}
 	}
 }

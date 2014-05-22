@@ -41,8 +41,8 @@ public class CapturedPlayerMonsterCursorAdapter extends SimpleCursorAdapter {
 
 			((ImageView) view.findViewById(R.id.view_captured_data_monster_item_image)).setImageDrawable(bm);
 		} catch (final FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			((ImageView) view.findViewById(R.id.view_captured_data_monster_item_image))
+			        .setImageResource(R.drawable.no_monster_image);
 		}
 
 		//(%1$d) %2$s (lv %3$d, %4$d xp)
