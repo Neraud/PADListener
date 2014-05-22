@@ -36,7 +36,7 @@ public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoMo
 	}
 
 	private MonsterInfoModel parseOneMonster(JSONObject monsterJson) throws JSONException {
-		Log.d(getClass().getName(), "parseJsonArray");
+		Log.d(getClass().getName(), "parseOneMonster");
 		final MonsterInfoModel monster = new MonsterInfoModel();
 
 		monster.setId(monsterJson.getInt("id"));
