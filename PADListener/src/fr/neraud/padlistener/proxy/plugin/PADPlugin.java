@@ -19,7 +19,6 @@ import fr.neraud.padlistener.pad.model.ApiCallModel;
 
 public class PADPlugin extends ProxyPlugin {
 
-	private static String TAG = PADPlugin.class.getName();
 	private boolean _enabled = true;
 	private final Context context;
 
@@ -60,6 +59,7 @@ public class PADPlugin extends ProxyPlugin {
 		@Override
 		public Response fetchResponse(Request request) throws IOException {
 			if (_enabled) {
+				Log.d(PADPlugin.class.getName(), "fetchResponse");
 				final Response response = _in.fetchResponse(request);
 
 				final HttpUrl reqUrl = request.getURL();
@@ -81,7 +81,7 @@ public class PADPlugin extends ProxyPlugin {
 					model.setRequestContent(requestContentString);
 					model.setResponseContent(responseContentString);
 
-					Log.d(TAG, "" + model);
+					Log.d(PADPlugin.class.getName(), "" + model);
 					new ApiCallParser(context, model).start();
 				}
 

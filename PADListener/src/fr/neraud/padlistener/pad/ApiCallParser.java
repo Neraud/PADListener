@@ -26,7 +26,6 @@ import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
 
 public class ApiCallParser extends Thread {
 
-	private static String TAG = ApiCallParser.class.getName();
 	private final Context context;
 	private final ApiCallModel callModel;
 
@@ -37,7 +36,7 @@ public class ApiCallParser extends Thread {
 
 	@Override
 	public void run() {
-		Log.d(TAG, "run");
+		Log.d(ApiCallParser.class.getName(), "run");
 
 		try {
 			switch (callModel.getAction()) {
@@ -47,7 +46,7 @@ public class ApiCallParser extends Thread {
 				saveMonsters(result.getMonsterCards());
 				break;
 			default:
-				Log.d(TAG, "Ingoring action " + callModel.getAction());
+				Log.d(ApiCallParser.class.getName(), "Ingoring action " + callModel.getAction());
 			}
 		} catch (final JSONException e) {
 			// TODO Auto-generated catch block
@@ -56,7 +55,7 @@ public class ApiCallParser extends Thread {
 	}
 
 	private static GetPlayerDataApiCallResult parsePlayerData(ApiCallModel callModel) throws JSONException {
-		Log.d(TAG, "parsePlayerData");
+		Log.d(ApiCallParser.class.getName(), "parsePlayerData");
 		final JSONObject result = new JSONObject(callModel.getResponseContent());
 		final GetPlayerDataApiCallResult model = new GetPlayerDataApiCallResult();
 		final int res = result.getInt("res");
@@ -108,30 +107,32 @@ public class ApiCallParser extends Thread {
 	}
 
 	private void savePlayerInfo(CapturedPlayerInfoModel playerInfoModel) {
-		Log.d(TAG, "savePlayerData");
+		Log.d(ApiCallParser.class.getName(), "savePlayerData");
 
 		final ContentResolver cr = context.getContentResolver();
 		final Uri uri = CapturedPlayerInfoDescriptor.UriHelper.uriForAll();
 
 		Long fake_id = null;
 
-		final Cursor cursor = cr.query(uri, new String[] { CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() }, null, null, null);
+		final Cursor cursor = cr.query(uri, new String[] { CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() }, null, null,
+		        null);
 		if (cursor != null && cursor.moveToNext()) {
 			fake_id = cursor.getLong(0);
 		}
 		final ContentValues values = CapturedPlayerInfoHelper.modelToValues(playerInfoModel);
 
 		if (fake_id == null) {
-			Log.d(TAG, "savePlayerData : Insert new data");
+			Log.d(ApiCallParser.class.getName(), "savePlayerData : Insert new data");
 			cr.insert(uri, values);
 		} else {
-			Log.d(TAG, "savePlayerData : Update existing data");
-			cr.update(uri, values, CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() + " = ?", new String[] { fake_id.toString() });
+			Log.d(ApiCallParser.class.getName(), "savePlayerData : Update existing data");
+			cr.update(uri, values, CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() + " = ?",
+			        new String[] { fake_id.toString() });
 		}
 	}
 
 	private void saveMonsters(List<CapturedMonsterCardModel> monsters) {
-		Log.d(TAG, "saveMonsters");
+		Log.d(ApiCallParser.class.getName(), "saveMonsters");
 
 		final ContentResolver cr = context.getContentResolver();
 		final Uri uri = CapturedPlayerMonsterDescriptor.UriHelper.uriForAll();
