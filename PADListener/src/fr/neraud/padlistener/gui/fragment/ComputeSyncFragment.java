@@ -1,6 +1,8 @@
 
 package fr.neraud.padlistener.gui.fragment;
 
+import java.text.DateFormat;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.model.SyncComputeResultModel;
 import fr.neraud.padlistener.service.ComputeSyncService;
 import fr.neraud.padlistener.service.constant.RestCallError;
@@ -84,10 +88,12 @@ public class ComputeSyncFragment extends Fragment {
 
 		final View view = inflater.inflate(R.layout.fragment_compute_sync, container, false);
 
+		final DefaultSharedPreferencesHelper defaultPrefHelper = new DefaultSharedPreferencesHelper(getActivity());
+		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getActivity());
+
 		final TextView explain = (TextView) view.findViewById(R.id.compute_sync_explain);
-		final String accountName = "accountName"; // TODO
-		final String refreshDate = "ago"; // TODO
-		explain.setText(getString(R.string.compute_sync_explain, accountName, refreshDate));
+		final String refreshDate = DateFormat.getDateTimeInstance().format(techPrefHelper.getLastCaptureDate());
+		explain.setText(getString(R.string.compute_sync_explain, defaultPrefHelper.getPadHerderUserName(), refreshDate));
 		button = (Button) view.findViewById(R.id.compute_sync_button);
 		syncProgress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		status = (TextView) view.findViewById(R.id.compute_sync_status);

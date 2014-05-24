@@ -1,6 +1,8 @@
 
 package fr.neraud.padlistener.helper;
 
+import java.util.Date;
+
 import android.content.Context;
 
 public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesHelper {
@@ -15,5 +17,14 @@ public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesH
 
 	public void setHasBeenInstalled(boolean bool) {
 		setBooleanPreference("hasBeenInstalled", bool);
+	}
+
+	public void setLastCaptureDate(Date date) {
+		setLongPreference("lastCaptureDate", date.getTime());
+	}
+
+	public Date getLastCaptureDate() {
+		return new Date(getLongPreference("lastCaptureDate", 0L));
+
 	}
 }

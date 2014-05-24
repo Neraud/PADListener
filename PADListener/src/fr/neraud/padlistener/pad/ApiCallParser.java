@@ -15,6 +15,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
@@ -44,6 +45,8 @@ public class ApiCallParser extends Thread {
 				final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
 				savePlayerInfo(result.getPlayerInfo());
 				saveMonsters(result.getMonsterCards());
+				final TechnicalSharedPreferencesHelper helper = new TechnicalSharedPreferencesHelper(context);
+				helper.setLastCaptureDate(new Date());
 				break;
 			default:
 				Log.d(ApiCallParser.class.getName(), "Ingoring action " + callModel.getAction());
