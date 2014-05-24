@@ -18,6 +18,7 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncComputeResultModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
+import fr.neraud.padlistener.model.UserInfoMaterialModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMonsterModel;
 
@@ -38,7 +39,7 @@ public class SyncHelper {
 		final Map<Integer, Integer> capturedMaterialsById = reorgCapturedMaterials(capturedMonsters);
 
 		final Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById = reorgPadherderMonster(padInfo.getMonsters());
-		final Map<Integer, Integer> padherderMaterialsById = padInfo.getMaterials();
+		final Map<Integer, UserInfoMaterialModel> padherderMaterialsById = reorgPadherderMaterials(padInfo.getMaterials());
 
 		final SyncComputeResultModel result = new SyncComputeResultModel();
 
@@ -122,8 +123,20 @@ public class SyncHelper {
 		return padherderMonstersById;
 	}
 
+	@SuppressLint("UseSparseArrays")
+	private Map<Integer, UserInfoMaterialModel> reorgPadherderMaterials(List<UserInfoMaterialModel> materials) {
+		Log.d(getClass().getName(), "reorgPadherderMonster");
+		final Map<Integer, UserInfoMaterialModel> padherderMaterialsById = new HashMap<Integer, UserInfoMaterialModel>();
+
+		for (final UserInfoMaterialModel material : materials) {
+			padherderMaterialsById.put(material.getId(), material);
+		}
+
+		return padherderMaterialsById;
+	}
+
 	private List<SyncedMaterialModel> syncMaterials(Map<Integer, Integer> capturedMaterialsById,
-	        Map<Integer, Integer> padherderMaterialsById) {
+	        Map<Integer, UserInfoMaterialModel> padherderMaterialsById) {
 		Log.d(getClass().getName(), "syncMaterials");
 
 		final List<SyncedMaterialModel> syncedMaterials = new ArrayList<SyncedMaterialModel>();
@@ -135,10 +148,10 @@ public class SyncHelper {
 			final SyncedMaterialModel syncedMaterial = new SyncedMaterialModel();
 			final MonsterInfoModel monsterInfo = monsterInfoById.get(materialId);
 			syncedMaterial.setMonsterInfo(monsterInfo);
-			syncedMaterial.setCapturedQuantity(capturedMaterialsById.containsKey(materialId) ? capturedMaterialsById
-			        .get(materialId) : 0);
-			syncedMaterial.setPadherderQuantity(padherderMaterialsById.containsKey(materialId) ? padherderMaterialsById
-			        .get(materialId) : 0);
+			syncedMaterial.setCapturedInfo(capturedMaterialsById.containsKey(materialId) ? capturedMaterialsById.get(materialId)
+			        : 0);
+			syncedMaterial.setPadherderInfo(padherderMaterialsById.containsKey(materialId) ? padherderMaterialsById.get(materialId)
+			        .getQuantity() : 0);
 
 			Log.d(getClass().getName(), " - syncedMaterial : " + syncedMaterial);
 			syncedMaterials.add(syncedMaterial);
@@ -205,8 +218,8 @@ public class SyncHelper {
 		for (final CapturedMonsterCardModel captured : capturedMonstersWork) {
 			final SyncedMonsterModel model = new SyncedMonsterModel();
 			model.setMonsterInfo(monsterInfoById.get(monsterId));
-			model.setCapturedMonster(captured);
-			model.setPadherderMonster(null);
+			model.setCapturedInfo(captured);
+			model.setPadherderInfo(null);
 			Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
 			syncedMonsters.add(model);
 		}
@@ -215,8 +228,8 @@ public class SyncHelper {
 		for (final UserInfoMonsterModel padherder : padherderMonstersWork) {
 			final SyncedMonsterModel model = new SyncedMonsterModel();
 			model.setMonsterInfo(monsterInfoById.get(monsterId));
-			model.setCapturedMonster(null);
-			model.setPadherderMonster(padherder);
+			model.setCapturedInfo(null);
+			model.setPadherderInfo(padherder);
 			Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);
 			syncedMonsters.add(model);
 		}

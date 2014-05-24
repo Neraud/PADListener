@@ -3,9 +3,19 @@ package fr.neraud.padlistener.model;
 
 public class UserInfoMonsterModel extends BaseMonsterModel {
 
+	private static final long serialVersionUID = 1L;
+	private long padherderId;
 	private int priority;
 	private Integer targetEvolutionId;
 	private String note;
+
+	public long getPadherderId() {
+		return padherderId;
+	}
+
+	public void setPadherderId(long padherderId) {
+		this.padherderId = padherderId;
+	}
 
 	public int getPriority() {
 		return priority;

@@ -27,14 +27,14 @@ public class ChooseSyncInitHelper {
 		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();
 
 		for (final SyncedMaterialModel material : syncResult.getSyncedMaterials()) {
-			if (material.getCapturedQuantity() != material.getPadherderQuantity()) {
+			if (material.getCapturedInfo().equals(material.getPadherderInfo())) {
+				Log.d(getClass().getName(), "filterSyncResult : ignoring material : " + material);
+			} else {
 				final ChooseSyncModelContainer<SyncedMaterialModel> container = new ChooseSyncModelContainer<SyncedMaterialModel>();
 				container.setChoosen(true);
 				container.setSyncedModel(material);
 				Log.d(getClass().getName(), "filterSyncResult : keeping material : " + material);
 				syncedMaterialsToUpdate.add(container);
-			} else {
-				Log.d(getClass().getName(), "filterSyncResult : ignoring material : " + material);
 			}
 		}
 
@@ -46,11 +46,11 @@ public class ChooseSyncInitHelper {
 			final ChooseSyncModelContainer<SyncedMonsterModel> container = new ChooseSyncModelContainer<SyncedMonsterModel>();
 			container.setSyncedModel(monster);
 
-			if (monster.getCapturedMonster() == null) {
+			if (monster.getCapturedInfo() == null) {
 				Log.d(getClass().getName(), "filterSyncResult : deleting monster : " + monster);
 				container.setChoosen(false);
 				syncedMonstersToDelete.add(container);
-			} else if (monster.getPadherderMonster() == null) {
+			} else if (monster.getPadherderInfo() == null) {
 				Log.d(getClass().getName(), "filterSyncResult : creating monster : " + monster);
 				container.setChoosen(false);
 				syncedMonstersToCreate.add(container);

@@ -1,12 +1,8 @@
 
 package fr.neraud.padlistener.http.parser;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +11,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.util.Log;
 import fr.neraud.padlistener.http.exception.ParsingException;
+import fr.neraud.padlistener.model.UserInfoMaterialModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMonsterModel;
 
@@ -33,12 +30,12 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		userModel.setAccountId(json.getInt("account_id"));
 		userModel.setCountryCode(json.getInt("country"));
 
-		final Map<Integer, Integer> materials = new HashMap<Integer, Integer>();
+		final List<UserInfoMaterialModel> materials = new ArrayList<UserInfoMaterialModel>();
 		final JSONArray materialsArray = json.getJSONArray("materials");
 		for (int i = 0; i < materialsArray.length(); i++) {
 			final JSONObject materialJson = (JSONObject) materialsArray.get(i);
-			final Entry<Integer, Integer> material = parseOneMaterial(materialJson);
-			materials.put(material.getKey(), material.getValue());
+			final UserInfoMaterialModel material = parseOneMaterial(materialJson);
+			materials.add(material);
 		}
 		userModel.setMaterials(materials);
 
@@ -61,20 +58,25 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		throw new ParsingException("Cannot parse JSONArray, JSONObject expected");
 	}
 
-	private Entry<Integer, Integer> parseOneMaterial(JSONObject materialJson) throws JSONException {
+	private UserInfoMaterialModel parseOneMaterial(JSONObject materialJson) throws JSONException {
 		/*
+		"id": 1,
 		"monster": 162, 
 		"count": 4
 		*/
-		final Entry<Integer, Integer> entry = new SimpleEntry<Integer, Integer>(materialJson.getInt("monster"),
-		        materialJson.getInt("count"));
 
-		return entry;
+		final UserInfoMaterialModel material = new UserInfoMaterialModel();
+		material.setPadherderId(materialJson.getLong("id"));
+		material.setId(materialJson.getInt("monster"));
+		material.setQuantity(materialJson.getInt("count"));
+
+		return material;
 	}
 
 	private UserInfoMonsterModel parseOneMonster(JSONObject monsterJson) throws JSONException {
 		Log.d(getClass().getName(), "parseOneMonster");
 		/*
+		"id": 650,
 		"monster": 4, 
 		"note": "", 
 		"priority": 2, 
@@ -90,6 +92,7 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 
 		final UserInfoMonsterModel monster = new UserInfoMonsterModel();
 
+		monster.setPadherderId(monsterJson.getLong("id"));
 		monster.setId(monsterJson.getInt("monster"));
 		monster.setNote(monsterJson.getString("note"));
 		monster.setPriority(monsterJson.getInt("priority"));

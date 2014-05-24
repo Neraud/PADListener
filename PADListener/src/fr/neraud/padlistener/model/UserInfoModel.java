@@ -2,14 +2,12 @@
 package fr.neraud.padlistener.model;
 
 import java.util.List;
-import java.util.Map;
 
 public class UserInfoModel {
 
 	private long accountId;
 	private int countryCode;
-	// Id -> qty
-	private Map<Integer, Integer> materials;
+	private List<UserInfoMaterialModel> materials;
 	private List<UserInfoMonsterModel> monsters;
 
 	public long getAccountId() {
@@ -28,11 +26,11 @@ public class UserInfoModel {
 		this.countryCode = countryCode;
 	}
 
-	public Map<Integer, Integer> getMaterials() {
+	public List<UserInfoMaterialModel> getMaterials() {
 		return materials;
 	}
 
-	public void setMaterials(Map<Integer, Integer> materials) {
+	public void setMaterials(List<UserInfoMaterialModel> materials) {
 		this.materials = materials;
 	}
 
