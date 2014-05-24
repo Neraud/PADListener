@@ -1,7 +1,8 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/choose_sync_head"
@@ -38,4 +39,4 @@
         android:layout_gravity="center"
         android:text="@string/choose_sync_info_button" />
 
-</TableLayout>
+</LinearLayout>
