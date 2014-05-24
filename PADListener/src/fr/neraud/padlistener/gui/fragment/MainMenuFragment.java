@@ -18,7 +18,7 @@ public class MainMenuFragment extends Fragment {
 		SWITCH_LISTENER,
 		VIEW_MONSTER_INFO,
 		VIEW_CAPTURED_DATA,
-		VIEW_PADHERDER,
+		//VIEW_PADHERDER,
 		COMPUTE_SYNC;
 	}
 
@@ -35,7 +35,7 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "switchListener.onClick");
-				((MainActivity) getActivity()).clickOnMyMenu(MainMenuEntry.SWITCH_LISTENER);
+				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.SWITCH_LISTENER);
 			}
 		});
 
@@ -45,7 +45,7 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "viewMonsterInfo.onClick");
-				((MainActivity) getActivity()).clickOnMyMenu(MainMenuEntry.VIEW_MONSTER_INFO);
+				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.VIEW_MONSTER_INFO);
 			}
 		});
 
@@ -55,10 +55,11 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "viewCapturedData.onClick");
-				((MainActivity) getActivity()).clickOnMyMenu(MainMenuEntry.VIEW_CAPTURED_DATA);
+				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.VIEW_CAPTURED_DATA);
 			}
 		});
 
+		/*
 		final TextView viewPadHerder = (TextView) mainView.findViewById(R.id.viewPadHerderData);
 		viewPadHerder.setOnClickListener(new OnClickListener() {
 
@@ -68,13 +69,14 @@ public class MainMenuFragment extends Fragment {
 				((MainActivity) getActivity()).clickOnMyMenu(MainMenuEntry.VIEW_PADHERDER);
 			}
 		});
+		*/
 		final TextView computeSync = (TextView) mainView.findViewById(R.id.computeSync);
 		computeSync.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "computeSync.onClick");
-				((MainActivity) getActivity()).clickOnMyMenu(MainMenuEntry.COMPUTE_SYNC);
+				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.COMPUTE_SYNC);
 			}
 		});
 

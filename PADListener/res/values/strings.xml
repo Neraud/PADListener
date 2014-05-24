@@ -78,4 +78,16 @@
     
     
     
+    <!-- Compute Sync -->
+	<string name="label_computeSync">Compute Sync</string>
+    <string name="compute_sync_explain">The sync process will first fetch data from your PADHerder account (%1$s).\nIt will then use the data captured from PAD (at %2$s) and compute the differences.\nIt will finally list the differences so you can choose which ones you wish to push to your PADHerder account. Some differences will be preselected based on the sync settings.</string>
+    <string name="compute_sync_start">Start</string>
+    <string name="compute_sync_status">Sync status : %1$s</string>
+    
+    <string name="compute_sync_status_calling">calling PadHerder API</string>
+    <string name="compute_sync_status_parsing">parsing PadHerder API result</string>
+    <string name="compute_sync_status_computing">computing sync</string>
+    <string name="compute_sync_status_finished">finished</string>
+    <string name="compute_sync_status_failed">failed</string>
+    
 </resources>

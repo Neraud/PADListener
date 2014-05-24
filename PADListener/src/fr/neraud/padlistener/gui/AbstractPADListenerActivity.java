@@ -70,4 +70,17 @@ public class AbstractPADListenerActivity extends Activity {
 		}
 		return consumed;
 	}
+
+	public void goToScreen(Class<? extends Activity> activityClass, Bundle extras) {
+		Log.d(getClass().getName(), "onCreate");
+		final Intent intent = new Intent(getApplicationContext(), activityClass);
+		if (extras != null) {
+			intent.putExtras(extras);
+		}
+		startActivity(intent);
+	}
+
+	public void goToScreen(Class<? extends Activity> activityClass) {
+		goToScreen(activityClass, null);
+	}
 }

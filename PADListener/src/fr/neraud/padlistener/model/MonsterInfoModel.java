@@ -1,13 +1,15 @@
 
 package fr.neraud.padlistener.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fr.neraud.padlistener.padherder.constant.MonsterElement;
 import fr.neraud.padlistener.padherder.constant.MonsterType;
 
-public class MonsterInfoModel {
+public class MonsterInfoModel implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private int rarity;
@@ -247,4 +249,8 @@ public class MonsterInfoModel {
 		this.image60Url = image60Url;
 	}
 
+	@Override
+	public String toString() {
+		return "(" + id + ") " + name;
+	}
 }

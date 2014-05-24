@@ -11,8 +11,9 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
         android:text="@string/toggleLabel"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/viewMonsterInfo"
@@ -24,7 +25,7 @@
         android:gravity="center_vertical"
         android:text="@string/viewMonsterInfo"
         android:textSize="20sp" />
-    
+
     <TextView
         android:id="@+id/viewCapturedData"
         android:layout_width="fill_parent"
@@ -35,7 +36,7 @@
         android:gravity="center_vertical"
         android:text="@string/viewCapturedData"
         android:textSize="20sp" />
-
+    <!--
     <TextView
         android:id="@+id/viewPadHerderData"
         android:layout_width="fill_parent"
@@ -46,6 +47,7 @@
         android:gravity="center_vertical"
         android:text="@string/viewPadHerderData"
         android:textSize="20sp" />
+    -->
 
     <TextView
         android:id="@+id/computeSync"

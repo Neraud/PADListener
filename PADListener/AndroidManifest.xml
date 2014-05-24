@@ -38,6 +38,14 @@
         <activity
             android:name=".gui.ViewCapturedDataActivity"
             android:label="@string/label_viewCapturedData" />
+        <activity
+            android:name=".gui.ComputeSyncActivity"
+            android:label="@string/label_computeSync" />
+        <activity
+            android:name=".gui.SyncResultActivity"
+            android:label="@string/label_computeSync" />
+        
+        
 
         <service
             android:name=".service.ListenerService"
@@ -54,6 +62,10 @@
         <service
             android:name=".service.FetchPadHerderMonsterImageService"
             android:exported="false"/>
+        <service
+            android:name=".service.ComputeSyncService"
+            android:exported="false"/>
+        
         
 
         <provider

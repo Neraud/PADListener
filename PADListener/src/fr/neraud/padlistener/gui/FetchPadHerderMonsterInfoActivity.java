@@ -13,7 +13,8 @@ import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.service.FetchPadHerderMonsterImageService;
 import fr.neraud.padlistener.service.FetchPadHerderMonsterInfoService;
-import fr.neraud.padlistener.service.constant.RestCallProgress;
+import fr.neraud.padlistener.service.constant.RestCallError;
+import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 // FIXME : rotation restart fetching ...
@@ -25,19 +26,18 @@ public class FetchPadHerderMonsterInfoActivity extends Activity {
 	private ProgressBar imagesProgress;
 	private TextView imagesDetailText;
 
-	private class FetchInfoReceiver extends AbstractRestResultReceiver {
+	private class FetchInfoReceiver extends AbstractRestResultReceiver<Integer> {
 
 		public FetchInfoReceiver(Handler handler) {
 			super(handler);
 		}
 
 		@Override
-		protected void onReceiveProgress(RestCallProgress progress) {
+		protected void onReceiveProgress(RestCallRunningStep progress) {
 			Log.d(getClass().getName(), "onReceiveProgress : " + progress);
 			switch (progress) {
 			case STARTED:
 				mainText.setText(R.string.fetch_padherder_monster_info_calling);
-				Log.d(getClass().getName(), "onReceiveProgress : TEST");
 				mainProgress.setIndeterminate(false);
 				mainProgress.setProgress(1);
 				mainProgress.setMax(5);
@@ -50,20 +50,29 @@ public class FetchPadHerderMonsterInfoActivity extends Activity {
 				mainText.setText(R.string.fetch_padherder_monster_info_saving);
 				mainProgress.setProgress(3);
 				break;
-			case DATA_PROCESSED:
-				mainText.setText(R.string.fetch_padherder_monster_info_fetching_images);
-				mainProgress.setProgress(4);
-				startFetchingImages();
-				break;
-			case REST_CALL_ERROR:
-			case PARSING_ERROR:
-			case PROCESS_ERROR:
-				mainText.setText(R.string.fetch_padherder_monster_info_fetching_failed);
-				break;
 			default:
 				break;
 			}
+
 		}
+
+		@Override
+		protected void onReceiveSuccess(Integer result) {
+			Log.d(getClass().getName(), "onReceiveSuccess");
+
+			// TODO print count
+			mainText.setText(R.string.fetch_padherder_monster_info_fetching_images);
+			mainProgress.setProgress(4);
+			startFetchingImages();
+		}
+
+		@Override
+		protected void onReceiveError(RestCallError error, String errorMessage) {
+			Log.d(getClass().getName(), "onReceiveError : " + error);
+			// TODO error printing
+			mainText.setText(R.string.fetch_padherder_monster_info_fetching_failed);
+		}
+
 	}
 
 	private class ImageDownloadResultReceiver extends ResultReceiver {

@@ -1,7 +1,6 @@
 
 package fr.neraud.padlistener.gui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import fr.neraud.padlistener.R;
@@ -16,27 +15,28 @@ public class MainActivity extends AbstractPADListenerActivity {
 		setContentView(R.layout.activity_main);
 	}
 
-	public void clickOnMyMenu(MainMenuFragment.MainMenuEntry entry) {
-		Log.d(getClass().getName(), "clickOnMyMenu : " + entry);
+	public void clickOnMainMenu(MainMenuFragment.MainMenuEntry entry) {
+		Log.d(getClass().getName(), "clickOnMainMenu : " + entry);
 		switch (entry) {
 		case SWITCH_LISTENER:
-			startActivity(new Intent(getApplicationContext(), SwitchListenerActivity.class));
+			goToScreen(SwitchListenerActivity.class);
 			break;
 		case VIEW_MONSTER_INFO:
-			startActivity(new Intent(getApplicationContext(), ViewMonsterInfoActivity.class));
+			goToScreen(ViewMonsterInfoActivity.class);
 			break;
 		case VIEW_CAPTURED_DATA:
-			startActivity(new Intent(getApplicationContext(), ViewCapturedDataActivity.class));
+			goToScreen(ViewCapturedDataActivity.class);
 			break;
+		/*
 		case VIEW_PADHERDER:
 			//TODO
 			break;
+		*/
 		case COMPUTE_SYNC:
-			//TODO
+			goToScreen(ComputeSyncActivity.class);
 			break;
 		default:
 			break;
 		}
 	}
-
 }

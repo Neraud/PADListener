@@ -38,6 +38,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 		final String fullUrl = createFullUrl(httpRequest);
 		final HttpRequestBase httpMethod = createMethod(httpRequest.getMethod(), fullUrl);
 		try {
+			Log.d(getClass().getName(), "call : " + httpMethod.getURI());
 			final HttpResponse httpResponse = httpclient.execute(httpMethod);
 
 			final R result = createResultFromResponse(httpResponse);

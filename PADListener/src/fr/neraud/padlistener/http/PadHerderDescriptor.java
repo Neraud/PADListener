@@ -19,6 +19,14 @@ public class PadHerderDescriptor {
 			return initRequest(Services.MONSTER_INFO);
 		}
 
+		public static RestRequest initRequestForUserInfo(String userName) {
+			final RestRequest restRequest = new RestRequest();
+			final String url = Services.USER_INFO.apiUrl.replaceAll("\\[userName\\]", userName);
+			restRequest.setUrl(url);
+			restRequest.setMethod(Services.USER_INFO.method);
+			return restRequest;
+		}
+
 		private static RestRequest initRequest(Services service) {
 			final RestRequest restRequest = new RestRequest();
 			restRequest.setUrl(service.apiUrl);
@@ -34,7 +42,8 @@ public class PadHerderDescriptor {
 	 */
 	private enum Services {
 
-		MONSTER_INFO("/api/monsters/", HttpMethod.GET);
+		MONSTER_INFO("/api/monsters/", HttpMethod.GET),
+		USER_INFO("/user-api/user/[userName]", HttpMethod.GET);
 
 		private final String apiUrl;
 		private final HttpMethod method;
