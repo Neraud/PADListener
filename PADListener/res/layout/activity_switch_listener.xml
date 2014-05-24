@@ -4,5 +4,5 @@
     android:name="fr.neraud.padlistener.gui.fragment.SwitchListenerFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_menu_fragment">
+    android:id="@+id/switch_listener_fragment">
 </fragment>
