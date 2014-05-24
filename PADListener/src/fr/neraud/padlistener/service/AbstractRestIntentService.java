@@ -10,6 +10,7 @@ import android.os.ResultReceiver;
 import android.util.Log;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.HttpCallException;
+import fr.neraud.padlistener.http.exception.HttpResponseException;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
 import fr.neraud.padlistener.http.model.RestRequest;
@@ -42,10 +43,16 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 				notifyProgress(RestCallRunningStep.RESPONSE_PARSED);
 				final M resultModel = processResult(result);
 				notifyResult(resultModel);
+			} else {
+				throw new HttpResponseException("Code " + restResponse.getStatus() + " received with content : "
+				        + restResponse.getContentResult());
 			}
 		} catch (final HttpCallException e) {
 			Log.e(getClass().getName(), "onHandleIntent : HttpCallException " + e.getMessage(), e);
 			notifyError(RestCallError.REST_CALL_ERROR, e);
+		} catch (final HttpResponseException e) {
+			Log.e(getClass().getName(), "onHandleIntent : HttpResponseException " + e.getMessage(), e);
+			notifyError(RestCallError.RESPONSE_ERROR, e);
 		} catch (final ParsingException e) {
 			Log.e(getClass().getName(), "onHandleIntent : ParsingException " + e.getMessage(), e);
 			notifyError(RestCallError.PARSING_ERROR, e);
