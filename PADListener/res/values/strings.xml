@@ -90,4 +90,8 @@
     <string name="compute_sync_status_finished">finished</string>
     <string name="compute_sync_status_failed">failed</string>
     
+    
+    <!-- Compute Sync -->
+	<string name="label_syncResult">Sync results</string>
+    
 </resources>

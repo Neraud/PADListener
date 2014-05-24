@@ -43,7 +43,7 @@
             android:label="@string/label_computeSync" />
         <activity
             android:name=".gui.SyncResultActivity"
-            android:label="@string/label_computeSync" />
+            android:label="@string/label_syncResult" />
         
         
 
