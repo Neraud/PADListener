@@ -8,10 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import fr.neraud.padlistener.helper.SyncHelper;
-import fr.neraud.padlistener.http.PadHerderDescriptor;
-import fr.neraud.padlistener.http.RestClient;
+import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
+import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.RestRequest;
 import fr.neraud.padlistener.http.parser.UserInfoJsonParser;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
@@ -41,7 +41,7 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 
 	@Override
 	protected RestRequest createRestRequest() {
-		return PadHerderDescriptor.RequestHelper.initRequestForUserInfo("NeraudMule");
+		return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo("NeraudMule");
 	}
 
 	@Override

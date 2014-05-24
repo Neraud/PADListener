@@ -7,10 +7,10 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.util.Log;
-import fr.neraud.padlistener.http.PadHerderDescriptor;
-import fr.neraud.padlistener.http.RestClient;
+import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
+import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.RestRequest;
 import fr.neraud.padlistener.http.parser.MonsterInfoJsonParser;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -30,7 +30,7 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 
 	@Override
 	protected RestRequest createRestRequest() {
-		return PadHerderDescriptor.RequestHelper.initRequestForMonsterInfo();
+		return PadHerderDescriptor.RequestHelper.initRequestForGetMonsterInfo();
 	}
 
 	@Override

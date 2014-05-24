@@ -1,5 +1,5 @@
 
-package fr.neraud.padlistener.http;
+package fr.neraud.padlistener.http.client;
 
 import java.io.IOException;
 import java.util.Map;
