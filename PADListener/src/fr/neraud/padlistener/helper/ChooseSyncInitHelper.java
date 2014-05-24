@@ -1,0 +1,71 @@
+
+package fr.neraud.padlistener.helper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.util.Log;
+import fr.neraud.padlistener.model.ChooseSyncModel;
+import fr.neraud.padlistener.model.ChooseSyncModelContainer;
+import fr.neraud.padlistener.model.SyncComputeResultModel;
+import fr.neraud.padlistener.model.SyncedMaterialModel;
+import fr.neraud.padlistener.model.SyncedMonsterModel;
+
+public class ChooseSyncInitHelper {
+
+	private final SyncComputeResultModel syncResult;
+
+	public ChooseSyncInitHelper(SyncComputeResultModel syncResult) {
+		super();
+		this.syncResult = syncResult;
+	}
+
+	public ChooseSyncModel filterSyncResult() {
+		Log.d(getClass().getName(), "filterSyncResult");
+		final ChooseSyncModel chooseSync = new ChooseSyncModel();
+
+		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();
+
+		for (final SyncedMaterialModel material : syncResult.getSyncedMaterials()) {
+			if (material.getCapturedQuantity() != material.getPadherderQuantity()) {
+				final ChooseSyncModelContainer<SyncedMaterialModel> container = new ChooseSyncModelContainer<SyncedMaterialModel>();
+				container.setChoosen(true);
+				container.setSyncedModel(material);
+				Log.d(getClass().getName(), "filterSyncResult : keeping material : " + material);
+				syncedMaterialsToUpdate.add(container);
+			} else {
+				Log.d(getClass().getName(), "filterSyncResult : ignoring material : " + material);
+			}
+		}
+
+		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
+		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
+		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
+
+		for (final SyncedMonsterModel monster : syncResult.getSyncedMonsters()) {
+			final ChooseSyncModelContainer<SyncedMonsterModel> container = new ChooseSyncModelContainer<SyncedMonsterModel>();
+			container.setSyncedModel(monster);
+
+			if (monster.getCapturedMonster() == null) {
+				Log.d(getClass().getName(), "filterSyncResult : deleting monster : " + monster);
+				container.setChoosen(false);
+				syncedMonstersToDelete.add(container);
+			} else if (monster.getPadherderMonster() == null) {
+				Log.d(getClass().getName(), "filterSyncResult : creating monster : " + monster);
+				container.setChoosen(false);
+				syncedMonstersToCreate.add(container);
+			} else {
+				Log.d(getClass().getName(), "filterSyncResult : updating monster : " + monster);
+				container.setChoosen(true);
+				syncedMonstersToUpdate.add(container);
+			}
+		}
+
+		chooseSync.setSyncedMaterialsToUpdate(syncedMaterialsToUpdate);
+		chooseSync.setSyncedMonstersToUpdate(syncedMonstersToUpdate);
+		chooseSync.setSyncedMonstersToCreate(syncedMonstersToCreate);
+		chooseSync.setSyncedMonstersToDelete(syncedMonstersToDelete);
+
+		return chooseSync;
+	}
+}

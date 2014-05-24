@@ -42,8 +42,8 @@
             android:name=".gui.ComputeSyncActivity"
             android:label="@string/label_computeSync" />
         <activity
-            android:name=".gui.SyncResultActivity"
-            android:label="@string/label_syncResult" />
+            android:name=".gui.ChooseSyncActivity"
+            android:label="@string/label_chooseSync" />
         
         
 

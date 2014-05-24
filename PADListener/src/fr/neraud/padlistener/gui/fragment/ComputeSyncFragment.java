@@ -1,10 +1,10 @@
 
 package fr.neraud.padlistener.gui.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
-import fr.neraud.padlistener.model.SyncResultModel;
+import fr.neraud.padlistener.model.SyncComputeResultModel;
 import fr.neraud.padlistener.service.ComputeSyncService;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
@@ -28,7 +28,7 @@ public class ComputeSyncFragment extends Fragment {
 	private ProgressBar syncProgress;
 	private TextView status;
 
-	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<SyncResultModel> {
+	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<SyncComputeResultModel> {
 
 		public MyComputeSyncReceiver(Handler handler) {
 			super(handler);
@@ -58,22 +58,22 @@ public class ComputeSyncFragment extends Fragment {
 		}
 
 		@Override
-		protected void onReceiveSuccess(SyncResultModel result) {
+		protected void onReceiveSuccess(SyncComputeResultModel result) {
 			Log.d(getClass().getName(), "onReceiveSuccess");
 			status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
 			syncProgress.setProgress(4);
 
 			final Bundle extras = new Bundle();
-			extras.putSerializable(SyncResultFragment.EXTRA_SYNC_RESULT_NAME, result);
-			((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.SYNC_RESULT, extras);
+			extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, result);
+			((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.CHOOSE_SYNC, extras);
 		}
 
 		@Override
 		protected void onReceiveError(RestCallError error, String errorMessage) {
 			Log.d(getClass().getName(), "onReceiveError : " + error);
 
-			// TODO print error
-			status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed)));
+			syncProgress.setProgress(4);
+			status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, errorMessage)));
 		}
 
 	}

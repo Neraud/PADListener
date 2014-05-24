@@ -4,7 +4,7 @@ package fr.neraud.padlistener.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class SyncResultModel implements Serializable {
+public class SyncComputeResultModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private List<SyncedMaterialModel> syncedMaterials;

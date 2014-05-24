@@ -15,7 +15,7 @@ import fr.neraud.padlistener.helper.MonsterComparator.MonsterComparisonResult;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.model.SyncResultModel;
+import fr.neraud.padlistener.model.SyncComputeResultModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.model.UserInfoModel;
@@ -30,7 +30,7 @@ public class SyncHelper {
 		this.monsterInfoById = reorgMonsterInfo(monsterInfos);
 	}
 
-	public SyncResultModel sync(List<CapturedMonsterCardModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo,
+	public SyncComputeResultModel sync(List<CapturedMonsterCardModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo,
 	        UserInfoModel padInfo) {
 		Log.d(getClass().getName(), "sync");
 
@@ -40,7 +40,7 @@ public class SyncHelper {
 		final Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById = reorgPadherderMonster(padInfo.getMonsters());
 		final Map<Integer, Integer> padherderMaterialsById = padInfo.getMaterials();
 
-		final SyncResultModel result = new SyncResultModel();
+		final SyncComputeResultModel result = new SyncComputeResultModel();
 
 		final List<SyncedMaterialModel> syncedMaterials = syncMaterials(capturedMaterialsById, padherderMaterialsById);
 		final List<SyncedMonsterModel> syncedMonsters = syncMonsters(capturedMonstersById, padherderMonstersById);
@@ -152,11 +152,11 @@ public class SyncHelper {
 		Log.d(getClass().getName(), "syncMonsters");
 
 		final List<SyncedMonsterModel> syncedMonsters = new ArrayList<SyncedMonsterModel>();
-		final Set<Integer> materialIds = new HashSet<Integer>();
-		materialIds.addAll(capturedMonstersById.keySet());
-		materialIds.addAll(padherderMonstersById.keySet());
+		final Set<Integer> monsterIds = new HashSet<Integer>();
+		monsterIds.addAll(capturedMonstersById.keySet());
+		monsterIds.addAll(padherderMonstersById.keySet());
 
-		for (final Integer monsterId : materialIds) {
+		for (final Integer monsterId : monsterIds) {
 			final List<CapturedMonsterCardModel> capturedMonsters = capturedMonstersById.get(monsterId);
 			final List<UserInfoMonsterModel> padherderMonsters = padherderMonstersById.get(monsterId);
 
@@ -207,6 +207,8 @@ public class SyncHelper {
 			model.setMonsterInfo(monsterInfoById.get(monsterId));
 			model.setCapturedMonster(captured);
 			model.setPadherderMonster(null);
+			Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
+			syncedMonsters.add(model);
 		}
 
 		// Deleted monsters
@@ -215,6 +217,8 @@ public class SyncHelper {
 			model.setMonsterInfo(monsterInfoById.get(monsterId));
 			model.setCapturedMonster(null);
 			model.setPadherderMonster(padherder);
+			Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);
+			syncedMonsters.add(model);
 		}
 
 		return syncedMonsters;
