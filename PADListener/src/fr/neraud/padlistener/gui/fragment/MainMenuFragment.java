@@ -10,17 +10,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.gui.MainActivity;
+import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
+import fr.neraud.padlistener.gui.constant.GuiScreen;
 
 public class MainMenuFragment extends Fragment {
-
-	public static enum MainMenuEntry {
-		SWITCH_LISTENER,
-		VIEW_MONSTER_INFO,
-		VIEW_CAPTURED_DATA,
-		//VIEW_PADHERDER,
-		COMPUTE_SYNC;
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +28,7 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "switchListener.onClick");
-				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.SWITCH_LISTENER);
+				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.SWITCH_LISTENER);
 			}
 		});
 
@@ -45,7 +38,7 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "viewMonsterInfo.onClick");
-				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.VIEW_MONSTER_INFO);
+				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.VIEW_MONSTER_INFO);
 			}
 		});
 
@@ -55,7 +48,7 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "viewCapturedData.onClick");
-				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.VIEW_CAPTURED_DATA);
+				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.VIEW_CAPTURED_DATA);
 			}
 		});
 
@@ -66,7 +59,7 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "viewPadHerder.onClick");
-				((MainActivity) getActivity()).clickOnMyMenu(MainMenuEntry.VIEW_PADHERDER);
+				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.VIEW_PADHERDER);
 			}
 		});
 		*/
@@ -76,7 +69,7 @@ public class MainMenuFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "computeSync.onClick");
-				((MainActivity) getActivity()).clickOnMainMenu(MainMenuEntry.COMPUTE_SYNC);
+				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.COMPUTE_SYNC);
 			}
 		});
 

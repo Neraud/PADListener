@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.InstallMonsterImagesService;
 import fr.neraud.padlistener.service.InstallMonsterInfoService;
@@ -71,16 +72,17 @@ public class AbstractPADListenerActivity extends Activity {
 		return consumed;
 	}
 
-	public void goToScreen(Class<? extends Activity> activityClass, Bundle extras) {
+	public void goToScreen(GuiScreen screen) {
+		goToScreen(screen, null);
+	}
+
+	public void goToScreen(GuiScreen screen, Bundle extras) {
 		Log.d(getClass().getName(), "onCreate");
-		final Intent intent = new Intent(getApplicationContext(), activityClass);
+		final Intent intent = new Intent(getApplicationContext(), screen.getActivityClass());
 		if (extras != null) {
 			intent.putExtras(extras);
 		}
 		startActivity(intent);
 	}
 
-	public void goToScreen(Class<? extends Activity> activityClass) {
-		goToScreen(activityClass, null);
-	}
 }

@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
-import fr.neraud.padlistener.gui.SyncResultActivity;
+import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.model.SyncResultModel;
 import fr.neraud.padlistener.service.ComputeSyncService;
 import fr.neraud.padlistener.service.constant.RestCallError;
@@ -65,7 +65,7 @@ public class ComputeSyncFragment extends Fragment {
 
 			final Bundle extras = new Bundle();
 			extras.putSerializable(SyncResultFragment.EXTRA_SYNC_RESULT_NAME, result);
-			((AbstractPADListenerActivity) getActivity()).goToScreen(SyncResultActivity.class, extras);
+			((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.SYNC_RESULT, extras);
 		}
 
 		@Override
