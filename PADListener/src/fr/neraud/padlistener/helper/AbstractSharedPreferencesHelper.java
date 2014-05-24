@@ -15,7 +15,11 @@ public abstract class AbstractSharedPreferencesHelper {
 		sharedPreferences.edit().putBoolean(name, bool).commit();
 	}
 
-	protected boolean getBooleanPreference(String name, boolean defaultBool) {
-		return sharedPreferences.getBoolean(name, defaultBool);
+	protected boolean getBooleanPreference(String name, boolean defaultValue) {
+		return sharedPreferences.getBoolean(name, defaultValue);
+	}
+
+	protected String getStringPreference(String name, String defaultValue) {
+		return sharedPreferences.getString(name, defaultValue);
 	}
 }

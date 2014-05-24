@@ -10,4 +10,12 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		super(PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
+	public String getPadHerderUserName() {
+		return getStringPreference("padherder_login", null);
+	}
+
+	public String getPadHerderUserPassword() {
+		return getStringPreference("padherder_password", null);
+	}
+
 }

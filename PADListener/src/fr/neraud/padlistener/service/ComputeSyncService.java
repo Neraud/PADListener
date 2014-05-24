@@ -41,7 +41,7 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 
 	@Override
 	protected RestRequest createRestRequest() {
-		return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo("NeraudMule");
+		return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo(getApplicationContext());
 	}
 
 	@Override
