@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -52,15 +53,24 @@ public class ChooseSyncMonstersAdapter extends ArrayAdapter<ChooseSyncModelConta
 			}
 		});
 
+		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_monsters_item_image);
 		try {
 			final InputStream is = getContext().getContentResolver().openInputStream(
 			        MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getMonsterInfo().getId()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
-			((ImageView) view.findViewById(R.id.choose_sync_monsters_item_image)).setImageDrawable(bm);
+			image.setImageDrawable(bm);
 		} catch (final FileNotFoundException e) {
-			((ImageView) view.findViewById(R.id.choose_sync_monsters_item_image)).setImageResource(R.drawable.no_monster_image);
+			image.setImageResource(R.drawable.no_monster_image);
 		}
+		image.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.d(getClass().getName(), "onClick");
+				checkBox.setChecked(!checkBox.isChecked());
+			}
+		});
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(getContext().getString(R.string.choose_sync_monsters_item_name,
