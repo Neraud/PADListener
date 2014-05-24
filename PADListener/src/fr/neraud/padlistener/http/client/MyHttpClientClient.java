@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.util.Base64;
 import android.util.Log;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.exception.HttpCallException;
@@ -24,6 +25,7 @@ import fr.neraud.padlistener.http.model.MyHttpResponse;
 public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
 	private final String endpointUrl;
+	private final HttpClient httpclient = new DefaultHttpClient();
 
 	public MyHttpClientClient(String endpointUrl) {
 		super();
@@ -33,10 +35,18 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 	public R call(MyHttpRequest httpRequest) throws HttpCallException {
 		Log.d(getClass().getName(), "call");
 
-		final HttpClient httpclient = new DefaultHttpClient();
-
 		final String fullUrl = createFullUrl(httpRequest);
 		final HttpRequestBase httpMethod = createMethod(httpRequest.getMethod(), fullUrl);
+		httpMethod.setHeader("user-agent", "PADListener");
+
+		if (httpRequest.isBasicAuthEnabled()) {
+			Log.d(getClass().getName(), "call : adding basic auth with user " + httpRequest.getBasicAuthUserName());
+			final byte[] authorizationBytes = (httpRequest.getBasicAuthUserName() + ":" + httpRequest.getBasicAuthUserPassword())
+			        .getBytes();
+			final String authorizationString = "Basic " + Base64.encodeToString(authorizationBytes, Base64.NO_WRAP);
+			httpMethod.setHeader("Authorization", authorizationString);
+		}
+
 		try {
 			Log.d(getClass().getName(), "call : " + httpMethod.getURI());
 			final HttpResponse httpResponse = httpclient.execute(httpMethod);
