@@ -10,19 +10,22 @@
     
     <!-- Settings -->
     <string name="label_settings">Settings</string>
+    
     <string name="settings_listener_category">Listener</string>
-    <string name="settings_listener_proxy_http_port">Local proxy HTTP port</string>
-    <string name="settings_listener_proxy_https_port">Local proxy HTTP port</string>
-    <string name="settings_listener_iptables_destination">Iptables destination</string>
+    <string name="settings_listener_target_hostname_title">Target hostname</string>
+    <string name="settings_listener_target_hostname_summary">Hostname for PAD calls</string>
+    <string name="settings_proxy_mode_title">Proxy settings mode</string>
+    <string name="settings_proxy_mode_summary">%1$s</string>
+       
     <string name="settings_padherder_category">PadHerder</string>
-    <string name="settings_padherder_login">Login</string>
-    <string name="settings_padherder_password">Password</string>
+    <string name="settings_padherder_login_title">Login</string>
+    <string name="settings_padherder_login_summary"></string>
+    <string name="settings_padherder_password_title">Password</string>
+    <string name="settings_padherder_password_summary"></string>
+    
     <string name="settings_sync_category">Sync</string>
-    <string name="settings_sync_monters_from_fav">Sync monsters from favorites</string>
-    <string name="settings_sync_monters_from_notfav">Sync monsters not from favorites</string>
-    <string name="settings_sync_materials_from_fav">Sync materials from favorites</string>
-    <string name="settings_sync_materials_from_notfav">Sync materials not from favorites</string>
 
+    
     <!-- Install Activity -->
     <string name="install_dialog_title">Monster data</string>
     <string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the settings.</string>

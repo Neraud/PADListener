@@ -1,51 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceScreen android:title="@string/settings_listener_category" >
+    <PreferenceCategory android:title="@string/settings_listener_category" >
         <EditTextPreference
             android:defaultValue="api-na-adr-pad.gungho.jp"
-            android:key="listener_iptables_destination"
-            android:title="@string/settings_listener_iptables_destination" />
-        <EditTextPreference
-            android:defaultValue="8009"
-            android:key="preference_proxy_port"
-            android:title="@string/settings_listener_proxy_http_port" />
-        <!-- 
-        <EditTextPreference
-            android:defaultValue="8010"
-            android:key="listener_proxy_https_port"
-            android:title="@string/settings_listener_proxy_https_port" />
-         -->
-    </PreferenceScreen>
-    <PreferenceScreen android:title="@string/settings_padherder_category" >
+            android:key="listener_target_hostname"
+            android:summary="@string/settings_listener_target_hostname_summary"
+            android:title="@string/settings_listener_target_hostname_title" />
+
+        <ListPreference
+            android:defaultValue="manual"
+            android:entries="@array/settings_proxy_mode_entries"
+            android:entryValues="@array/settings_proxy_mode_entryValues"
+            android:summary="@string/settings_proxy_mode_summary"
+            android:title="@string/settings_proxy_mode_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_padherder_category" >
         <EditTextPreference
             android:key="padherder_login"
-            android:title="@string/settings_padherder_login" />
+            android:summary="@string/settings_padherder_login_summary"
+            android:title="@string/settings_padherder_login_title" />
         <EditTextPreference
+            android:inputType="textPassword"
             android:key="padherder_password"
-            android:title="@string/settings_padherder_password" />
-    </PreferenceScreen>
-    <PreferenceScreen android:title="@string/settings_sync_category" >
-        <ListPreference
-            android:defaultValue="all"
-            android:entries="@array/settings_sync_monters_from_fav_entries"
-            android:entryValues="@array/settings_sync_monters_from_fav_entryValues"
-            android:title="@string/settings_sync_monters_from_fav" />
-        <ListPreference
-            android:defaultValue="none"
-            android:entries="@array/settings_sync_monters_from_notfav_entries"
-            android:entryValues="@array/settings_sync_monters_from_notfav_entryValues"
-            android:title="@string/settings_sync_monters_from_notfav" />
-        <ListPreference
-            android:defaultValue="false"
-            android:entries="@array/settings_sync_materials_from_fav_entries"
-            android:entryValues="@array/settings_sync_materials_from_fav_entryValues"
-            android:title="@string/settings_sync_materials_from_fav" />
-        <ListPreference
-            android:defaultValue="true"
-            android:entries="@array/settings_sync_materials_from_notfav_entries"
-            android:entryValues="@array/settings_sync_materials_from_notfav_entryValues"
-            android:title="@string/settings_sync_materials_from_notfav" />
-    </PreferenceScreen>
+            android:summary="@string/settings_padherder_password_summary"
+            android:title="@string/settings_padherder_password_title" />        
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_sync_category" >
+    </PreferenceCategory>
 
 </PreferenceScreen>
