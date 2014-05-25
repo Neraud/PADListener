@@ -193,6 +193,9 @@ public class SyncHelper {
 		Log.d(getClass().getName(), "syncMonstersForOneId : " + monsterId);
 		final List<SyncedMonsterModel> syncedMonsters = new ArrayList<SyncedMonsterModel>();
 
+		Log.d(getClass().getName(), "syncMonstersForOneId : capturedMonsters = " + capturedMonsters);
+		Log.d(getClass().getName(), "syncMonstersForOneId : padherderMonsters = " + padherderMonsters);
+
 		final List<CapturedMonsterCardModel> capturedMonstersWork = new ArrayList<CapturedMonsterCardModel>();
 		if (capturedMonsters != null) {
 			capturedMonstersWork.addAll(capturedMonsters);
@@ -203,14 +206,15 @@ public class SyncHelper {
 		}
 
 		final Iterator<CapturedMonsterCardModel> capturedIter = capturedMonstersWork.iterator();
-		final Iterator<UserInfoMonsterModel> parherderIter = padherderMonstersWork.iterator();
 
 		// Filter "equals" monsters
 		capturedLoop: while (capturedIter.hasNext()) {
 			final CapturedMonsterCardModel captured = capturedIter.next();
+			final Iterator<UserInfoMonsterModel> parherderIter = padherderMonstersWork.iterator();
 			while (parherderIter.hasNext()) {
 				final UserInfoMonsterModel padherder = parherderIter.next();
 				if (MonsterComparatorHelper.compareMonsters(captured, padherder) == MonsterComparisonResult.EQUALS) {
+					Log.d(getClass().getName(), "syncMonstersForOneId : equals, removing : " + captured);
 					capturedIter.remove();
 					parherderIter.remove();
 					continue capturedLoop;
