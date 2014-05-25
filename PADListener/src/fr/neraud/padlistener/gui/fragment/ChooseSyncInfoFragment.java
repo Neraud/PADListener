@@ -22,7 +22,7 @@ public class ChooseSyncInfoFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
-		final View view = inflater.inflate(R.layout.fragment_choose_sync_info, container, false);
+		final View view = inflater.inflate(R.layout.choose_sync_fragment_info, container, false);
 		final ChooseSyncModel result = (ChooseSyncModel) getArguments().getSerializable(
 		        ChooseSyncDataPagerHelper.ARGUMENT_SYNC_RESULT_NAME);
 

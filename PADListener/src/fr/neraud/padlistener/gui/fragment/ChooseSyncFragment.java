@@ -27,7 +27,7 @@ public class ChooseSyncFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
-		final View view = inflater.inflate(R.layout.fragment_choose_sync, container, false);
+		final View view = inflater.inflate(R.layout.choose_sync_fragment, container, false);
 
 		final SyncComputeResultModel result = (SyncComputeResultModel) getActivity().getIntent().getExtras()
 		        .getSerializable(EXTRA_SYNC_RESULT_NAME);

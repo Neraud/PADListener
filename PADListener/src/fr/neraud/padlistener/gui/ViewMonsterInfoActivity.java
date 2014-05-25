@@ -11,7 +11,7 @@ public class ViewMonsterInfoActivity extends AbstractPADListenerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_monster_info);
+		setContentView(R.layout.view_monster_info_activity);
 	}
 
 }

@@ -19,7 +19,7 @@ public class MainMenuFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
-		final View mainView = inflater.inflate(R.layout.fragment_main_menu, container, false);
+		final View mainView = inflater.inflate(R.layout.main_menu_fragment, container, false);
 
 		final TextView switchListener = (TextView) mainView.findViewById(R.id.switchListener);
 

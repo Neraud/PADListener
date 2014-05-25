@@ -23,7 +23,7 @@ public class ViewCapturedDataMonstersFragment extends ListFragment implements Lo
 		super.onCreate(savedInstanceState);
 
 		adapter = new CapturedPlayerMonsterCursorAdapter(getActivity().getApplicationContext(),
-		        R.layout.view_captured_data_tab_monster_item);
+		        R.layout.view_captured_data_item_monster);
 		setListAdapter(adapter);
 	}
 

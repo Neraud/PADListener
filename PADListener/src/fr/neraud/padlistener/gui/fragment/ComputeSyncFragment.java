@@ -86,7 +86,7 @@ public class ComputeSyncFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
-		final View view = inflater.inflate(R.layout.fragment_compute_sync, container, false);
+		final View view = inflater.inflate(R.layout.compute_sync_fragment, container, false);
 
 		final DefaultSharedPreferencesHelper defaultPrefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getActivity());

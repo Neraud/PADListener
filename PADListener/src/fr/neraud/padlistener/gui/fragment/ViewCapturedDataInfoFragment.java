@@ -22,7 +22,7 @@ public class ViewCapturedDataInfoFragment extends ListFragment implements Loader
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
 
-		adapter = new CapturedPlayerInfoCursorAdapter(getActivity().getApplicationContext(), R.layout.view_captured_data_tab_info_item);
+		adapter = new CapturedPlayerInfoCursorAdapter(getActivity().getApplicationContext(), R.layout.view_captured_data_fragment_info);
 		setListAdapter(adapter);
 	}
 

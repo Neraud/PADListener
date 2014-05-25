@@ -11,7 +11,7 @@ public class ComputeSyncActivity extends AbstractPADListenerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_compute_sync);
+		setContentView(R.layout.compute_sync_activity);
 	}
 
 }

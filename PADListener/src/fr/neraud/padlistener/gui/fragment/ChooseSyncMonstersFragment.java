@@ -48,7 +48,7 @@ public class ChooseSyncMonstersFragment extends ListFragment {
 		}
 
 		final ListAdapter adapter = new ChooseSyncMonstersAdapter(getActivity().getApplicationContext(),
-		        R.layout.choose_sync_monsters_item, monsters);
+		        R.layout.choose_sync_item_monsters, monsters);
 		setListAdapter(adapter);
 	}
 }

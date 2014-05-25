@@ -11,7 +11,7 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_choose_sync);
+		setContentView(R.layout.choose_sync_activity);
 	}
 
 }

@@ -11,7 +11,7 @@ public class MainActivity extends AbstractPADListenerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.main_activity);
 	}
 
 }

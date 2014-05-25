@@ -114,7 +114,7 @@ public class FetchPadHerderMonsterInfoActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_fetch_padherder_monster_info);
+		setContentView(R.layout.fetch_padherder_monster_info_activity);
 
 		mainText = (TextView) findViewById(R.id.fetch_padherder_monster_info_main_text);
 		mainProgress = (ProgressBar) findViewById(R.id.fetch_padherder_monster_info_main_progress);

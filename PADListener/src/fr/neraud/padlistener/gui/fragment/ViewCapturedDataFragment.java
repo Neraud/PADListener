@@ -22,7 +22,7 @@ public class ViewCapturedDataFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
-		final View view = inflater.inflate(R.layout.fragment_view_captured_data, container);
+		final View view = inflater.inflate(R.layout.view_captured_data_fragment, container);
 
 		final ViewCapturedDataPagerHelper helper = new ViewCapturedDataPagerHelper();
 

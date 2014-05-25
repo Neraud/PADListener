@@ -21,7 +21,7 @@ public class ChooseSyncMaterialsFragment extends ListFragment {
 		        ChooseSyncDataPagerHelper.ARGUMENT_SYNC_RESULT_NAME);
 
 		final ListAdapter adapter = new ChooseSyncMaterialsAdapter(getActivity().getApplicationContext(),
-		        R.layout.choose_sync_materials_item, result.getSyncedMaterialsToUpdate());
+		        R.layout.choose_sync_item_materials, result.getSyncedMaterialsToUpdate());
 		setListAdapter(adapter);
 	}
 

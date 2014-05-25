@@ -12,7 +12,7 @@ public class ViewCapturedDataActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_captured_data);
+		setContentView(R.layout.view_captured_data_activity);
 	}
 
 }
