@@ -79,9 +79,9 @@ public class PadHerderDescriptor {
 	private enum Services {
 
 		GET_MONSTER_INFO("/api/monsters/", HttpMethod.GET, false),
-		GET_USER_INFO("/user-api/user/[userName]", HttpMethod.GET, true),
-		PATCH_MATERIAL("/user-api/material/[id]", HttpMethod.PATCH, true),
-		PATCH_MONSTER("/user-api/monster/[id]", HttpMethod.PATCH, true),
+		GET_USER_INFO("/user-api/user/[userName]/", HttpMethod.GET, true),
+		PATCH_MATERIAL("/user-api/material/[id]/", HttpMethod.PATCH, true),
+		PATCH_MONSTER("/user-api/monster/[id]/", HttpMethod.PATCH, true),
 		POST_MONSTER("/user-api/monster/", HttpMethod.POST, true),
 		DELETE_MONSTER("/user-api/monster/[id]/", HttpMethod.DELETE, true);
 
