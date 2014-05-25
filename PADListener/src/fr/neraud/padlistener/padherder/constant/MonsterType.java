@@ -28,9 +28,11 @@ public enum MonsterType {
 		return typeId;
 	}
 
+	/*
 	public boolean isMaterial() {
 		return material;
 	}
+	*/
 
 	public static MonsterType findById(int id) {
 		for (final MonsterType type : values()) {

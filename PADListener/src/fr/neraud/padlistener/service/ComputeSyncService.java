@@ -59,7 +59,7 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 		final CapturedPlayerInfoModel capturedInfo = extractCapturedPlayerInfo();
 		final List<MonsterInfoModel> monsterInfos = extractMonsterInfo();
 
-		final SyncHelper helper = new SyncHelper(monsterInfos);
+		final SyncHelper helper = new SyncHelper(getApplicationContext(), monsterInfos);
 		final SyncComputeResultModel syncResult = helper.sync(capturedMonsters, capturedInfo, padInfo);
 
 		return syncResult;

@@ -24,8 +24,15 @@
     <string name="settings_padherder_password_summary"></string>
     
     <string name="settings_sync_category">Sync</string>
-
     
+    <string name="settings_sync_material_in_monster_title">Sync materials in PADherder\'s monsters ?</string>
+	<string name="settings_sync_material_in_monster_summary">%1$s</string>
+
+	<string name="settings_sync_deduct_monster_in_material_title">Deduct card already in PADherder\'s monsters from materials ?</string>
+	<string name="settings_sync_deduct_monster_in_material_summary"></string>
+    
+	
+	
     <!-- Install Activity -->
     <string name="install_dialog_title">Monster data</string>
     <string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the settings.</string>

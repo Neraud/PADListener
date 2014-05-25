@@ -3,6 +3,7 @@ package fr.neraud.padlistener.helper;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
+import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 
 public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHelper {
 
@@ -18,4 +19,11 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return getStringPreference("padherder_password", null);
 	}
 
+	public SyncMaterialInMonster getSyncMaterialInMonster() {
+		return SyncMaterialInMonster.valueOf(getStringPreference("sync_material_in_monster", "ONLY_IF_ALREADY_IN_PADHERDER"));
+	}
+
+	public boolean getSyncDeductMonsterInMaterial() {
+		return Boolean.valueOf(getStringPreference("sync_deduct_monster_in_material", "true"));
+	}
 }

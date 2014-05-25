@@ -10,6 +10,7 @@
 
         <ListPreference
             android:defaultValue="manual"
+            android:key="proxy_mode"
             android:entries="@array/settings_proxy_mode_entries"
             android:entryValues="@array/settings_proxy_mode_entryValues"
             android:summary="@string/settings_proxy_mode_summary"
@@ -27,6 +28,23 @@
             android:title="@string/settings_padherder_password_title" />        
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_sync_category" >
+         <ListPreference
+            android:defaultValue="ONLY_IF_ALREADY_IN_PADHERDER"
+            android:entries="@array/settings_sync_material_in_monster_entries"
+            android:entryValues="@array/settings_sync_material_in_monster_entryValues"
+            android:summary="@string/settings_sync_material_in_monster_summary"
+            android:title="@string/settings_sync_material_in_monster_title"
+            android:key="sync_material_in_monster" />
+         
+          <ListPreference
+            android:defaultValue="true"
+            android:entries="@array/settings_sync_deduct_monster_in_material_entries"
+            android:entryValues="@array/settings_sync_deduct_monster_in_material_entryValues"
+            android:summary="@string/settings_sync_deduct_monster_in_material_summary"
+            android:title="@string/settings_sync_deduct_monster_in_material_title"
+            android:key="sync_deduct_monster_in_material" />
+        
+        
     </PreferenceCategory>
 
 </PreferenceScreen>
