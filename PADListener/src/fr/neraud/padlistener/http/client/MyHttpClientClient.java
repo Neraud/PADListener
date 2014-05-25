@@ -73,7 +73,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 				}
 			}
 
-			Log.d(getClass().getName(), "call : " + httpMethod.getURI());
+			Log.d(getClass().getName(), "call : " + httpRequest.getMethod() + " " + httpMethod.getURI());
 			final HttpResponse httpResponse = httpclient.execute(httpMethod);
 
 			final R result = createResultFromResponse(httpResponse);
