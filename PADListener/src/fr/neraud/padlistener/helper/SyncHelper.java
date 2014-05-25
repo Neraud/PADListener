@@ -101,7 +101,7 @@ public class SyncHelper {
 			if (count == null) {
 				count = 0;
 			}
-			capturedMaterialsById.put(capturedMonster.getId(), count++);
+			capturedMaterialsById.put(capturedMonster.getId(), ++count);
 		}
 
 		return capturedMaterialsById;
