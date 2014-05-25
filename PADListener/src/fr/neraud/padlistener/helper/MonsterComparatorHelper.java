@@ -3,7 +3,7 @@ package fr.neraud.padlistener.helper;
 
 import fr.neraud.padlistener.model.BaseMonsterModel;
 
-public class MonsterComparator {
+public class MonsterComparatorHelper {
 
 	public static enum MonsterComparisonResult {
 		LOWER,

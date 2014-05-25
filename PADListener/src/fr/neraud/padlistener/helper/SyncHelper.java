@@ -11,7 +11,7 @@ import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
-import fr.neraud.padlistener.helper.MonsterComparator.MonsterComparisonResult;
+import fr.neraud.padlistener.helper.MonsterComparatorHelper.MonsterComparisonResult;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -207,7 +207,7 @@ public class SyncHelper {
 			final CapturedMonsterCardModel captured = capturedIter.next();
 			while (parherderIter.hasNext()) {
 				final UserInfoMonsterModel padherder = parherderIter.next();
-				if (MonsterComparator.compareMonsters(captured, padherder) == MonsterComparisonResult.EQUALS) {
+				if (MonsterComparatorHelper.compareMonsters(captured, padherder) == MonsterComparisonResult.EQUALS) {
 					capturedIter.remove();
 					parherderIter.remove();
 					continue capturedLoop;
