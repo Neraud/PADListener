@@ -1,6 +1,7 @@
 
 package fr.neraud.padlistener.gui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
+import fr.neraud.padlistener.service.PushSyncService;
 
 public class ChooseSyncInfoFragment extends Fragment {
 
@@ -39,7 +41,10 @@ public class ChooseSyncInfoFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				// TODO
+				syncButton.setClickable(false);
+				final Intent intent = new Intent(getActivity(), PushSyncService.class);
+				intent.putExtra(PushSyncService.EXTRA_CHOOSE_SYNC_MODEL_NAME, result);
+				getActivity().startService(intent);
 			}
 		});
 

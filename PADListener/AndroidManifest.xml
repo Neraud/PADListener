@@ -65,6 +65,9 @@
         <service
             android:name=".service.ComputeSyncService"
             android:exported="false"/>
+        <service
+            android:name=".service.PushSyncService"
+            android:exported="false"/>
         
         
 

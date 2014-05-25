@@ -10,6 +10,9 @@ public class MyHttpRequest {
 	private HttpMethod method;
 	private String url;
 	private Map<String, String> urlParams;
+	private String headerAccept;
+	private String headerContentType;
+	private String body;
 	private boolean basicAuthEnabled = false;
 	private String basicAuthUserName;
 	private String basicAuthUserPassword;
@@ -38,6 +41,38 @@ public class MyHttpRequest {
 		this.urlParams = urlParams;
 	}
 
+	public String getHeaderAccept() {
+		return headerAccept;
+	}
+
+	public void setHeaderAccept(String headerAccept) {
+		this.headerAccept = headerAccept;
+	}
+
+	public String getHeaderContentType() {
+		return headerContentType;
+	}
+
+	public void setHeaderContentType(String headerContentType) {
+		this.headerContentType = headerContentType;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public boolean isBasicAuthEnabled() {
+		return basicAuthEnabled;
+	}
+
+	public void setBasicAuthEnabled(boolean basicAuthEnabled) {
+		this.basicAuthEnabled = basicAuthEnabled;
+	}
+
 	public String getBasicAuthUserName() {
 		return basicAuthUserName;
 	}
@@ -52,14 +87,6 @@ public class MyHttpRequest {
 
 	public void setBasicAuthUserPassword(String basicAuthUserPassword) {
 		this.basicAuthUserPassword = basicAuthUserPassword;
-	}
-
-	public boolean isBasicAuthEnabled() {
-		return basicAuthEnabled;
-	}
-
-	public void setBasicAuthEnabled(boolean basicAuthEnabled) {
-		this.basicAuthEnabled = basicAuthEnabled;
 	}
 
 }

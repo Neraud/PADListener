@@ -4,7 +4,7 @@ package fr.neraud.padlistener.http.helper;
 import android.content.Context;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.http.constant.HttpMethod;
-import fr.neraud.padlistener.http.model.RestRequest;
+import fr.neraud.padlistener.http.model.MyHttpRequest;
 
 public class PadHerderDescriptor {
 
@@ -17,47 +17,50 @@ public class PadHerderDescriptor {
 	 */
 	public static class RequestHelper {
 
-		public static RestRequest initRequestForGetMonsterInfo() {
+		public static MyHttpRequest initRequestForGetMonsterInfo() {
 			return initRequest(Services.GET_MONSTER_INFO);
 		}
 
-		public static RestRequest initRequestForGetUserInfo(Context context) {
+		public static MyHttpRequest initRequestForGetUserInfo(Context context) {
 			final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
 			final String url = Services.GET_USER_INFO.apiUrl.replaceAll("\\[userName\\]", helper.getPadHerderUserName());
 			return initRequest(Services.GET_USER_INFO, context, url);
 		}
 
-		public static RestRequest initRequestForPatchMaterial(Context context, long materialId) {
-			final String url = Services.PATCH_MATERIAL.apiUrl.replaceAll("\\[id\\]", String.valueOf(materialId));
+		public static MyHttpRequest initRequestForPatchMaterial(Context context, long padherderMaterialId) {
+			final String url = Services.PATCH_MATERIAL.apiUrl.replaceAll("\\[id\\]", String.valueOf(padherderMaterialId));
 			return initRequest(Services.PATCH_MATERIAL, context, url);
 		}
 
-		public static RestRequest initRequestForPatchMonster(Context context, long monsterId) {
-			final String url = Services.PATCH_MONSTER.apiUrl.replaceAll("\\[id\\]", String.valueOf(monsterId));
+		public static MyHttpRequest initRequestForPatchMonster(Context context, long padherderMonsterId) {
+			final String url = Services.PATCH_MONSTER.apiUrl.replaceAll("\\[id\\]", String.valueOf(padherderMonsterId));
 			return initRequest(Services.PATCH_MONSTER, context, url);
 		}
 
-		public static RestRequest initRequestForPostMonster(Context context, long monsterId) {
-			final String url = Services.POST_MONSTER.apiUrl.replaceAll("\\[id\\]", String.valueOf(monsterId));
-			return initRequest(Services.POST_MONSTER, context, url);
+		public static MyHttpRequest initRequestForPostMonster(Context context) {
+			return initRequest(Services.POST_MONSTER, context, Services.POST_MONSTER.apiUrl);
 		}
 
-		public static RestRequest initRequestForDeleteMonster(Context context, long monsterId) {
-			final String url = Services.DELETE_MONSTER.apiUrl.replaceAll("\\[id\\]", String.valueOf(monsterId));
+		public static MyHttpRequest initRequestForDeleteMonster(Context context, long padherderMonsterId) {
+			final String url = Services.DELETE_MONSTER.apiUrl.replaceAll("\\[id\\]", String.valueOf(padherderMonsterId));
 			return initRequest(Services.DELETE_MONSTER, context, url);
 		}
 
-		private static RestRequest initRequest(Services service) {
-			final RestRequest restRequest = new RestRequest();
+		private static MyHttpRequest initRequest(Services service) {
+			final MyHttpRequest restRequest = new MyHttpRequest();
 			restRequest.setUrl(service.apiUrl);
 			restRequest.setMethod(service.method);
+			restRequest.setHeaderAccept("application/json");
+			restRequest.setHeaderContentType("application/json");
 			return restRequest;
 		}
 
-		private static RestRequest initRequest(Services service, Context context, String url) {
-			final RestRequest restRequest = new RestRequest();
+		private static MyHttpRequest initRequest(Services service, Context context, String url) {
+			final MyHttpRequest restRequest = new MyHttpRequest();
 			restRequest.setUrl(url);
 			restRequest.setMethod(service.method);
+			restRequest.setHeaderAccept("application/json");
+			restRequest.setHeaderContentType("application/json");
 			if (service.needsAuth) {
 				final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
 				restRequest.setBasicAuthEnabled(true);

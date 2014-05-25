@@ -11,7 +11,7 @@ import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
-import fr.neraud.padlistener.http.model.RestRequest;
+import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.parser.MonsterInfoJsonParser;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
@@ -29,7 +29,7 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 	}
 
 	@Override
-	protected RestRequest createRestRequest() {
+	protected MyHttpRequest createMyHttpRequest() {
 		return PadHerderDescriptor.RequestHelper.initRequestForGetMonsterInfo();
 	}
 

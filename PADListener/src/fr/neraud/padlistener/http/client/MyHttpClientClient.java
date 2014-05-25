@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Base64;
@@ -46,8 +47,32 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 			final String authorizationString = "Basic " + Base64.encodeToString(authorizationBytes, Base64.NO_WRAP);
 			httpMethod.setHeader("Authorization", authorizationString);
 		}
+		if (httpRequest.getHeaderAccept() != null) {
+			httpMethod.setHeader("Accept", httpRequest.getHeaderAccept());
+		}
+		if (httpRequest.getHeaderContentType() != null) {
+			httpMethod.setHeader("Content-type", httpRequest.getHeaderContentType());
+		}
 
 		try {
+			if (httpRequest.getBody() != null) {
+				Log.d(getClass().getName(), "call : setting body : " + httpRequest.getBody());
+				final StringEntity entity = new StringEntity(httpRequest.getBody(), "UTF-8");
+				switch (httpRequest.getMethod()) {
+				case POST:
+					((HttpPost) httpMethod).setEntity(entity);
+					break;
+				case PUT:
+					((HttpPut) httpMethod).setEntity(entity);
+					break;
+				case PATCH:
+					((HttpPatch) httpMethod).setEntity(entity);
+					break;
+				default:
+
+				}
+			}
+
 			Log.d(getClass().getName(), "call : " + httpMethod.getURI());
 			final HttpResponse httpResponse = httpclient.execute(httpMethod);
 

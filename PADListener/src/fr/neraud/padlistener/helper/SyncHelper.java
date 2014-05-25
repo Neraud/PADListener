@@ -145,13 +145,15 @@ public class SyncHelper {
 		materialIds.addAll(padherderMaterialsById.keySet());
 
 		for (final Integer materialId : materialIds) {
+			final UserInfoMaterialModel padherderMaterial = padherderMaterialsById.get(materialId);
+
 			final SyncedMaterialModel syncedMaterial = new SyncedMaterialModel();
 			final MonsterInfoModel monsterInfo = monsterInfoById.get(materialId);
 			syncedMaterial.setMonsterInfo(monsterInfo);
+			syncedMaterial.setPadherderId(padherderMaterial.getPadherderId());
 			syncedMaterial.setCapturedInfo(capturedMaterialsById.containsKey(materialId) ? capturedMaterialsById.get(materialId)
 			        : 0);
-			syncedMaterial.setPadherderInfo(padherderMaterialsById.containsKey(materialId) ? padherderMaterialsById.get(materialId)
-			        .getQuantity() : 0);
+			syncedMaterial.setPadherderInfo(padherderMaterial.getQuantity());
 
 			Log.d(getClass().getName(), " - syncedMaterial : " + syncedMaterial);
 			syncedMaterials.add(syncedMaterial);
@@ -228,6 +230,7 @@ public class SyncHelper {
 		for (final UserInfoMonsterModel padherder : padherderMonstersWork) {
 			final SyncedMonsterModel model = new SyncedMonsterModel();
 			model.setMonsterInfo(monsterInfoById.get(monsterId));
+			model.setPadherderId(padherder.getPadherderId());
 			model.setCapturedInfo(null);
 			model.setPadherderInfo(padherder);
 			Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);

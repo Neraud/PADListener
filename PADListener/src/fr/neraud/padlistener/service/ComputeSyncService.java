@@ -12,7 +12,7 @@ import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
-import fr.neraud.padlistener.http.model.RestRequest;
+import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.parser.UserInfoJsonParser;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
@@ -40,7 +40,7 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 	}
 
 	@Override
-	protected RestRequest createRestRequest() {
+	protected MyHttpRequest createMyHttpRequest() {
 		return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo(getApplicationContext());
 	}
 

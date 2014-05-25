@@ -13,7 +13,7 @@ import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.exception.HttpResponseException;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
-import fr.neraud.padlistener.http.model.RestRequest;
+import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.model.RestResponse;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
@@ -64,14 +64,14 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 
 	private RestResponse callRestApi() throws HttpCallException {
 		final RestClient restClient = createRestClient();
-		final RestRequest restRequest = createRestRequest();
+		final MyHttpRequest restRequest = createMyHttpRequest();
 		final RestResponse restResponse = restClient.call(restRequest);
 		return restResponse;
 	}
 
 	protected abstract RestClient createRestClient();
 
-	protected abstract RestRequest createRestRequest();
+	protected abstract MyHttpRequest createMyHttpRequest();
 
 	protected abstract R parseResult(final String responseContent) throws ParsingException;
 
