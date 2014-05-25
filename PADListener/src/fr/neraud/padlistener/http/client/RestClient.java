@@ -25,22 +25,24 @@ public class RestClient extends MyHttpClientClient<RestResponse> {
 		final int status = httpResponse.getStatusLine().getStatusCode();
 		result.setStatus(status);
 
-		InputStream inputStream = null;
-		try {
-			inputStream = httpResponse.getEntity().getContent();
-			final Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
-			final String stringResult = scanner.hasNext() ? scanner.next() : "";
-			Log.d(getClass().getName(), "createResultFromResponse : " + stringResult);
-			result.setContentResult(stringResult);
-		} catch (final IllegalStateException e) {
-			throw new HttpCallException(e);
-		} catch (final IOException e) {
-			throw new HttpCallException(e);
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (final IOException e) {
+		if (httpResponse.getEntity() != null) {
+			InputStream inputStream = null;
+			try {
+				inputStream = httpResponse.getEntity().getContent();
+				final Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+				final String stringResult = scanner.hasNext() ? scanner.next() : "";
+				Log.d(getClass().getName(), "createResultFromResponse : " + stringResult);
+				result.setContentResult(stringResult);
+			} catch (final IllegalStateException e) {
+				throw new HttpCallException(e);
+			} catch (final IOException e) {
+				throw new HttpCallException(e);
+			} finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (final IOException e) {
+					}
 				}
 			}
 		}
