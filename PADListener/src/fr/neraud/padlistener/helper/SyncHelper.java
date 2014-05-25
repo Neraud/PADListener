@@ -141,8 +141,9 @@ public class SyncHelper {
 
 		final List<SyncedMaterialModel> syncedMaterials = new ArrayList<SyncedMaterialModel>();
 		final Set<Integer> materialIds = new HashSet<Integer>();
-		materialIds.addAll(capturedMaterialsById.keySet());
 		materialIds.addAll(padherderMaterialsById.keySet());
+		// PADHerder always list all the materials it knows. Some "materials" (ex : High Emerald Dragon, id 259) are not tracked in PADHerder, and should not be used in materials then
+		//materialIds.addAll(capturedMaterialsById.keySet());
 
 		for (final Integer materialId : materialIds) {
 			final UserInfoMaterialModel padherderMaterial = padherderMaterialsById.get(materialId);
