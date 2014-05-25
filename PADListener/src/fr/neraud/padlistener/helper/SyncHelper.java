@@ -2,6 +2,8 @@
 package fr.neraud.padlistener.helper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,6 +14,7 @@ import java.util.Set;
 import android.annotation.SuppressLint;
 import android.util.Log;
 import fr.neraud.padlistener.helper.MonsterComparatorHelper.MonsterComparisonResult;
+import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -215,30 +218,39 @@ public class SyncHelper {
 			}
 		}
 
-		// TODO update
+		// Sort monsters DESC
+		final Comparator<BaseMonsterModel> comparatorDesc = Collections.reverseOrder(new MonsterComparator());
+		Collections.sort(capturedMonstersWork, comparatorDesc);
+		Collections.sort(padherderMonstersWork, comparatorDesc);
+		final int nbCaptured = capturedMonstersWork.size();
+		final int nbPadherder = padherderMonstersWork.size();
 
-		// New monsters
-		for (final CapturedMonsterCardModel captured : capturedMonstersWork) {
+		for (int i = 0; i < Math.max(nbCaptured, nbPadherder); i++) {
 			final SyncedMonsterModel model = new SyncedMonsterModel();
 			model.setMonsterInfo(monsterInfoById.get(monsterId));
-			model.setCapturedInfo(captured);
-			model.setPadherderInfo(null);
-			Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
-			syncedMonsters.add(model);
-		}
 
-		// Deleted monsters
-		for (final UserInfoMonsterModel padherder : padherderMonstersWork) {
-			final SyncedMonsterModel model = new SyncedMonsterModel();
-			model.setMonsterInfo(monsterInfoById.get(monsterId));
-			model.setPadherderId(padherder.getPadherderId());
-			model.setCapturedInfo(null);
-			model.setPadherderInfo(padherder);
-			Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);
+			if (i < nbCaptured && i < nbPadherder) {
+				// Update while we have enough monsters in each list
+				model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
+				model.setCapturedInfo(capturedMonstersWork.get(i));
+				model.setPadherderInfo(padherderMonstersWork.get(i));
+				Log.d(getClass().getName(), "syncMonstersForOneId : updated : " + model);
+			} else if (i < nbCaptured) {
+				// more captured -> creating
+				model.setCapturedInfo(capturedMonstersWork.get(i));
+				model.setPadherderInfo(null);
+				Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
+			} else {
+				// not enough captured -> deleting
+				model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
+				model.setCapturedInfo(null);
+				model.setPadherderInfo(padherderMonstersWork.get(i));
+				Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);
+
+			}
 			syncedMonsters.add(model);
 		}
 
 		return syncedMonsters;
 	}
-
 }
