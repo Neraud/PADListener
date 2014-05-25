@@ -106,9 +106,15 @@
 	<string name="choose_sync_info_explain">In the following tabs, you can choose which element you want to sync or ignore. Your PADherder account will be updated with the chosen elements when you tap the button</string>
 	<string name="choose_sync_info_button">Sync !</string>
 	
-	<string name="choose_sync_materials_item_name">%1$s</string>
+	<string name="choose_sync_materials_item_name">(%1$d) %2$s</string>
 	<string name="choose_sync_materials_item_quantities">%1$d -> %2$d</string>
 	
-	<string name="choose_sync_monsters_item_name">%1$s</string>
+	<string name="choose_sync_monsters_item_name">(%1$d) %2$s</string>
+	<string name="choose_sync_monsters_item_label_exp">Exp</string>
+	<string name="choose_sync_monsters_item_label_skill">Sk</string>
+	<string name="choose_sync_monsters_item_label_awekenings">Aw</string>
+	<string name="choose_sync_monsters_item_label_plusHp">+Hp</string>
+	<string name="choose_sync_monsters_item_label_plusAtk">+Atk</string>
+	<string name="choose_sync_monsters_item_label_plusRcv">+Rcv</string>
     
 </resources>
