@@ -138,7 +138,7 @@ public class SyncHelper {
 		Log.d(getClass().getName(), "filterMaterials");
 
 		final SyncMaterialInMonster syncMaterialInMonster = helper.getSyncMaterialInMonster();
-		final boolean syncDeductMonsterInMaterial = helper.getSyncDeductMonsterInMaterial();
+		final boolean syncDeductMonsterInMaterial = helper.isSyncDeductMonsterInMaterial();
 
 		if (syncMaterialInMonster != SyncMaterialInMonster.ALWAYS || syncDeductMonsterInMaterial) {
 			for (final Integer materialId : padherderMaterialsById.keySet()) {

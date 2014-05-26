@@ -23,7 +23,19 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return SyncMaterialInMonster.valueOf(getStringPreference("sync_material_in_monster", "ONLY_IF_ALREADY_IN_PADHERDER"));
 	}
 
-	public boolean getSyncDeductMonsterInMaterial() {
-		return Boolean.valueOf(getStringPreference("sync_deduct_monster_in_material", "true"));
+	public boolean isSyncDeductMonsterInMaterial() {
+		return getBooleanPreference("sync_deduct_monster_in_material", true);
+	}
+
+	public boolean isChooseSyncGroupMonstersUpdated() {
+		return getBooleanPreference("choose_sync_group_monsters_updated", false);
+	}
+
+	public boolean isChooseSyncGroupMonstersCreated() {
+		return getBooleanPreference("choose_sync_group_monsters_created", true);
+	}
+
+	public boolean isChooseSyncGroupMonstersDeleted() {
+		return getBooleanPreference("choose_sync_group_monsters_deleted", false);
 	}
 }

@@ -30,10 +30,10 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="1dp"
-             android:lines="1"
-             android:ellipsize="end"
+            android:ellipsize="end"
             android:gravity="center_vertical"
-            android:text="@string/choose_sync_monsters_item_name"
+            android:lines="1"
+            android:text="@string/choose_sync_monsters_item_name_simple"
             android:textSize="16sp" />
 
         <TableLayout

@@ -30,6 +30,13 @@
 
 	<string name="settings_sync_deduct_monster_in_material_title">Deduct card already in PADherder\'s monsters from materials ?</string>
 	<string name="settings_sync_deduct_monster_in_material_summary"></string>
+	
+	<string name="settings_choose_sync_group_monsters_updated_title">Group monsters to update ?</string>
+	<string name="settings_choose_sync_group_monsters_updated_summary"></string>
+	<string name="settings_choose_sync_group_monsters_created_title">Group monsters to create ?</string>
+	<string name="settings_choose_sync_group_monsters_created_summary"></string>
+	<string name="settings_choose_sync_group_monsters_deleted_title">Group monsters to delete ?</string>
+	<string name="settings_choose_sync_group_monsters_deleted_summary"></string>
     
 	
 	
@@ -116,7 +123,8 @@
 	<string name="choose_sync_materials_item_name">(%1$d) %2$s</string>
 	<string name="choose_sync_materials_item_quantities">%1$d -> %2$d</string>
 	
-	<string name="choose_sync_monsters_item_name">(%1$d) %2$s</string>
+	<string name="choose_sync_monsters_item_name_simple">(%1$d) %2$s</string>
+	<string name="choose_sync_monsters_item_name_group">%1$d x (%2$d) %3$s</string>
 	<string name="choose_sync_monsters_item_label_exp">Exp</string>
 	<string name="choose_sync_monsters_item_label_skill">Sk</string>
 	<string name="choose_sync_monsters_item_label_awekenings">Aw</string>

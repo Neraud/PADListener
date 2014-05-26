@@ -35,7 +35,7 @@ public class ChooseSyncFragment extends Fragment {
 		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(result);
 		final ChooseSyncModel syncModel = initHelper.filterSyncResult();
 
-		final ChooseSyncDataPagerHelper helper = new ChooseSyncDataPagerHelper(syncModel);
+		final ChooseSyncDataPagerHelper helper = new ChooseSyncDataPagerHelper(getActivity(), syncModel);
 
 		final FragmentPagerAdapter mSectionsPagerAdapter = new FragmentPagerAdapter(getFragmentManager()) {
 
