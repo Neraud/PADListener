@@ -17,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
-import fr.neraud.padlistener.exception.RootCommandExecutionException;
 import fr.neraud.padlistener.gui.MainActivity;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -219,11 +218,11 @@ public class ListenerService extends Service {
 			switch (proxyMode) {
 			case AUTO_IPTABLES:
 				final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
-				iptablesHelper.activateIptables();
+				iptablesHelper.deactivateIptables();
 				break;
 			case AUTO_WIFI_PROXY:
 				final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
-				wifiAutoProxyHelper.activateAutoProxy();
+				wifiAutoProxyHelper.deactivateAutoProxy();
 				break;
 			case MANUAL:
 			default:
@@ -236,12 +235,11 @@ public class ListenerService extends Service {
 			if (listener != null) {
 				listener.notifyActionSucess();
 			}
-		} catch (final RootCommandExecutionException e) {
+		} catch (final Exception e) {
 			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage());
 			if (listener != null) {
 				listener.notifyActionFailed(e);
 			}
-			;
 		}
 	}
 }

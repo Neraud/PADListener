@@ -12,13 +12,25 @@ public class WifiAutoProxyHelper {
 		this.context = context;
 	}
 
-	public void activateAutoProxy() {
+	public void activateAutoProxy() throws Exception {
 		Log.d(getClass().getName(), "activateAutoProxy");
 
+		try {
+			final WifiConfigHelper helper = new WifiConfigHelper();
+			helper.modifyWifiProxySettings(context, "localhost", 8008);
+		} catch (final Exception e) {
+			throw new Exception("Error activating auto proxy", e);
+		}
 	}
 
-	public void deactivateAutoProxy() {
+	public void deactivateAutoProxy() throws Exception {
 		Log.d(getClass().getName(), "deactivateAutoProxy");
-
+		try {
+			final WifiConfigHelper helper = new WifiConfigHelper();
+			helper.unsetWifiProxySettings(context);
+		} catch (final Exception e) {
+			throw new Exception("Error deactivating auto proxy", e);
+		}
 	}
+
 }
