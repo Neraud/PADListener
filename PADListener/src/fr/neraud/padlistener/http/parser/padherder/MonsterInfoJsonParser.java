@@ -57,7 +57,7 @@ public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoMo
 		}
 		monster.setAwokenSkillIds(awokenSkillIds);
 		monster.setMaxLevel(monsterJson.getInt("max_level"));
-		monster.setXpCurve(monsterJson.getInt("xp_curve"));
+		monster.setExpCurve(monsterJson.getInt("xp_curve"));
 		monster.setFeedXp(monsterJson.getInt("feed_xp"));
 		monster.setTeamCost(monsterJson.getInt("team_cost"));
 		monster.setHpMin(monsterJson.getInt("hp_min"));

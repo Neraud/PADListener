@@ -85,6 +85,15 @@ public class SyncHelper {
 			if (!capturedMonstersById.containsKey(capturedMonster.getId())) {
 				capturedMonstersById.put(capturedMonster.getId(), new ArrayList<CapturedMonsterCardModel>());
 			}
+
+			// PAD allows to exp a monster beyond its max, but PADHerder caps the exp
+			final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfoById.get(capturedMonster.getId()));
+			final long expCap = expHelper.getExpCap();
+			if (capturedMonster.getExp() > expCap) {
+				Log.d(getClass().getName(), "reorgCapturedMonster : caping monster xp for " + capturedMonster);
+				capturedMonster.setExp(expCap);
+			}
+
 			capturedMonstersById.get(capturedMonster.getId()).add(capturedMonster);
 		}
 

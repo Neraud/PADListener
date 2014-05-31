@@ -44,7 +44,7 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 		}
 		model.setAwokenSkillIds(awokenSkillIds);
 		model.setMaxLevel(getInt(cursor, MonsterInfoDescriptor.Fields.MAX_LEVEL));
-		model.setXpCurve(getInt(cursor, MonsterInfoDescriptor.Fields.XP_CURVE));
+		model.setExpCurve(getInt(cursor, MonsterInfoDescriptor.Fields.XP_CURVE));
 		model.setFeedXp(getInt(cursor, MonsterInfoDescriptor.Fields.FEED_XP));
 		model.setTeamCost(getInt(cursor, MonsterInfoDescriptor.Fields.TEAM_COST));
 		model.setJpOnly(getBoolean(cursor, MonsterInfoDescriptor.Fields.JP_ONLY));
@@ -88,7 +88,7 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 			putValue(values, MonsterInfoDescriptor.Fields.AWOKEN_SKILL_IDS, awakenSkillsIds.toString());
 		}
 		putValue(values, MonsterInfoDescriptor.Fields.MAX_LEVEL, model.getMaxLevel());
-		putValue(values, MonsterInfoDescriptor.Fields.XP_CURVE, model.getXpCurve());
+		putValue(values, MonsterInfoDescriptor.Fields.XP_CURVE, model.getExpCurve());
 		putValue(values, MonsterInfoDescriptor.Fields.FEED_XP, model.getFeedXp());
 		putValue(values, MonsterInfoDescriptor.Fields.TEAM_COST, model.getTeamCost());
 		putValue(values, MonsterInfoDescriptor.Fields.JP_ONLY, model.isJpOnly());

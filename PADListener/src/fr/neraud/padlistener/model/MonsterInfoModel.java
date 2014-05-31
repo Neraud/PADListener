@@ -23,7 +23,7 @@ public class MonsterInfoModel implements Serializable {
 	private List<Integer> awokenSkillIds;
 
 	private int maxLevel;
-	private int xpCurve;
+	private int expCurve;
 	private int feedXp;
 	private int teamCost;
 	private boolean jpOnly;
@@ -129,12 +129,12 @@ public class MonsterInfoModel implements Serializable {
 		this.maxLevel = maxLevel;
 	}
 
-	public int getXpCurve() {
-		return xpCurve;
+	public int getExpCurve() {
+		return expCurve;
 	}
 
-	public void setXpCurve(int xpCurve) {
-		this.xpCurve = xpCurve;
+	public void setExpCurve(int expCurve) {
+		this.expCurve = expCurve;
 	}
 
 	public int getFeedXp() {
