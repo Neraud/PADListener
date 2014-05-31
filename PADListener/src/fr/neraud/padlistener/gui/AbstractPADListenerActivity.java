@@ -5,11 +5,16 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.PadListenerVersion;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.InstallMonsterImagesService;
@@ -61,6 +66,10 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 			Log.d(getClass().getName(), "onOptionsItemSelected : going to fetchMonsterInfo : " + fetchMonsterInfoIntent);
 			startActivity(fetchMonsterInfoIntent);
 			break;
+		case R.id.menu_about:
+			consumed = true;
+			openAboutDialog();
+			break;
 		default:
 			Log.d(getClass().getName(), "onOptionsItemSelected : unknown item " + item.getItemId());
 			break;
@@ -70,6 +79,24 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 			consumed = super.onOptionsItemSelected(item);
 		}
 		return consumed;
+	}
+
+	private void openAboutDialog() {
+		Log.d(getClass().getName(), "openAboutDialog");
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getString(R.string.about_dialog_title, PadListenerVersion.PAD_LISTENER_VERSION));
+
+		final SpannableString message = new SpannableString(getString(R.string.about_dialog_message,
+		        PadListenerVersion.PAD_LISTENER_VERSION));
+		Linkify.addLinks(message, Linkify.ALL);
+
+		builder.setMessage(message);
+		builder.setCancelable(false);
+		builder.setPositiveButton(R.string.about_dialog_button, null);
+		final AlertDialog aboutDialog = builder.create();
+		aboutDialog.show();
+
+		((TextView) aboutDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	public void goToScreen(GuiScreen screen) {

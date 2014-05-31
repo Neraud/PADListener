@@ -17,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Base64;
 import android.util.Log;
+import fr.neraud.padlistener.constant.PadListenerVersion;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.helper.HttpPatch;
@@ -38,7 +39,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
 		final String fullUrl = createFullUrl(httpRequest);
 		final HttpRequestBase httpMethod = createMethod(httpRequest.getMethod(), fullUrl);
-		httpMethod.setHeader("user-agent", "PADListener");
+		httpMethod.setHeader("user-agent", "PADListener/" + PadListenerVersion.PAD_LISTENER_VERSION);
 
 		if (httpRequest.isBasicAuthEnabled()) {
 			Log.d(getClass().getName(), "call : adding basic auth with user " + httpRequest.getBasicAuthUserName());
@@ -69,7 +70,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 					((HttpPatch) httpMethod).setEntity(entity);
 					break;
 				default:
-
+					Log.w(getClass().getName(), "call : cannot set body for method : " + httpRequest.getMethod());
 				}
 			}
 

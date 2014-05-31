@@ -13,5 +13,11 @@
         android:showAsAction="collapseActionView"
         android:title="@string/menu_fetch_monster_info"/>
 
+    <item
+        android:id="@+id/menu_about"
+        android:icon="@drawable/ic_menu_settings"
+        android:showAsAction="collapseActionView"
+        android:title="@string/menu_about"/>
+    
     
 </menu>

@@ -6,6 +6,7 @@
     <!-- Menu -->
     <string name="menu_settings">Settings</string>
     <string name="menu_fetch_monster_info">Fetch monster info</string>
+    <string name="menu_about">About</string>
   
 	<!-- Notification -->
     <string name="notification_listener_title">PADListener</string>
@@ -53,6 +54,17 @@
     <string name="install_dialog_title">Monster data</string>
     <string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the settings.</string>
     <string name="install_dialog_button_ok">OK</string>
+    
+    
+    <!-- About -->
+    <string name="about_dialog_title">About PADListener v%1$s</string>
+    <string name="about_dialog_message">PADListener v%1$s, available under GNU GPL v2 license
+\n\nThis app\'s sources are available on GitHub (TODO).
+\n\nBuilt using SandroProxyLib (http://code.google.com/p/sandrop/).
+\n\nData courtesy of PAD Wiki (http://pad.wikia.com/wiki) and PADherder (https://www.padherder.com).
+\n\nThanks to GungHo for this great game and to Freddie for PADherder.
+</string>
+    <string name="about_dialog_button">OK</string>
 
     
     <!-- Main activity -->
