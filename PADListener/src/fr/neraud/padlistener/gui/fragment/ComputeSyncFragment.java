@@ -3,7 +3,10 @@ package fr.neraud.padlistener.gui.fragment;
 
 import java.text.DateFormat;
 
+import org.apache.commons.lang3.StringUtils;
+
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -115,6 +118,15 @@ public class ComputeSyncFragment extends Fragment {
 		});
 		syncProgress.setVisibility(View.GONE);
 		status.setVisibility(View.GONE);
+
+		final TextView missingCredentials = (TextView) view.findViewById(R.id.compute_sync_missing_credentials_text);
+		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(getActivity());
+		if (StringUtils.isBlank(helper.getPadHerderUserName()) || StringUtils.isBlank(helper.getPadHerderUserPassword())) {
+			missingCredentials.setTextColor(Color.RED);
+			button.setEnabled(false);
+		} else {
+			missingCredentials.setVisibility(View.GONE);
+		}
 
 		return view;
 	}

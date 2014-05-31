@@ -125,6 +125,10 @@
     <string name="compute_sync_status_computing">computing sync</string>
     <string name="compute_sync_status_finished">finished</string>
     <string name="compute_sync_status_failed">failed : %1$s</string>
+    
+    <string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
+    
+    
     	
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>

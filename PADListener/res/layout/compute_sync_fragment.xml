@@ -27,10 +27,10 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:indeterminate="true" />
 
@@ -42,5 +42,15 @@
         android:layout_marginRight="10dp"
         android:gravity="center_vertical"
         android:text="@string/compute_sync_status" />
+
+    <TextView
+        android:id="@+id/compute_sync_missing_credentials_text"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/compute_sync_missing_credentials"
+        android:textSize="20sp" />
 
 </LinearLayout>
