@@ -68,7 +68,7 @@ public class PushSyncHelper {
 			json.put("current_skill", model.getCapturedInfo().getSkillLevel());
 		}
 		if (model.getCapturedInfo().getAwakenings() != model.getPadherderInfo().getAwakenings()) {
-			json.put("current_awakning", model.getCapturedInfo().getAwakenings());
+			json.put("current_awakening", model.getCapturedInfo().getAwakenings());
 		}
 		if (model.getCapturedInfo().getPlusHp() != model.getPadherderInfo().getPlusHp()) {
 			json.put("plus_hp", model.getCapturedInfo().getPlusHp());
