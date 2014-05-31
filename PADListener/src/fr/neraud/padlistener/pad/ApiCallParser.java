@@ -14,7 +14,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
+import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
@@ -46,7 +49,7 @@ public class ApiCallParser extends Thread {
 				savePlayerInfo(result.getPlayerInfo());
 				saveMonsters(result.getMonsterCards());
 				new TechnicalSharedPreferencesHelper(context).setLastCaptureDate(new Date());
-
+				showToast(context.getString(R.string.toast_data_captured, result.getPlayerInfo().getName()));
 				break;
 			default:
 				Log.d(ApiCallParser.class.getName(), "Ingoring action " + callModel.getAction());
@@ -148,5 +151,15 @@ public class ApiCallParser extends Thread {
 			i++;
 		}
 		cr.bulkInsert(uri, values);
+	}
+
+	private void showToast(final String toastMessage) {
+		new Handler(context.getMainLooper()).post(new Runnable() {
+
+			@Override
+			public void run() {
+				Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 }
