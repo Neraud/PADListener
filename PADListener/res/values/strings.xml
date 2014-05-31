@@ -86,10 +86,10 @@
     <string name="switch_listener_status_start_failed">Listener start failed (%1$s)</string>
     <string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
     
-    <string name="switch_listener_mode_explain">The listener can be started in 3 modes. You can select a mode in the settings.\n
+    <string name="switch_listener_mode_explain">The listener can be started in 2 modes. You can select a mode in the settings.\n
          - Manual mode only works with a WiFi connexion. You have to manually configure your WiFi proxy to localhost:8008. All http requests will go through PADListener.\n
          - AutoProxy mode only works with a WiFi connexion. When the listener is started, it automatically set your WiFI proxy up. All http requests will go through PADListener.\n
-         - Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener</string>
+         <!--- Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener--></string>
 
     
     <!-- View monster info -->
