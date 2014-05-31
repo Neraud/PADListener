@@ -6,7 +6,12 @@
     <!-- Menu -->
     <string name="menu_settings">Settings</string>
     <string name="menu_fetch_monster_info">Fetch monster info</string>
-    
+  
+	<!-- Notification -->
+    <string name="notification_listener_title">PADListener</string>
+    <string name="notification_listener_content_manual">Started in manual mode</string>
+    <string name="notification_listener_content_proxy_wifi">Started in auto Wifi proxy mode</string>
+    <string name="notification_listener_content_iptables">Started in auto iptables mode</string>
     
     <!-- Settings -->
     <string name="label_settings">Settings</string>
@@ -48,7 +53,7 @@
     
     <!-- Main activity -->
     <string name="label_main_activity">PADListener</string>
-    <string name="toggleLabel">Switch listener</string>
+    <string name="switchListener">Switch listener</string>
     <string name="viewMonsterInfo">View monster info</string>
     <string name="viewCapturedData">View captured data</string>
     <string name="viewPadHerderData">View PadHerder data</string>
@@ -56,10 +61,20 @@
     
     
     <!-- Switch listener -->
-    <string name="toggleLabel_on">Listener is running</string>
-    <string name="toggleLabel_off">Listener is stopped</string>
-    <string name="toggle_is_on">Stop</string>
-    <string name="toggle_is_off">Start</string>
+    <string name="switch_listener_switchLabel">Switch listener</string>
+    
+    <string name="switch_listener_status_started_manual">Listener started in manual mode</string>
+    <string name="switch_listener_status_started_proxy_wifi">Listener started in auto Wifi proxy mode</string>
+    <string name="switch_listener_status_started_iptables">Listener started in auto iptables mode</string>
+    <string name="switch_listener_status_stoped">Listener stoped</string>
+    <string name="switch_listener_status_start_failed">Listener start failed (%1$s)</string>
+    <string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
+    
+    <string name="switch_listener_mode_explain">The listener can be started in 3 modes. You can select a mode in the settings.\n
+         - Manual mode only works with a WiFi connexion. You have to manually configure your WiFi proxy to localhost:8008. All http requests will go through PADListener.\n
+         - AutoProxy mode only works with a WiFi connexion. When the listener is started, it automatically set your WiFI proxy up. All http requests will go through PADListener.\n
+         - Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener</string>
+
     
     <!-- View monster info -->
     <string name="label_view_monster_info_activity">View monster info</string>

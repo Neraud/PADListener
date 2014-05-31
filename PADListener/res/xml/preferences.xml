@@ -9,10 +9,10 @@
             android:title="@string/settings_listener_target_hostname_title" />
 
         <ListPreference
-            android:defaultValue="manual"
+            android:defaultValue="MANUAL"
             android:entries="@array/settings_proxy_mode_entries"
             android:entryValues="@array/settings_proxy_mode_entryValues"
-            android:key="proxy_mode"
+            android:key="listener_proxy_mode"
             android:summary="@string/settings_proxy_mode_summary"
             android:title="@string/settings_proxy_mode_title" />
     </PreferenceCategory>

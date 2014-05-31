@@ -4,14 +4,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Switch
-        android:id="@+id/listenerSwitch"
+    <TextView
+        android:id="@+id/switch_listener_status"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="@string/toggleLabel"
+        android:layout_marginTop="10dp"
         android:textSize="20sp" />
+
+    <Switch
+        android:id="@+id/switch_listener_switch"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/switch_listener_switchLabel"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/switch_listener_mode_explain"
+        android:textSize="16sp" />
 
 </LinearLayout>

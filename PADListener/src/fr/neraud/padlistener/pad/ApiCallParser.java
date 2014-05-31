@@ -45,8 +45,8 @@ public class ApiCallParser extends Thread {
 				final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
 				savePlayerInfo(result.getPlayerInfo());
 				saveMonsters(result.getMonsterCards());
-				final TechnicalSharedPreferencesHelper helper = new TechnicalSharedPreferencesHelper(context);
-				helper.setLastCaptureDate(new Date());
+				new TechnicalSharedPreferencesHelper(context).setLastCaptureDate(new Date());
+
 				break;
 			default:
 				Log.d(ApiCallParser.class.getName(), "Ingoring action " + callModel.getAction());

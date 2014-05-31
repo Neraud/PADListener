@@ -7,9 +7,9 @@
         <item>Auto iptables (root required)</item>
     </string-array>
     <string-array name="settings_proxy_mode_entryValues">
-        <item>manual</item>
-        <item>auto_wifi_proxy</item>
-        <item>auto_iptables</item>
+        <item>MANUAL</item>
+        <item>AUTO_WIFI_PROXY</item>
+        <item>AUTO_IPTABLES</item>
     </string-array>
    
     <string-array name="settings_sync_material_in_monster_entries">

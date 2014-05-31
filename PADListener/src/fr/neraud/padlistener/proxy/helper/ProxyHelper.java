@@ -20,8 +20,6 @@ import fr.neraud.padlistener.proxy.plugin.PADPlugin;
 
 public class ProxyHelper {
 
-	private static String TAG = ProxyHelper.class.getName();
-
 	private final Context context;
 
 	private Framework framework = null;
@@ -33,7 +31,7 @@ public class ProxyHelper {
 	}
 
 	public void activateProxy() throws ListenerSetupException {
-		Log.d(TAG, "activateProxy");
+		Log.d(getClass().getName(), "activateProxy");
 		framework = new Framework(context);
 		setStore(context);
 		networkHostNameResolver = new NetworkHostNameResolver(context);
@@ -48,7 +46,7 @@ public class ProxyHelper {
 	}
 
 	public void deactivateProxy() {
-		Log.d(TAG, "deactivateProxy");
+		Log.d(getClass().getName(), "deactivateProxy");
 
 		if (framework != null) {
 			framework.stop();
@@ -61,7 +59,7 @@ public class ProxyHelper {
 	}
 
 	private void setStore(Context context) throws ListenerSetupException {
-		Log.d(TAG, "setStore");
+		Log.d(getClass().getName(), "setStore");
 		if (framework != null) {
 			try {
 				final File file = PreferenceUtils.getDataStorageDir(context);

@@ -4,6 +4,7 @@ package fr.neraud.padlistener.helper;
 import java.util.Date;
 
 import android.content.Context;
+import fr.neraud.padlistener.constant.ProxyMode;
 
 public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesHelper {
 
@@ -25,6 +26,13 @@ public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesH
 
 	public Date getLastCaptureDate() {
 		return new Date(getLongPreference("lastCaptureDate", 0L));
+	}
 
+	public void setLastListenerStartProxyMode(ProxyMode proxyMode) {
+		setStringPreference("lastListenerStartProxyMode", proxyMode.name());
+	}
+
+	public ProxyMode getLastListenerStartProxyMode() {
+		return ProxyMode.valueOf(getStringPreference("lastListenerStartProxyMode", "MANUAL"));
 	}
 }

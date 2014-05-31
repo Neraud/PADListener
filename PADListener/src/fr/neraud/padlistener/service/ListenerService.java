@@ -12,29 +12,51 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.exception.RootCommandExecutionException;
 import fr.neraud.padlistener.gui.MainActivity;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.proxy.helper.IptablesHelper;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
+import fr.neraud.padlistener.proxy.helper.WifiAutoProxyHelper;
 import fr.neraud.padlistener.util.ScriptAssetHelper;
 
 public class ListenerService extends Service {
 
 	public static String EXTRA_TOSTART_NAME = "activate";
-	private static String TAG = ListenerService.class.getName();
 	private static final int NOTIFICATION_ID = 1;
 
 	private boolean started = false;
-	private IptablesHelper iptablesHelper = null;
 	private ProxyHelper proxyHelper = null;
 
 	private final IBinder mBinder = new ListenerServiceBinder();
+
+	public class ListenerServiceBinder extends Binder {
+
+		public boolean isListenerStarded() {
+			return started;
+		}
+
+		public void startListener(ListenerServiceListener listener) {
+			doStartListener(listener);
+		}
+
+		public void stopListener(ListenerServiceListener listener) {
+			doStopListener(listener);
+		}
+	}
+
+	public interface ListenerServiceListener {
+
+		public void notifyActionSucess();
+
+		public void notifyActionFailed(Exception e);
+	}
 
 	public ListenerService() {
 		super();
@@ -42,28 +64,27 @@ public class ListenerService extends Service {
 
 	@Override
 	public void onCreate() {
-		Log.d(TAG, "onCreate : " + this);
+		Log.d(getClass().getName(), "onCreate : " + this);
 		super.onCreate();
 
 		if (started) {
-			Log.d(TAG, "onCreate : already started");
+			Log.d(getClass().getName(), "onCreate : already started");
 		} else {
-			Log.d(TAG, "onCreate : starting !");
+			Log.d(getClass().getName(), "onCreate : starting !");
 			try {
 				final ScriptAssetHelper scriptAssetUtils = new ScriptAssetHelper(getApplicationContext());
 				scriptAssetUtils.copyScriptsFromAssets();
 			} catch (final IOException e) {
-				Log.e(TAG, "PADListener stop failed  : " + e.getMessage(), e);
+				Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
 			}
 
-			iptablesHelper = new IptablesHelper(getApplicationContext());
 			proxyHelper = new ProxyHelper(getApplicationContext());
 			initValues();
 		}
 	}
 
 	private void initValues() {
-		Log.d(TAG, "initValues");
+		Log.d(getClass().getName(), "initValues");
 		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
 		// checking for directory to write data...
@@ -81,44 +102,29 @@ public class ListenerService extends Service {
 
 	@Override
 	public boolean onUnbind(Intent intent) {
-		Log.d(TAG, "onUnbind");
+		Log.d(getClass().getName(), "onUnbind");
 		return super.onUnbind(intent);
 	}
 
 	@Override
 	public void onTaskRemoved(Intent rootIntent) {
-		Log.d(TAG, "onTaskRemoved");
+		Log.d(getClass().getName(), "onTaskRemoved");
 		super.onTaskRemoved(rootIntent);
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "onStartCommand : " + this + " : " + startId + ": " + intent);
+		Log.d(getClass().getName(), "onStartCommand : " + this + " : " + startId + ": " + intent);
 		// We want this service to continue running until it is explicitly stopped, so return sticky.
 		return START_STICKY;
 	}
 
 	@Override
 	public void onDestroy() {
-		Log.d(TAG, "onDestroy");
+		Log.d(getClass().getName(), "onDestroy");
 		super.onDestroy();
 		if (started) {
-			doStopListener();
-		}
-	}
-
-	public class ListenerServiceBinder extends Binder {
-
-		public boolean isListenerStarded() {
-			return started;
-		}
-
-		public void startListener() {
-			doStartListener();
-		}
-
-		public void stopListener() {
-			doStopListener();
+			doStopListener(null);
 		}
 	}
 
@@ -127,27 +133,64 @@ public class ListenerService extends Service {
 		return mBinder;
 	}
 
-	private void doStartListener() {
-		Log.d(TAG, "doStartListener");
+	private void doStartListener(ListenerServiceListener listener) {
+		Log.d(getClass().getName(), "doStartListener");
 		Preferences.init(getApplicationContext());
 
 		try {
-			iptablesHelper.activateIptables();
+			final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
+			final ProxyMode proxyMode = prefHelper.getProxyMode();
+			switch (proxyMode) {
+			case AUTO_IPTABLES:
+				final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
+				iptablesHelper.activateIptables();
+				break;
+			case AUTO_WIFI_PROXY:
+				final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
+				wifiAutoProxyHelper.activateAutoProxy();
+				break;
+			case MANUAL:
+			default:
+				// Nothing to do
+				break;
+			}
+
+			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
+			techPrefHelper.setLastListenerStartProxyMode(proxyMode);
+
 			proxyHelper.activateProxy();
 
 			started = true;
 
-			final Notification notification = buildNotification();
+			final Notification notification = buildNotification(proxyMode);
 			startForeground(NOTIFICATION_ID, notification);
-			showToast("PADListener started");
+			if (listener != null) {
+				listener.notifyActionSucess();
+			}
 		} catch (final Exception e) {
-			Log.e(TAG, "PADListener stop failed  : " + e.getMessage(), e);
-			showToast("PADListener stop failed !");
+			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
+			if (listener != null) {
+				listener.notifyActionFailed(e);
+			}
 		}
 	}
 
-	private Notification buildNotification() {
-		Log.d(TAG, "buildNotification");
+	private Notification buildNotification(ProxyMode proxyMode) {
+		Log.d(getClass().getName(), "buildNotification");
+
+		String notifContent;
+		switch (proxyMode) {
+		case AUTO_IPTABLES:
+			notifContent = getString(R.string.notification_listener_content_iptables);
+			break;
+		case AUTO_WIFI_PROXY:
+			notifContent = getString(R.string.notification_listener_content_proxy_wifi);
+			break;
+		case MANUAL:
+		default:
+			notifContent = getString(R.string.notification_listener_content_manual);
+			break;
+		}
 
 		final Intent notificationIntent = new Intent(this, MainActivity.class);
 
@@ -155,38 +198,50 @@ public class ListenerService extends Service {
 		        PendingIntent.FLAG_CANCEL_CURRENT);
 
 		final Notification.Builder builder = new Notification.Builder(this);
-		builder.setContentTitle("Test");
+
+		builder.setContentTitle(getString(R.string.notification_listener_title));
 		builder.setOngoing(true);
-		builder.setContentText("todo content");
+		builder.setContentText(notifContent);
 		builder.setSmallIcon(R.drawable.ic_launcher);
 		builder.setContentIntent(pendingIntent);
 
 		return builder.getNotification();
 	}
 
-	private void doStopListener() {
-		Log.d(TAG, "doStopListener");
+	private void doStopListener(ListenerServiceListener listener) {
+		Log.d(getClass().getName(), "doStopListener");
 
 		try {
 			proxyHelper.deactivateProxy();
-			iptablesHelper.deactivateIptables();
+
+			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
+			final ProxyMode proxyMode = techPrefHelper.getLastListenerStartProxyMode();
+			switch (proxyMode) {
+			case AUTO_IPTABLES:
+				final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
+				iptablesHelper.activateIptables();
+				break;
+			case AUTO_WIFI_PROXY:
+				final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
+				wifiAutoProxyHelper.activateAutoProxy();
+				break;
+			case MANUAL:
+			default:
+				// Nothing to do
+				break;
+			}
+
 			started = false;
 			stopForeground(true);
-			showToast("PADListener stopped");
+			if (listener != null) {
+				listener.notifyActionSucess();
+			}
 		} catch (final RootCommandExecutionException e) {
-			Log.e(TAG, "PADListener stop failed  : " + e.getMessage());
-			showToast("PADListener stop failed !");
+			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage());
+			if (listener != null) {
+				listener.notifyActionFailed(e);
+			}
+			;
 		}
 	}
-
-	private void showToast(final String toastMessage) {
-		new Handler(getMainLooper()).post(new Runnable() {
-
-			@Override
-			public void run() {
-				Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
-			}
-		});
-	}
-
 }

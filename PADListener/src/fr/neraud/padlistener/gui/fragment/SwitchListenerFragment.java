@@ -13,14 +13,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.ProxyMode;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.ListenerService;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceBinder;
+import fr.neraud.padlistener.service.ListenerService.ListenerServiceListener;
 
 public class SwitchListenerFragment extends Fragment {
 
 	private boolean mIsBound = false;
 	private ListenerServiceBinder listenerServiceBinder;
+	private TextView listenerStatus;
 	private Switch listenerSwitch;
 
 	private final ServiceConnection mConnection = new ServiceConnection() {
@@ -32,8 +37,13 @@ public class SwitchListenerFragment extends Fragment {
 
 			Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarded());
 
+			if (listenerServiceBinder.isListenerStarded()) {
+				updateStatusStarted();
+			} else {
+				updateStatusStopped();
+			}
+
 			listenerSwitch.setChecked(listenerServiceBinder.isListenerStarded());
-			listenerSwitch.setText(listenerServiceBinder.isListenerStarded() ? R.string.toggleLabel_on : R.string.toggleLabel_off);
 			listenerSwitch.setEnabled(true);
 			mIsBound = true;
 		}
@@ -71,9 +81,41 @@ public class SwitchListenerFragment extends Fragment {
 
 		doBindService();
 
-		listenerSwitch = (Switch) view.findViewById(R.id.listenerSwitch);
-		listenerSwitch.setText(R.string.toggleLabel);
+		listenerStatus = (TextView) view.findViewById(R.id.switch_listener_status);
+
+		listenerSwitch = (Switch) view.findViewById(R.id.switch_listener_switch);
 		listenerSwitch.setEnabled(false);
+
+		final ListenerServiceListener startListener = new ListenerServiceListener() {
+
+			@Override
+			public void notifyActionSucess() {
+				Log.d(getClass().getName(), "notifyActionSucess");
+				updateStatusStarted();
+			}
+
+			@Override
+			public void notifyActionFailed(Exception e) {
+				Log.d(getClass().getName(), "notifyActionFailed");
+				updateStatusStartFailed(e);
+			}
+
+		};
+		final ListenerServiceListener stopListener = new ListenerServiceListener() {
+
+			@Override
+			public void notifyActionSucess() {
+				Log.d(getClass().getName(), "notifyActionSucess");
+				updateStatusStopped();
+			}
+
+			@Override
+			public void notifyActionFailed(Exception e) {
+				Log.d(getClass().getName(), "notifyActionFailed");
+				updateStatusStopFailed(e);
+			}
+
+		};
 
 		listenerSwitch.setOnClickListener(new OnClickListener() {
 
@@ -82,15 +124,45 @@ public class SwitchListenerFragment extends Fragment {
 				final boolean value = ((Switch) v).isChecked();
 				Log.d(getClass().getName(), "listenerSwitch.onClick : " + value);
 				if (value) {
-					listenerServiceBinder.startListener();
+					listenerServiceBinder.startListener(startListener);
 				} else {
-					listenerServiceBinder.stopListener();
+					listenerServiceBinder.stopListener(stopListener);
 				}
-
 			}
 		});
 
 		return view;
+	}
+
+	private void updateStatusStarted() {
+		final ProxyMode mode = new TechnicalSharedPreferencesHelper(getActivity()).getLastListenerStartProxyMode();
+		String status = null;
+		switch (mode) {
+		case AUTO_WIFI_PROXY:
+			status = getString(R.string.switch_listener_status_started_proxy_wifi);
+			break;
+		case AUTO_IPTABLES:
+			status = getString(R.string.switch_listener_status_started_iptables);
+			break;
+		case MANUAL:
+		default:
+			status = getString(R.string.switch_listener_status_started_manual);
+			break;
+		}
+
+		listenerStatus.setText(status);
+	}
+
+	private void updateStatusStopped() {
+		listenerStatus.setText(R.string.switch_listener_status_stoped);
+	}
+
+	private void updateStatusStartFailed(Exception e) {
+		listenerStatus.setText(getString(R.string.switch_listener_status_start_failed, e.getMessage()));
+	}
+
+	private void updateStatusStopFailed(Exception e) {
+		listenerStatus.setText(getString(R.string.switch_listener_status_stop_failed, e.getMessage()));
 	}
 
 	@Override
