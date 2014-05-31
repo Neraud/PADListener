@@ -12,6 +12,7 @@ import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
+import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
 public class PushSyncHelper {
 
@@ -114,6 +115,12 @@ public class PushSyncHelper {
 		        model.getPadherderId());
 
 		client.call(httpRequest);
+	}
+
+	public void pushUserInfoToUpdate(SyncedUserInfoModel model) {
+		Log.d(getClass().getName(), "pushUserInfoToUpdate : " + model);
+
+		// TODO : implement sync rank when PADHerder API allows it
 	}
 
 }

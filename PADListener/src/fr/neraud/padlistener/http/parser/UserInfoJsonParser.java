@@ -24,11 +24,15 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		final UserInfoModel userModel = new UserInfoModel();
 		/*
 		"account_id": 392392294, 
-		"country": 4,
+		"country": 4, 
+		"rank": 114, 
+		"starter_colour": 1, 
 		*/
 
 		userModel.setAccountId(json.getInt("account_id"));
 		userModel.setCountryCode(json.getInt("country"));
+		userModel.setRank(json.getInt("rank"));
+		userModel.setStarterColor(json.getInt("starter_colour"));
 
 		final List<UserInfoMaterialModel> materials = new ArrayList<UserInfoMaterialModel>();
 		final JSONArray materialsArray = json.getJSONArray("materials");

@@ -7,10 +7,19 @@ import java.util.List;
 public class ChooseSyncModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete;
+
+	public ChooseSyncModelContainer<SyncedUserInfoModel> getSyncedUserInfoToUpdate() {
+		return syncedUserInfoToUpdate;
+	}
+
+	public void setSyncedUserInfoToUpdate(ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate) {
+		this.syncedUserInfoToUpdate = syncedUserInfoToUpdate;
+	}
 
 	public List<ChooseSyncModelContainer<SyncedMaterialModel>> getSyncedMaterialsToUpdate() {
 		return syncedMaterialsToUpdate;

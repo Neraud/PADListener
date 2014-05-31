@@ -1,8 +1,7 @@
 
 package fr.neraud.padlistener.model;
 
-public class SyncedMonsterModel extends SyncedBaseCardModel<BaseMonsterModel> {
+public class SyncedUserInfoModel extends SyncedBaseModel<Integer> {
 
 	private static final long serialVersionUID = 1L;
-
 }

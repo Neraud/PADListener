@@ -12,6 +12,7 @@ import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
+import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
 public class PushSyncService extends IntentService {
 
@@ -28,10 +29,21 @@ public class PushSyncService extends IntentService {
 
 		final PushSyncHelper helper = new PushSyncHelper(getApplicationContext());
 
+		pushUserInfoToUpdate(helper, result);
 		pushMaterialsToUpdate(helper, result);
 		pushMonstersToUpdate(helper, result);
 		pushMonstersToCreate(helper, result);
 		pushMonstersToDelete(helper, result);
+	}
+
+	private void pushUserInfoToUpdate(PushSyncHelper helper, ChooseSyncModel result) {
+		Log.d(getClass().getName(), "pushUserInfoToUpdate");
+		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = result.getSyncedUserInfoToUpdate();
+		if (syncedUserInfoToUpdate.isChoosen()) {
+			helper.pushUserInfoToUpdate(syncedUserInfoToUpdate.getSyncedModel());
+		} else {
+			Log.d(getClass().getName(), "pushUserInfoToUpdate : ignoring");
+		}
 	}
 
 	private void pushMaterialsToUpdate(PushSyncHelper helper, final ChooseSyncModel result) {

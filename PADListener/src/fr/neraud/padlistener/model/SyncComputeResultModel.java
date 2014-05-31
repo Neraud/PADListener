@@ -7,8 +7,17 @@ import java.util.List;
 public class SyncComputeResultModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private SyncedUserInfoModel syncedUserInfo;
 	private List<SyncedMaterialModel> syncedMaterials;
 	private List<SyncedMonsterModel> syncedMonsters;
+
+	public SyncedUserInfoModel getSyncedUserInfo() {
+		return syncedUserInfo;
+	}
+
+	public void setSyncedUserInfo(SyncedUserInfoModel syncedUserInfo) {
+		this.syncedUserInfo = syncedUserInfo;
+	}
 
 	public List<SyncedMaterialModel> getSyncedMaterials() {
 		return syncedMaterials;

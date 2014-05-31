@@ -23,6 +23,7 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncComputeResultModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
+import fr.neraud.padlistener.model.SyncedUserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMaterialModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMonsterModel;
@@ -52,9 +53,11 @@ public class SyncHelper {
 
 		final SyncComputeResultModel result = new SyncComputeResultModel();
 
+		final SyncedUserInfoModel syncedUserInfo = syncRank(capturedInfo, padInfo);
 		final List<SyncedMaterialModel> syncedMaterials = syncMaterials(capturedMaterialsById, padherderMaterialsById);
 		final List<SyncedMonsterModel> syncedMonsters = syncMonsters(capturedMonstersById, padherderMonstersById);
 
+		result.setSyncedUserInfo(syncedUserInfo);
 		result.setSyncedMaterials(syncedMaterials);
 		result.setSyncedMonsters(syncedMonsters);
 
@@ -190,6 +193,15 @@ public class SyncHelper {
 		} else {
 			Log.d(getClass().getName(), "filterMaterials : nothing to filter");
 		}
+	}
+
+	private SyncedUserInfoModel syncRank(CapturedPlayerInfoModel capturedInfo, UserInfoModel padInfo) {
+		Log.d(getClass().getName(), "syncMaterials");
+		final SyncedUserInfoModel syncedPlayerInfo = new SyncedUserInfoModel();
+		syncedPlayerInfo.setCapturedInfo(capturedInfo.getRank());
+		syncedPlayerInfo.setPadherderInfo(padInfo.getRank());
+
+		return syncedPlayerInfo;
 	}
 
 	private List<SyncedMaterialModel> syncMaterials(Map<Integer, Integer> capturedMaterialsById,

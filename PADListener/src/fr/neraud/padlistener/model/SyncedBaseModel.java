@@ -6,26 +6,8 @@ import java.io.Serializable;
 public abstract class SyncedBaseModel<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private MonsterInfoModel monsterInfo;
-	private long padherderId;
 	private T capturedInfo;
 	private T padherderInfo;
-
-	public MonsterInfoModel getMonsterInfo() {
-		return monsterInfo;
-	}
-
-	public void setMonsterInfo(MonsterInfoModel monsterInfo) {
-		this.monsterInfo = monsterInfo;
-	}
-
-	public long getPadherderId() {
-		return padherderId;
-	}
-
-	public void setPadherderId(long padherderId) {
-		this.padherderId = padherderId;
-	}
 
 	public T getCapturedInfo() {
 		return capturedInfo;
@@ -45,8 +27,8 @@ public abstract class SyncedBaseModel<T> implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder(monsterInfo.toString());
-		builder.append(" : ").append(padherderInfo).append(" -> ").append(capturedInfo);
+		final StringBuilder builder = new StringBuilder();
+		builder.append(padherderInfo).append(" -> ").append(capturedInfo);
 		return builder.toString();
 	}
 }

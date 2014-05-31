@@ -10,6 +10,7 @@ import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncComputeResultModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
+import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
 public class ChooseSyncInitHelper {
 
@@ -23,6 +24,11 @@ public class ChooseSyncInitHelper {
 	public ChooseSyncModel filterSyncResult() {
 		Log.d(getClass().getName(), "filterSyncResult");
 		final ChooseSyncModel chooseSync = new ChooseSyncModel();
+
+		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseSyncModelContainer<SyncedUserInfoModel>();
+		// TODO let the user choose ?
+		syncedUserInfoToUpdate.setChoosen(true);
+		syncedUserInfoToUpdate.setSyncedModel(syncResult.getSyncedUserInfo());
 
 		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();
 
@@ -61,6 +67,7 @@ public class ChooseSyncInitHelper {
 			}
 		}
 
+		chooseSync.setSyncedUserInfoToUpdate(syncedUserInfoToUpdate);
 		chooseSync.setSyncedMaterialsToUpdate(syncedMaterialsToUpdate);
 		chooseSync.setSyncedMonstersToUpdate(syncedMonstersToUpdate);
 		chooseSync.setSyncedMonstersToCreate(syncedMonstersToCreate);

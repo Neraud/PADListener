@@ -35,6 +35,38 @@ public class ChooseSyncInfoFragment extends Fragment {
 		summaryText.setText(getString(R.string.choose_sync_info_summary, materialToUpdateCount, monsterToUpdateCount,
 		        monsterlToCreateCount, monsterlToDeleteCount));
 
+		final View userInfoBlockView = view.findViewById(R.id.choose_sync_userInfo_block);
+		userInfoBlockView.setVisibility(View.GONE);
+		// TODO : enable sync rank when PADHerder API allows it
+		/*
+		final SyncedUserInfoModel userInfoModel = result.getSyncedUserInfoToUpdate().getSyncedModel();
+		if (userInfoModel.getCapturedInfo().equals(userInfoModel.getPadherderInfo())) {
+			userInfoBlockView.setVisibility(View.GONE);
+		} else {
+			userInfoBlockView.setVisibility(View.VISIBLE);
+			final CheckBox userInfoCheckBox = (CheckBox) view.findViewById(R.id.choose_sync_userInfo_checkbox);
+			userInfoCheckBox.setChecked(true);
+			userInfoCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					Log.d(getClass().getName(), "onCheckedChanged");
+					result.getSyncedUserInfoToUpdate().setChoosen(isChecked);
+				}
+			});
+
+			final TextView userInfoText = (TextView) view.findViewById(R.id.choose_sync_userInfo_text);
+			userInfoText.setText(getString(R.string.choose_sync_userInfo_text, userInfoModel.getPadherderInfo(),
+			        userInfoModel.getCapturedInfo()));
+
+			if (userInfoModel.getPadherderInfo() < userInfoModel.getCapturedInfo()) {
+				userInfoText.setTextColor(Color.GREEN);
+			} else if (userInfoModel.getPadherderInfo() > userInfoModel.getCapturedInfo()) {
+				userInfoText.setTextColor(Color.RED);
+			}
+		}
+		*/
+
 		final Button syncButton = (Button) view.findViewById(R.id.choose_sync_button);
 		syncButton.setOnClickListener(new OnClickListener() {
 
