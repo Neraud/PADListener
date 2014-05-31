@@ -82,6 +82,9 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 		if (extras != null) {
 			intent.putExtras(extras);
 		}
+		if (screen.isPreventFromHistoryStack()) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		}
 		startActivity(intent);
 	}
 
