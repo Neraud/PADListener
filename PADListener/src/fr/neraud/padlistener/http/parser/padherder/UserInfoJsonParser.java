@@ -1,5 +1,5 @@
 
-package fr.neraud.padlistener.http.parser;
+package fr.neraud.padlistener.http.parser.padherder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.util.Log;
 import fr.neraud.padlistener.http.exception.ParsingException;
+import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.UserInfoMaterialModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMonsterModel;

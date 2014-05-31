@@ -14,7 +14,6 @@ import org.sandrop.webscarab.plugin.proxy.ProxyPlugin;
 import android.content.Context;
 import android.util.Log;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
-import fr.neraud.padlistener.pad.ApiCallParser;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 
@@ -86,7 +85,7 @@ public class PADPlugin extends ProxyPlugin {
 					model.setResponseContent(responseContentString);
 
 					Log.d(PADPlugin.class.getName(), "" + model);
-					new ApiCallParser(context, model).start();
+					new ApiCallHandlerThread(context, model).start();
 				}
 
 				return response;

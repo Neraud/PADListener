@@ -1,5 +1,5 @@
 
-package fr.neraud.padlistener.http.parser;
+package fr.neraud.padlistener.http.parser.padherder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 import fr.neraud.padlistener.http.exception.ParsingException;
+import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.padherder.constant.MonsterElement;
 import fr.neraud.padlistener.padherder.constant.MonsterType;

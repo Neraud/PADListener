@@ -13,7 +13,7 @@ import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
-import fr.neraud.padlistener.http.parser.UserInfoJsonParser;
+import fr.neraud.padlistener.http.parser.padherder.UserInfoJsonParser;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;

@@ -14,7 +14,7 @@ import android.net.Uri;
 import android.util.Log;
 import fr.neraud.padlistener.constant.InstallAsset;
 import fr.neraud.padlistener.http.exception.ParsingException;
-import fr.neraud.padlistener.http.parser.MonsterInfoJsonParser;
+import fr.neraud.padlistener.http.parser.padherder.MonsterInfoJsonParser;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
