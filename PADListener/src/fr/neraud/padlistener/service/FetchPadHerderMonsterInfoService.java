@@ -1,12 +1,14 @@
 
 package fr.neraud.padlistener.service;
 
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.util.Log;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
@@ -55,6 +57,8 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 			i++;
 		}
 		final int count = cr.bulkInsert(uri, values);
+
+		new TechnicalSharedPreferencesHelper(getApplicationContext()).setMonsterInfoRefreshDate(new Date());
 		return count;
 	}
 

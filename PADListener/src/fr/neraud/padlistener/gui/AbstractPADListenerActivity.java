@@ -37,6 +37,7 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 			builder.setTitle(R.string.install_dialog_title);
 			builder.setMessage(R.string.install_dialog_message);
 			builder.setPositiveButton(R.string.install_dialog_button_ok, null);
+			builder.setCancelable(false);
 			builder.create().show();
 		}
 	}
@@ -59,12 +60,6 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 			final Intent settingsIntent = new Intent(this, SettingsActivity.class);
 			Log.d(getClass().getName(), "onOptionsItemSelected : going to settings : " + settingsIntent);
 			startActivity(settingsIntent);
-			break;
-		case R.id.menu_fetch_monster_info:
-			consumed = true;
-			final Intent fetchMonsterInfoIntent = new Intent(this, FetchPadHerderMonsterInfoActivity.class);
-			Log.d(getClass().getName(), "onOptionsItemSelected : going to fetchMonsterInfo : " + fetchMonsterInfoIntent);
-			startActivity(fetchMonsterInfoIntent);
 			break;
 		case R.id.menu_about:
 			consumed = true;

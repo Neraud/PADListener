@@ -4,6 +4,7 @@ package fr.neraud.padlistener.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
 
@@ -14,9 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.client.ImageDownloadClient;
 import fr.neraud.padlistener.http.constant.HttpMethod;
-import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.ImageDownloadResponse;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
@@ -51,13 +52,13 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 
 				imagesDownloaded++;
 
-				/*
-				if (imagesDownloaded >= 4) {
+				if (imagesDownloaded >= 5) {
 					// FIXME mock
 					break;
 				}
-				*/
 			} while (cursor.moveToNext());
+
+			new TechnicalSharedPreferencesHelper(getApplicationContext()).setMonsterImagesRefreshDate(new Date());
 			notifyFinished(receiver, imagesDownloaded);
 		}
 	}
@@ -81,12 +82,8 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 				IOUtils.copy(in, out);
 				Log.d(getClass().getName(), "downloadImage : saved");
 			}
-		} catch (final HttpCallException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (final Exception e) {
+			Log.e(getClass().getName(), "downloadImage : error downloading " + imageUrl, e);
 		} finally {
 			if (in != null) {
 				try {

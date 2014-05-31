@@ -35,4 +35,20 @@ public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesH
 	public ProxyMode getLastListenerStartProxyMode() {
 		return ProxyMode.valueOf(getStringPreference("lastListenerStartProxyMode", "MANUAL"));
 	}
+
+	public void setMonsterInfoRefreshDate(Date date) {
+		setLongPreference("monsterInfoRefreshDate", date.getTime());
+	}
+
+	public Date getMonsterInfoRefreshDate() {
+		return new Date(getLongPreference("monsterInfoRefreshDate", 0L));
+	}
+
+	public void setMonsterImagesRefreshDate(Date date) {
+		setLongPreference("monsterImagesRefreshDate", date.getTime());
+	}
+
+	public Date getMonsterImagesRefreshDate() {
+		return new Date(getLongPreference("monsterImagesRefreshDate", 0L));
+	}
 }

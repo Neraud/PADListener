@@ -4,7 +4,9 @@ package fr.neraud.padlistener.constant;
 public enum InstallAsset {
 
 	MONSTER_INFO("monsters.json"),
-	MONSTER_IMAGES_DIR("monster_images");
+	MONSTER_INFO_DATE("monsters.date"),
+	MONSTER_IMAGES_DIR("monster_images"),
+	MONSTER_IMAGES_DATE("monster_images.date");
 
 	private final String fileName;
 

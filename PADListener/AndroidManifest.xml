@@ -35,9 +35,6 @@
             android:name=".gui.ViewMonsterInfoActivity"
             android:label="@string/label_view_monster_info_activity" />
         <activity
-            android:name=".gui.FetchPadHerderMonsterInfoActivity"
-            android:label="@string/label_fetch_padherder_monster_info_activity" />
-        <activity
             android:name=".gui.ViewCapturedDataActivity"
             android:label="@string/label_viewCapturedData" />
         <activity

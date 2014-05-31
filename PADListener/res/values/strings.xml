@@ -52,7 +52,7 @@
 	
     <!-- Install Activity -->
     <string name="install_dialog_title">Monster data</string>
-    <string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the settings.</string>
+    <string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the "View monster info" section.</string>
     <string name="install_dialog_button_ok">OK</string>
     
     
@@ -94,20 +94,26 @@
     
     <!-- View monster info -->
     <string name="label_view_monster_info_activity">View monster info</string>
+    <string name="view_monster_info_tab_monsters">Monsters</string>
+    <string name="view_monster_info_tab_refresh_info">Refresh info</string>
+    <string name="view_monster_info_tab_refresh_images">Refresh images</string>
     <string name="view_monster_info_name">(%1$d) %2$s</string>
     
+    <string name="monster_info_fetch_info_explain">This application uses monster information exposed by PADherder. This information is stored on the device. You can refresh this data if some inforations are not up to date (new awakenings for example)</string>
+    <string name="monster_info_fetch_info_current">The monster information has been refreshed at : %1$s</string>
+    <string name="monster_info_fetch_info_start">Refresh monster info</string>
+    <string name="monster_info_fetch_info_fetching">Fetching PadHerder information</string>
+    <string name="monster_info_fetch_info_calling">Calling PadHerder API</string>
+    <string name="monster_info_fetch_info_parsing">Parsing PadHerder API result</string>
+    <string name="monster_info_fetch_info_saving">Saving data</string>
+    <string name="monster_info_fetch_info_fetching_done">Fetching done</string>
+    <string name="monster_info_fetch_info_fetching_failed">Fetching failed : %1$s</string>
     
-    <!-- FetchPadHerderMonsterInfo activity -->
-    <string name="label_fetch_padherder_monster_info_activity">Fetch PadHerder monster info</string>
-    <string name="fetch_padherder_monster_info_fetching_failed">Fetching failed</string>
-    <string name="fetch_padherder_monster_info_fetching">Fetching PadHerder information</string>
-    <string name="fetch_padherder_monster_info_calling">Calling PadHerder API</string>
-    <string name="fetch_padherder_monster_info_parsing">Parsing PadHerder API result</string>
-    <string name="fetch_padherder_monster_info_saving">Saving data</string>
-    <string name="fetch_padherder_monster_info_fetching_done">Fetching done</string>
-    <string name="fetch_padherder_monster_info_fetching_images">Fetching images</string>
-    <string name="fetch_padherder_monster_info_fetching_image_text">Fetching image %1$d / %2$d for monster %3$d</string>
-    <string name="fetch_padherder_monster_info_fetching_image_done">%1$d images fetched</string>
+    <string name="monster_info_fetch_images_explain">This application uses monster images exposed by PADherder. These images are stored on the device. You can refresh them if you want. Keep in mind that there are 1700+ images to download, it will take time !</string>
+    <string name="monster_info_fetch_images_current">The monster images have been refreshed at : %1$s</string>
+    <string name="monster_info_fetch_images_start">Refresh monster images</string>
+    <string name="monster_info_fetch_images_text">Fetching image %1$d / %2$d for monster %3$d</string>
+    <string name="monster_info_fetch_images_done">%1$d images fetched</string>
     
     
     <!-- ViewCapturedData activity -->
