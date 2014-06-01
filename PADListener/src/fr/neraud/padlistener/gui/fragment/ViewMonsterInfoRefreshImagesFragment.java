@@ -3,11 +3,9 @@ package fr.neraud.padlistener.gui.fragment;
 
 import java.text.SimpleDateFormat;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,46 +15,51 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.gui.fragment.ViewMonsterInfoRefreshImagesTaskFragment.CallBacks;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
-import fr.neraud.padlistener.service.FetchPadHerderMonsterImageService;
-import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
+import fr.neraud.padlistener.service.constant.RestCallState;
 
 public class ViewMonsterInfoRefreshImagesFragment extends Fragment {
+
+	private static final String TAG_TASK_FRAGMENT = "images_task_fragment";
+	private ViewMonsterInfoRefreshImagesTaskFragment mTaskFragment;
 
 	private TextView statusText;
 	private TextView current;
 	private ProgressBar progress;
+	private Button startButton;
 
-	private class MyResultReceiver extends ResultReceiver {
-
-		public MyResultReceiver(Handler handler) {
-			super(handler);
-		}
+	private final CallBacks callbacks = new CallBacks() {
 
 		@Override
-		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			final int imagesDownloaded = resultData.getInt("imagesDownloaded");
-			switch (resultCode) {
-			case 0:
-				final int imagesToDownload = resultData.getInt("imagesToDownload");
-				//final String imageUrl = resultData.getString("imageUrl");
-				final int monsterId = resultData.getInt("monsterId");
+		public void updateState(RestCallState state, int imagesDownloaded, int imagesToDownload, int monsterIdDownloading) {
+			Log.d(getClass().getName(), "updateState");
 
+			if (state != null) {
+				startButton.setEnabled(false);
+				progress.setVisibility(View.VISIBLE);
 				progress.setIndeterminate(false);
-				progress.setProgress(imagesDownloaded);
-				progress.setMax(imagesToDownload);
-				statusText.setText(getString(R.string.monster_info_fetch_images_text, (imagesDownloaded + 1), imagesToDownload,
-				        monsterId));
-				break;
-			case 1:
-				statusText.setText(getString(R.string.monster_info_fetch_images_done, imagesDownloaded));
-				refreshLastUpdate();
-				break;
-			default:
-				break;
+
+				switch (state) {
+				case RUNNING:
+					progress.setProgress(imagesDownloaded);
+					progress.setMax(imagesToDownload);
+					statusText.setText(getString(R.string.monster_info_fetch_images_text, (imagesDownloaded + 1), imagesToDownload,
+					        monsterIdDownloading));
+					break;
+				case SUCCESSED:
+					statusText.setText(getString(R.string.monster_info_fetch_images_done, imagesDownloaded));
+					refreshLastUpdate();
+					break;
+				default:
+					break;
+				}
+			} else {
+				progress.setVisibility(View.GONE);
 			}
 		}
-	}
+
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,24 +69,25 @@ public class ViewMonsterInfoRefreshImagesFragment extends Fragment {
 
 		statusText = (TextView) view.findViewById(R.id.monster_info_fetch_images_status);
 		progress = (ProgressBar) view.findViewById(R.id.monster_info_fetch_images_progress);
-		progress.setVisibility(View.GONE);
 		current = (TextView) view.findViewById(R.id.monster_info_fetch_images_current);
+		startButton = (Button) view.findViewById(R.id.monster_info_fetch_images_button);
 
 		refreshLastUpdate();
 
-		final Button startButton = (Button) view.findViewById(R.id.monster_info_fetch_images_button);
+		final FragmentManager fm = getFragmentManager();
+		mTaskFragment = (ViewMonsterInfoRefreshImagesTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+		if (mTaskFragment == null) {
+			mTaskFragment = new ViewMonsterInfoRefreshImagesTaskFragment();
+			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+		}
+		mTaskFragment.registerCallbacks(callbacks);
+
 		startButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				startButton.setEnabled(false);
-				progress.setIndeterminate(true);
-				progress.setVisibility(View.VISIBLE);
-
-				final Intent startIntent = new Intent(getActivity(), FetchPadHerderMonsterImageService.class);
-				startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyResultReceiver(new Handler()));
-				getActivity().startService(startIntent);
+				mTaskFragment.startFetchImagesService();
 			}
 		});
 
