@@ -23,7 +23,7 @@
     
     <string name="settings_listener_category">Listener</string>
     <string name="settings_listener_target_hostname_title">Target hostname</string>
-    <string name="settings_listener_target_hostname_summary">Hostname for PAD calls</string>
+    <string name="settings_listener_target_hostname_summary">Hostname for PAD calls.\nYou probably should change this ;p</string>
     <string name="settings_proxy_mode_title">Proxy settings mode</string>
     <string name="settings_proxy_mode_summary">%1$s</string>
        
@@ -35,17 +35,17 @@
     
     <string name="settings_sync_category">Sync</string>
     
-    <string name="settings_sync_material_in_monster_title">Sync materials in PADherder\'s monsters ?</string>
-	<string name="settings_sync_material_in_monster_summary">%1$s</string>
+    <string name="settings_sync_material_in_monster_title">Sync materials as monsters ?</string>
+	<string name="settings_sync_material_in_monster_summary">You can choose to sync materials in your monsters\' list. This can be useful for some materials (like KoR) that you may use in your teams. \n\n%1$s</string>
 
-	<string name="settings_sync_deduct_monster_in_material_title">Deduct card already in PADherder\'s monsters from materials ?</string>
-	<string name="settings_sync_deduct_monster_in_material_summary"></string>
+	<string name="settings_sync_deduct_monster_in_material_title">Deduct materials ?</string>
+	<string name="settings_sync_deduct_monster_in_material_summary">If you sync materials in your monsters\' list, should they still be counted in your materials ? \nFor example, if you have 4 KoR with 1 used in your monsters, do you want to have 3 or 4 KoR available in your materials ?</string>
 	
-	<string name="settings_choose_sync_group_monsters_updated_title">Group monsters to update ?</string>
+	<string name="settings_choose_sync_group_monsters_updated_title">Group updated monsters ?</string>
 	<string name="settings_choose_sync_group_monsters_updated_summary"></string>
-	<string name="settings_choose_sync_group_monsters_created_title">Group monsters to create ?</string>
+	<string name="settings_choose_sync_group_monsters_created_title">Group created monsters ?</string>
 	<string name="settings_choose_sync_group_monsters_created_summary"></string>
-	<string name="settings_choose_sync_group_monsters_deleted_title">Group monsters to delete ?</string>
+	<string name="settings_choose_sync_group_monsters_deleted_title">Group deleted monsters ?</string>
 	<string name="settings_choose_sync_group_monsters_deleted_summary"></string>
     
 	
