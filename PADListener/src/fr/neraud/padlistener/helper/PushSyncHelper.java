@@ -117,7 +117,7 @@ public class PushSyncHelper {
 		client.call(httpRequest);
 	}
 
-	public void pushUserInfoToUpdate(SyncedUserInfoModel model) {
+	public void pushUserInfoToUpdate(SyncedUserInfoModel model) throws HttpCallException {
 		Log.d(getClass().getName(), "pushUserInfoToUpdate : " + model);
 
 		// TODO : implement sync rank when PADHerder API allows it

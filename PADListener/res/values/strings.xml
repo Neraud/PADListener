@@ -147,7 +147,7 @@
     
     <string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
     <string name="compute_sync_missing_capture">You did not capture any data from PAD, there is nothing to sync !</string>
-    	
+    
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
 	<string name="choose_sync_info_label">Summary</string>
@@ -173,5 +173,14 @@
 	<string name="choose_sync_monsters_item_label_plusHp">+Hp</string>
 	<string name="choose_sync_monsters_item_label_plusAtk">+Atk</string>
 	<string name="choose_sync_monsters_item_label_plusRcv">+Rcv</string>
+    
+    <!-- Execute Sync -->
+	<string name="label_pushSync">Push sync</string>
+	<string name="push_sync_head">Pushing sync to PADherder</string>
+    <string name="push_sync_summary_userinfo_updated"> - %1$d / %2$d info updated (%3$d errors)</string>
+    <string name="push_sync_summary_materials_updated"> - %1$d / %2$d materials updated (%3$d errors)</string>
+    <string name="push_sync_summary_monsters_updated"> - %1$d / %2$d monsters updated (%3$d errors)</string>
+    <string name="push_sync_summary_monsters_created"> - %1$d / %2$d monsters created (%3$d errors)</string>
+    <string name="push_sync_summary_monsters_deleted"> - %1$d / %2$d monsters deleted (%3$d errors)</string>
     
 </resources>

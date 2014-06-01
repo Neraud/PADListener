@@ -27,7 +27,7 @@ public class ChooseSyncInitHelper {
 
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseSyncModelContainer<SyncedUserInfoModel>();
 		// TODO let the user choose ?
-		syncedUserInfoToUpdate.setChoosen(true);
+		syncedUserInfoToUpdate.setChoosen(false);
 		syncedUserInfoToUpdate.setSyncedModel(syncResult.getSyncedUserInfo());
 
 		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();

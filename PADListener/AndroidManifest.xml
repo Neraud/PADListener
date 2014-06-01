@@ -43,6 +43,9 @@
         <activity
             android:name=".gui.ChooseSyncActivity"
             android:label="@string/label_chooseSync" />
+        <activity
+            android:name=".gui.PushSyncActivity"
+            android:label="@string/label_pushSync" />
         
         
 
