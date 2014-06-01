@@ -5,11 +5,10 @@ import java.text.DateFormat;
 
 import org.apache.commons.lang3.StringUtils;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,66 +23,79 @@ import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.model.SyncComputeResultModel;
-import fr.neraud.padlistener.service.ComputeSyncService;
-import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
-import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
+import fr.neraud.padlistener.service.constant.RestCallState;
 
 public class ComputeSyncFragment extends Fragment {
 
-	private Button button;
-	private ProgressBar syncProgress;
+	private static final String TAG_TASK_FRAGMENT = "compute_sync_task_fragment";
+	private ComputeSyncTaskFragment mTaskFragment;
+
+	private Button startButton;
+	private ProgressBar progress;
 	private TextView status;
-
-	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<SyncComputeResultModel> {
-
-		public MyComputeSyncReceiver(Handler handler) {
-			super(handler);
-		}
+	private final ComputeSyncTaskFragment.CallBacks callbacks = new ComputeSyncTaskFragment.CallBacks() {
 
 		@Override
-		protected void onReceiveProgress(RestCallRunningStep progress) {
-			Log.d(getClass().getName(), "onReceiveProgress : " + progress);
-			switch (progress) {
-			case STARTED:
-				status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_calling)));
-				syncProgress.setIndeterminate(false);
-				syncProgress.setProgress(1);
-				syncProgress.setMax(4);
-				break;
-			case RESPONSE_RECEIVED:
-				status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_parsing)));
-				syncProgress.setProgress(2);
-				break;
-			case RESPONSE_PARSED:
-				status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_computing)));
-				syncProgress.setProgress(3);
-				break;
-			default:
-				break;
+		public void updateState(RestCallState state, RestCallRunningStep runningStep, SyncComputeResultModel syncResult,
+		        String errorMessage) {
+			Log.d(getClass().getName(), "updateState");
+			if (state != null) {
+				startButton.setEnabled(false);
+				progress.setVisibility(View.VISIBLE);
+				status.setVisibility(View.VISIBLE);
+				progress.setMax(4);
+
+				switch (state) {
+				case RUNNING:
+					if (runningStep == null) {
+						progress.setIndeterminate(true);
+						status.setText(R.string.monster_info_fetch_info_fetching);
+					} else {
+						progress.setIndeterminate(false);
+						switch (runningStep) {
+						case STARTED:
+							status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_calling)));
+							progress.setProgress(1);
+							break;
+						case RESPONSE_RECEIVED:
+							status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_parsing)));
+							progress.setProgress(2);
+							break;
+						case RESPONSE_PARSED:
+							status.setText(getString(R.string.compute_sync_status,
+							        getString(R.string.compute_sync_status_computing)));
+							progress.setProgress(3);
+							break;
+						default:
+							break;
+						}
+					}
+					break;
+				case SUCCESSED:
+					progress.setIndeterminate(false);
+					status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
+					progress.setProgress(4);
+
+					final Bundle extras = new Bundle();
+					extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, syncResult);
+					((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.CHOOSE_SYNC, extras);
+
+					break;
+				case FAILED:
+					progress.setIndeterminate(false);
+					status.setText(getString(R.string.compute_sync_status,
+					        getString(R.string.compute_sync_status_failed, errorMessage)));
+				default:
+					break;
+				}
+			} else {
+				progress.setVisibility(View.GONE);
+				status.setVisibility(View.GONE);
 			}
 		}
 
-		@Override
-		protected void onReceiveSuccess(SyncComputeResultModel result) {
-			Log.d(getClass().getName(), "onReceiveSuccess");
-			status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
-			syncProgress.setProgress(4);
-
-			final Bundle extras = new Bundle();
-			extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, result);
-			((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.CHOOSE_SYNC, extras);
-		}
-
-		@Override
-		protected void onReceiveError(RestCallError error, String errorMessage) {
-			Log.d(getClass().getName(), "onReceiveError : " + error);
-
-			syncProgress.setProgress(4);
-			status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, errorMessage)));
-		}
-
-	}
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,33 +109,32 @@ public class ComputeSyncFragment extends Fragment {
 		final TextView explain = (TextView) view.findViewById(R.id.compute_sync_explain);
 		final String refreshDate = DateFormat.getDateTimeInstance().format(techPrefHelper.getLastCaptureDate());
 		explain.setText(getString(R.string.compute_sync_explain, defaultPrefHelper.getPadHerderUserName(), refreshDate));
-		button = (Button) view.findViewById(R.id.compute_sync_button);
-		syncProgress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
+		startButton = (Button) view.findViewById(R.id.compute_sync_button);
+		progress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		status = (TextView) view.findViewById(R.id.compute_sync_status);
 
-		button.setOnClickListener(new OnClickListener() {
+		final FragmentManager fm = getFragmentManager();
+		mTaskFragment = (ComputeSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+		if (mTaskFragment == null) {
+			mTaskFragment = new ComputeSyncTaskFragment();
+			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+		}
+		mTaskFragment.registerCallbacks(callbacks);
+
+		startButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-
-				final Intent startIntent = new Intent(getActivity(), ComputeSyncService.class);
-				startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyComputeSyncReceiver(new Handler()));
-				getActivity().startService(startIntent);
-
-				button.setVisibility(View.GONE);
-				syncProgress.setVisibility(View.VISIBLE);
-				status.setVisibility(View.VISIBLE);
+				mTaskFragment.startComputeSyncService();
 			}
 		});
-		syncProgress.setVisibility(View.GONE);
-		status.setVisibility(View.GONE);
 
 		final TextView missingCredentials = (TextView) view.findViewById(R.id.compute_sync_missing_credentials_text);
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		if (StringUtils.isBlank(prefHelper.getPadHerderUserName()) || StringUtils.isBlank(prefHelper.getPadHerderUserPassword())) {
 			missingCredentials.setTextColor(Color.RED);
-			button.setEnabled(false);
+			startButton.setEnabled(false);
 		} else {
 			missingCredentials.setVisibility(View.GONE);
 		}
@@ -132,7 +143,7 @@ public class ComputeSyncFragment extends Fragment {
 		final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
 		if (techHelper.getLastCaptureDate().getTime() == 0) {
 			missingCapture.setTextColor(Color.RED);
-			button.setEnabled(false);
+			startButton.setEnabled(false);
 		} else {
 			missingCapture.setVisibility(View.GONE);
 		}
