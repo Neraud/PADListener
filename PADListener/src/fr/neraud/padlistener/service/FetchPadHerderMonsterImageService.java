@@ -52,10 +52,12 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 
 				imagesDownloaded++;
 
-				if (imagesDownloaded >= 5) {
+				/*
+				if (imagesDownloaded >= 10) {
 					// FIXME mock
 					break;
 				}
+				*/
 			} while (cursor.moveToNext());
 
 			new TechnicalSharedPreferencesHelper(getApplicationContext()).setMonsterImagesRefreshDate(new Date());
