@@ -4,6 +4,11 @@ package fr.neraud.padlistener.proxy.helper;
 import android.content.Context;
 import android.util.Log;
 
+/**
+ * Helper to change the WiFi settings to enable the AutoWifi mode for the listener
+ * 
+ * @author Neraud
+ */
 public class WifiAutoProxyHelper {
 
 	private final Context context;

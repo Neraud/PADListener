@@ -3,6 +3,11 @@ package fr.neraud.padlistener.helper;
 
 import android.content.SharedPreferences;
 
+/**
+ * Base helper to access SharedPreferences
+ * 
+ * @author Neraud
+ */
 public abstract class AbstractSharedPreferencesHelper {
 
 	private final SharedPreferences sharedPreferences;

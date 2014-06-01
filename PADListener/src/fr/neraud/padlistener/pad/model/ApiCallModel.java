@@ -5,6 +5,11 @@ import java.util.Map;
 
 import fr.neraud.padlistener.pad.constant.ApiAction;
 
+/**
+ * Model representing an api call from PAD to GunHo servers
+ * 
+ * @author Neraud
+ */
 public class ApiCallModel {
 
 	private ApiAction action;

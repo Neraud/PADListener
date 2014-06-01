@@ -6,6 +6,11 @@ import java.util.Date;
 import android.content.Context;
 import fr.neraud.padlistener.constant.ProxyMode;
 
+/**
+ * Helper to access the technical SharedPreferences
+ * 
+ * @author Neraud
+ */
 public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesHelper {
 
 	public TechnicalSharedPreferencesHelper(Context context) {

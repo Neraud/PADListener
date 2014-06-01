@@ -8,6 +8,11 @@ import java.io.InputStreamReader;
 import android.util.Log;
 import fr.neraud.padlistener.exception.RootCommandExecutionException;
 
+/**
+ * Helper to execute a shell command as root
+ * 
+ * @author Neraud
+ */
 public class RootCommandExecutor {
 
 	private static String TAG = RootCommandExecutor.class.getName();

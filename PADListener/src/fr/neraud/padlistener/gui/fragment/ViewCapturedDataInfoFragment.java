@@ -13,6 +13,11 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.helper.CapturedPlayerInfoCursorAdapter;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
+/**
+ * ViewCapturedData fragment for the Information tab
+ * 
+ * @author Neraud
+ */
 public class ViewCapturedDataInfoFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
 	private SimpleCursorAdapter adapter;
@@ -22,7 +27,8 @@ public class ViewCapturedDataInfoFragment extends ListFragment implements Loader
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
 
-		adapter = new CapturedPlayerInfoCursorAdapter(getActivity().getApplicationContext(), R.layout.view_captured_data_fragment_info);
+		adapter = new CapturedPlayerInfoCursorAdapter(getActivity().getApplicationContext(),
+		        R.layout.view_captured_data_fragment_info);
 		setListAdapter(adapter);
 	}
 

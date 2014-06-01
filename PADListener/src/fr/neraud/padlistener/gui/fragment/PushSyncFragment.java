@@ -12,9 +12,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.PushSyncModel;
-import fr.neraud.padlistener.model.PushSyncModel.ElementToPush;
+import fr.neraud.padlistener.model.PushSyncStatModel;
+import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
 
+/**
+ * Main fragment for PushSync
+ * 
+ * @author Neraud
+ */
 public class PushSyncFragment extends Fragment {
 
 	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
@@ -31,7 +36,7 @@ public class PushSyncFragment extends Fragment {
 	private final PushSyncTaskFragment.CallBacks callbacks = new PushSyncTaskFragment.CallBacks() {
 
 		@Override
-		public void updateState(PushSyncModel pushModel) {
+		public void updateState(PushSyncStatModel pushModel) {
 			Log.d(getClass().getName(), "updateState");
 			if (pushModel != null) {
 				Log.d(getClass().getName(), "updateState : " + pushModel.getElementPushedCount() + pushModel.getElementErrorCount()
@@ -52,7 +57,7 @@ public class PushSyncFragment extends Fragment {
 			}
 		}
 
-		private void updateText(PushSyncModel pushModel, TextView tv, int resId, ElementToPush element) {
+		private void updateText(PushSyncStatModel pushModel, TextView tv, int resId, ElementToPush element) {
 			final int pushedCount = pushModel.getElementsPushed().get(element);
 			final int max = pushModel.getElementsToPush().get(element);
 			final int errorCount = pushModel.getElementsError().get(element);

@@ -20,6 +20,11 @@ import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 
+/**
+ * ViewMonsterInfo fragment for the RefreshInfo tab
+ * 
+ * @author Neraud
+ */
 public class ViewMonsterInfoRefreshInfoFragment extends Fragment {
 
 	private static final String TAG_TASK_FRAGMENT = "info_task_fragment";

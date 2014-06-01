@@ -6,8 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PushSyncModel {
+/**
+ * Model containing statistics for a PushSync operation
+ * 
+ * @author Neraud
+ */
+public class PushSyncStatModel {
 
+	/**
+	 * Enum of element types to push
+	 * 
+	 * @author Neraud
+	 */
 	public static enum ElementToPush {
 		USER_INFO,
 		MATERIAL_TO_UPDATE,
@@ -24,7 +34,7 @@ public class PushSyncModel {
 	private int elementPushedCount = 0;
 	private int elementErrorCount = 0;
 
-	public PushSyncModel() {
+	public PushSyncStatModel() {
 		elementsToPush = new HashMap<ElementToPush, Integer>();
 		elementsPushed = new HashMap<ElementToPush, Integer>();
 		elementsError = new HashMap<ElementToPush, Integer>();

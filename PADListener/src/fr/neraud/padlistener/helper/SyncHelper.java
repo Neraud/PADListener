@@ -20,7 +20,7 @@ import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.model.SyncComputeResultModel;
+import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.model.SyncedUserInfoModel;
@@ -28,6 +28,11 @@ import fr.neraud.padlistener.model.UserInfoMaterialModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMonsterModel;
 
+/**
+ * Helper to prepare the sync models. Compares the captured and PADherder data and merges the monsters.
+ * 
+ * @author Neraud
+ */
 public class SyncHelper {
 
 	private final Map<Integer, MonsterInfoModel> monsterInfoById;
@@ -39,7 +44,7 @@ public class SyncHelper {
 		this.helper = new DefaultSharedPreferencesHelper(context);
 	}
 
-	public SyncComputeResultModel sync(List<CapturedMonsterCardModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo,
+	public ComputeSyncResultModel sync(List<CapturedMonsterCardModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo,
 	        UserInfoModel padInfo) {
 		Log.d(getClass().getName(), "sync");
 
@@ -51,7 +56,7 @@ public class SyncHelper {
 
 		filterMaterials(padherderMaterialsById, padherderMonstersById, capturedMaterialsById, capturedMonstersById);
 
-		final SyncComputeResultModel result = new SyncComputeResultModel();
+		final ComputeSyncResultModel result = new ComputeSyncResultModel();
 
 		final SyncedUserInfoModel syncedUserInfo = syncRank(capturedInfo, padInfo);
 		final List<SyncedMaterialModel> syncedMaterials = syncMaterials(capturedMaterialsById, padherderMaterialsById);

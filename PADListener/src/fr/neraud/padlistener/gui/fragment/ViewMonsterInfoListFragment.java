@@ -16,6 +16,11 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.helper.MonsterInfoCursorAdapter;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
+/**
+ * ViewMonsterInfo fragment for the Info tab
+ * 
+ * @author Neraud
+ */
 public class ViewMonsterInfoListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
 	private SimpleCursorAdapter adapter;

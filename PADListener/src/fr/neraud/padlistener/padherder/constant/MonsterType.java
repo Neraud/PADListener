@@ -1,6 +1,11 @@
 
 package fr.neraud.padlistener.padherder.constant;
 
+/**
+ * Enum of monster types
+ * 
+ * @author Neraud
+ */
 public enum MonsterType {
 
 	EVO_MATERIAL(0, true),

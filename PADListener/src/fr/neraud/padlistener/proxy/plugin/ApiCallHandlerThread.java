@@ -25,6 +25,11 @@ import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor
 import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
 
+/**
+ * Thread used to handle processing a call from PAD to Gunho servers
+ * 
+ * @author Neraud
+ */
 public class ApiCallHandlerThread extends Thread {
 
 	private final Context context;
@@ -52,8 +57,7 @@ public class ApiCallHandlerThread extends Thread {
 				Log.d(getClass().getName(), "Ingoring action " + callModel.getAction());
 			}
 		} catch (final ParsingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(getClass().getName(), "run : parsing error", e);
 		}
 	}
 

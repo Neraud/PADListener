@@ -25,6 +25,11 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 
+/**
+ * IntentService used in the installation phase to load monster information bundled in the assets
+ * 
+ * @author Neraud
+ */
 public class InstallMonsterInfoService extends IntentService {
 
 	public InstallMonsterInfoService() {

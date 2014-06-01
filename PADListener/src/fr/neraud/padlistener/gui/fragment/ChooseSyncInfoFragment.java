@@ -16,6 +16,11 @@ import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 
+/**
+ * ChooseSync fragment for the Information tab
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncInfoFragment extends Fragment {
 
 	@Override

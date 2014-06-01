@@ -19,6 +19,11 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
 
+/**
+ * Adaptor to display the captured player monsters
+ * 
+ * @author Neraud
+ */
 public class CapturedPlayerMonsterCursorAdapter extends SimpleCursorAdapter {
 
 	public CapturedPlayerMonsterCursorAdapter(Context context, int layout) {

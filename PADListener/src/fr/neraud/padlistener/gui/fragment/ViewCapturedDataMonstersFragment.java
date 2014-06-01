@@ -13,6 +13,11 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.helper.CapturedPlayerMonsterCursorAdapter;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 
+/**
+ * ViewCapturedData fragment for the Monsters tabs
+ * 
+ * @author Neraud
+ */
 public class ViewCapturedDataMonstersFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
 	private SimpleCursorAdapter adapter;

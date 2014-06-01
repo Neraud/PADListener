@@ -5,6 +5,11 @@ import java.util.Map;
 
 import fr.neraud.padlistener.http.constant.HttpMethod;
 
+/**
+ * Http request
+ * 
+ * @author Neraud
+ */
 public class MyHttpRequest {
 
 	private HttpMethod method;

@@ -12,6 +12,11 @@ import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
+/**
+ * ViewMonsterInfo retained fragment to store the RefreshInfo progression
+ * 
+ * @author Neraud
+ */
 public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 
 	private RestCallState state = null;

@@ -22,10 +22,15 @@ import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
-import fr.neraud.padlistener.model.SyncComputeResultModel;
+import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 
+/**
+ * ComputeSync fragment
+ * 
+ * @author Neraud
+ */
 public class ComputeSyncFragment extends Fragment {
 
 	private static final String TAG_TASK_FRAGMENT = "compute_sync_task_fragment";
@@ -37,7 +42,7 @@ public class ComputeSyncFragment extends Fragment {
 	private final ComputeSyncTaskFragment.CallBacks callbacks = new ComputeSyncTaskFragment.CallBacks() {
 
 		@Override
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, SyncComputeResultModel syncResult,
+		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
 		        String errorMessage) {
 			Log.d(getClass().getName(), "updateState");
 			if (state != null) {

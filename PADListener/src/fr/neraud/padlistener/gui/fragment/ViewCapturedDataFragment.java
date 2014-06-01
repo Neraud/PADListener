@@ -4,6 +4,11 @@ package fr.neraud.padlistener.gui.fragment;
 import android.support.v4.app.Fragment;
 import fr.neraud.padlistener.R;
 
+/**
+ * Main fragment for ViewCapturedData
+ * 
+ * @author Neraud
+ */
 public class ViewCapturedDataFragment extends AbstractViewPagerFragment {
 
 	@Override

@@ -26,6 +26,11 @@ import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
+/**
+ * Adaptor to display Monsters set up as simple
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMonsterModel>> {
 
 	private Integer defaultTextColor = null;

@@ -3,6 +3,11 @@ package fr.neraud.padlistener.http.model;
 
 import java.io.InputStream;
 
+/**
+ * Http response used when downloading images
+ * 
+ * @author Neraud
+ */
 public class ImageDownloadResponse extends MyHttpResponse {
 
 	private InputStream inputStream;

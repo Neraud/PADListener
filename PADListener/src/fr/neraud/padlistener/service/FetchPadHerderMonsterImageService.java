@@ -24,6 +24,11 @@ import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
+/**
+ * Service used to refresh MonsterImages from PADherder
+ * 
+ * @author Neraud
+ */
 public class FetchPadHerderMonsterImageService extends IntentService {
 
 	public FetchPadHerderMonsterImageService() {

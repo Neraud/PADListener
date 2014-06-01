@@ -17,6 +17,11 @@ import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 
+/**
+ * ProxyPlugin to capture PAD calls to GunHo servers
+ * 
+ * @author Neraud
+ */
 public class PADPlugin extends ProxyPlugin {
 
 	private boolean _enabled = true;
@@ -68,6 +73,7 @@ public class PADPlugin extends ProxyPlugin {
 				final String reqHost = reqUrl.getHost();
 				final String reqPath = reqUrl.getPath();
 
+				// Read only calls to GunHo API, with a 200 HTTP code
 				if ("200".equals(response.getStatus()) && targetHost.equals(reqHost) && "/api.php".equals(reqPath)) {
 					final byte[] requestContentByte = request.getContent();
 					final String requestContentString = new String(requestContentByte);

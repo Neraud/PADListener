@@ -15,6 +15,11 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.padherder.constant.MonsterElement;
 import fr.neraud.padlistener.padherder.constant.MonsterType;
 
+/**
+ * JSON parser used to parse PADherder monster api
+ * 
+ * @author Neraud
+ */
 public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoModel>> {
 
 	@Override

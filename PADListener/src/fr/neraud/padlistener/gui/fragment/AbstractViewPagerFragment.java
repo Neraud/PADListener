@@ -14,6 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import fr.neraud.padlistener.R;
 
+/**
+ * Base fragment with a ViewPager and tabs.<br/>
+ * Handles paging and links with tabs.
+ * 
+ * @author Neraud
+ */
 public abstract class AbstractViewPagerFragment extends Fragment {
 
 	private ViewPager mViewPager;
@@ -76,9 +82,20 @@ public abstract class AbstractViewPagerFragment extends Fragment {
 		return view;
 	}
 
+	/**
+	 * @return the page counts
+	 */
 	protected abstract int getPageCount();
 
+	/**
+	 * @param position
+	 * @return the Fragment corresponding to the page position
+	 */
 	protected abstract Fragment getPageFragment(int position);
 
+	/**
+	 * @param position
+	 * @return the resource id for the tab title
+	 */
 	protected abstract Integer getTabTitle(int position);
 }

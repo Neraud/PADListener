@@ -20,6 +20,13 @@ import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
+/**
+ * Base IntentService used for Rest calls
+ * 
+ * @author Neraud
+ * @param <R>
+ * @param <M>
+ */
 public abstract class AbstractRestIntentService<R, M extends Serializable> extends IntentService {
 
 	private ResultReceiver receiver;

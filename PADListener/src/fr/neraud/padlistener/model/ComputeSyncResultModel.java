@@ -4,7 +4,12 @@ package fr.neraud.padlistener.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class SyncComputeResultModel implements Serializable {
+/**
+ * ResultModel for a ComputeSync
+ * 
+ * @author Neraud
+ */
+public class ComputeSyncResultModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private SyncedUserInfoModel syncedUserInfo;

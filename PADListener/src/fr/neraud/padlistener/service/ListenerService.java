@@ -25,6 +25,11 @@ import fr.neraud.padlistener.proxy.helper.ProxyHelper;
 import fr.neraud.padlistener.proxy.helper.WifiAutoProxyHelper;
 import fr.neraud.padlistener.util.ScriptAssetHelper;
 
+/**
+ * ListenerService that captures PAD calls to GunHo servers
+ * 
+ * @author Neraud
+ */
 public class ListenerService extends Service {
 
 	public static String EXTRA_TOSTART_NAME = "activate";

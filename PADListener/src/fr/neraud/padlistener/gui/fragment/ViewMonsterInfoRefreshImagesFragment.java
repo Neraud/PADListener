@@ -19,6 +19,11 @@ import fr.neraud.padlistener.gui.fragment.ViewMonsterInfoRefreshImagesTaskFragme
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.constant.RestCallState;
 
+/**
+ * ViewMonsterInfo fragment for the RefreshImages tab
+ * 
+ * @author Neraud
+ */
 public class ViewMonsterInfoRefreshImagesFragment extends Fragment {
 
 	private static final String TAG_TASK_FRAGMENT = "images_task_fragment";

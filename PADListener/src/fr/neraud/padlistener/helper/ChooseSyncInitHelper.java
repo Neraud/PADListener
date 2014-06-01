@@ -7,16 +7,21 @@ import java.util.List;
 import android.util.Log;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
-import fr.neraud.padlistener.model.SyncComputeResultModel;
+import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
+/**
+ * Helper to prepare data for ChooseSync
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncInitHelper {
 
-	private final SyncComputeResultModel syncResult;
+	private final ComputeSyncResultModel syncResult;
 
-	public ChooseSyncInitHelper(SyncComputeResultModel syncResult) {
+	public ChooseSyncInitHelper(ComputeSyncResultModel syncResult) {
 		super();
 		this.syncResult = syncResult;
 	}

@@ -10,6 +10,11 @@ import java.io.OutputStream;
 import android.content.Context;
 import android.util.Log;
 
+/**
+ * Helper to copy the assets
+ * 
+ * @author Neraud
+ */
 public abstract class AbstractAssetHelper {
 
 	private final Context context;

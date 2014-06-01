@@ -21,6 +21,11 @@ import fr.neraud.padlistener.service.ListenerService;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceBinder;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceListener;
 
+/**
+ * Main fragment for SwitchListener
+ * 
+ * @author Neraud
+ */
 public class SwitchListenerFragment extends Fragment {
 
 	private boolean mIsBound = false;

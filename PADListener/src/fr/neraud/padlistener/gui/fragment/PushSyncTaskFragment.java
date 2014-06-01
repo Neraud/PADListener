@@ -9,10 +9,15 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
-import fr.neraud.padlistener.model.PushSyncModel;
-import fr.neraud.padlistener.model.PushSyncModel.ElementToPush;
+import fr.neraud.padlistener.model.PushSyncStatModel;
+import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
 import fr.neraud.padlistener.service.PushSyncService;
 
+/**
+ * PushSync retained fragment to store the sync push progression
+ * 
+ * @author Neraud
+ */
 public class PushSyncTaskFragment extends Fragment {
 
 	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
@@ -20,14 +25,19 @@ public class PushSyncTaskFragment extends Fragment {
 	private ChooseSyncModel result;
 	private CallBacks callbacks = null;
 
-	private PushSyncModel pushModel;
+	private PushSyncStatModel pushModel;
 
+	/**
+	 * Interface to implement to be notified when the sync computation progresses
+	 * 
+	 * @author Neraud
+	 */
 	public static interface CallBacks {
 
-		public void updateState(PushSyncModel pushModel);
+		public void updateState(PushSyncStatModel pushModel);
 	}
 
-	public class MyResultReceiver extends ResultReceiver {
+	private class MyResultReceiver extends ResultReceiver {
 
 		public MyResultReceiver(Handler handler) {
 			super(handler);
@@ -85,9 +95,9 @@ public class PushSyncTaskFragment extends Fragment {
 		}
 	}
 
-	private PushSyncModel initModel() {
+	private PushSyncStatModel initModel() {
 		Log.d(getClass().getName(), "initModel");
-		final PushSyncModel pushModel = new PushSyncModel();
+		final PushSyncStatModel pushModel = new PushSyncStatModel();
 
 		int count = 0;
 		if (result.getSyncedUserInfoToUpdate().isChoosen()) {

@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import fr.neraud.padlistener.R;
 
+/**
+ * Activity to compute sync
+ * 
+ * @author Neraud
+ */
 public class ComputeSyncActivity extends AbstractPADListenerActivity {
 
 	@Override

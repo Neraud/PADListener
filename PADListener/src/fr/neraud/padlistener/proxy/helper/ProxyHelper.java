@@ -18,6 +18,11 @@ import android.util.Log;
 import fr.neraud.padlistener.exception.ListenerSetupException;
 import fr.neraud.padlistener.proxy.plugin.PADPlugin;
 
+/**
+ * Helper to start / stop the proxy
+ * 
+ * @author Neraud
+ */
 public class ProxyHelper {
 
 	private final Context context;

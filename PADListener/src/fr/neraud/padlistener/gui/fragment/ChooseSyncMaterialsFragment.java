@@ -10,6 +10,11 @@ import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
 import fr.neraud.padlistener.gui.helper.ChooseSyncMaterialsAdapter;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 
+/**
+ * ChooseSync fragment for the MaterialsUpdated tab
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncMaterialsFragment extends ListFragment {
 
 	@Override

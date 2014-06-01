@@ -4,6 +4,11 @@ package fr.neraud.padlistener.gui.fragment;
 import android.support.v4.app.Fragment;
 import fr.neraud.padlistener.R;
 
+/**
+ * Main fragment for ViewMonsterInfo
+ * 
+ * @author Neraud
+ */
 public class ViewMonsterInfoFragment extends AbstractViewPagerFragment {
 
 	@Override

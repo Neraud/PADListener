@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import fr.neraud.padlistener.R;
 
+/**
+ * Activity to push the sync result to PADherder
+ * 
+ * @author Neraud
+ */
 public class PushSyncActivity extends AbstractPADListenerActivity {
 
 	@Override

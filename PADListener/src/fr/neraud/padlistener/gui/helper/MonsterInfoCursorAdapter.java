@@ -17,6 +17,11 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 
+/**
+ * Adapter to display the ViewMonsterInfo fragment for the Info tab
+ * 
+ * @author Neraud
+ */
 public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 
 	public MonsterInfoCursorAdapter(Context context, int layout) {

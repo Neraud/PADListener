@@ -11,6 +11,12 @@ import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 
+/**
+ * Base ResultReceiver to track the progress of a Rest call
+ * 
+ * @author Neraud
+ * @param <R>
+ */
 public abstract class AbstractRestResultReceiver<R extends Serializable> extends ResultReceiver {
 
 	public static final String RECEIVER_EXTRA_NAME = "receiver";

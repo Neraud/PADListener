@@ -3,6 +3,12 @@ package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
 
+/**
+ * Base model for syncing. Stores captured and padherder informations.
+ * 
+ * @author Neraud
+ * @param <T>
+ */
 public abstract class SyncedBaseModel<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

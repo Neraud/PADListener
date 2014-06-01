@@ -3,6 +3,11 @@ package fr.neraud.padlistener.model;
 
 import java.util.List;
 
+/**
+ * UserInfoModel resulting from a PADherder user-api call
+ * 
+ * @author Neraud
+ */
 public class UserInfoModel {
 
 	private long accountId;

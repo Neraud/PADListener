@@ -6,28 +6,38 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import fr.neraud.padlistener.model.SyncComputeResultModel;
+import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.service.ComputeSyncService;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
+/**
+ * ComputeSync retained fragment to store the sync computation progression
+ * 
+ * @author Neraud
+ */
 public class ComputeSyncTaskFragment extends Fragment {
 
 	private RestCallState state = null;
 	private RestCallRunningStep runningStep = null;
-	private SyncComputeResultModel syncResult = null;
+	private ComputeSyncResultModel syncResult = null;
 	private String errorMessage = null;
 	private CallBacks callbacks = null;
 
+	/**
+	 * Interface to implement to be notified when the sync computation progresses
+	 * 
+	 * @author Neraud
+	 */
 	public static interface CallBacks {
 
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, SyncComputeResultModel syncResult,
+		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
 		        String errorMessage);
 	}
 
-	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<SyncComputeResultModel> {
+	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<ComputeSyncResultModel> {
 
 		public MyComputeSyncReceiver(Handler handler) {
 			super(handler);
@@ -42,7 +52,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 		}
 
 		@Override
-		protected void onReceiveSuccess(SyncComputeResultModel result) {
+		protected void onReceiveSuccess(ComputeSyncResultModel result) {
 			Log.d(getClass().getName(), "onReceiveSuccess");
 			state = RestCallState.SUCCESSED;
 			syncResult = result;
@@ -85,6 +95,9 @@ public class ComputeSyncTaskFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * Starts the ComputeSyncService
+	 */
 	public void startComputeSyncService() {
 		Log.d(getClass().getName(), "startComputeSyncService");
 		state = RestCallState.RUNNING;

@@ -6,6 +6,11 @@ import android.preference.PreferenceManager;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 
+/**
+ * Helper to access the default SharedPreferences
+ * 
+ * @author Neraud
+ */
 public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHelper {
 
 	public DefaultSharedPreferencesHelper(Context context) {

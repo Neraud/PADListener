@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import fr.neraud.padlistener.R;
 
+/**
+ * Main fragment for Settings
+ * 
+ * @author Neraud
+ */
 public class SettingsFragment extends PreferenceFragment {
 
 	@Override

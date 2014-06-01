@@ -14,6 +14,11 @@ import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 
+/**
+ * ChooseSync fragment for Monsters set up as simple
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 
 	@Override

@@ -11,6 +11,11 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
 
+/**
+ * Adaptor to display the captured player information
+ * 
+ * @author Neraud
+ */
 public class CapturedPlayerInfoCursorAdapter extends SimpleCursorAdapter {
 
 	public CapturedPlayerInfoCursorAdapter(Context context, int layout) {

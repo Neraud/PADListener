@@ -1,6 +1,11 @@
 
 package fr.neraud.padlistener.service.constant;
 
+/**
+ * Enum of states for a Rest request
+ * 
+ * @author Neraud
+ */
 public enum RestCallState {
 
 	RUNNING(1),

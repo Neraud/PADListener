@@ -4,12 +4,17 @@ package fr.neraud.padlistener.gui.constant;
 import android.app.Activity;
 import fr.neraud.padlistener.gui.ChooseSyncActivity;
 import fr.neraud.padlistener.gui.ComputeSyncActivity;
-import fr.neraud.padlistener.gui.PushSyncActivity;
 import fr.neraud.padlistener.gui.MainActivity;
+import fr.neraud.padlistener.gui.PushSyncActivity;
 import fr.neraud.padlistener.gui.SwitchListenerActivity;
 import fr.neraud.padlistener.gui.ViewCapturedDataActivity;
 import fr.neraud.padlistener.gui.ViewMonsterInfoActivity;
 
+/**
+ * Enum of screens in the application
+ * 
+ * @author Neraud
+ */
 public enum GuiScreen {
 
 	MAIN(MainActivity.class),

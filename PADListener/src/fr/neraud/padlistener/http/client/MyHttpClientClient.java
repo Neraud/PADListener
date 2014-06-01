@@ -24,6 +24,12 @@ import fr.neraud.padlistener.http.helper.HttpPatch;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.model.MyHttpResponse;
 
+/**
+ * Abstract HttpClient. Handles the basic calls.
+ * 
+ * @author Neraud
+ * @param <R> the response
+ */
 public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
 	private final String endpointUrl;

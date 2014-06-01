@@ -10,8 +10,13 @@ import android.view.ViewGroup;
 import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
 import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.SyncComputeResultModel;
+import fr.neraud.padlistener.model.ComputeSyncResultModel;
 
+/**
+ * Main fragment for ChooseSync
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncFragment extends AbstractViewPagerFragment {
 
 	public static final String EXTRA_SYNC_RESULT_NAME = "sync_result";
@@ -21,7 +26,7 @@ public class ChooseSyncFragment extends AbstractViewPagerFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
-		final SyncComputeResultModel result = (SyncComputeResultModel) getActivity().getIntent().getExtras()
+		final ComputeSyncResultModel result = (ComputeSyncResultModel) getActivity().getIntent().getExtras()
 		        .getSerializable(EXTRA_SYNC_RESULT_NAME);
 
 		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(result);

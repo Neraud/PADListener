@@ -29,6 +29,11 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
+/**
+ * Adaptor to display Monsters set up as grouped
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter {
 
 	private final Context context;

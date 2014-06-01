@@ -3,12 +3,22 @@ package fr.neraud.padlistener.helper;
 
 import fr.neraud.padlistener.model.BaseMonsterModel;
 
+/**
+ * Helper to compare monsters. Not a real comparator.<br/>
+ * It is used to sort monsters in the sync process.
+ * 
+ * @author Neraud
+ */
 public class MonsterComparatorHelper {
 
 	public static enum MonsterComparisonResult {
+		// All the fields are lower or equals
 		LOWER,
+		// Some fields are lower, some are greater
 		UNDETERMINED,
+		// All the fields are equals
 		EQUALS,
+		// All the fields are geater or equals
 		GREATER
 	}
 

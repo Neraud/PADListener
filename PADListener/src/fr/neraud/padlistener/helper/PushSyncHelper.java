@@ -14,6 +14,11 @@ import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
+/**
+ * Helper to push sync to PADherder.
+ * 
+ * @author Neraud
+ */
 public class PushSyncHelper {
 
 	private final Context context;
@@ -29,8 +34,6 @@ public class PushSyncHelper {
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMaterial(context,
 		        model.getPadherderId());
-
-		// FIXME : doesn't work :/
 
 		/*
 		{

@@ -5,6 +5,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import fr.neraud.padlistener.gui.fragment.SettingsFragment;
 
+/**
+ * Activity handling settings
+ * 
+ * @author Neraud
+ */
 public class SettingsActivity extends Activity {
 
 	@Override

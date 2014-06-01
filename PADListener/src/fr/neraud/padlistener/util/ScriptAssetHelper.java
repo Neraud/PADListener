@@ -7,6 +7,11 @@ import android.content.Context;
 import android.util.Log;
 import fr.neraud.padlistener.constant.ScriptAsset;
 
+/**
+ * Helper to copy the scripts bundled in the assets
+ * 
+ * @author Neraud
+ */
 public class ScriptAssetHelper extends AbstractAssetHelper {
 
 	public ScriptAssetHelper(Context context) {

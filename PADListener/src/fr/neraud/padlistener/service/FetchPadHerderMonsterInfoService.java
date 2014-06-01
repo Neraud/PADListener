@@ -19,6 +19,11 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 
+/**
+ * Service used to refresh MonsterInfo from PADherder
+ * 
+ * @author Neraud
+ */
 public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<List<MonsterInfoModel>, Integer> {
 
 	public FetchPadHerderMonsterInfoService() {

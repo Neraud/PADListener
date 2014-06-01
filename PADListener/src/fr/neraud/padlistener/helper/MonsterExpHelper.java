@@ -3,6 +3,11 @@ package fr.neraud.padlistener.helper;
 
 import fr.neraud.padlistener.model.MonsterInfoModel;
 
+/**
+ * Helper for monster Exp
+ * 
+ * @author Neraud
+ */
 public class MonsterExpHelper {
 
 	private final MonsterInfoModel monsterInfo;

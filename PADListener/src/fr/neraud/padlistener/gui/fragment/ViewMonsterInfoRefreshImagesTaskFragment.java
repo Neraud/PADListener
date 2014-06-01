@@ -11,6 +11,11 @@ import fr.neraud.padlistener.service.FetchPadHerderMonsterImageService;
 import fr.neraud.padlistener.service.constant.RestCallState;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
+/**
+ * ViewMonsterInfo retained fragment to store the RefreshImages progression
+ * 
+ * @author Neraud
+ */
 public class ViewMonsterInfoRefreshImagesTaskFragment extends Fragment {
 
 	private RestCallState state = null;

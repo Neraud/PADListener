@@ -20,6 +20,12 @@ import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.InstallMonsterImagesService;
 import fr.neraud.padlistener.service.InstallMonsterInfoService;
 
+/**
+ * Base class of all activities.<br/>
+ * Handles the menu
+ * 
+ * @author Neraud
+ */
 public class AbstractPADListenerActivity extends FragmentActivity {
 
 	@Override
@@ -107,6 +113,8 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 		if (screen.isPreventFromHistoryStack()) {
 			intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		}
+
+		// TODO handle wide screens with a different layout ?
 		startActivity(intent);
 	}
 

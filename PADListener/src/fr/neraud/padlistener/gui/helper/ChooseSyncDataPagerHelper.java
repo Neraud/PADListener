@@ -17,6 +17,11 @@ import fr.neraud.padlistener.gui.fragment.ChooseSyncMonstersSimpleFragment;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 
+/**
+ * Helper for the ChooseSync
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncDataPagerHelper {
 
 	public static final String ARGUMENT_SYNC_RESULT_NAME = "result";

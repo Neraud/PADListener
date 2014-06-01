@@ -10,12 +10,17 @@ import fr.neraud.padlistener.helper.PushSyncHelper;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
-import fr.neraud.padlistener.model.PushSyncModel.ElementToPush;
+import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.model.SyncedUserInfoModel;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
+/**
+ * IntentService used to push sync to PADherder
+ * 
+ * @author Neraud
+ */
 public class PushSyncService extends IntentService {
 
 	public static final String CHOOSE_SYNC_MODEL_EXTRA_NAME = "chooseSyncModel";

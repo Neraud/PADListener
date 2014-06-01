@@ -6,12 +6,17 @@ import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 
+/**
+ * Descriptor for PADherder
+ * 
+ * @author Neraud
+ */
 public class PadHerderDescriptor {
 
 	public static final String serverUrl = "https://www.padherder.com";
 
 	/**
-	 * Helper for the Request
+	 * Helper to create requests
 	 * 
 	 * @author Neraud
 	 */

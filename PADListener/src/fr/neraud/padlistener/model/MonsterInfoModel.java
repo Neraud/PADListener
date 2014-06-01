@@ -7,6 +7,11 @@ import java.util.List;
 import fr.neraud.padlistener.padherder.constant.MonsterElement;
 import fr.neraud.padlistener.padherder.constant.MonsterType;
 
+/**
+ * MonsterInfoModel from PADherder
+ * 
+ * @author Neraud
+ */
 public class MonsterInfoModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;

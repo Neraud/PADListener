@@ -16,6 +16,11 @@ import fr.neraud.padlistener.model.UserInfoMaterialModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMonsterModel;
 
+/**
+ * JSON parser used to parse PADherder user api
+ * 
+ * @author Neraud
+ */
 public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 
 	@SuppressLint("UseSparseArrays")

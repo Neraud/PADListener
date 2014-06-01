@@ -17,6 +17,11 @@ import fr.neraud.padlistener.constant.InstallAsset;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.util.MonsterImageAssetHelper;
 
+/**
+ * IntentService used in the installation phase to copy monster images bundled in the assets
+ * 
+ * @author Neraud
+ */
 public class InstallMonsterImagesService extends IntentService {
 
 	public InstallMonsterImagesService() {

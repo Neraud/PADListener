@@ -13,6 +13,11 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 
+/**
+ * Main fragment for MainMenu
+ * 
+ * @author Neraud
+ */
 public class MainMenuFragment extends Fragment {
 
 	@Override
@@ -52,17 +57,6 @@ public class MainMenuFragment extends Fragment {
 			}
 		});
 
-		/*
-		final TextView viewPadHerder = (TextView) mainView.findViewById(R.id.viewPadHerderData);
-		viewPadHerder.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.d(getClass().getName(), "viewPadHerder.onClick");
-				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.VIEW_PADHERDER);
-			}
-		});
-		*/
 		final TextView computeSync = (TextView) mainView.findViewById(R.id.computeSync);
 		computeSync.setOnClickListener(new OnClickListener() {
 

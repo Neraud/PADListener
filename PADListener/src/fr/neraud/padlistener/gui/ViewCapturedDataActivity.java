@@ -6,6 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import fr.neraud.padlistener.R;
 
+/**
+ * Activity to view captured data
+ * 
+ * @author Neraud
+ */
 public class ViewCapturedDataActivity extends FragmentActivity {
 
 	@Override

@@ -6,9 +6,15 @@ import java.io.InputStream;
 
 import org.apache.http.HttpResponse;
 
+import android.util.Log;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.model.ImageDownloadResponse;
 
+/**
+ * HttpClient used to download images.
+ * 
+ * @author Neraud
+ */
 public class ImageDownloadClient extends MyHttpClientClient<ImageDownloadResponse> {
 
 	public ImageDownloadClient(String endpointUrl) {
@@ -17,6 +23,7 @@ public class ImageDownloadClient extends MyHttpClientClient<ImageDownloadRespons
 
 	@Override
 	protected ImageDownloadResponse createResultFromResponse(final HttpResponse httpResponse) throws HttpCallException {
+		Log.d(getClass().getName(), "createResultFromResponse");
 		final ImageDownloadResponse result = new ImageDownloadResponse();
 
 		final int status = httpResponse.getStatusLine().getStatusCode();

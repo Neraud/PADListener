@@ -1,6 +1,11 @@
 
 package fr.neraud.padlistener.constant;
 
+/**
+ * Enum of assets used in the install phase
+ * 
+ * @author Neraud
+ */
 public enum InstallAsset {
 
 	MONSTER_INFO("monsters.json"),

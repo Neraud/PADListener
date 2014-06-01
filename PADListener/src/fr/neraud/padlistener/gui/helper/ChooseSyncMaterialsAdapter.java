@@ -24,6 +24,11 @@ import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
+/**
+ * Adaptor to display the choose sync materials
+ * 
+ * @author Neraud
+ */
 public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMaterialModel>> {
 
 	private final int layout;

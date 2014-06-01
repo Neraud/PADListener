@@ -1,6 +1,11 @@
 
 package fr.neraud.padlistener.padherder.constant;
 
+/**
+ * Enum of monster elements
+ * 
+ * @author Neraud
+ */
 public enum MonsterElement {
 
 	FIRE(0),

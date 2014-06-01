@@ -16,8 +16,8 @@ import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.parser.padherder.UserInfoJsonParser;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
+import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.model.SyncComputeResultModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
@@ -26,7 +26,12 @@ import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
 import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 
-public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel, SyncComputeResultModel> {
+/**
+ * Service used to compute sync
+ * 
+ * @author Neraud
+ */
+public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel, ComputeSyncResultModel> {
 
 	public static String SYNC_RESULT_BUNDLE_KEY = "sync_result";
 
@@ -53,14 +58,14 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 	}
 
 	@Override
-	protected SyncComputeResultModel processResult(UserInfoModel padInfo) throws ProcessException {
+	protected ComputeSyncResultModel processResult(UserInfoModel padInfo) throws ProcessException {
 		Log.d(getClass().getName(), "processResult");
 		final List<CapturedMonsterCardModel> capturedMonsters = extractCapturedPlayerMonster();
 		final CapturedPlayerInfoModel capturedInfo = extractCapturedPlayerInfo();
 		final List<MonsterInfoModel> monsterInfos = extractMonsterInfo();
 
 		final SyncHelper helper = new SyncHelper(getApplicationContext(), monsterInfos);
-		final SyncComputeResultModel syncResult = helper.sync(capturedMonsters, capturedInfo, padInfo);
+		final ComputeSyncResultModel syncResult = helper.sync(capturedMonsters, capturedInfo, padInfo);
 
 		return syncResult;
 	}

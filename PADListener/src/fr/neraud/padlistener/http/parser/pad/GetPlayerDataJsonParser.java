@@ -16,6 +16,11 @@ import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
 
+/**
+ * JSON parser used to parse PAD GetPlayerData
+ * 
+ * @author Neraud
+ */
 public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApiCallResult> {
 
 	@Override
