@@ -192,7 +192,7 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 					try {
 						imagePath.createNewFile();
 					} catch (final IOException e) {
-						// TODO 
+						Log.e(getClass().getName(), "openFile : error creating file " + imagePath.getAbsolutePath(), e);
 					}
 				}
 			}
