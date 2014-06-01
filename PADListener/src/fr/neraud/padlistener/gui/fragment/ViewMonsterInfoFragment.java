@@ -1,81 +1,42 @@
 
 package fr.neraud.padlistener.gui.fragment;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.gui.helper.ViewMonsterInfoPagerHelper;
 
-public class ViewMonsterInfoFragment extends Fragment {
-
-	private ViewPager mViewPager;
+public class ViewMonsterInfoFragment extends AbstractViewPagerFragment {
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
-
-		final View view = inflater.inflate(R.layout.view_monster_info_fragment, container, false);
-
-		final ViewMonsterInfoPagerHelper helper = new ViewMonsterInfoPagerHelper();
-
-		final FragmentPagerAdapter mSectionsPagerAdapter = new FragmentPagerAdapter(getFragmentManager()) {
-
-			@Override
-			public int getCount() {
-				return helper.getCount();
-			}
-
-			@Override
-			public Fragment getItem(int position) {
-				return helper.createFragment(position);
-			}
-		};
-
-		mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position) {
-				// When swiping between pages, select the corresponding tab.
-				getActivity().getActionBar().setSelectedNavigationItem(position);
-			}
-		});
-
-		final ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		final ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-
-			@Override
-			public void onTabSelected(Tab tab, FragmentTransaction ft) {
-				// When the tab is selected, switch to the corresponding page in the ViewPager.
-				mViewPager.setCurrentItem(tab.getPosition());
-			}
-
-			@Override
-			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			}
-
-			@Override
-			public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			}
-		};
-
-		for (int i = 0; i < helper.getCount(); i++) {
-			actionBar.addTab(actionBar.newTab().setText(helper.getTitle(i)).setTabListener(tabListener));
-		}
-
-		return view;
+	protected int getPageCount() {
+		return 3;
 	}
+
+	@Override
+	protected Fragment getPageFragment(int position) {
+		switch (position) {
+		case 0:
+			return new ViewMonsterInfoListFragment();
+		case 1:
+			return new ViewMonsterInfoRefreshInfoFragment();
+		case 2:
+			return new ViewMonsterInfoRefreshImagesFragment();
+		default:
+			return null;
+		}
+	}
+
+	@Override
+	protected Integer getTabTitle(int position) {
+		switch (position) {
+		case 0:
+			return R.string.view_monster_info_tab_monsters;
+		case 1:
+			return R.string.view_monster_info_tab_refresh_info;
+		case 2:
+			return R.string.view_monster_info_tab_refresh_images;
+		default:
+			return null;
+		}
+	}
+
 }
