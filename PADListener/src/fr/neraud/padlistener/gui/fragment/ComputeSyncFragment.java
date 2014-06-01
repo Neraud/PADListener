@@ -120,12 +120,21 @@ public class ComputeSyncFragment extends Fragment {
 		status.setVisibility(View.GONE);
 
 		final TextView missingCredentials = (TextView) view.findViewById(R.id.compute_sync_missing_credentials_text);
-		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(getActivity());
-		if (StringUtils.isBlank(helper.getPadHerderUserName()) || StringUtils.isBlank(helper.getPadHerderUserPassword())) {
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
+		if (StringUtils.isBlank(prefHelper.getPadHerderUserName()) || StringUtils.isBlank(prefHelper.getPadHerderUserPassword())) {
 			missingCredentials.setTextColor(Color.RED);
 			button.setEnabled(false);
 		} else {
 			missingCredentials.setVisibility(View.GONE);
+		}
+
+		final TextView missingCapture = (TextView) view.findViewById(R.id.compute_sync_missing_capture_text);
+		final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
+		if (techHelper.getLastCaptureDate().getTime() == 0) {
+			missingCapture.setTextColor(Color.RED);
+			button.setEnabled(false);
+		} else {
+			missingCapture.setVisibility(View.GONE);
 		}
 
 		return view;
