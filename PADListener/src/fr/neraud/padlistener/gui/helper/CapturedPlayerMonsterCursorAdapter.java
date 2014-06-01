@@ -45,11 +45,17 @@ public class CapturedPlayerMonsterCursorAdapter extends SimpleCursorAdapter {
 			        .setImageResource(R.drawable.no_monster_image);
 		}
 
-		//(%1$d) %2$s (lv %3$d, %4$d xp)
+		//(%1$d) %2$s
 		final String lineName = context.getString(R.string.view_captured_monster_item_name, capturedMonster.getId(),
-		        monsterInfo.getName(), capturedMonster.getLevel(), capturedMonster.getExp());
+		        monsterInfo.getName());
 		((TextView) view.findViewById(R.id.view_captured_data_monster_item_name)).setText(lineName);
 
+		//lv %1$d (%2$d xp)
+		final String lineLevel = context.getString(R.string.view_captured_monster_item_level, capturedMonster.getLevel(),
+		        capturedMonster.getExp());
+		((TextView) view.findViewById(R.id.view_captured_data_monster_item_level)).setText(lineLevel);
+
+		// +%1$d +%2$d +%3$d %4$d
 		final String linePlus = context.getString(R.string.view_captured_monster_item_plus, capturedMonster.getPlusHp(),
 		        capturedMonster.getPlusAtk(), capturedMonster.getPlusRcv(), capturedMonster.getAwakenings());
 		((TextView) view.findViewById(R.id.view_captured_data_monster_item_plus)).setText(linePlus);
