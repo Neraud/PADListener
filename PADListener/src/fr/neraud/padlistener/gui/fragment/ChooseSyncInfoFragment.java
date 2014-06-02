@@ -42,12 +42,15 @@ public class ChooseSyncInfoFragment extends Fragment {
 
 		final View userInfoBlockView = view.findViewById(R.id.choose_sync_userInfo_block);
 		userInfoBlockView.setVisibility(View.GONE);
+
+		final boolean hasUserInfoToSync = false;
 		// TODO : enable sync rank when PADHerder API allows it
 		/*
 		final SyncedUserInfoModel userInfoModel = result.getSyncedUserInfoToUpdate().getSyncedModel();
 		if (userInfoModel.getCapturedInfo().equals(userInfoModel.getPadherderInfo())) {
 			userInfoBlockView.setVisibility(View.GONE);
 		} else {
+			hasUserInfoToSync = true;
 			userInfoBlockView.setVisibility(View.VISIBLE);
 			final CheckBox userInfoCheckBox = (CheckBox) view.findViewById(R.id.choose_sync_userInfo_checkbox);
 			userInfoCheckBox.setChecked(true);
@@ -73,18 +76,28 @@ public class ChooseSyncInfoFragment extends Fragment {
 		*/
 
 		final Button syncButton = (Button) view.findViewById(R.id.choose_sync_button);
-		syncButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				Log.d(getClass().getName(), "onClick");
-				syncButton.setClickable(false);
+		// TODO check choosen items instead
+		if (materialToUpdateCount > 0 || monsterToUpdateCount > 0 || monsterlToCreateCount > 0 || monsterlToDeleteCount > 0
+		        || hasUserInfoToSync) {
+			syncButton.setEnabled(true);
+			syncButton.setText(R.string.choose_sync_info_button_enabled);
+			syncButton.setOnClickListener(new OnClickListener() {
 
-				final Bundle bundle = new Bundle();
-				bundle.putSerializable(PushSyncFragment.EXTRA_CHOOSE_SYNC_MODEL_NAME, result);
-				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.PUSH_SYNC, bundle);
-			}
-		});
+				@Override
+				public void onClick(View v) {
+					Log.d(getClass().getName(), "onClick");
+					syncButton.setClickable(false);
+
+					final Bundle bundle = new Bundle();
+					bundle.putSerializable(PushSyncFragment.EXTRA_CHOOSE_SYNC_MODEL_NAME, result);
+					((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.PUSH_SYNC, bundle);
+				}
+			});
+		} else {
+			syncButton.setEnabled(false);
+			syncButton.setText(R.string.choose_sync_info_button_disabled);
+		}
 
 		return view;
 	}

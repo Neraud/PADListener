@@ -58,6 +58,6 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:text="@string/choose_sync_info_button" />
+        android:text="@string/choose_sync_info_button_enabled" />
 
 </LinearLayout>
