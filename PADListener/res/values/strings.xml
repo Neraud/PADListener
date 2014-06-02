@@ -59,7 +59,7 @@
     <!-- About -->
     <string name="about_dialog_title">About PADListener v%1$s</string>
     <string name="about_dialog_message">PADListener v%1$s, available under GNU GPL v2 license
-\n\nThis app\'s sources are available on GitHub (TODO).
+\n\nThis app\'s sources are available on GitHub (https://github.com/Neraud/PADListener).
 \n\nBuilt using SandroProxyLib (http://code.google.com/p/sandrop/).
 \n\nData courtesy of PAD Wiki (http://pad.wikia.com/wiki) and PADherder (https://www.padherder.com).
 \n\nThanks to GungHo for this great game and to Freddie for PADherder.
