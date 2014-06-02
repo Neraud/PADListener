@@ -177,7 +177,8 @@
     
     <!-- Execute Sync -->
 	<string name="label_pushSync">Push sync</string>
-	<string name="push_sync_head">Pushing sync to PADherder</string>
+	<string name="push_sync_head_pushing">Pushing sync to PADherder</string>
+	<string name="push_sync_head_done">Sync to PADherder finished</string>
     <string name="push_sync_summary_userinfo_updated"> - %1$d / %2$d info updated (%3$d errors)</string>
     <string name="push_sync_summary_materials_updated"> - %1$d / %2$d materials updated (%3$d errors)</string>
     <string name="push_sync_summary_monsters_updated"> - %1$d / %2$d monsters updated (%3$d errors)</string>

@@ -26,6 +26,7 @@ public class PushSyncFragment extends Fragment {
 	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
 	private PushSyncTaskFragment mTaskFragment;
 
+	private TextView head;
 	private ProgressBar progress;
 	private TextView summaryUserInfoUpdated;
 	private TextView summaryMaterialsUpdated;
@@ -54,6 +55,12 @@ public class PushSyncFragment extends Fragment {
 				        ElementToPush.MONSTER_TO_CREATE);
 				updateText(pushModel, summaryMonstersDeleted, R.string.push_sync_summary_monsters_deleted,
 				        ElementToPush.MONSTER_TO_DELETE);
+
+				if (pushModel.getElementPushedCount() + pushModel.getElementErrorCount() >= pushModel.getElementToPushCount()) {
+					head.setText(R.string.push_sync_head_done);
+				} else {
+					head.setText(R.string.push_sync_head_pushing);
+				}
 			}
 		}
 
@@ -71,6 +78,7 @@ public class PushSyncFragment extends Fragment {
 
 		final View view = inflater.inflate(R.layout.push_sync_fragment, container, false);
 
+		head = (TextView) view.findViewById(R.id.push_sync_head);
 		progress = (ProgressBar) view.findViewById(R.id.push_sync_progress);
 		summaryUserInfoUpdated = (TextView) view.findViewById(R.id.push_sync_summary_userinfo_updated);
 		summaryMaterialsUpdated = (TextView) view.findViewById(R.id.push_sync_summary_materials_updated);

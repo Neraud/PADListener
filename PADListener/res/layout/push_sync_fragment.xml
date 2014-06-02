@@ -11,7 +11,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/push_sync_head"
+        android:text="@string/push_sync_head_pushing"
         android:textSize="20sp" />
 
     <ProgressBar
