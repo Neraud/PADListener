@@ -159,7 +159,7 @@ public class SwitchListenerFragment extends Fragment {
 	}
 
 	private void updateStatusStopped() {
-		listenerStatus.setText(R.string.switch_listener_status_stoped);
+		listenerStatus.setText(R.string.switch_listener_status_stopped);
 	}
 
 	private void updateStatusStartFailed(Exception e) {

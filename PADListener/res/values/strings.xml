@@ -82,7 +82,7 @@
     <string name="switch_listener_status_started_manual">Listener started in manual mode</string>
     <string name="switch_listener_status_started_proxy_wifi">Listener started in auto Wifi proxy mode</string>
     <string name="switch_listener_status_started_iptables">Listener started in auto iptables mode</string>
-    <string name="switch_listener_status_stoped">Listener stoped</string>
+    <string name="switch_listener_status_stopped">Listener stopped</string>
     <string name="switch_listener_status_start_failed">Listener start failed (%1$s)</string>
     <string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
     
