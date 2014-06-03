@@ -15,8 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
@@ -53,12 +51,12 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_materials_item_checkbox);
 		checkBox.setChecked(item.isChoosen());
-		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		checkBox.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				Log.d(getClass().getName(), "onCheckedChanged");
-				item.setChoosen(isChecked);
+			public void onClick(View v) {
+				Log.d(getClass().getName(), "onClick");
+				item.setChoosen(!item.isChoosen());
 			}
 		});
 
@@ -77,7 +75,8 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				checkBox.setChecked(!checkBox.isChecked());
+				item.setChoosen(!item.isChoosen());
+				checkBox.setChecked(item.isChoosen());
 			}
 		});
 

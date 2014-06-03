@@ -15,11 +15,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
@@ -139,12 +138,12 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_monsters_item_checkbox);
 		checkBox.setChecked(item.isChoosen());
-		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		checkBox.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				Log.d(getClass().getName(), "onCheckedChanged");
-				item.setChoosen(isChecked);
+			public void onClick(View v) {
+				Log.d(getClass().getName(), "onClick");
+				item.setChoosen(!item.isChoosen());
 			}
 		});
 

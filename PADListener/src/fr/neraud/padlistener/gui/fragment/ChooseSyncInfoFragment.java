@@ -54,14 +54,14 @@ public class ChooseSyncInfoFragment extends Fragment {
 			userInfoBlockView.setVisibility(View.VISIBLE);
 			final CheckBox userInfoCheckBox = (CheckBox) view.findViewById(R.id.choose_sync_userInfo_checkbox);
 			userInfoCheckBox.setChecked(true);
-			userInfoCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			userInfoCheckBox.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					Log.d(getClass().getName(), "onCheckedChanged");
+			@Override
+			public void onClick(View v) {
+				Log.d(getClass().getName(), "onClick");
 					result.getSyncedUserInfoToUpdate().setChoosen(isChecked);
-				}
-			});
+			}
+		});
 
 			final TextView userInfoText = (TextView) view.findViewById(R.id.choose_sync_userInfo_text);
 			userInfoText.setText(getString(R.string.choose_sync_userInfo_text, userInfoModel.getPadherderInfo(),

@@ -31,4 +31,8 @@ public class ChooseSyncModelContainer<M extends Serializable> implements Seriali
 		this.syncedModel = syncedModel;
 	}
 
+	@Override
+	public String toString() {
+		return choosen + " -> " + syncedModel;
+	}
 }
