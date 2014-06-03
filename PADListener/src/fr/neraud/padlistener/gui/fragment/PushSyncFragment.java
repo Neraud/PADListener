@@ -86,6 +86,9 @@ public class PushSyncFragment extends Fragment {
 		summaryMonstersCreated = (TextView) view.findViewById(R.id.push_sync_summary_monsters_created);
 		summaryMonstersDeleted = (TextView) view.findViewById(R.id.push_sync_summary_monsters_deleted);
 
+		// TODO : enable when sync user info is available
+		summaryUserInfoUpdated.setVisibility(View.GONE);
+
 		final FragmentManager fm = getFragmentManager();
 		mTaskFragment = (PushSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
 		if (mTaskFragment == null) {
