@@ -10,8 +10,9 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
@@ -97,12 +98,14 @@ public class SwitchListenerFragment extends Fragment {
 			public void notifyActionSucess() {
 				Log.d(getClass().getName(), "notifyActionSucess");
 				updateStatusStarted();
+				listenerSwitch.setEnabled(true);
 			}
 
 			@Override
 			public void notifyActionFailed(Exception e) {
 				Log.d(getClass().getName(), "notifyActionFailed");
 				updateStatusStartFailed(e);
+				listenerSwitch.setEnabled(true);
 			}
 
 		};
@@ -112,23 +115,25 @@ public class SwitchListenerFragment extends Fragment {
 			public void notifyActionSucess() {
 				Log.d(getClass().getName(), "notifyActionSucess");
 				updateStatusStopped();
+				listenerSwitch.setEnabled(true);
 			}
 
 			@Override
 			public void notifyActionFailed(Exception e) {
 				Log.d(getClass().getName(), "notifyActionFailed");
 				updateStatusStopFailed(e);
+				listenerSwitch.setEnabled(true);
 			}
 
 		};
 
-		listenerSwitch.setOnClickListener(new OnClickListener() {
+		listenerSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onClick(View v) {
-				final boolean value = ((Switch) v).isChecked();
-				Log.d(getClass().getName(), "listenerSwitch.onClick : " + value);
-				if (value) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				Log.d(getClass().getName(), "listenerSwitch.onClick : " + isChecked);
+				listenerSwitch.setEnabled(false);
+				if (isChecked) {
 					listenerServiceBinder.startListener(startListener);
 				} else {
 					listenerServiceBinder.stopListener(stopListener);
