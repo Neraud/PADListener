@@ -4,6 +4,7 @@ package fr.neraud.padlistener.helper;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.util.Log;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
@@ -19,16 +20,20 @@ import fr.neraud.padlistener.model.SyncedUserInfoModel;
  */
 public class ChooseSyncInitHelper {
 
+	private final Context context;
 	private final ComputeSyncResultModel syncResult;
 
-	public ChooseSyncInitHelper(ComputeSyncResultModel syncResult) {
+	public ChooseSyncInitHelper(Context context, ComputeSyncResultModel syncResult) {
 		super();
+		this.context = context;
 		this.syncResult = syncResult;
 	}
 
 	public ChooseSyncModel filterSyncResult() {
 		Log.d(getClass().getName(), "filterSyncResult");
 		final ChooseSyncModel chooseSync = new ChooseSyncModel();
+
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseSyncModelContainer<SyncedUserInfoModel>();
 		// TODO let the user choose ?
@@ -42,7 +47,7 @@ public class ChooseSyncInitHelper {
 				Log.d(getClass().getName(), "filterSyncResult : ignoring material : " + material);
 			} else {
 				final ChooseSyncModelContainer<SyncedMaterialModel> container = new ChooseSyncModelContainer<SyncedMaterialModel>();
-				container.setChoosen(true);
+				container.setChoosen(prefHelper.isChooseSyncPreselectMaterialsUpdated());
 				container.setSyncedModel(material);
 				Log.d(getClass().getName(), "filterSyncResult : keeping material : " + material);
 				syncedMaterialsToUpdate.add(container);
@@ -59,15 +64,15 @@ public class ChooseSyncInitHelper {
 
 			if (monster.getCapturedInfo() == null) {
 				Log.d(getClass().getName(), "filterSyncResult : deleting monster : " + monster);
-				container.setChoosen(false);
+				container.setChoosen(prefHelper.isChooseSyncPreselectMonstersDeleted());
 				syncedMonstersToDelete.add(container);
 			} else if (monster.getPadherderInfo() == null) {
 				Log.d(getClass().getName(), "filterSyncResult : creating monster : " + monster);
-				container.setChoosen(false);
+				container.setChoosen(prefHelper.isChooseSyncPreselectMonstersCreated());
 				syncedMonstersToCreate.add(container);
 			} else {
 				Log.d(getClass().getName(), "filterSyncResult : updating monster : " + monster);
-				container.setChoosen(true);
+				container.setChoosen(prefHelper.isChooseSyncPreselectMonstersUpdated());
 				syncedMonstersToUpdate.add(container);
 			}
 		}

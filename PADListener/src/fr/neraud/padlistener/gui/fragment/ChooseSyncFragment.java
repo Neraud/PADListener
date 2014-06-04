@@ -29,7 +29,7 @@ public class ChooseSyncFragment extends AbstractViewPagerFragment {
 		final ComputeSyncResultModel result = (ComputeSyncResultModel) getActivity().getIntent().getExtras()
 		        .getSerializable(EXTRA_SYNC_RESULT_NAME);
 
-		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(result);
+		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(getActivity(), result);
 		final ChooseSyncModel syncModel = initHelper.filterSyncResult();
 
 		helper = new ChooseSyncDataPagerHelper(getActivity(), syncModel);

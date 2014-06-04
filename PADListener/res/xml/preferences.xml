@@ -35,11 +35,32 @@
             android:key="sync_material_in_monster"
             android:summary="@string/settings_sync_material_in_monster_summary"
             android:title="@string/settings_sync_material_in_monster_title" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="sync_deduct_monster_in_material"
             android:summary="@string/settings_sync_deduct_monster_in_material_summary"
             android:title="@string/settings_sync_deduct_monster_in_material_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="choose_sync_preselect_updated_materials"
+            android:summary="@string/settings_choose_sync_preselect_updated_materials_summary"
+            android:title="@string/settings_choose_sync_preselect_updated_materials_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="choose_sync_preselect_updated_monsters"
+            android:summary="@string/settings_choose_sync_preselect_updated_monsters_summary"
+            android:title="@string/settings_choose_sync_preselect_updated_monsters_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="choose_sync_preselect_created_monsters"
+            android:summary="@string/settings_choose_sync_preselect_created_monsters_summary"
+            android:title="@string/settings_choose_sync_preselect_created_monsters_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="choose_sync_preselect_deleted_monsters"
+            android:summary="@string/settings_choose_sync_preselect_deleted_monsters_summary"
+            android:title="@string/settings_choose_sync_preselect_deleted_monsters_title" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="choose_sync_group_monsters_updated"

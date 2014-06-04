@@ -46,7 +46,15 @@
 	<string name="settings_choose_sync_group_monsters_created_title">Group created monsters ?</string>
 	<string name="settings_choose_sync_group_monsters_created_summary"></string>
 	<string name="settings_choose_sync_group_monsters_deleted_title">Group deleted monsters ?</string>
-	<string name="settings_choose_sync_group_monsters_deleted_summary"></string>
+	<string name="settings_choose_sync_group_monsters_deleted_summary"></string>	
+	<string name="settings_choose_sync_preselect_updated_materials_title">Preselect updated materials ?</string>
+	<string name="settings_choose_sync_preselect_updated_materials_summary"></string>
+	<string name="settings_choose_sync_preselect_updated_monsters_title">Preselect updated monsters ?</string>
+	<string name="settings_choose_sync_preselect_updated_monsters_summary"></string>
+	<string name="settings_choose_sync_preselect_created_monsters_title">Preselect created monsters ?</string>
+	<string name="settings_choose_sync_preselect_created_monsters_summary"></string>
+	<string name="settings_choose_sync_preselect_deleted_monsters_title">Preselect deleted monsters ?</string>
+	<string name="settings_choose_sync_preselect_deleted_monsters_summary"></string>
     
 	
 	

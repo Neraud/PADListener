@@ -42,6 +42,22 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return getBooleanPreference("sync_deduct_monster_in_material", true);
 	}
 
+	public boolean isChooseSyncPreselectMaterialsUpdated() {
+		return getBooleanPreference("choose_sync_preselect_updated_materials", true);
+	}
+
+	public boolean isChooseSyncPreselectMonstersUpdated() {
+		return getBooleanPreference("choose_sync_preselect_updated_monsters", true);
+	}
+
+	public boolean isChooseSyncPreselectMonstersCreated() {
+		return getBooleanPreference("choose_sync_preselect_created_monsters", false);
+	}
+
+	public boolean isChooseSyncPreselectMonstersDeleted() {
+		return getBooleanPreference("choose_sync_preselect_deleted_monsters", false);
+	}
+
 	public boolean isChooseSyncGroupMonstersUpdated() {
 		return getBooleanPreference("choose_sync_group_monsters_updated", false);
 	}
