@@ -102,7 +102,7 @@ public class PushSyncHelper {
 		json.put("monster", model.getMonsterInfo().getIdJP());
 		json.put("current_xp", model.getCapturedInfo().getExp());
 		json.put("current_skill", model.getCapturedInfo().getSkillLevel());
-		json.put("current_awakning", model.getCapturedInfo().getAwakenings());
+		json.put("current_awakening", model.getCapturedInfo().getAwakenings());
 		json.put("plus_hp", model.getCapturedInfo().getPlusHp());
 		json.put("plus_atk", model.getCapturedInfo().getPlusAtk());
 		json.put("plus_rcv", model.getCapturedInfo().getPlusRcv());
