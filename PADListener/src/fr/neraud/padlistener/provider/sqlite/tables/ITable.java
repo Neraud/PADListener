@@ -3,6 +3,8 @@ package fr.neraud.padlistener.provider.sqlite.tables;
 
 import java.util.List;
 
+import android.content.Context;
+
 /**
  * Interface representing a table information
  * 
@@ -31,4 +33,18 @@ public interface ITable {
 	 * @return the list of queries to upgrade the table
 	 */
 	public List<String> upgrade(int oldVersion, int newVersion);
+
+	/**
+	 * @param context the Context
+	 * @param oldVersion the oldVersion
+	 * @param newVersion the newVersion
+	 */
+	public void preUpgrade(Context context, int oldVersion, int newVersion);
+
+	/**
+	 * @param context the Context
+	 * @param oldVersion the oldVersion
+	 * @param newVersion the newVersion
+	 */
+	public void postUpgrade(Context context, int oldVersion, int newVersion);
 }

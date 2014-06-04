@@ -4,6 +4,7 @@ package fr.neraud.padlistener.model;
 import java.io.Serializable;
 import java.util.List;
 
+import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.padherder.constant.MonsterElement;
 import fr.neraud.padlistener.padherder.constant.MonsterType;
 
@@ -15,7 +16,8 @@ import fr.neraud.padlistener.padherder.constant.MonsterType;
 public class MonsterInfoModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private int idJP;
+	private Integer idUS;
 	private String name;
 	private int rarity;
 	private MonsterElement element1;
@@ -46,12 +48,30 @@ public class MonsterInfoModel implements Serializable {
 	private String image40Url;
 	private String image60Url;
 
-	public int getId() {
-		return id;
+	public int getIdJP() {
+		return idJP;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdJP(int idJP) {
+		this.idJP = idJP;
+	}
+
+	public Integer getIdUS() {
+		return idUS;
+	}
+
+	public void setIdUS(Integer idUS) {
+		this.idUS = idUS;
+	}
+
+	public Integer getId(PADRegion region) {
+		switch (region) {
+		case US:
+			return idUS;
+		case JP:
+		default:
+			return idJP;
+		}
 	}
 
 	public String getName() {
@@ -256,6 +276,6 @@ public class MonsterInfoModel implements Serializable {
 
 	@Override
 	public String toString() {
-		return "(" + id + ") " + name;
+		return "(" + idJP + ") " + name;
 	}
 }

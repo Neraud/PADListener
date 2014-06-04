@@ -143,18 +143,27 @@ public class BaseProviderHelper {
 	/**
 	 * @param values the ContentValues
 	 * @param field the IField to set
-	 * @param value the long value to set
+	 * @param value the Integer value to set
 	 */
-	public static void putValue(ContentValues values, IField field, long value) {
+	public static void putValue(ContentValues values, IField field, Integer value) {
 		values.put(field.getColName(), value);
 	}
 
 	/**
 	 * @param values the ContentValues
 	 * @param field the IField to set
-	 * @param value the float value to set
+	 * @param value the Long value to set
 	 */
-	public static void putValue(ContentValues values, IField field, float value) {
+	public static void putValue(ContentValues values, IField field, Long value) {
+		values.put(field.getColName(), value);
+	}
+
+	/**
+	 * @param values the ContentValues
+	 * @param field the IField to set
+	 * @param value the Float value to set
+	 */
+	public static void putValue(ContentValues values, IField field, Float value) {
 		values.put(field.getColName(), value);
 	}
 

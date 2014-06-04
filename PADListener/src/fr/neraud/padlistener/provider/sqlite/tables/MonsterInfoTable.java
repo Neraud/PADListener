@@ -4,7 +4,9 @@ package fr.neraud.padlistener.provider.sqlite.tables;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.util.Log;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
@@ -17,7 +19,8 @@ public class MonsterInfoTable implements ITable {
 	@Override
 	public String createTable() {
 		return "CREATE TABLE " + MonsterInfoDescriptor.TABLE_NAME + " (" +
-		/* */MonsterInfoDescriptor.Fields.ID.getColName() + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		/* */MonsterInfoDescriptor.Fields.ID_JP.getColName() + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		/* */MonsterInfoDescriptor.Fields.ID_US.getColName() + " INTEGER, " +
 		/* */MonsterInfoDescriptor.Fields.NAME.getColName() + " TEXT NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.RARITY.getColName() + " INTEGER NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.ELEMENT_1.getColName() + " INTEGER NOT NULL," +
@@ -53,7 +56,7 @@ public class MonsterInfoTable implements ITable {
 
 	@Override
 	public int getVersion() {
-		return 5;
+		return 6;
 	}
 
 	@Override
@@ -61,14 +64,26 @@ public class MonsterInfoTable implements ITable {
 		final List<String> queries = new ArrayList<String>();
 
 		if (oldVersion < getVersion()) {
-			Log.w(this.getClass().getName(), "Table " + MonsterInfoDescriptor.TABLE_NAME + " has changed, destroying table !");
+			Log.w(getClass().getName(), "Table " + MonsterInfoDescriptor.TABLE_NAME + " has changed, destroying table !");
 			queries.add(dropTable());
 			queries.add(createTable());
 		} else {
-			Log.i(this.getClass().getName(), "Table " + MonsterInfoDescriptor.TABLE_NAME
+			Log.i(getClass().getName(), "Table " + MonsterInfoDescriptor.TABLE_NAME
 			        + " is already up to date (hasn't changed since version " + getVersion() + ")");
 		}
-
 		return queries;
+	}
+
+	@Override
+	public void preUpgrade(Context context, int oldVersion, int newVersion) {
+
+	}
+
+	@Override
+	public void postUpgrade(Context context, int oldVersion, int newVersion) {
+		if (oldVersion < getVersion()) {
+			// Start the install again to restore monsterInfo data
+			new TechnicalSharedPreferencesHelper(context).setHasBeenInstalled(false);
+		}
 	}
 }

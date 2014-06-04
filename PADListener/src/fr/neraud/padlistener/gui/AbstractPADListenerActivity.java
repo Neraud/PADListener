@@ -17,6 +17,7 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PadListenerVersion;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
+import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
 import fr.neraud.padlistener.service.InstallMonsterImagesService;
 import fr.neraud.padlistener.service.InstallMonsterInfoService;
 
@@ -32,6 +33,10 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
+
+		// Init DB so it upgrades if necessary
+		new PADListenerSQLiteOpenHelper(this).getReadableDatabase().close();
+
 		final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
 		if (!prefHelper.isHasBeenInstalled()) {
 			Log.d(getClass().getName(), "onCreate : starting install");

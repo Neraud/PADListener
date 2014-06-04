@@ -3,6 +3,7 @@ package fr.neraud.padlistener.helper;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
+import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 
@@ -51,6 +52,11 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 
 	public boolean isChooseSyncGroupMonstersDeleted() {
 		return getBooleanPreference("choose_sync_group_monsters_deleted", false);
+	}
+
+	public PADRegion getPlayerRegion() {
+		// TODO use a proper settings if JP is an option ?
+		return PADRegion.US;
 	}
 
 }

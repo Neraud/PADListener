@@ -26,7 +26,8 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 	public static MonsterInfoModel cursorToModel(Cursor cursor) {
 		final MonsterInfoModel model = new MonsterInfoModel();
 
-		model.setId(getInt(cursor, MonsterInfoDescriptor.Fields.ID));
+		model.setIdJP(getInt(cursor, MonsterInfoDescriptor.Fields.ID_JP));
+		model.setIdUS(getInt(cursor, MonsterInfoDescriptor.Fields.ID_US));
 		model.setName(getString(cursor, MonsterInfoDescriptor.Fields.NAME));
 		model.setRarity(getInt(cursor, MonsterInfoDescriptor.Fields.RARITY));
 		model.setElement1(MonsterElement.findById(getInt(cursor, MonsterInfoDescriptor.Fields.ELEMENT_1)));
@@ -70,7 +71,8 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 	public static ContentValues modelToValues(MonsterInfoModel model) {
 		final ContentValues values = new ContentValues();
 
-		putValue(values, MonsterInfoDescriptor.Fields.ID, model.getId());
+		putValue(values, MonsterInfoDescriptor.Fields.ID_JP, model.getIdJP());
+		putValue(values, MonsterInfoDescriptor.Fields.ID_US, model.getIdUS());
 		putValue(values, MonsterInfoDescriptor.Fields.NAME, model.getName());
 		putValue(values, MonsterInfoDescriptor.Fields.RARITY, model.getRarity());
 		putValue(values, MonsterInfoDescriptor.Fields.ELEMENT_1, model.getElement1());

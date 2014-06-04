@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -101,6 +102,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
 		Log.d(getClass().getName(), "getGroupView");
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 		final MonsterInfoModel monsterInfo = getGroup(groupPosition);
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -110,7 +112,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_monsters_item_image);
 		try {
 			final InputStream is = context.getContentResolver().openInputStream(
-			        MonsterInfoDescriptor.UriHelper.uriForImage(monsterInfo.getId()));
+			        MonsterInfoDescriptor.UriHelper.uriForImage(monsterInfo.getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			image.setImageDrawable(bm);
@@ -120,7 +122,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(context.getString(R.string.choose_sync_monsters_item_name_group, syncedMonsters.get(monsterInfo).size(),
-		        monsterInfo.getId(), monsterInfo.getName()));
+		        monsterInfo.getId(prefHelper.getPlayerRegion()), monsterInfo.getName()));
 
 		return view;
 	}

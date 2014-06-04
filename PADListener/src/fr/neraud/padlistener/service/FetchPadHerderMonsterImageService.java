@@ -41,7 +41,7 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 
 		final ResultReceiver receiver = intent.getParcelableExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME);
 
-		final String[] selection = new String[] { MonsterInfoDescriptor.Fields.ID.getColName(),
+		final String[] selection = new String[] { MonsterInfoDescriptor.Fields.ID_JP.getColName(),
 		        MonsterInfoDescriptor.Fields.IMAGE_60_URL.getColName() };
 
 		final Cursor cursor = getContentResolver().query(MonsterInfoDescriptor.UriHelper.uriForAll(), selection, null, null, null);
@@ -49,7 +49,7 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 			final int imagesToDownload = cursor.getCount() + 1;
 			int imagesDownloaded = 0;
 			do {
-				final int monsterId = cursor.getInt(cursor.getColumnIndex(MonsterInfoDescriptor.Fields.ID.getColName()));
+				final int monsterId = cursor.getInt(cursor.getColumnIndex(MonsterInfoDescriptor.Fields.ID_JP.getColName()));
 				final String imageUrl = cursor.getString(cursor.getColumnIndex(MonsterInfoDescriptor.Fields.IMAGE_60_URL
 				        .getColName()));
 				notifyProgress(receiver, monsterId, imagesDownloaded, imagesToDownload, imageUrl);

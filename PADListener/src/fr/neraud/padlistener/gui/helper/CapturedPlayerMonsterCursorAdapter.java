@@ -41,7 +41,7 @@ public class CapturedPlayerMonsterCursorAdapter extends SimpleCursorAdapter {
 
 		try {
 			final InputStream is = context.getContentResolver().openInputStream(
-			        MonsterInfoDescriptor.UriHelper.uriForImage(monsterInfo.getId()));
+			        MonsterInfoDescriptor.UriHelper.uriForImage(monsterInfo.getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			((ImageView) view.findViewById(R.id.view_captured_data_monster_item_image)).setImageDrawable(bm);

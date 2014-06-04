@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
@@ -33,13 +34,15 @@ public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 		Log.d(getClass().getName(), "bindView");
 
 		final MonsterInfoModel model = MonsterInfoHelper.cursorToModel(cursor);
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 
-		final String lineName = context.getString(R.string.view_monster_info_name, model.getId(), model.getName());
+		final String lineName = context.getString(R.string.view_monster_info_name, model.getId(prefHelper.getPlayerRegion()),
+		        model.getName());
 		((TextView) view.findViewById(R.id.view_monster_info_item_name)).setText(lineName);
 
 		try {
 			final InputStream is = context.getContentResolver().openInputStream(
-			        MonsterInfoDescriptor.UriHelper.uriForImage(model.getId()));
+			        MonsterInfoDescriptor.UriHelper.uriForImage(model.getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			((ImageView) view.findViewById(R.id.view_monster_info_item_image)).setImageDrawable(bm);

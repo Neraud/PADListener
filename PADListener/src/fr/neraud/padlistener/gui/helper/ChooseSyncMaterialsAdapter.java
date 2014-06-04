@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
@@ -41,6 +42,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		Log.d(getClass().getName(), "getView");
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getContext());
 		final ChooseSyncModelContainer<SyncedMaterialModel> item = super.getItem(position);
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,7 +65,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_materials_item_image);
 		try {
 			final InputStream is = getContext().getContentResolver().openInputStream(
-			        MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getMonsterInfo().getId()));
+			        MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getMonsterInfo().getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			image.setImageDrawable(bm);
@@ -82,7 +84,8 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_materials_item_name);
 		nameText.setText(getContext().getString(R.string.choose_sync_materials_item_name,
-		        item.getSyncedModel().getMonsterInfo().getId(), item.getSyncedModel().getMonsterInfo().getName()));
+		        item.getSyncedModel().getMonsterInfo().getId(prefHelper.getPlayerRegion()),
+		        item.getSyncedModel().getMonsterInfo().getName()));
 
 		final TextView quantitiesText = (TextView) view.findViewById(R.id.choose_sync_materials_item_quantities);
 		quantitiesText.setText(getContext().getString(R.string.choose_sync_materials_item_quantities,

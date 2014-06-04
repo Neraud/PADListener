@@ -92,7 +92,8 @@ public class MonsterInfoDescriptor {
 	 */
 	public enum Fields implements IField {
 
-		ID(BaseColumns._ID),
+		ID_JP(BaseColumns._ID),
+		ID_US("id_us"),
 		NAME("name"),
 		RARITY("rarity"),
 		ELEMENT_1("element_1"),

@@ -19,8 +19,8 @@ import fr.neraud.padlistener.helper.MonsterComparatorHelper.MonsterComparisonRes
 import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
-import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
+import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.model.SyncedUserInfoModel;
@@ -35,13 +35,18 @@ import fr.neraud.padlistener.model.UserInfoMonsterModel;
  */
 public class SyncHelper {
 
+	// MonsterId (JP) -> Monster Info
 	private final Map<Integer, MonsterInfoModel> monsterInfoById;
+	// MonsterId (in the player region) -> MonsterId (JP)
+	private final Map<Integer, Integer> monsterIdInCapturedRegionToRef;
+
 	private final DefaultSharedPreferencesHelper helper;
 
 	public SyncHelper(Context context, List<MonsterInfoModel> monsterInfos) {
 		super();
-		this.monsterInfoById = reorgMonsterInfo(monsterInfos);
 		this.helper = new DefaultSharedPreferencesHelper(context);
+		this.monsterInfoById = reorgMonsterInfoRef(monsterInfos);
+		this.monsterIdInCapturedRegionToRef = initMonsterIdInCapturedRegionToRef(monsterInfos);
 	}
 
 	public ComputeSyncResultModel sync(List<CapturedMonsterCardModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo,
@@ -70,15 +75,30 @@ public class SyncHelper {
 	}
 
 	@SuppressLint("UseSparseArrays")
-	private Map<Integer, MonsterInfoModel> reorgMonsterInfo(List<MonsterInfoModel> monsterInfos) {
-		Log.d(getClass().getName(), "reorgMonsterInfo");
+	private Map<Integer, MonsterInfoModel> reorgMonsterInfoRef(List<MonsterInfoModel> monsterInfos) {
+		Log.d(getClass().getName(), "reorgMonsterInfoRef");
 		final Map<Integer, MonsterInfoModel> monsterInfoById = new HashMap<Integer, MonsterInfoModel>();
 
 		for (final MonsterInfoModel monsterInfo : monsterInfos) {
-			monsterInfoById.put(monsterInfo.getId(), monsterInfo);
+			monsterInfoById.put(monsterInfo.getIdJP(), monsterInfo);
 		}
 
 		return monsterInfoById;
+	}
+
+	@SuppressLint("UseSparseArrays")
+	private Map<Integer, Integer> initMonsterIdInCapturedRegionToRef(List<MonsterInfoModel> monsterInfos) {
+		Log.d(getClass().getName(), "initMonsterIdInCapturedRegionToRef");
+
+		final Map<Integer, Integer> monsterIdInCapturedRegionToRef = new HashMap<Integer, Integer>();
+
+		for (final MonsterInfoModel monsterInfo : monsterInfos) {
+			if (monsterInfo.getId(helper.getPlayerRegion()) != null) {
+				monsterIdInCapturedRegionToRef.put(monsterInfo.getId(helper.getPlayerRegion()), monsterInfo.getIdJP());
+			}
+		}
+
+		return monsterIdInCapturedRegionToRef;
 	}
 
 	@SuppressLint("UseSparseArrays")
@@ -87,19 +107,22 @@ public class SyncHelper {
 		final Map<Integer, List<CapturedMonsterCardModel>> capturedMonstersById = new HashMap<Integer, List<CapturedMonsterCardModel>>();
 
 		for (final CapturedMonsterCardModel capturedMonster : capturedMonsters) {
+			final int capturedId = capturedMonster.getId();
+			final int refId = monsterIdInCapturedRegionToRef.get(capturedId);
+
 			if (!capturedMonstersById.containsKey(capturedMonster.getId())) {
-				capturedMonstersById.put(capturedMonster.getId(), new ArrayList<CapturedMonsterCardModel>());
+				capturedMonstersById.put(refId, new ArrayList<CapturedMonsterCardModel>());
 			}
 
 			// PAD allows to exp a monster beyond its max, but PADHerder caps the exp
-			final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfoById.get(capturedMonster.getId()));
+			final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfoById.get(refId));
 			final long expCap = expHelper.getExpCap();
 			if (capturedMonster.getExp() > expCap) {
 				Log.d(getClass().getName(), "reorgCapturedMonster : caping monster xp for " + capturedMonster);
 				capturedMonster.setExp(expCap);
 			}
 
-			capturedMonstersById.get(capturedMonster.getId()).add(capturedMonster);
+			capturedMonstersById.get(refId).add(capturedMonster);
 		}
 
 		return capturedMonstersById;
@@ -111,11 +134,14 @@ public class SyncHelper {
 		final Map<Integer, Integer> capturedMaterialsById = new HashMap<Integer, Integer>();
 
 		for (final CapturedMonsterCardModel capturedMonster : capturedMonsters) {
-			Integer count = capturedMaterialsById.get(capturedMonster.getId());
+			final int capturedId = capturedMonster.getId();
+			final int refId = monsterIdInCapturedRegionToRef.get(capturedId);
+
+			Integer count = capturedMaterialsById.get(refId);
 			if (count == null) {
 				count = 0;
 			}
-			capturedMaterialsById.put(capturedMonster.getId(), ++count);
+			capturedMaterialsById.put(refId, ++count);
 		}
 
 		return capturedMaterialsById;

@@ -89,7 +89,7 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 		switch (path) {
 		case INFO_BY_ID:
 			// Add the ID
-			builder.appendWhere(MonsterInfoDescriptor.Fields.ID.getColName() + "=?");
+			builder.appendWhere(MonsterInfoDescriptor.Fields.ID_JP.getColName() + "=?");
 			selectionArgs = MyDatabaseUtils.appendWhenreArgsToSelectionArgs(selectionArgs,
 			        new String[] { uri.getLastPathSegment() });
 			break;
@@ -118,7 +118,7 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 			if (selection != null) {
 				selectionBuilder.append(selection).append(" AND ");
 			}
-			selectionBuilder.append(MonsterInfoDescriptor.Fields.ID.getColName()).append("=?");
+			selectionBuilder.append(MonsterInfoDescriptor.Fields.ID_JP.getColName()).append("=?");
 			selectionArgs = MyDatabaseUtils.appendSelectionArgs(selectionArgs, new String[] { uri.getLastPathSegment() });
 
 			count = db.update(MonsterInfoDescriptor.TABLE_NAME, values, selectionBuilder.toString(), selectionArgs);
@@ -150,7 +150,7 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 			if (selection != null) {
 				selectionBuilder.append(selection).append(" AND ");
 			}
-			selectionBuilder.append(MonsterInfoDescriptor.Fields.ID.getColName()).append("=?");
+			selectionBuilder.append(MonsterInfoDescriptor.Fields.ID_JP.getColName()).append("=?");
 
 			selectionArgs = MyDatabaseUtils.appendSelectionArgs(selectionArgs, new String[] { uri.getLastPathSegment() });
 
