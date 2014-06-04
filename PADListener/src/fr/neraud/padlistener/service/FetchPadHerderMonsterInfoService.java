@@ -32,7 +32,7 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 
 	@Override
 	protected RestClient createRestClient() {
-		return new RestClient(PadHerderDescriptor.serverUrl);
+		return new RestClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
 	}
 
 	@Override

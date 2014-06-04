@@ -76,7 +76,7 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 		InputStream in = null;
 		OutputStream out = null;
 		try {
-			final ImageDownloadClient client = new ImageDownloadClient(PadHerderDescriptor.serverUrl);
+			final ImageDownloadClient client = new ImageDownloadClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
 			final MyHttpRequest request = new MyHttpRequest();
 			request.setMethod(HttpMethod.GET);
 			request.setUrl(imageUrl);

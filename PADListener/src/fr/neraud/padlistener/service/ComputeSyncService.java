@@ -41,7 +41,7 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 
 	@Override
 	protected RestClient createRestClient() {
-		return new RestClient(PadHerderDescriptor.serverUrl);
+		return new RestClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
 	}
 
 	@Override

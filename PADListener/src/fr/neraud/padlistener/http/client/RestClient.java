@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import org.apache.http.HttpResponse;
 
+import android.content.Context;
 import android.util.Log;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.model.RestResponse;
@@ -18,8 +19,8 @@ import fr.neraud.padlistener.http.model.RestResponse;
  */
 public class RestClient extends MyHttpClientClient<RestResponse> {
 
-	public RestClient(String endpointUrl) {
-		super(endpointUrl);
+	public RestClient(Context context, String endpointUrl) {
+		super(context, endpointUrl);
 	}
 
 	@Override

@@ -15,14 +15,15 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
-import fr.neraud.padlistener.constant.PadListenerVersion;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.helper.HttpPatch;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.model.MyHttpResponse;
+import fr.neraud.padlistener.util.VersionUtil;
 
 /**
  * Abstract HttpClient. Handles the basic calls.
@@ -32,11 +33,13 @@ import fr.neraud.padlistener.http.model.MyHttpResponse;
  */
 public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
+	private final Context context;
 	private final String endpointUrl;
 	private final HttpClient httpclient = new DefaultHttpClient();
 
-	public MyHttpClientClient(String endpointUrl) {
+	public MyHttpClientClient(Context context, String endpointUrl) {
 		super();
+		this.context = context;
 		this.endpointUrl = endpointUrl;
 	}
 
@@ -45,7 +48,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
 		final String fullUrl = createFullUrl(httpRequest);
 		final HttpRequestBase httpMethod = createMethod(httpRequest.getMethod(), fullUrl);
-		httpMethod.setHeader("user-agent", "PADListener/" + PadListenerVersion.PAD_LISTENER_VERSION);
+		httpMethod.setHeader("user-agent", "PADListener/" + VersionUtil.getVersion(context));
 
 		if (httpRequest.isBasicAuthEnabled()) {
 			Log.d(getClass().getName(), "call : adding basic auth with user " + httpRequest.getBasicAuthUserName());

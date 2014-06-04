@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import org.apache.http.HttpResponse;
 
+import android.content.Context;
 import android.util.Log;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.model.ImageDownloadResponse;
@@ -17,8 +18,8 @@ import fr.neraud.padlistener.http.model.ImageDownloadResponse;
  */
 public class ImageDownloadClient extends MyHttpClientClient<ImageDownloadResponse> {
 
-	public ImageDownloadClient(String endpointUrl) {
-		super(endpointUrl);
+	public ImageDownloadClient(Context context, String endpointUrl) {
+		super(context, endpointUrl);
 	}
 
 	@Override

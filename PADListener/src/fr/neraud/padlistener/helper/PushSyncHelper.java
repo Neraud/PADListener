@@ -26,7 +26,7 @@ public class PushSyncHelper {
 
 	public PushSyncHelper(Context context) {
 		this.context = context;
-		client = new RestClient(PadHerderDescriptor.serverUrl);
+		client = new RestClient(context, PadHerderDescriptor.serverUrl);
 	}
 
 	public void pushMaterialToUpdate(SyncedMaterialModel model) throws JSONException, HttpCallException {

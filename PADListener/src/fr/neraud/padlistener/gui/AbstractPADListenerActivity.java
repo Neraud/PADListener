@@ -14,12 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.constant.PadListenerVersion;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
 import fr.neraud.padlistener.service.InstallMonsterImagesService;
 import fr.neraud.padlistener.service.InstallMonsterInfoService;
+import fr.neraud.padlistener.util.VersionUtil;
 
 /**
  * Base class of all activities.<br/>
@@ -90,10 +90,10 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 	private void openAboutDialog() {
 		Log.d(getClass().getName(), "openAboutDialog");
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.about_dialog_title, PadListenerVersion.PAD_LISTENER_VERSION));
 
-		final SpannableString message = new SpannableString(getString(R.string.about_dialog_message,
-		        PadListenerVersion.PAD_LISTENER_VERSION));
+		builder.setTitle(getString(R.string.about_dialog_title, VersionUtil.getVersion(this)));
+
+		final SpannableString message = new SpannableString(getString(R.string.about_dialog_message, VersionUtil.getVersion(this)));
 		Linkify.addLinks(message, Linkify.ALL);
 
 		builder.setMessage(message);
