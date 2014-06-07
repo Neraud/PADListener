@@ -4,15 +4,20 @@ package fr.neraud.padlistener.gui.fragment;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
@@ -140,6 +145,28 @@ public class SwitchListenerFragment extends Fragment {
 				}
 			}
 		});
+
+		final ImageButton launchPadButton = (ImageButton) view.findViewById(R.id.switch_listener_launch_pad_button);
+		final View launchPadBlock = view.findViewById(R.id.switch_listener_launch_pad_block);
+
+		final PackageManager packageManager = getActivity().getPackageManager();
+		try {
+			launchPadBlock.setVisibility(View.VISIBLE);
+			final Drawable padIcon = packageManager.getApplicationIcon("jp.gungho.padEN");
+			launchPadButton.setImageDrawable(padIcon);
+			final Intent padStartIntent = packageManager.getLaunchIntentForPackage("jp.gungho.padEN");
+			launchPadButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Log.d(getClass().getName(), "onClick");
+					getActivity().startActivity(padStartIntent);
+				}
+			});
+		} catch (final NameNotFoundException e) {
+			Log.d(getClass().getName(), "onCreateView : PAD not found", e);
+			launchPadBlock.setVisibility(View.GONE);
+		}
 
 		return view;
 	}
