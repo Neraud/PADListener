@@ -159,10 +159,10 @@
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
 	<string name="choose_sync_info_label">Summary</string>
-	<string name="choose_sync_materialsUpdated_label">Materials updated</string>
-	<string name="choose_sync_monstersUpdated_label">Monsters updated</string>
-	<string name="choose_sync_monstersCreated_label">Monsters created</string>
-	<string name="choose_sync_monstersDeleted_label">Monsters deleted</string>	
+	<string name="choose_sync_materialsUpdated_label">^ Materials</string>
+	<string name="choose_sync_monstersUpdated_label">^ Monsters</string>
+	<string name="choose_sync_monstersCreated_label">+ Monsters</string>
+	<string name="choose_sync_monstersDeleted_label">- Monsters</string>	
 	
 	<string name="choose_sync_info_head">Sync computation is finished</string>
 	<string name="choose_sync_info_summary">- %1$s materials updated\n- %2$s monsters updated\n- %3$s monsters created\n- %4$s monsters deleted</string>
