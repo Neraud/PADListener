@@ -114,18 +114,22 @@ public class SyncHelper {
 				capturedMonstersById.put(refId, new ArrayList<CapturedMonsterCardModel>());
 			}
 
-			// PAD allows to exp a monster beyond its max, but PADHerder caps the exp
-			final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfoById.get(refId));
-			final long expCap = expHelper.getExpCap();
-			if (capturedMonster.getExp() > expCap) {
-				Log.d(getClass().getName(), "reorgCapturedMonster : caping monster xp for " + capturedMonster);
-				capturedMonster.setExp(expCap);
-			}
+			capMonsterData(monsterInfoById.get(refId), capturedMonster);
 
 			capturedMonstersById.get(refId).add(capturedMonster);
 		}
 
 		return capturedMonstersById;
+	}
+
+	private void capMonsterData(MonsterInfoModel monsterInfo, CapturedMonsterCardModel capturedMonster) {
+		// PAD allows to exp a monster beyond its max, but PADHerder caps the exp
+		final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfo);
+		final long expCap = expHelper.getExpCap();
+		if (capturedMonster.getExp() > expCap) {
+			Log.d(getClass().getName(), "capMonsterData : caping monster xp for " + capturedMonster);
+			capturedMonster.setExp(expCap);
+		}
 	}
 
 	@SuppressLint("UseSparseArrays")
