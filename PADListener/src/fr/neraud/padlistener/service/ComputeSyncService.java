@@ -4,6 +4,7 @@ package fr.neraud.padlistener.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
@@ -33,10 +34,17 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
  */
 public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel, ComputeSyncResultModel> {
 
+	public static String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	public static String SYNC_RESULT_BUNDLE_KEY = "sync_result";
+	private int accountId;
 
 	public ComputeSyncService() {
 		super("ComputeSyncService");
+	}
+
+	@Override
+	protected void initParams(Intent intent) {
+		accountId = intent.getIntExtra(ComputeSyncService.EXTRA_ACCOUNT_ID_NAME, 0);
 	}
 
 	@Override
@@ -46,7 +54,7 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 
 	@Override
 	protected MyHttpRequest createMyHttpRequest() {
-		return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo(getApplicationContext());
+		return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo(getApplicationContext(), accountId);
 	}
 
 	@Override

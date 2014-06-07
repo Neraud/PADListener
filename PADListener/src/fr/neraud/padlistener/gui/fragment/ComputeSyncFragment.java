@@ -3,8 +3,6 @@ package fr.neraud.padlistener.gui.fragment;
 
 import java.text.DateFormat;
 
-import org.apache.commons.lang3.StringUtils;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,12 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
+import fr.neraud.padlistener.gui.helper.AccountSpinnerAdapter;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
@@ -39,6 +41,7 @@ public class ComputeSyncFragment extends Fragment {
 	private Button startButton;
 	private ProgressBar progress;
 	private TextView status;
+	private int accountId = -1;
 	private final ComputeSyncTaskFragment.CallBacks callbacks = new ComputeSyncTaskFragment.CallBacks() {
 
 		@Override
@@ -84,6 +87,7 @@ public class ComputeSyncFragment extends Fragment {
 
 					final Bundle extras = new Bundle();
 					extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, syncResult);
+					extras.putInt(ChooseSyncFragment.EXTRA_ACCOUNT_ID_NAME, accountId);
 					((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.CHOOSE_SYNC, extras);
 
 					break;
@@ -108,36 +112,58 @@ public class ComputeSyncFragment extends Fragment {
 
 		final View view = inflater.inflate(R.layout.compute_sync_fragment, container, false);
 
-		final DefaultSharedPreferencesHelper defaultPrefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getActivity());
 
 		final TextView explain = (TextView) view.findViewById(R.id.compute_sync_explain);
 		final String refreshDate = DateFormat.getDateTimeInstance().format(techPrefHelper.getLastCaptureDate());
-		explain.setText(getString(R.string.compute_sync_explain, defaultPrefHelper.getPadHerderUserName(), refreshDate));
+		explain.setText(getString(R.string.compute_sync_explain, refreshDate));
+		final Spinner chooseAccountSpinner = (Spinner) view.findViewById(R.id.compute_sync_choose_account_spinner);
 		startButton = (Button) view.findViewById(R.id.compute_sync_button);
 		progress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		status = (TextView) view.findViewById(R.id.compute_sync_status);
+		final AccountSpinnerAdapter adapter = new AccountSpinnerAdapter(getActivity());
+		chooseAccountSpinner.setAdapter(adapter);
 
 		final FragmentManager fm = getFragmentManager();
 		mTaskFragment = (ComputeSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
 		if (mTaskFragment == null) {
 			mTaskFragment = new ComputeSyncTaskFragment();
 			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+		} else {
+			accountId = mTaskFragment.getAccountId();
+			final int position = adapter.getPositionById(accountId);
+			chooseAccountSpinner.setSelection(position);
 		}
 		mTaskFragment.registerCallbacks(callbacks);
+
+		chooseAccountSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				Log.d(getClass().getName(), "onItemSelected : " + id);
+				accountId = (int) id;
+				mTaskFragment.setAccountId(accountId);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				Log.d(getClass().getName(), "onNothingSelected");
+
+			}
+		});
 
 		startButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				mTaskFragment.startComputeSyncService();
+				mTaskFragment.startComputeSyncService(accountId);
 			}
 		});
 
 		final TextView missingCredentials = (TextView) view.findViewById(R.id.compute_sync_missing_credentials_text);
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
-		if (StringUtils.isBlank(prefHelper.getPadHerderUserName()) || StringUtils.isBlank(prefHelper.getPadHerderUserPassword())) {
+		if (prefHelper.getPadHerderAccounts().isEmpty()) {
 			missingCredentials.setTextColor(Color.RED);
 			startButton.setEnabled(false);
 		} else {

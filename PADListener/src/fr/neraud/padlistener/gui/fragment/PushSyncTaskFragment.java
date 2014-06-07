@@ -23,6 +23,7 @@ public class PushSyncTaskFragment extends Fragment {
 	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
 
 	private ChooseSyncModel result;
+	private int accountId;
 	private CallBacks callbacks = null;
 
 	private PushSyncStatModel pushModel;
@@ -73,6 +74,7 @@ public class PushSyncTaskFragment extends Fragment {
 
 		final Intent intent = new Intent(getActivity(), PushSyncService.class);
 		intent.putExtra(PushSyncService.CHOOSE_SYNC_MODEL_EXTRA_NAME, result);
+		intent.putExtra(PushSyncService.ACCOUNT_ID_EXTRA_NAME, accountId);
 		intent.putExtra(PushSyncService.RECEIVER_EXTRA_NAME, new MyResultReceiver(new Handler()));
 		getActivity().startService(intent);
 	}
@@ -142,6 +144,10 @@ public class PushSyncTaskFragment extends Fragment {
 
 	public void setChooseSyncModel(ChooseSyncModel result) {
 		this.result = result;
+	}
+
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 }

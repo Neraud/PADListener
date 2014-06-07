@@ -24,6 +24,7 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 public class PushSyncService extends IntentService {
 
 	public static final String CHOOSE_SYNC_MODEL_EXTRA_NAME = "chooseSyncModel";
+	public static final String ACCOUNT_ID_EXTRA_NAME = "accountId";
 	public static final String RECEIVER_EXTRA_NAME = "receiver";
 
 	public static final String RECEIVER_ELEMENT_NAME = "element";
@@ -40,8 +41,9 @@ public class PushSyncService extends IntentService {
 
 		final ResultReceiver receiver = intent.getParcelableExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME);
 		final ChooseSyncModel result = (ChooseSyncModel) intent.getExtras().getSerializable(CHOOSE_SYNC_MODEL_EXTRA_NAME);
+		final int accountId = intent.getExtras().getInt(ACCOUNT_ID_EXTRA_NAME);
 
-		final PushSyncHelper helper = new PushSyncHelper(getApplicationContext());
+		final PushSyncHelper helper = new PushSyncHelper(getApplicationContext(), accountId);
 
 		pushUserInfoToUpdate(helper, receiver, result);
 		pushMaterialsToUpdate(helper, receiver, result);

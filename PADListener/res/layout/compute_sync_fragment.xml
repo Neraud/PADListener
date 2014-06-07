@@ -15,12 +15,26 @@
         android:gravity="center_vertical"
         android:text="@string/compute_sync_explain" />
 
-    <Button
-        android:id="@+id/compute_sync_button"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:text="@string/compute_sync_start" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal" >
+
+        <Spinner
+            android:id="@+id/compute_sync_choose_account_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/compute_sync_button"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="@string/compute_sync_start" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/compute_sync_progress"

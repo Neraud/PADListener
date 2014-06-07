@@ -24,6 +24,7 @@ public class PushSyncFragment extends Fragment {
 
 	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
 	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
+	protected static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private PushSyncTaskFragment mTaskFragment;
 
 	private TextView head;
@@ -97,9 +98,10 @@ public class PushSyncFragment extends Fragment {
 
 			final ChooseSyncModel result = (ChooseSyncModel) getActivity().getIntent().getSerializableExtra(
 			        EXTRA_CHOOSE_SYNC_MODEL_NAME);
+			final int accountId = getActivity().getIntent().getIntExtra(EXTRA_ACCOUNT_ID_NAME, 0);
 
 			mTaskFragment.setChooseSyncModel(result);
-			//mTaskFragment.startExecutePushService();
+			mTaskFragment.setAccountId(accountId);
 		}
 		mTaskFragment.registerCallbacks(callbacks);
 

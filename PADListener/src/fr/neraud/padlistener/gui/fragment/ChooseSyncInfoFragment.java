@@ -30,6 +30,7 @@ public class ChooseSyncInfoFragment extends Fragment {
 		final View view = inflater.inflate(R.layout.choose_sync_fragment_info, container, false);
 		final ChooseSyncModel result = (ChooseSyncModel) getArguments().getSerializable(
 		        ChooseSyncDataPagerHelper.ARGUMENT_SYNC_RESULT_NAME);
+		final int accountId = getArguments().getInt(ChooseSyncDataPagerHelper.ARGUMENT_ACCOUNT_ID_NAME);
 
 		final int materialToUpdateCount = result.getSyncedMaterialsToUpdate().size();
 		final int monsterToUpdateCount = result.getSyncedMonstersToUpdate().size();
@@ -91,6 +92,7 @@ public class ChooseSyncInfoFragment extends Fragment {
 
 					final Bundle bundle = new Bundle();
 					bundle.putSerializable(PushSyncFragment.EXTRA_CHOOSE_SYNC_MODEL_NAME, result);
+					bundle.putSerializable(PushSyncFragment.EXTRA_ACCOUNT_ID_NAME, accountId);
 					((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.PUSH_SYNC, bundle);
 				}
 			});

@@ -29,7 +29,9 @@
     <string name="settings_proxy_mode_summary">%1$s</string>
        
     <string name="settings_padherder_page">PadHerder</string>
-    <string name="settings_padherder_account_category">Account</string>
+    <string name="settings_padherder_account_1_category">Account 1</string>
+    <string name="settings_padherder_account_2_category">Account 2</string>
+    <string name="settings_padherder_account_3_category">Account 3</string>
     <string name="settings_padherder_login_title">Login</string>
     <string name="settings_padherder_login_summary"></string>
     <string name="settings_padherder_password_title">Password</string>
@@ -148,7 +150,7 @@
     
     <!-- Compute Sync -->
 	<string name="label_computeSync">Compute Sync</string>
-    <string name="compute_sync_explain">The sync process will first fetch data from your PADHerder account (%1$s).\nIt will then use the data captured from PAD (at %2$s) and compute the differences.\nIt will finally list the differences so you can choose which ones you wish to push to your PADHerder account. Some differences will be preselected based on the sync settings.</string>
+    <string name="compute_sync_explain">The sync process will first fetch data from your PADHerder account.\nIt will then use the data captured from PAD (at %1$s) and compute the differences.\nIt will finally list the differences so you can choose which ones you wish to push to your PADHerder account. Some differences will be preselected based on the sync settings.</string>
     <string name="compute_sync_start">Start</string>
     <string name="compute_sync_status">Sync status : %1$s</string>
     

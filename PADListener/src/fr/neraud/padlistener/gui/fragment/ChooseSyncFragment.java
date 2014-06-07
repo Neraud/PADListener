@@ -20,19 +20,21 @@ import fr.neraud.padlistener.model.ComputeSyncResultModel;
 public class ChooseSyncFragment extends AbstractViewPagerFragment {
 
 	public static final String EXTRA_SYNC_RESULT_NAME = "sync_result";
+	public static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private ChooseSyncDataPagerHelper helper;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
-		final ComputeSyncResultModel result = (ComputeSyncResultModel) getActivity().getIntent().getExtras()
-		        .getSerializable(EXTRA_SYNC_RESULT_NAME);
+		final Bundle extras = getActivity().getIntent().getExtras();
+		final ComputeSyncResultModel result = (ComputeSyncResultModel) extras.getSerializable(EXTRA_SYNC_RESULT_NAME);
+		final int accountId = extras.getInt(EXTRA_ACCOUNT_ID_NAME);
 
 		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(getActivity(), result);
 		final ChooseSyncModel syncModel = initHelper.filterSyncResult();
 
-		helper = new ChooseSyncDataPagerHelper(getActivity(), syncModel);
+		helper = new ChooseSyncDataPagerHelper(getActivity(), accountId, syncModel);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}

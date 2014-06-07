@@ -26,29 +26,29 @@ public class PadHerderDescriptor {
 			return initRequest(Services.GET_MONSTER_INFO);
 		}
 
-		public static MyHttpRequest initRequestForGetUserInfo(Context context) {
+		public static MyHttpRequest initRequestForGetUserInfo(Context context, int accountId) {
 			final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
-			final String url = Services.GET_USER_INFO.apiUrl.replaceAll("\\[userName\\]", helper.getPadHerderUserName());
-			return initRequest(Services.GET_USER_INFO, context, url);
+			final String url = Services.GET_USER_INFO.apiUrl.replaceAll("\\[userName\\]", helper.getPadHerderUserName(accountId));
+			return initRequest(Services.GET_USER_INFO, context, accountId, url);
 		}
 
-		public static MyHttpRequest initRequestForPatchMaterial(Context context, long padherderMaterialId) {
+		public static MyHttpRequest initRequestForPatchMaterial(Context context, int accountId, long padherderMaterialId) {
 			final String url = Services.PATCH_MATERIAL.apiUrl.replaceAll("\\[id\\]", String.valueOf(padherderMaterialId));
-			return initRequest(Services.PATCH_MATERIAL, context, url);
+			return initRequest(Services.PATCH_MATERIAL, context, accountId, url);
 		}
 
-		public static MyHttpRequest initRequestForPatchMonster(Context context, long padherderMonsterId) {
+		public static MyHttpRequest initRequestForPatchMonster(Context context, int accountId, long padherderMonsterId) {
 			final String url = Services.PATCH_MONSTER.apiUrl.replaceAll("\\[id\\]", String.valueOf(padherderMonsterId));
-			return initRequest(Services.PATCH_MONSTER, context, url);
+			return initRequest(Services.PATCH_MONSTER, context, accountId, url);
 		}
 
-		public static MyHttpRequest initRequestForPostMonster(Context context) {
-			return initRequest(Services.POST_MONSTER, context, Services.POST_MONSTER.apiUrl);
+		public static MyHttpRequest initRequestForPostMonster(Context context, int accountId) {
+			return initRequest(Services.POST_MONSTER, context, accountId, Services.POST_MONSTER.apiUrl);
 		}
 
-		public static MyHttpRequest initRequestForDeleteMonster(Context context, long padherderMonsterId) {
+		public static MyHttpRequest initRequestForDeleteMonster(Context context, int accountId, long padherderMonsterId) {
 			final String url = Services.DELETE_MONSTER.apiUrl.replaceAll("\\[id\\]", String.valueOf(padherderMonsterId));
-			return initRequest(Services.DELETE_MONSTER, context, url);
+			return initRequest(Services.DELETE_MONSTER, context, accountId, url);
 		}
 
 		private static MyHttpRequest initRequest(Services service) {
@@ -60,7 +60,7 @@ public class PadHerderDescriptor {
 			return restRequest;
 		}
 
-		private static MyHttpRequest initRequest(Services service, Context context, String url) {
+		private static MyHttpRequest initRequest(Services service, Context context, int accountId, String url) {
 			final MyHttpRequest restRequest = new MyHttpRequest();
 			restRequest.setUrl(url);
 			restRequest.setMethod(service.method);
@@ -69,8 +69,8 @@ public class PadHerderDescriptor {
 			if (service.needsAuth) {
 				final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
 				restRequest.setBasicAuthEnabled(true);
-				restRequest.setBasicAuthUserName(helper.getPadHerderUserName());
-				restRequest.setBasicAuthUserPassword(helper.getPadHerderUserPassword());
+				restRequest.setBasicAuthUserName(helper.getPadHerderUserName(accountId));
+				restRequest.setBasicAuthUserPassword(helper.getPadHerderUserPassword(accountId));
 			}
 			return restRequest;
 		}

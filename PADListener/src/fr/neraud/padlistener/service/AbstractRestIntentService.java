@@ -38,7 +38,7 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.d(getClass().getName(), "onHandleIntent");
-
+		initParams(intent);
 		receiver = intent.getParcelableExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME);
 		notifyProgress(RestCallRunningStep.STARTED);
 		try {
@@ -74,6 +74,10 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 		final MyHttpRequest restRequest = createMyHttpRequest();
 		final RestResponse restResponse = restClient.call(restRequest);
 		return restResponse;
+	}
+
+	protected void initParams(Intent intent) {
+		// Override if necessary
 	}
 
 	protected abstract RestClient createRestClient();

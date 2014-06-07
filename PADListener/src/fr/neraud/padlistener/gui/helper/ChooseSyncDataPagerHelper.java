@@ -26,6 +26,7 @@ public class ChooseSyncDataPagerHelper {
 
 	public static final String ARGUMENT_SYNC_RESULT_NAME = "result";
 	public static final String ARGUMENT_SYNC_MODE_NAME = "mode";
+	public static final String ARGUMENT_ACCOUNT_ID_NAME = "accountId";
 
 	public static enum Mode {
 		UPDATED,
@@ -35,13 +36,15 @@ public class ChooseSyncDataPagerHelper {
 
 	private final ChooseSyncModel result;
 	private int count = 0;
+	private final int accountId;
 	private final Map<Integer, Fragment> fragmentsByPosition;
 	private final Map<Integer, Integer> titlesByPosition;
 	private final DefaultSharedPreferencesHelper prefHelper;
 
 	@SuppressLint("UseSparseArrays")
-	public ChooseSyncDataPagerHelper(Context context, ChooseSyncModel result) {
+	public ChooseSyncDataPagerHelper(Context context, int accountId, ChooseSyncModel result) {
 		this.result = result;
+		this.accountId = accountId;
 		fragmentsByPosition = new HashMap<Integer, Fragment>();
 		titlesByPosition = new HashMap<Integer, Integer>();
 		prefHelper = new DefaultSharedPreferencesHelper(context);
@@ -62,6 +65,7 @@ public class ChooseSyncDataPagerHelper {
 		Log.d(getClass().getName(), "populateInfoFragment");
 		final ChooseSyncInfoFragment fragment = new ChooseSyncInfoFragment();
 		addResultToFragmentArguments(fragment);
+		fragment.getArguments().putInt(ARGUMENT_ACCOUNT_ID_NAME, accountId);
 		fragmentsByPosition.put(count, fragment);
 		titlesByPosition.put(count, R.string.choose_sync_info_label);
 		count++;

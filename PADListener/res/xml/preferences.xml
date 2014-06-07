@@ -19,14 +19,36 @@
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_padherder_page" >
-        <PreferenceCategory android:title="@string/settings_padherder_account_category" >
+        <PreferenceCategory android:title="@string/settings_padherder_account_1_category" >
             <EditTextPreference
-                android:key="padherder_login"
+                android:key="padherder_login_1"
                 android:summary="@string/settings_padherder_login_summary"
                 android:title="@string/settings_padherder_login_title" />
             <EditTextPreference
                 android:inputType="textPassword"
-                android:key="padherder_password"
+                android:key="padherder_password_1"
+                android:summary="@string/settings_padherder_password_summary"
+                android:title="@string/settings_padherder_password_title" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="@string/settings_padherder_account_2_category" >
+            <EditTextPreference
+                android:key="padherder_login_2"
+                android:summary="@string/settings_padherder_login_summary"
+                android:title="@string/settings_padherder_login_title" />
+            <EditTextPreference
+                android:inputType="textPassword"
+                android:key="padherder_password_2"
+                android:summary="@string/settings_padherder_password_summary"
+                android:title="@string/settings_padherder_password_title" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="@string/settings_padherder_account_3_category" >
+            <EditTextPreference
+                android:key="padherder_login_3"
+                android:summary="@string/settings_padherder_login_summary"
+                android:title="@string/settings_padherder_login_title" />
+            <EditTextPreference
+                android:inputType="textPassword"
+                android:key="padherder_password_3"
                 android:summary="@string/settings_padherder_password_summary"
                 android:title="@string/settings_padherder_password_title" />
         </PreferenceCategory>

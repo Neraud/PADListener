@@ -23,16 +23,18 @@ public class PushSyncHelper {
 
 	private final Context context;
 	private final RestClient client;
+	private final int accountId;
 
-	public PushSyncHelper(Context context) {
+	public PushSyncHelper(Context context, int accountId) {
 		this.context = context;
+		this.accountId = accountId;
 		client = new RestClient(context, PadHerderDescriptor.serverUrl);
 	}
 
 	public void pushMaterialToUpdate(SyncedMaterialModel model) throws JSONException, HttpCallException {
 		Log.d(getClass().getName(), "pushMaterialUpdate : " + model);
 
-		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMaterial(context,
+		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMaterial(context, accountId,
 		        model.getPadherderId());
 
 		/*
@@ -53,7 +55,7 @@ public class PushSyncHelper {
 	public void pushMonsterToUpdate(SyncedMonsterModel model) throws JSONException, HttpCallException {
 		Log.d(getClass().getName(), "pushMonsterToUpdate : " + model);
 
-		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMonster(context,
+		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMonster(context, accountId,
 		        model.getPadherderId());
 
 		/*
@@ -90,7 +92,7 @@ public class PushSyncHelper {
 
 	public void pushMonsterToCreate(SyncedMonsterModel model) throws JSONException, HttpCallException {
 		Log.d(getClass().getName(), "pushMonsterToCreate : " + model);
-		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPostMonster(context);
+		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPostMonster(context, accountId);
 
 		/*
 		{
@@ -114,7 +116,7 @@ public class PushSyncHelper {
 
 	public void pushMonsterToDelete(SyncedMonsterModel model) throws HttpCallException {
 		Log.d(getClass().getName(), "pushMonsterToDelete : " + model);
-		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForDeleteMonster(context,
+		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForDeleteMonster(context, accountId,
 		        model.getPadherderId());
 
 		client.call(httpRequest);

@@ -20,6 +20,7 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
  */
 public class ComputeSyncTaskFragment extends Fragment {
 
+	private int accountId;
 	private RestCallState state = null;
 	private RestCallRunningStep runningStep = null;
 	private ComputeSyncResultModel syncResult = null;
@@ -97,8 +98,10 @@ public class ComputeSyncTaskFragment extends Fragment {
 
 	/**
 	 * Starts the ComputeSyncService
+	 * 
+	 * @param accountId
 	 */
-	public void startComputeSyncService() {
+	public void startComputeSyncService(int accountId) {
 		Log.d(getClass().getName(), "startComputeSyncService");
 		state = RestCallState.RUNNING;
 		runningStep = null;
@@ -108,7 +111,17 @@ public class ComputeSyncTaskFragment extends Fragment {
 
 		final Intent startIntent = new Intent(getActivity(), ComputeSyncService.class);
 		startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyComputeSyncReceiver(new Handler()));
+		startIntent.putExtra(ComputeSyncService.EXTRA_ACCOUNT_ID_NAME, accountId);
+
 		getActivity().startService(startIntent);
+	}
+
+	public int getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 }

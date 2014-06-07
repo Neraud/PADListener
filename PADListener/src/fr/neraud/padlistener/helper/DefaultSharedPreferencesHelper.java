@@ -1,6 +1,12 @@
 
 package fr.neraud.padlistener.helper;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import fr.neraud.padlistener.constant.PADRegion;
@@ -26,12 +32,24 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return ProxyMode.valueOf(getStringPreference("listener_proxy_mode", "MANUAL"));
 	}
 
-	public String getPadHerderUserName() {
-		return getStringPreference("padherder_login", null);
+	@SuppressLint("UseSparseArrays")
+	public Map<Integer, String> getPadHerderAccounts() {
+		final Map<Integer, String> result = new HashMap<Integer, String>();
+		for (int i = 1; i <= 3; i++) {
+			if (StringUtils.isNotBlank(getPadHerderUserName(i)) && StringUtils.isNotBlank(getPadHerderUserPassword(i))) {
+				result.put(i, getPadHerderUserName(i));
+			}
+		}
+
+		return result;
 	}
 
-	public String getPadHerderUserPassword() {
-		return getStringPreference("padherder_password", null);
+	public String getPadHerderUserName(int accountId) {
+		return getStringPreference("padherder_login_" + accountId, null);
+	}
+
+	public String getPadHerderUserPassword(int accountId) {
+		return getStringPreference("padherder_password_" + accountId, null);
 	}
 
 	public SyncMaterialInMonster getSyncMaterialInMonster() {
