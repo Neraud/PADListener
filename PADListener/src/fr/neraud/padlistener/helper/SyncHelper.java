@@ -110,7 +110,7 @@ public class SyncHelper {
 			final int capturedId = capturedMonster.getId();
 			final int refId = monsterIdInCapturedRegionToRef.get(capturedId);
 
-			if (!capturedMonstersById.containsKey(capturedMonster.getId())) {
+			if (!capturedMonstersById.containsKey(refId)) {
 				capturedMonstersById.put(refId, new ArrayList<CapturedMonsterCardModel>());
 			}
 
