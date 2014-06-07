@@ -123,13 +123,22 @@ public class SyncHelper {
 	}
 
 	private void capMonsterData(MonsterInfoModel monsterInfo, CapturedMonsterCardModel capturedMonster) {
-		// PAD allows to exp a monster beyond its max, but PADHerder caps the exp
+		// PAD allows to exp a monster beyond its max, but PADHerder caps to the max exp
 		final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfo);
 		final long expCap = expHelper.getExpCap();
 		if (capturedMonster.getExp() > expCap) {
 			Log.d(getClass().getName(), "capMonsterData : caping monster xp for " + capturedMonster);
 			capturedMonster.setExp(expCap);
 		}
+
+		// PAD allows to awaken a monster beyond its max, but PADHerder caps to the max awakenings
+		final int maxAwakenings = monsterInfo.getAwokenSkillIds() == null ? 0 : monsterInfo.getAwokenSkillIds().size();
+		if (capturedMonster.getAwakenings() > maxAwakenings) {
+			Log.d(getClass().getName(), "capMonsterData : caping monster awakenings for " + capturedMonster);
+			capturedMonster.setAwakenings(maxAwakenings);
+		}
+
+		// TODO cap skillups and plusses ?
 	}
 
 	@SuppressLint("UseSparseArrays")
