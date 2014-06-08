@@ -50,8 +50,12 @@ public abstract class AbstractViewPagerFragment extends Fragment {
 
 			@Override
 			public void onPageSelected(int position) {
+				Log.d(getClass().getName(), "onPageSelected : " + position);
 				// When swiping between pages, select the corresponding tab.
 				getActivity().getActionBar().setSelectedNavigationItem(position);
+
+				// notifyFragmentSelected will be called in onTabSelected, ne need to call it twice
+				//notifyFragmentSelected(position);
 			}
 		});
 
@@ -62,8 +66,10 @@ public abstract class AbstractViewPagerFragment extends Fragment {
 
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
+				Log.d(getClass().getName(), "onTabSelected : " + tab.getPosition());
 				// When the tab is selected, switch to the corresponding page in the ViewPager.
 				mViewPager.setCurrentItem(tab.getPosition());
+				notifyFragmentSelected(tab.getPosition());
 			}
 
 			@Override
@@ -98,4 +104,8 @@ public abstract class AbstractViewPagerFragment extends Fragment {
 	 * @return the resource id for the tab title
 	 */
 	protected abstract Integer getTabTitle(int position);
+
+	protected void notifyFragmentSelected(int position) {
+		// Override if necessary
+	}
 }

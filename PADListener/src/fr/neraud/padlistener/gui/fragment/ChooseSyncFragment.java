@@ -54,4 +54,8 @@ public class ChooseSyncFragment extends AbstractViewPagerFragment {
 		return helper.getTitle(position);
 	}
 
+	@Override
+	protected void notifyFragmentSelected(int position) {
+		helper.notifyFragmentSelected(position);
+	}
 }
