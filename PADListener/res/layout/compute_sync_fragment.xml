@@ -26,11 +26,11 @@
             android:id="@+id/compute_sync_choose_account_spinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <Button
             android:id="@+id/compute_sync_button"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="@string/compute_sync_start" />
