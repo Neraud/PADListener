@@ -31,24 +31,26 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 
 		/*
 		"profile": {
-			"href": "https://www.padherder.com/user-api/profile/13924/",
+			"id": 15458,
+			"url": "https://www.padherder.com/user-api/profile/15458/",
 			"public": true,
 			"display_name": "",
-			"profile_text": " ",
-			"account_id": 392392294,
+			"profile_text": "",
+			"account_id": 0,
 			"country": 2,
-			"rank": 114,
-			"starter_colour": 1,
+			"rank": 6,
+			"starter_colour": 0,
 			"team_group_1": "Team Group 1",
 			"team_group_2": "Team Group 2",
 			"team_group_3": "Team Group 3",
-			"team_group_4": "Descends",
-			"team_group_5": "Zombies"
+			"team_group_4": "Team Group 4",
+			"team_group_5": "Team Group 5"
 		}
 		*/
 
 		final JSONObject profileJson = json.getJSONObject("profile");
 
+		userModel.setProfileApiId(profileJson.getInt("id"));
 		userModel.setAccountId(profileJson.getInt("account_id"));
 		userModel.setCountryCode(profileJson.getInt("country"));
 		userModel.setRank(profileJson.getInt("rank"));

@@ -45,6 +45,8 @@
 	<string name="settings_sync_deduct_monster_in_material_summary">If you sync materials in your monsters\' list, should they still be counted in your materials ? \nFor example, if you have 4 KoR with 1 used in your monsters, do you want to have 3 or 4 KoR available in your materials ?</string>
 		
     <string name="settings_sync_preselect_category">Preselections</string>
+    <string name="settings_choose_sync_preselect_updated_user_info_title">Updated user info</string>
+	<string name="settings_choose_sync_preselect_updated_user_info_summary"></string>
     <string name="settings_choose_sync_preselect_updated_materials_title">Updated materials</string>
 	<string name="settings_choose_sync_preselect_updated_materials_summary"></string>
 	<string name="settings_choose_sync_preselect_updated_monsters_title">Updated monsters</string>

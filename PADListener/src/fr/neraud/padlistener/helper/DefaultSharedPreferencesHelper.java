@@ -60,6 +60,10 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return getBooleanPreference("sync_deduct_monster_in_material", true);
 	}
 
+	public boolean isChooseSyncPreselectUserInfoToUpdate() {
+		return getBooleanPreference("choose_sync_preselect_updated_user_info", true);
+	}
+
 	public boolean isChooseSyncPreselectMaterialsUpdated() {
 		return getBooleanPreference("choose_sync_preselect_updated_materials", true);
 	}

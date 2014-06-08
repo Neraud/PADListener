@@ -14,6 +14,7 @@ public class UserInfoModel {
 	private int countryCode;
 	private int rank;
 	private int starterColor;
+	private int profileApiId;
 	private List<UserInfoMaterialModel> materials;
 	private List<UserInfoMonsterModel> monsters;
 
@@ -47,6 +48,14 @@ public class UserInfoModel {
 
 	public void setStarterColor(int starterColor) {
 		this.starterColor = starterColor;
+	}
+
+	public int getProfileApiId() {
+		return profileApiId;
+	}
+
+	public void setProfileApiId(int profileApiId) {
+		this.profileApiId = profileApiId;
 	}
 
 	public List<UserInfoMaterialModel> getMaterials() {

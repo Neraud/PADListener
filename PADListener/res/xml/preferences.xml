@@ -72,6 +72,11 @@
         <PreferenceCategory android:title="@string/settings_sync_preselect_category" >
             <CheckBoxPreference
                 android:defaultValue="true"
+                android:key="choose_sync_preselect_updated_user_info"
+                android:summary="@string/settings_choose_sync_preselect_updated_user_info_summary"
+                android:title="@string/settings_choose_sync_preselect_updated_user_info_title" />
+            <CheckBoxPreference
+                android:defaultValue="true"
                 android:key="choose_sync_preselect_updated_materials"
                 android:summary="@string/settings_choose_sync_preselect_updated_materials_summary"
                 android:title="@string/settings_choose_sync_preselect_updated_materials_title" />

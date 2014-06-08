@@ -122,10 +122,37 @@ public class PushSyncHelper {
 		client.call(httpRequest);
 	}
 
-	public void pushUserInfoToUpdate(SyncedUserInfoModel model) throws HttpCallException {
+	public void pushUserInfoToUpdate(SyncedUserInfoModel model) throws HttpCallException, JSONException {
 		Log.d(getClass().getName(), "pushUserInfoToUpdate : " + model);
 
-		// TODO : implement sync rank when PADHerder API allows it
+		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForUpdateUserInfo(context, accountId,
+		        model.getProfileApiId());
+
+		/*
+
+			"id": 15458,
+			"url": "https://www.padherder.com/user-api/profile/15458/",
+			"public": true,
+			"display_name": "",
+			"profile_text": "",
+			"account_id": 0,
+			"country": 2,
+			"rank": 6,
+			"starter_colour": 0,
+			"team_group_1": "Team Group 1",
+			"team_group_2": "Team Group 2",
+			"team_group_3": "Team Group 3",
+			"team_group_4": "Team Group 4",
+			"team_group_5": "Team Group 5"
+		
+		*/
+
+		final JSONObject json = new JSONObject();
+		json.put("rank", model.getCapturedInfo());
+
+		httpRequest.setBody(json.toString());
+
+		client.call(httpRequest);
 	}
 
 }

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 import fr.neraud.padlistener.helper.PushSyncHelper;
-import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
@@ -59,7 +58,7 @@ public class PushSyncService extends IntentService {
 			try {
 				helper.pushUserInfoToUpdate(syncedUserInfoToUpdate.getSyncedModel());
 				notifyUserInfoUpdated(receiver);
-			} catch (final HttpCallException e) {
+			} catch (final Exception e) {
 				Log.e(getClass().getName(), "pushUserInfoToUpdate : error syncing", e);
 				notifyUserInfoUpdatedFailed(receiver, e.getMessage());
 			}

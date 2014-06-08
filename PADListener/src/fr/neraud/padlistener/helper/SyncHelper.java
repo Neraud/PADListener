@@ -249,10 +249,11 @@ public class SyncHelper {
 	}
 
 	private SyncedUserInfoModel syncRank(CapturedPlayerInfoModel capturedInfo, UserInfoModel padInfo) {
-		Log.d(getClass().getName(), "syncMaterials");
+		Log.d(getClass().getName(), "syncRank");
 		final SyncedUserInfoModel syncedPlayerInfo = new SyncedUserInfoModel();
 		syncedPlayerInfo.setCapturedInfo(capturedInfo.getRank());
 		syncedPlayerInfo.setPadherderInfo(padInfo.getRank());
+		syncedPlayerInfo.setProfileApiId(padInfo.getProfileApiId());
 
 		return syncedPlayerInfo;
 	}

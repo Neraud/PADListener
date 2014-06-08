@@ -32,6 +32,11 @@ public class PadHerderDescriptor {
 			return initRequest(Services.GET_USER_INFO, context, accountId, url);
 		}
 
+		public static MyHttpRequest initRequestForUpdateUserInfo(Context context, int accountId, int profileApiId) {
+			final String url = Services.PATCH_USER_INFO.apiUrl.replaceAll("\\[id\\]", String.valueOf(profileApiId));
+			return initRequest(Services.PATCH_USER_INFO, context, accountId, url);
+		}
+
 		public static MyHttpRequest initRequestForPatchMaterial(Context context, int accountId, long padherderMaterialId) {
 			final String url = Services.PATCH_MATERIAL.apiUrl.replaceAll("\\[id\\]", String.valueOf(padherderMaterialId));
 			return initRequest(Services.PATCH_MATERIAL, context, accountId, url);
@@ -74,6 +79,7 @@ public class PadHerderDescriptor {
 			}
 			return restRequest;
 		}
+
 	}
 
 	/**
@@ -85,6 +91,7 @@ public class PadHerderDescriptor {
 
 		GET_MONSTER_INFO("/api/monsters/", HttpMethod.GET, false),
 		GET_USER_INFO("/user-api/user/[userName]/", HttpMethod.GET, true),
+		PATCH_USER_INFO("/user-api/profile/[id]/", HttpMethod.PATCH, true),
 		PATCH_MATERIAL("/user-api/material/[id]/", HttpMethod.PATCH, true),
 		PATCH_MONSTER("/user-api/monster/[id]/", HttpMethod.PATCH, true),
 		POST_MONSTER("/user-api/monster/", HttpMethod.POST, true),

@@ -36,8 +36,7 @@ public class ChooseSyncInitHelper {
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseSyncModelContainer<SyncedUserInfoModel>();
-		// TODO let the user choose ?
-		syncedUserInfoToUpdate.setChoosen(false);
+		syncedUserInfoToUpdate.setChoosen(prefHelper.isChooseSyncPreselectUserInfoToUpdate());
 		syncedUserInfoToUpdate.setSyncedModel(syncResult.getSyncedUserInfo());
 
 		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();

@@ -4,6 +4,7 @@ package fr.neraud.padlistener.gui.fragment;
 import java.io.Serializable;
 import java.util.List;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
@@ -19,6 +21,7 @@ import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
+import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
 /**
  * ChooseSync fragment for the Information tab
@@ -44,11 +47,6 @@ public class ChooseSyncInfoFragment extends Fragment {
 
 		final View userInfoBlockView = view.findViewById(R.id.choose_sync_userInfo_block);
 
-		// TODO : enable sync rank when PADHerder API allows it
-		userInfoBlockView.setVisibility(View.GONE);
-		result.getSyncedUserInfoToUpdate().setChoosen(false);
-
-		/*
 		final SyncedUserInfoModel userInfoModel = result.getSyncedUserInfoToUpdate().getSyncedModel();
 		if (userInfoModel.getCapturedInfo().equals(userInfoModel.getPadherderInfo())) {
 			userInfoBlockView.setVisibility(View.GONE);
@@ -76,7 +74,6 @@ public class ChooseSyncInfoFragment extends Fragment {
 				userInfoText.setTextColor(Color.RED);
 			}
 		}
-		*/
 
 		syncButton = (Button) view.findViewById(R.id.choose_sync_button);
 
