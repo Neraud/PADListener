@@ -85,6 +85,9 @@ public class ChooseSyncInfoFragment extends Fragment {
 	private void updateCounts() {
 		Log.d(getClass().getName(), "updateCounts");
 
+		final SyncedUserInfoModel userInfoModel = result.getSyncedUserInfoToUpdate().getSyncedModel();
+		final boolean hasUserInfoToUpdate = !userInfoModel.getCapturedInfo().equals(userInfoModel.getPadherderInfo());
+		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && result.getSyncedUserInfoToUpdate().isChoosen();
 		final int materialToUpdateCount = result.getSyncedMaterialsToUpdate().size();
 		final int materialToUpdateChosenCount = countChosenItems(result.getSyncedMaterialsToUpdate());
 		final int monsterToUpdateCount = result.getSyncedMonstersToUpdate().size();
@@ -98,10 +101,8 @@ public class ChooseSyncInfoFragment extends Fragment {
 		        monsterToUpdateChosenCount, monsterToUpdateCount, monsterlToCreateChosenCount, monsterlToCreateCount,
 		        monsterlToDeleteChosenCount, monsterlToDeleteCount));
 
-		final boolean hasChosenUserInfoToSync = result.getSyncedUserInfoToUpdate().isChoosen();
-
 		if (materialToUpdateChosenCount > 0 || monsterToUpdateChosenCount > 0 || monsterlToCreateChosenCount > 0
-		        || monsterlToDeleteChosenCount > 0 || hasChosenUserInfoToSync) {
+		        || monsterlToDeleteChosenCount > 0 || hasUserInfoToUpdateChosen) {
 			syncButton.setEnabled(true);
 			syncButton.setText(R.string.choose_sync_info_button_enabled);
 			syncButton.setOnClickListener(new OnClickListener() {
