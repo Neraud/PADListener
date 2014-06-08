@@ -66,10 +66,10 @@ public class PADPlugin extends ProxyPlugin {
 		@Override
 		public Response fetchResponse(Request request) throws IOException {
 			if (_enabled) {
-				Log.d(PADPlugin.class.getName(), "fetchResponse");
 				final Response response = _in.fetchResponse(request);
 
 				final HttpUrl reqUrl = request.getURL();
+				Log.d(PADPlugin.class.getName(), "fetchResponse : " + reqUrl);
 				final String reqHost = reqUrl.getHost();
 				final String reqPath = reqUrl.getPath();
 
