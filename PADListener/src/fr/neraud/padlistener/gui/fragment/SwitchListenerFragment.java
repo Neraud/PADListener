@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
@@ -146,6 +147,16 @@ public class SwitchListenerFragment extends Fragment {
 			}
 		});
 
+		final Button launchWifiSettingsButton = (Button) view.findViewById(R.id.switch_listener_launch_wifi_settings_button);
+		launchWifiSettingsButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.d(getClass().getName(), "onClick");
+				startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+			}
+		});
+
 		final ImageButton launchPadButton = (ImageButton) view.findViewById(R.id.switch_listener_launch_pad_button);
 		final View launchPadBlock = view.findViewById(R.id.switch_listener_launch_pad_block);
 
@@ -160,7 +171,7 @@ public class SwitchListenerFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					Log.d(getClass().getName(), "onClick");
-					getActivity().startActivity(padStartIntent);
+					startActivity(padStartIntent);
 				}
 			});
 		} catch (final NameNotFoundException e) {

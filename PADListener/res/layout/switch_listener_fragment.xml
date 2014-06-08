@@ -33,26 +33,41 @@
         android:textSize="16sp" />
 
     <LinearLayout
-        android:id="@+id/switch_listener_launch_pad_block"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="25dp"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal" >
 
-        <ImageButton
-            android:id="@+id/switch_listener_launch_pad_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <TextView
+        <Button
+            android:id="@+id/switch_listener_launch_wifi_settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/switch_listener_start_pad"
-            android:textSize="16sp" />
+            android:layout_weight="1"
+            android:text="@string/switch_listener_launch_wifi_settings" />
+
+        <LinearLayout
+            android:id="@+id/switch_listener_launch_pad_block"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/switch_listener_launch_pad_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/switch_listener_launch_pad"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -104,7 +104,8 @@
          - Manual mode only works with a WiFi connexion. You have to manually configure your WiFi proxy to localhost:8008. All http requests will go through PADListener.\n
          - AutoProxy mode only works with a WiFi connexion. When the listener is started, it automatically set your WiFI proxy up. All http requests will go through PADListener.\n
          <!--- Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener--></string>
-	<string name="switch_listener_start_pad">Launch PAD</string>
+	<string name="switch_listener_launch_pad">Launch PAD</string>
+	<string name="switch_listener_launch_wifi_settings">WiFi Settings</string>
     
     
     <!-- View monster info -->
