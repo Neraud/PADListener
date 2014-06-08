@@ -14,7 +14,7 @@ It's still in beta, but I plan to upload it on the Play Store as soon as it's st
 
 Thanks
 ----------
-I'd like to thank [Freddie](https://github.com/madcowfrde) for his great work on PADherder [PADherder](https://www.padherder.com) and its API.
+I'd like to thank [Freddie](https://github.com/madcowfred) for his great work on [PADherder](https://www.padherder.com) and its API.
 To use a local proxy on an Android device, I used [SandroProxyLib](http://code.google.com/p/sandrop/).
 
 Warning
