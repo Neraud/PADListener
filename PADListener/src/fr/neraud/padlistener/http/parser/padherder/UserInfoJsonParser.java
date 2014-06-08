@@ -28,17 +28,31 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 	protected UserInfoModel parseJsonObject(JSONObject json) throws JSONException, ParsingException {
 		Log.d(getClass().getName(), "parseJsonObject");
 		final UserInfoModel userModel = new UserInfoModel();
+
 		/*
-		"account_id": 392392294, 
-		"country": 4, 
-		"rank": 114, 
-		"starter_colour": 1, 
+		"profile": {
+			"href": "https://www.padherder.com/user-api/profile/13924/",
+			"public": true,
+			"display_name": "",
+			"profile_text": " ",
+			"account_id": 392392294,
+			"country": 2,
+			"rank": 114,
+			"starter_colour": 1,
+			"team_group_1": "Team Group 1",
+			"team_group_2": "Team Group 2",
+			"team_group_3": "Team Group 3",
+			"team_group_4": "Descends",
+			"team_group_5": "Zombies"
+		}
 		*/
 
-		userModel.setAccountId(json.getInt("account_id"));
-		userModel.setCountryCode(json.getInt("country"));
-		userModel.setRank(json.getInt("rank"));
-		userModel.setStarterColor(json.getInt("starter_colour"));
+		final JSONObject profileJson = json.getJSONObject("profile");
+
+		userModel.setAccountId(profileJson.getInt("account_id"));
+		userModel.setCountryCode(profileJson.getInt("country"));
+		userModel.setRank(profileJson.getInt("rank"));
+		userModel.setStarterColor(profileJson.getInt("starter_colour"));
 
 		final List<UserInfoMaterialModel> materials = new ArrayList<UserInfoMaterialModel>();
 		final JSONArray materialsArray = json.getJSONArray("materials");
@@ -58,6 +72,7 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		}
 		userModel.setMonsters(monsters);
 
+		Log.d(getClass().getName(), "parseJsonObject : " + userModel);
 		return userModel;
 	}
 

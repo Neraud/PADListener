@@ -65,4 +65,10 @@ public class UserInfoModel {
 		this.monsters = monsters;
 	}
 
+	@Override
+	public String toString() {
+		return "UserInfoModel [accountId=" + accountId + ", countryCode=" + countryCode + ", rank=" + rank + ", starterColor="
+		        + starterColor + "]";
+	}
+
 }
