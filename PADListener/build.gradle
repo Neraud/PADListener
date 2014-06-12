@@ -1,0 +1,79 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:0.10.0+'
+	}
+}
+
+apply plugin: 'android'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile fileTree(dir: 'libs', include: '*.jar')
+	//compile "com.android.support:support-v4:18.0.+"
+	//compile 'org.apache.commons:commons-lang3:3.3.2'
+	//compile 'commons-io:commons-io:2.4'
+	compile project(':SandroProxyLib')
+}
+
+android {
+	compileSdkVersion 15
+	buildToolsVersion "19.1"
+	
+	sourceSets {
+		main {
+			manifest.srcFile 'AndroidManifest.xml'
+			java.srcDirs = ['src']
+			resources.srcDirs = ['src']
+			aidl.srcDirs = ['src']
+			renderscript.srcDirs = ['src']
+			res.srcDirs = ['res']
+			assets.srcDirs = ['assets']
+		}
+		instrumentTest.setRoot('tests')
+	}
+	
+	lintOptions {
+		abortOnError false
+	}
+	
+	packagingOptions {
+		exclude 'META-INF/DEPENDENCIES.txt'
+		exclude 'META-INF/LICENSE.txt'
+		exclude 'META-INF/NOTICE.txt'
+		exclude 'META-INF/NOTICE'
+		exclude 'META-INF/LICENSE'
+		exclude 'META-INF/DEPENDENCIES'
+		exclude 'META-INF/notice.txt'
+		exclude 'META-INF/license.txt'
+		exclude 'META-INF/dependencies.txt'
+		exclude 'META-INF/LGPL2.1'
+	}
+		
+	if(project.hasProperty("signingProperties.path") && new File(project.property("signingProperties.path")).exists()) {
+		Properties props = new Properties()
+		props.load(new FileInputStream(file(project.property("signingProperties.path"))))
+		
+		signingConfigs {
+			release {
+				storeFile file(props['signing.release.storeFile'])
+				storePassword props['signing.release.storePassword']
+				keyAlias props['signing.release.keyAlias']
+				keyPassword props['signing.release.keyPassword']
+			}
+		}
+		
+		buildTypes {
+			release {
+				runProguard false
+				signingConfig signingConfigs.release
+			}
+		}
+	}
+}
+

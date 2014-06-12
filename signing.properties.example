@@ -1,0 +1,4 @@
+signing.release.storeFile=/path/to/the/release.keystore
+signing.release.storePassword=android
+signing.release.keyAlias=androiddebugkey
+signing.release.keyPassword=android
