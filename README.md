@@ -44,13 +44,18 @@ This application can :
 Building the application
 ----------
 If you want to build the application yourself, you can use gradle.
+
+To set up the build, you need to set up the android sdk home with one of the following methods : 
+* create a file ROOT/local.properties containing a single key sdk.dir
+* set up an ANDROID_HOME environment variable
+
+If you want a properly sign apk, you should create a properties file containing your keystore informations (cf the example signing.properties.example).
+You need to reference this properties file with one of the following methods : 
+* create a ROOT/gradle.properties containing a single key signingProperties.path
+* set up an SIGNING_PROPERTIES_PATH environment variable
+
 To build a debug APK : 
-* create a file ROOT/local.properties containing a single key sdk.dir (cf the example local.properties.example)
 * check that gradle works by issuing a "gradle" command in ROOT
 * build a debug apk with "gradle build" in ROOT
 * fetch the APK from ROOT/PADListener/build/apk/
-
-If you want a properly sign apk, you should : 
-* create a properties file containing your keystore informations (cf the example signing.properties.example).
-* create a ROOT/gradle.properties containing a single key signingProperties.path (cf the example gradle.properties.example)
 
