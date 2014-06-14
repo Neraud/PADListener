@@ -8,6 +8,7 @@ buildscript {
 }
 
 apply plugin: 'android'
+apply plugin: 'maven'
 
 repositories {
 	mavenCentral()
@@ -85,3 +86,41 @@ android {
 	}
 }
 
+artifacts {  
+    archives file('build/apk/PADListener-release.apk')
+}
+
+String uploadPropsFilePath = null
+if(project.hasProperty("uploadProperties.path") && new File(project.property("uploadProperties.path")).exists()) {
+	uploadPropsFilePath = project.property("uploadProperties.path")
+} else if(System.getenv("UPLOAD_PROPERTIES_PATH") != null && new File(System.getenv("UPLOAD_PROPERTIES_PATH")).exists()) {
+	uploadPropsFilePath = System.getenv("UPLOAD_PROPERTIES_PATH")
+}
+
+if(uploadPropsFilePath != null) {
+	Properties uploadProps = new Properties()
+	uploadProps.load(new FileInputStream(file(uploadPropsFilePath)))
+	
+	uploadArchives {  
+		repositories {  
+			mavenDeployer {  
+				repository(url: uploadProps['repo.release.url']) {  
+					authentication(userName: uploadProps['repo.release.userName'], password: uploadProps['repo.release.password']);  
+				}  
+				snapshotRepository(url: uploadProps['repo.snapshot.url']) {
+					authentication(userName: uploadProps['repo.snapshot.userName'], password: uploadProps['repo.snapshot.password']);  
+				}
+				pom.groupId = 'fr.neraud'
+				pom.artifactId = 'PADListener'
+				pom.version = manifestVersionName()
+			}  
+		}  
+	}
+}
+
+def manifestVersionName() {
+	def manifestFile = file(project.projectDir.absolutePath + '/AndroidManifest.xml')
+	def ns = new groovy.xml.Namespace("http://schemas.android.com/apk/res/android", "android")
+	def xml = new XmlParser().parse(manifestFile)
+	return xml.attributes()[ns.versionName].toString()
+}
