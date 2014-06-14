@@ -43,8 +43,11 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 
 		final String[] selection = new String[] { MonsterInfoDescriptor.Fields.ID_JP.getColName(),
 		        MonsterInfoDescriptor.Fields.IMAGE_60_URL.getColName() };
+		// Start by the highest id first. Chances are, the new images are for new monsters. Let's fetch these first.
+		final String sortOrder = MonsterInfoDescriptor.Fields.ID_JP.getColName() + " DESC";
 
-		final Cursor cursor = getContentResolver().query(MonsterInfoDescriptor.UriHelper.uriForAll(), selection, null, null, null);
+		final Cursor cursor = getContentResolver().query(MonsterInfoDescriptor.UriHelper.uriForAll(), selection, null, null,
+		        sortOrder);
 		if (cursor != null && cursor.moveToFirst()) {
 			final int imagesToDownload = cursor.getCount() + 1;
 			int imagesDownloaded = 0;
