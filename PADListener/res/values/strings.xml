@@ -24,7 +24,7 @@
     <string name="settings_listener_page">Listener</string>
     <string name="settings_listener_category">Listener</string>
     <string name="settings_listener_target_hostname_title">Target hostname</string>
-    <string name="settings_listener_target_hostname_summary">Hostname for PAD calls.\nYou probably should change this ;p</string>
+    <string name="settings_listener_target_hostname_summary">Hostname for PAD calls.\nYou probably should not change this ;p</string>
     <string name="settings_proxy_mode_title">Proxy settings mode</string>
     <string name="settings_proxy_mode_summary">%1$s</string>
        
