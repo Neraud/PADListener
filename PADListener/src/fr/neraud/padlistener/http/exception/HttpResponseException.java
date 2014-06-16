@@ -9,17 +9,20 @@ package fr.neraud.padlistener.http.exception;
 public class HttpResponseException extends Exception {
 
 	private static final long serialVersionUID = -7659278082777602362L;
+	private final int code;
 
-	public HttpResponseException(String detailMessage, Throwable throwable) {
+	public HttpResponseException(int code, String detailMessage, Throwable throwable) {
 		super(detailMessage, throwable);
+		this.code = code;
 	}
 
-	public HttpResponseException(String detailMessage) {
+	public HttpResponseException(int code, String detailMessage) {
 		super(detailMessage);
+		this.code = code;
 	}
 
-	public HttpResponseException(Throwable throwable) {
-		super(throwable);
+	public int getCode() {
+		return code;
 	}
 
 }

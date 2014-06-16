@@ -24,6 +24,7 @@ import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.gui.helper.AccountSpinnerAdapter;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
+import fr.neraud.padlistener.http.exception.HttpResponseException;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
@@ -41,17 +42,19 @@ public class ComputeSyncFragment extends Fragment {
 	private Button startButton;
 	private ProgressBar progress;
 	private TextView status;
+	private TextView checkLogin;
 	private int accountId = -1;
 	private final ComputeSyncTaskFragment.CallBacks callbacks = new ComputeSyncTaskFragment.CallBacks() {
 
 		@Override
 		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
-		        String errorMessage) {
+		        Throwable errorCause) {
 			Log.d(getClass().getName(), "updateState");
 			if (state != null) {
 				startButton.setEnabled(false);
 				progress.setVisibility(View.VISIBLE);
 				status.setVisibility(View.VISIBLE);
+				checkLogin.setVisibility(View.GONE);
 				progress.setMax(4);
 
 				switch (state) {
@@ -93,8 +96,15 @@ public class ComputeSyncFragment extends Fragment {
 					break;
 				case FAILED:
 					progress.setIndeterminate(false);
-					status.setText(getString(R.string.compute_sync_status,
-					        getString(R.string.compute_sync_status_failed, errorMessage)));
+
+					final String message = errorCause != null ? errorCause.getMessage() : "?";
+					status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, message)));
+					if (errorCause instanceof HttpResponseException && ((HttpResponseException) errorCause).getCode() == 404) {
+						final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
+						        .getPadHerderUserName(accountId);
+						checkLogin.setText(getString(R.string.compute_sync_check_login, accountLogin));
+						checkLogin.setVisibility(View.VISIBLE);
+					}
 				default:
 					break;
 				}
@@ -121,6 +131,7 @@ public class ComputeSyncFragment extends Fragment {
 		startButton = (Button) view.findViewById(R.id.compute_sync_button);
 		progress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		status = (TextView) view.findViewById(R.id.compute_sync_status);
+		checkLogin = (TextView) view.findViewById(R.id.compute_sync_check_login);
 		final AccountSpinnerAdapter adapter = new AccountSpinnerAdapter(getActivity());
 		chooseAccountSpinner.setAdapter(adapter);
 

@@ -21,13 +21,13 @@ public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 
 	private RestCallState state = null;
 	private RestCallRunningStep runningStep = null;
-	private String errorMessage = null;
+	private Throwable errorCause = null;
 
 	private CallBacks callbacks = null;
 
 	public static interface CallBacks {
 
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, String errorMessage);
+		public void updateState(RestCallState state, RestCallRunningStep runningStep, Throwable errorCause);
 	}
 
 	private class MyResultReceiver extends AbstractRestResultReceiver<Integer> {
@@ -52,10 +52,10 @@ public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 		}
 
 		@Override
-		protected void onReceiveError(RestCallError error, String message) {
+		protected void onReceiveError(RestCallError error, Throwable cause) {
 			Log.d(getClass().getName(), "onReceiveError : " + error);
 			state = RestCallState.FAILED;
-			errorMessage = message;
+			errorCause = cause;
 			notifyCallBacks();
 		}
 
@@ -83,7 +83,7 @@ public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 
 	private void notifyCallBacks() {
 		if (callbacks != null) {
-			callbacks.updateState(state, runningStep, errorMessage);
+			callbacks.updateState(state, runningStep, errorCause);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 		Log.d(getClass().getName(), "startFetchInfoService");
 		state = RestCallState.RUNNING;
 		runningStep = null;
-		errorMessage = null;
+		errorCause = null;
 		notifyCallBacks();
 
 		final Intent startIntent = new Intent(getActivity(), FetchPadHerderMonsterInfoService.class);

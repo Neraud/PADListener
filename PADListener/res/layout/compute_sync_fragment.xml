@@ -58,6 +58,16 @@
         android:text="@string/compute_sync_status" />
 
     <TextView
+        android:id="@+id/compute_sync_check_login"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/compute_sync_check_login" />
+
+    <TextView
         android:id="@+id/compute_sync_missing_credentials_text"
         android:layout_width="fill_parent"
         android:layout_height="50dp"

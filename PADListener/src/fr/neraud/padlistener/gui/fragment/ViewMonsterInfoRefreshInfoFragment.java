@@ -38,7 +38,7 @@ public class ViewMonsterInfoRefreshInfoFragment extends Fragment {
 	private final CallBacks callbacks = new CallBacks() {
 
 		@Override
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, String errorMessage) {
+		public void updateState(RestCallState state, RestCallRunningStep runningStep, Throwable errorCause) {
 			Log.d(getClass().getName(), "updateState");
 			if (state != null) {
 				startButton.setEnabled(false);
@@ -78,7 +78,8 @@ public class ViewMonsterInfoRefreshInfoFragment extends Fragment {
 					refreshLastUpdate();
 					break;
 				case FAILED:
-					statusText.setText(getString(R.string.monster_info_fetch_info_fetching_failed, errorMessage));
+					final String message = errorCause != null ? errorCause.getMessage() : "?";
+					statusText.setText(getString(R.string.monster_info_fetch_info_fetching_failed, message));
 				default:
 					break;
 				}

@@ -162,7 +162,7 @@
     <string name="compute_sync_status_computing">computing sync</string>
     <string name="compute_sync_status_finished">finished</string>
     <string name="compute_sync_status_failed">failed : %1$s</string>
-    
+    <string name="compute_sync_check_login">This error can appear if your PADherder login is set up with an incorrect case. Please check that \'%1$s\' is your correct login. (PADherder\'s website accept login even when they have an incorrect case, but this app requires the correct case)</string>
     <string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
     <string name="compute_sync_missing_capture">You did not capture any data from PAD, there is nothing to sync !</string>
     

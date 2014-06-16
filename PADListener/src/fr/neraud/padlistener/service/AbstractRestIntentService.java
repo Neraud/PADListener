@@ -51,8 +51,8 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 				final M resultModel = processResult(result);
 				notifyResult(resultModel);
 			} else {
-				throw new HttpResponseException("Code " + restResponse.getStatus() + " received with content : "
-				        + restResponse.getContentResult());
+				throw new HttpResponseException(restResponse.getStatus(), "Code " + restResponse.getStatus()
+				        + " received with content : " + restResponse.getContentResult());
 			}
 		} catch (final HttpCallException e) {
 			Log.e(getClass().getName(), "onHandleIntent : HttpCallException " + e.getMessage(), e);
@@ -115,7 +115,7 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 		if (receiver != null) {
 			final Bundle bundle = new Bundle();
 			bundle.putString(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_NAME, error.name());
-			bundle.putString(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_MESSAGE_NAME, t.getMessage());
+			bundle.putSerializable(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_CAUSE, t);
 			receiver.send(RestCallState.FAILED.getCode(), bundle);
 		} else {
 			Log.w(getClass().getName(), "processResult : no ResultReceiver available !");

@@ -24,7 +24,7 @@ public abstract class AbstractRestResultReceiver<R extends Serializable> extends
 	public static final String RECEIVER_BUNDLE_STEP_NAME = "step";
 	public static final String RECEIVER_BUNDLE_RESULT_NAME = "result";
 	public static final String RECEIVER_BUNDLE_ERROR_NAME = "error";
-	public static final String RECEIVER_BUNDLE_ERROR_MESSAGE_NAME = "errorMessage";
+	public static final String RECEIVER_BUNDLE_ERROR_CAUSE = "errorCause";
 
 	public AbstractRestResultReceiver(Handler handler) {
 		super(handler);
@@ -53,8 +53,9 @@ public abstract class AbstractRestResultReceiver<R extends Serializable> extends
 		case FAILED:
 			final String errorString = resultData.getString(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_NAME);
 			final RestCallError error = RestCallError.valueOf(errorString);
-			final String errorMessage = resultData.getString(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_MESSAGE_NAME);
-			onReceiveError(error, errorMessage);
+			final Throwable errorCause = (Throwable) resultData
+			        .getSerializable(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_CAUSE);
+			onReceiveError(error, errorCause);
 			break;
 		default:
 			break;
@@ -65,6 +66,6 @@ public abstract class AbstractRestResultReceiver<R extends Serializable> extends
 
 	protected abstract void onReceiveSuccess(R result);
 
-	protected abstract void onReceiveError(RestCallError error, String errorMessage);
+	protected abstract void onReceiveError(RestCallError error, Throwable errorCause);
 
 }

@@ -24,7 +24,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 	private RestCallState state = null;
 	private RestCallRunningStep runningStep = null;
 	private ComputeSyncResultModel syncResult = null;
-	private String errorMessage = null;
+	private Throwable errorCause = null;
 	private CallBacks callbacks = null;
 
 	/**
@@ -35,7 +35,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 	public static interface CallBacks {
 
 		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
-		        String errorMessage);
+		        Throwable errorCause);
 	}
 
 	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<ComputeSyncResultModel> {
@@ -61,10 +61,10 @@ public class ComputeSyncTaskFragment extends Fragment {
 		}
 
 		@Override
-		protected void onReceiveError(RestCallError error, String message) {
+		protected void onReceiveError(RestCallError error, Throwable cause) {
 			Log.d(getClass().getName(), "onReceiveError : " + error);
 			state = RestCallState.FAILED;
-			errorMessage = message;
+			errorCause = cause;
 			notifyCallBacks();
 		}
 
@@ -92,7 +92,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 
 	private void notifyCallBacks() {
 		if (callbacks != null) {
-			callbacks.updateState(state, runningStep, syncResult, errorMessage);
+			callbacks.updateState(state, runningStep, syncResult, errorCause);
 		}
 	}
 
@@ -106,7 +106,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 		state = RestCallState.RUNNING;
 		runningStep = null;
 		syncResult = null;
-		errorMessage = null;
+		errorCause = null;
 		notifyCallBacks();
 
 		final Intent startIntent = new Intent(getActivity(), ComputeSyncService.class);
