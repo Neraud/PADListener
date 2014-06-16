@@ -45,6 +45,14 @@ public class ChooseSyncInfoFragment extends Fragment {
 
 		summaryText = (TextView) view.findViewById(R.id.choose_sync_summary);
 
+		final TextView unknownMonsters = (TextView) view.findViewById(R.id.choose_sync_unknown_monster_encountred);
+		if (result.isHasEncountredUnknownMonster()) {
+			unknownMonsters.setVisibility(View.VISIBLE);
+			unknownMonsters.setTextColor(Color.RED);
+		} else {
+			unknownMonsters.setVisibility(View.GONE);
+		}
+
 		final View userInfoBlockView = view.findViewById(R.id.choose_sync_userInfo_block);
 
 		final SyncedUserInfoModel userInfoModel = result.getSyncedUserInfoToUpdate().getSyncedModel();

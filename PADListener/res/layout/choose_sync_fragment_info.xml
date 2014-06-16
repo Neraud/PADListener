@@ -16,6 +16,15 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/choose_sync_unknown_monster_encountred"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/choose_sync_unknown_monster_encountred" />
+
+    <TextView
         android:id="@+id/choose_sync_explain"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

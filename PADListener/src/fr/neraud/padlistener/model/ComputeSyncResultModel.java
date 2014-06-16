@@ -12,9 +12,18 @@ import java.util.List;
 public class ComputeSyncResultModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	boolean hasEncountredUnknownMonster = false;
 	private SyncedUserInfoModel syncedUserInfo;
 	private List<SyncedMaterialModel> syncedMaterials;
 	private List<SyncedMonsterModel> syncedMonsters;
+
+	public boolean isHasEncountredUnknownMonster() {
+		return hasEncountredUnknownMonster;
+	}
+
+	public void setHasEncountredUnknownMonster(boolean hasEncountredUnknownMonster) {
+		this.hasEncountredUnknownMonster = hasEncountredUnknownMonster;
+	}
 
 	public SyncedUserInfoModel getSyncedUserInfo() {
 		return syncedUserInfo;

@@ -170,6 +170,7 @@
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
 	<string name="choose_sync_info_label">Summary</string>
+	<string name="choose_sync_unknown_monster_encountred">The sync process encountred unknown monsters, they have been ignored. You should refresh the monster informations (from the main screen, go into View monster info, the second tab will let you refresh the info)</string>
 	<string name="choose_sync_materialsUpdated_label">^ Materials</string>
 	<string name="choose_sync_monstersUpdated_label">^ Monsters</string>
 	<string name="choose_sync_monstersCreated_label">+ Monsters</string>

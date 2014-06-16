@@ -12,11 +12,20 @@ import java.util.List;
 public class ChooseSyncModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	boolean hasEncountredUnknownMonster = false;
 	private ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete;
+
+	public boolean isHasEncountredUnknownMonster() {
+		return hasEncountredUnknownMonster;
+	}
+
+	public void setHasEncountredUnknownMonster(boolean hasEncountredUnknownMonster) {
+		this.hasEncountredUnknownMonster = hasEncountredUnknownMonster;
+	}
 
 	public ChooseSyncModelContainer<SyncedUserInfoModel> getSyncedUserInfoToUpdate() {
 		return syncedUserInfoToUpdate;

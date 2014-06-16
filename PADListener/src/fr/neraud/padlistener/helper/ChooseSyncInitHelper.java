@@ -76,6 +76,7 @@ public class ChooseSyncInitHelper {
 			}
 		}
 
+		chooseSync.setHasEncountredUnknownMonster(syncResult.isHasEncountredUnknownMonster());
 		chooseSync.setSyncedUserInfoToUpdate(syncedUserInfoToUpdate);
 		chooseSync.setSyncedMaterialsToUpdate(syncedMaterialsToUpdate);
 		chooseSync.setSyncedMonstersToUpdate(syncedMonstersToUpdate);
