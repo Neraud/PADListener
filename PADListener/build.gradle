@@ -48,6 +48,14 @@ android {
 		}
 	}
 	
+	productFlavors {
+		arm {
+			ndk {
+				abiFilter "armeabi"
+			}
+		}
+	}
+	
 	lintOptions {
 		abortOnError false
 	}
