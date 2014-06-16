@@ -99,11 +99,20 @@ public class ComputeSyncFragment extends Fragment {
 
 					final String message = errorCause != null ? errorCause.getMessage() : "?";
 					status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, message)));
-					if (errorCause instanceof HttpResponseException && ((HttpResponseException) errorCause).getCode() == 404) {
-						final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
-						        .getPadHerderUserName(accountId);
-						checkLogin.setText(getString(R.string.compute_sync_check_login, accountLogin));
-						checkLogin.setVisibility(View.VISIBLE);
+					if (errorCause instanceof HttpResponseException) {
+						final int code = ((HttpResponseException) errorCause).getCode();
+						if (code == 403) {
+							final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
+							        .getPadHerderUserName(accountId);
+							checkLogin.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
+							checkLogin.setVisibility(View.VISIBLE);
+						} else if (code == 404) {
+							final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
+							        .getPadHerderUserName(accountId);
+							checkLogin.setText(getString(R.string.compute_sync_check_login_case, accountLogin));
+							checkLogin.setVisibility(View.VISIBLE);
+
+						}
 					}
 				default:
 					break;
@@ -131,7 +140,7 @@ public class ComputeSyncFragment extends Fragment {
 		startButton = (Button) view.findViewById(R.id.compute_sync_button);
 		progress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		status = (TextView) view.findViewById(R.id.compute_sync_status);
-		checkLogin = (TextView) view.findViewById(R.id.compute_sync_check_login);
+		checkLogin = (TextView) view.findViewById(R.id.compute_sync_check_credentials);
 		final AccountSpinnerAdapter adapter = new AccountSpinnerAdapter(getActivity());
 		chooseAccountSpinner.setAdapter(adapter);
 

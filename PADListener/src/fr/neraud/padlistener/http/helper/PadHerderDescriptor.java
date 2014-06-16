@@ -1,6 +1,9 @@
 
 package fr.neraud.padlistener.http.helper;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import android.content.Context;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.http.constant.HttpMethod;
@@ -28,7 +31,16 @@ public class PadHerderDescriptor {
 
 		public static MyHttpRequest initRequestForGetUserInfo(Context context, int accountId) {
 			final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
-			final String url = Services.GET_USER_INFO.apiUrl.replaceAll("\\[userName\\]", helper.getPadHerderUserName(accountId));
+
+			String cleanedAccountName = null;
+			try {
+				cleanedAccountName = URLEncoder.encode(helper.getPadHerderUserName(accountId), "UTF-8");
+			} catch (final UnsupportedEncodingException e) {
+				// Should never happen
+				throw new RuntimeException(e);
+			}
+
+			final String url = Services.GET_USER_INFO.apiUrl.replaceAll("\\[userName\\]", cleanedAccountName);
 			return initRequest(Services.GET_USER_INFO, context, accountId, url);
 		}
 
