@@ -1,15 +1,13 @@
 
 package fr.neraud.padlistener.gui.fragment;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +21,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
+import fr.neraud.padlistener.gui.fragment.SwitchListenerTaskFragment.ListenerState;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
-import fr.neraud.padlistener.service.ListenerService;
-import fr.neraud.padlistener.service.ListenerService.ListenerServiceBinder;
-import fr.neraud.padlistener.service.ListenerService.ListenerServiceListener;
 
 /**
  * Main fragment for SwitchListener
@@ -35,117 +31,77 @@ import fr.neraud.padlistener.service.ListenerService.ListenerServiceListener;
  */
 public class SwitchListenerFragment extends Fragment {
 
-	private boolean mIsBound = false;
-	private ListenerServiceBinder listenerServiceBinder;
+	private static final String TAG_TASK_FRAGMENT = "switch_listener_task_fragment";
+	private SwitchListenerTaskFragment mTaskFragment;
+
 	private TextView listenerStatus;
 	private Switch listenerSwitch;
 
-	private final ServiceConnection mConnection = new ServiceConnection() {
+	private OnCheckedChangeListener onCheckedListener;
+
+	private final SwitchListenerTaskFragment.CallBacks callbacks = new SwitchListenerTaskFragment.CallBacks() {
 
 		@Override
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.d(getClass().getName(), "onServiceConnected");
-			listenerServiceBinder = (ListenerServiceBinder) service;
-
-			Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarded());
-
-			if (listenerServiceBinder.isListenerStarded()) {
-				updateStatusStarted();
-			} else {
-				updateStatusStopped();
+		public void updateState(ListenerState state, Throwable error) {
+			Log.d(getClass().getName(), "updateState : " + state);
+			if (state != null) {
+				switch (state) {
+				case STARTING:
+					listenerSwitch.setEnabled(false);
+					forceToggledWithoutListener(true);
+					break;
+				case STARTED:
+					listenerSwitch.setEnabled(true);
+					forceToggledWithoutListener(true);
+					listenerStatus.setText(generateStatusStartedText());
+					break;
+				case START_FAILED:
+					listenerSwitch.setEnabled(true);
+					forceToggledWithoutListener(false);
+					listenerStatus.setText(getString(R.string.switch_listener_status_start_failed, error.getMessage()));
+					break;
+				case STOPPING:
+					listenerSwitch.setEnabled(false);
+					forceToggledWithoutListener(false);
+					break;
+				case STOPPED:
+					listenerSwitch.setEnabled(true);
+					forceToggledWithoutListener(false);
+					listenerStatus.setText(R.string.switch_listener_status_stopped);
+					break;
+				case STOP_FAILED:
+					listenerSwitch.setEnabled(true);
+					forceToggledWithoutListener(true);
+					listenerStatus.setText(getString(R.string.switch_listener_status_stop_failed, error.getMessage()));
+					break;
+				default:
+				}
 			}
-
-			listenerSwitch.setChecked(listenerServiceBinder.isListenerStarded());
-			listenerSwitch.setEnabled(true);
-			mIsBound = true;
 		}
 
-		@Override
-		public void onServiceDisconnected(ComponentName className) {
-			Log.d(getClass().getName(), "onServiceDisconnected");
-			listenerServiceBinder = null;
-			mIsBound = false;
-		}
 	};
-
-	private void doBindService() {
-		Log.d(getClass().getName(), "doBindService");
-
-		final Intent serviceIntent = new Intent(getActivity(), ListenerService.class);
-
-		// Start manually to prevent the service being stopped when the app is closed and unbinds
-		getActivity().startService(serviceIntent);
-		getActivity().bindService(serviceIntent, mConnection, 0/*Context.BIND_AUTO_CREATE*/);
-	}
-
-	private void doUnbindService() {
-		Log.d(getClass().getName(), "doUnbindService");
-		if (mIsBound) {
-			// Detach our existing connection.
-			getActivity().unbindService(mConnection);
-		}
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 		final View view = inflater.inflate(R.layout.switch_listener_fragment, container, false);
 
-		doBindService();
-
 		listenerStatus = (TextView) view.findViewById(R.id.switch_listener_status);
-
 		listenerSwitch = (Switch) view.findViewById(R.id.switch_listener_switch);
-		listenerSwitch.setEnabled(false);
 
-		final ListenerServiceListener startListener = new ListenerServiceListener() {
-
-			@Override
-			public void notifyActionSucess() {
-				Log.d(getClass().getName(), "notifyActionSucess");
-				updateStatusStarted();
-				listenerSwitch.setEnabled(true);
-			}
-
-			@Override
-			public void notifyActionFailed(Exception e) {
-				Log.d(getClass().getName(), "notifyActionFailed");
-				updateStatusStartFailed(e);
-				listenerSwitch.setEnabled(true);
-			}
-
-		};
-		final ListenerServiceListener stopListener = new ListenerServiceListener() {
-
-			@Override
-			public void notifyActionSucess() {
-				Log.d(getClass().getName(), "notifyActionSucess");
-				updateStatusStopped();
-				listenerSwitch.setEnabled(true);
-			}
-
-			@Override
-			public void notifyActionFailed(Exception e) {
-				Log.d(getClass().getName(), "notifyActionFailed");
-				updateStatusStopFailed(e);
-				listenerSwitch.setEnabled(true);
-			}
-
-		};
-
-		listenerSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		onCheckedListener = new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				Log.d(getClass().getName(), "listenerSwitch.onClick : " + isChecked);
-				listenerSwitch.setEnabled(false);
 				if (isChecked) {
-					listenerServiceBinder.startListener(startListener);
+					mTaskFragment.startListener();
 				} else {
-					listenerServiceBinder.stopListener(stopListener);
+					mTaskFragment.stopListener();
 				}
 			}
-		});
+		};
+		listenerSwitch.setOnCheckedChangeListener(onCheckedListener);
 
 		final Button launchWifiSettingsButton = (Button) view.findViewById(R.id.switch_listener_launch_wifi_settings_button);
 		launchWifiSettingsButton.setOnClickListener(new OnClickListener() {
@@ -179,10 +135,18 @@ public class SwitchListenerFragment extends Fragment {
 			launchPadBlock.setVisibility(View.GONE);
 		}
 
+		final FragmentManager fm = getFragmentManager();
+		mTaskFragment = (SwitchListenerTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+		if (mTaskFragment == null) {
+			mTaskFragment = new SwitchListenerTaskFragment();
+			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+		}
+		mTaskFragment.registerCallbacks(callbacks);
+
 		return view;
 	}
 
-	private void updateStatusStarted() {
+	private String generateStatusStartedText() {
 		final ProxyMode mode = new TechnicalSharedPreferencesHelper(getActivity()).getLastListenerStartProxyMode();
 		String status = null;
 		switch (mode) {
@@ -197,27 +161,15 @@ public class SwitchListenerFragment extends Fragment {
 			status = getString(R.string.switch_listener_status_started_manual);
 			break;
 		}
-
-		listenerStatus.setText(status);
+		return status;
 	}
 
-	private void updateStatusStopped() {
-		listenerStatus.setText(R.string.switch_listener_status_stopped);
-	}
-
-	private void updateStatusStartFailed(Exception e) {
-		listenerStatus.setText(getString(R.string.switch_listener_status_start_failed, e.getMessage()));
-	}
-
-	private void updateStatusStopFailed(Exception e) {
-		listenerStatus.setText(getString(R.string.switch_listener_status_stop_failed, e.getMessage()));
-	}
-
-	@Override
-	public void onDestroyView() {
-		Log.d(getClass().getName(), "onDestroyView");
-		super.onDestroyView();
-		doUnbindService();
+	private void forceToggledWithoutListener(boolean checked) {
+		if (listenerSwitch.isChecked() != checked) {
+			listenerSwitch.setOnCheckedChangeListener(null);
+			listenerSwitch.setChecked(checked);
+			listenerSwitch.setOnCheckedChangeListener(onCheckedListener);
+		}
 	}
 
 }
