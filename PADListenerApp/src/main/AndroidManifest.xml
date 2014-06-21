@@ -1,0 +1,99 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.neraud.padlistener"
+    android:versionCode="13"
+    android:versionName="1.0.3" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="19" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+	
+        <activity
+            android:name=".gui.MainActivity"
+            android:label="@string/label_main_activity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".gui.SettingsActivity"
+            android:label="@string/label_settings" />
+        <activity
+            android:name=".gui.SwitchListenerActivity"
+            android:label="@string/label_settings" />
+        <activity
+            android:name=".gui.ViewMonsterInfoActivity"
+            android:label="@string/label_view_monster_info_activity" />
+        <activity
+            android:name=".gui.ViewCapturedDataActivity"
+            android:label="@string/label_viewCapturedData" />
+        <activity
+            android:name=".gui.ComputeSyncActivity"
+            android:label="@string/label_computeSync" />
+        <activity
+            android:name=".gui.ChooseSyncActivity"
+            android:label="@string/label_chooseSync" />
+        <activity
+            android:name=".gui.PushSyncActivity"
+            android:label="@string/label_pushSync" />
+        
+        
+
+        <service
+            android:name=".service.ListenerService"
+            android:exported="false" />
+        <service
+            android:name=".service.InstallMonsterInfoService"
+            android:exported="false" />
+        <service
+            android:name=".service.InstallMonsterImagesService"
+            android:exported="false" />
+        <service
+            android:name=".service.FetchPadHerderMonsterInfoService"
+            android:exported="false"/>
+        <service
+            android:name=".service.FetchPadHerderMonsterImageService"
+            android:exported="false"/>
+        <service
+            android:name=".service.ComputeSyncService"
+            android:exported="false"/>
+        <service
+            android:name=".service.PushSyncService"
+            android:exported="false"/>
+        
+        
+
+        <provider
+            android:name=".provider.CapturedPlayerInfoProvider"
+            android:authorities="fr.neraud.padlistener.provider.player_info"
+            android:exported="true" />
+        <provider
+            android:name=".provider.CapturedPlayerMonsterProvider"
+            android:authorities="fr.neraud.padlistener.provider.player_monster"
+            android:exported="true" />
+        <provider
+            android:name=".provider.MonsterInfoProvider"
+            android:authorities="fr.neraud.padlistener.provider.monster_info"
+            android:exported="true" />
+    </application>
+
+</manifest>
