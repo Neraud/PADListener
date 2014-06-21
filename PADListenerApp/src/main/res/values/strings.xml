@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
 
-    <string name="app_name">PADListener</string>
-    
-    <!-- Menu -->
-    <string name="menu_settings">Settings</string>
-    <string name="menu_fetch_monster_info">Fetch monster info</string>
-    <string name="menu_about">About</string>
-  
+	<string name="app_name">PADListener</string>
+
+	<!-- Menu -->
+	<string name="menu_settings">Settings</string>
+	<string name="menu_fetch_monster_info">Fetch monster info</string>
+	<string name="menu_changelog">Changelog</string>
+	<string name="menu_about">About</string>
+
+
 	<!-- Notification -->
-    <string name="notification_listener_title">PADListener</string>
-    <string name="notification_listener_content_manual">Started in manual mode</string>
-    <string name="notification_listener_content_proxy_wifi">Started in auto Wifi proxy mode</string>
-    <string name="notification_listener_content_iptables">Started in auto iptables mode</string>
-    
-    <!-- Toasts -->
-    <string name="toast_data_captured">PAD data captured for %1$s</string>
-    
-    
-    <!-- Settings -->
-    <string name="label_settings">Settings</string>
-    
-    <string name="settings_listener_page">Listener</string>
-    <string name="settings_listener_category">Listener</string>
-    <string name="settings_listener_target_hostname_title">Target hostname</string>
-    <string name="settings_listener_target_hostname_summary">Hostname for PAD calls.\nYou probably should not change this ;p</string>
-    <string name="settings_proxy_mode_title">Proxy settings mode</string>
-    <string name="settings_proxy_mode_summary">%1$s</string>
-       
-    <string name="settings_padherder_page">PadHerder</string>
-    <string name="settings_padherder_account_1_category">Account 1</string>
-    <string name="settings_padherder_account_2_category">Account 2</string>
-    <string name="settings_padherder_account_3_category">Account 3</string>
-    <string name="settings_padherder_login_title">Login</string>
-    <string name="settings_padherder_login_summary"></string>
-    <string name="settings_padherder_password_title">Password</string>
-    <string name="settings_padherder_password_summary"></string>
-    
-    <string name="settings_sync_page">Sync</string>
-    <string name="settings_sync_category">Sync</string>        
-    <string name="settings_sync_material_in_monster_title">Sync materials as monsters ?</string>
+	<string name="notification_listener_title">PADListener</string>
+	<string name="notification_listener_content_manual">Started in manual mode</string>
+	<string name="notification_listener_content_proxy_wifi">Started in auto Wifi proxy mode</string>
+	<string name="notification_listener_content_iptables">Started in auto iptables mode</string>
+
+	<!-- Toasts -->
+	<string name="toast_data_captured">PAD data captured for %1$s</string>
+
+
+	<!-- Settings -->
+	<string name="label_settings">Settings</string>
+
+	<string name="settings_listener_page">Listener</string>
+	<string name="settings_listener_category">Listener</string>
+	<string name="settings_listener_target_hostname_title">Target hostname</string>
+	<string name="settings_listener_target_hostname_summary">Hostname for PAD calls.\nYou probably should not change this ;p</string>
+	<string name="settings_proxy_mode_title">Proxy settings mode</string>
+	<string name="settings_proxy_mode_summary">%1$s</string>
+
+	<string name="settings_padherder_page">PadHerder</string>
+	<string name="settings_padherder_account_1_category">Account 1</string>
+	<string name="settings_padherder_account_2_category">Account 2</string>
+	<string name="settings_padherder_account_3_category">Account 3</string>
+	<string name="settings_padherder_login_title">Login</string>
+	<string name="settings_padherder_login_summary"></string>
+	<string name="settings_padherder_password_title">Password</string>
+	<string name="settings_padherder_password_summary"></string>
+
+	<string name="settings_sync_page">Sync</string>
+	<string name="settings_sync_category">Sync</string>
+	<string name="settings_sync_material_in_monster_title">Sync materials as monsters ?</string>
 	<string name="settings_sync_material_in_monster_summary">You can choose to sync materials in your monsters\' list. This can be useful for some materials (like KoR) that you may use in your teams. \n\n%1$s</string>
 	<string name="settings_sync_deduct_monster_in_material_title">Deduct materials ?</string>
 	<string name="settings_sync_deduct_monster_in_material_summary">If you sync materials in your monsters\' list, should they still be counted in your materials ? \nFor example, if you have 4 KoR with 1 used in your monsters, do you want to have 3 or 4 KoR available in your materials ?</string>
-		
-    <string name="settings_sync_preselect_category">Preselections</string>
-    <string name="settings_choose_sync_preselect_updated_user_info_title">Updated user info</string>
+
+	<string name="settings_sync_preselect_category">Preselections</string>
+	<string name="settings_choose_sync_preselect_updated_user_info_title">Updated user info</string>
 	<string name="settings_choose_sync_preselect_updated_user_info_summary"></string>
-    <string name="settings_choose_sync_preselect_updated_materials_title">Updated materials</string>
+	<string name="settings_choose_sync_preselect_updated_materials_title">Updated materials</string>
 	<string name="settings_choose_sync_preselect_updated_materials_summary"></string>
 	<string name="settings_choose_sync_preselect_updated_monsters_title">Updated monsters</string>
 	<string name="settings_choose_sync_preselect_updated_monsters_summary"></string>
@@ -55,118 +57,116 @@
 	<string name="settings_choose_sync_preselect_created_monsters_summary"></string>
 	<string name="settings_choose_sync_preselect_deleted_monsters_title">Deleted monsters</string>
 	<string name="settings_choose_sync_preselect_deleted_monsters_summary"></string>
-    
-    <string name="settings_sync_preselect_group">Group</string>
+
+	<string name="settings_sync_preselect_group">Group</string>
 	<string name="settings_choose_sync_group_monsters_updated_title">Updated monsters</string>
 	<string name="settings_choose_sync_group_monsters_updated_summary"></string>
 	<string name="settings_choose_sync_group_monsters_created_title">Created monsters</string>
 	<string name="settings_choose_sync_group_monsters_created_summary"></string>
 	<string name="settings_choose_sync_group_monsters_deleted_title">Deleted monsters</string>
 	<string name="settings_choose_sync_group_monsters_deleted_summary"></string>
-    
-	
-	
-    <!-- Install Activity -->
-    <string name="install_dialog_title">Monster data</string>
-    <string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the "View monster info" section.</string>
-    <string name="install_dialog_button_ok">OK</string>
-    
-    
-    <!-- About -->
-    <string name="about_dialog_title">About PADListener v%1$s</string>
+
+
+	<!-- Install Activity -->
+	<string name="install_dialog_title">Monster data</string>
+	<string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the "View monster info" section.</string>
+	<string name="install_dialog_button_ok">OK</string>
+
+
+	<!-- About -->
+	<string name="about_dialog_title">About PADListener v%1$s</string>
     <string name="about_dialog_message">PADListener v%1$s, available under GNU GPL v2 license
 \n\nThis app\'s sources are available on GitHub (https://github.com/Neraud/PADListener).
 \n\nBuilt using SandroProxyLib (http://code.google.com/p/sandrop/).
 \n\nData courtesy of PAD Wiki (http://pad.wikia.com/wiki) and PADherder (https://www.padherder.com).
 \n\nThanks to GungHo for this great game and to Freddie for PADherder.
 </string>
-    <string name="about_dialog_button">OK</string>
+	<string name="about_dialog_button">OK</string>
 
-    
-    <!-- Main activity -->
-    <string name="label_main_activity">PADListener</string>
-    <string name="switchListener">Switch listener</string>
-    <string name="viewMonsterInfo">View monster info</string>
-    <string name="viewCapturedData">View captured data</string>
-    <string name="viewPadHerderData">View PadHerder data</string>
-    <string name="computeSync">Compute sync</string>
-    
-    
-    <!-- Switch listener -->
-    <string name="switch_listener_switchLabel">Switch listener</string>
-    
-    <string name="switch_listener_status_started_manual">Listener started in manual mode</string>
-    <string name="switch_listener_status_started_proxy_wifi">Listener started in auto Wifi proxy mode</string>
-    <string name="switch_listener_status_started_iptables">Listener started in auto iptables mode</string>
-    <string name="switch_listener_status_stopped">Listener stopped</string>
-    <string name="switch_listener_status_start_failed">Listener start failed (%1$s)</string>
-    <string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
+
+	<!-- Main activity -->
+	<string name="label_main_activity">PADListener</string>
+	<string name="switchListener">Switch listener</string>
+	<string name="viewMonsterInfo">View monster info</string>
+	<string name="viewCapturedData">View captured data</string>
+	<string name="viewPadHerderData">View PadHerder data</string>
+	<string name="computeSync">Compute sync</string>
+
+
+	<!-- Switch listener -->
+	<string name="switch_listener_switchLabel">Switch listener</string>
+
+	<string name="switch_listener_status_started_manual">Listener started in manual mode</string>
+	<string name="switch_listener_status_started_proxy_wifi">Listener started in auto Wifi proxy mode</string>
+	<string name="switch_listener_status_started_iptables">Listener started in auto iptables mode</string>
+	<string name="switch_listener_status_stopped">Listener stopped</string>
+	<string name="switch_listener_status_start_failed">Listener start failed (%1$s)</string>
+	<string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
     
     <string name="switch_listener_mode_explain">The listener can be started in 2 modes. You can select a mode in the settings.\n
          - Manual mode only works with a WiFi connexion. You have to manually configure your WiFi proxy to localhost:8008. All http requests will go through PADListener.\n
          - AutoProxy mode only works with a WiFi connexion. When the listener is started, it automatically set your WiFI proxy up. This mode uses undocument Android API and can be unstable. All http requests will go through PADListener.\n
-         <!--- Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener--></string>
+	    <!--- Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener--></string>
 	<string name="switch_listener_launch_pad">Launch PAD</string>
 	<string name="switch_listener_launch_wifi_settings">WiFi Settings</string>
-    
-    
-    <!-- View monster info -->
-    <string name="label_view_monster_info_activity">View monster info</string>
-    <string name="view_monster_info_tab_monsters">Monsters</string>
-    <string name="view_monster_info_tab_refresh_info">Refresh info</string>
-    <string name="view_monster_info_tab_refresh_images">Refresh images</string>
-    <string name="view_monster_info_name">(%1$d) %2$s</string>
-    
-    <string name="monster_info_fetch_info_explain">This application uses monster information exposed by PADherder. This information is stored on the device. You can refresh this data if some inforations are not up to date (new awakenings for example)</string>
-    <string name="monster_info_fetch_info_current">The monster information has been refreshed at : %1$s</string>
-    <string name="monster_info_fetch_info_start">Refresh monster info</string>
-    <string name="monster_info_fetch_info_fetching">Fetching PadHerder information</string>
-    <string name="monster_info_fetch_info_calling">Calling PadHerder API</string>
-    <string name="monster_info_fetch_info_parsing">Parsing PadHerder API result</string>
-    <string name="monster_info_fetch_info_saving">Saving data</string>
-    <string name="monster_info_fetch_info_fetching_done">Fetching done</string>
-    <string name="monster_info_fetch_info_fetching_failed">Fetching failed : %1$s</string>
-    
-    <string name="monster_info_fetch_images_explain">This application uses monster images exposed by PADherder. These images are stored on the device. You can refresh them if you want. Keep in mind that there are 1700+ images to download, it will take time !</string>
-    <string name="monster_info_fetch_images_current">The monster images have been refreshed at : %1$s</string>
-    <string name="monster_info_fetch_images_start">Refresh monster images</string>
-    <string name="monster_info_fetch_images_text">Fetching image %1$d / %2$d for monster %3$d</string>
-    <string name="monster_info_fetch_images_done">%1$d images fetched</string>
-    
-    
-    <!-- ViewCapturedData activity -->
-    <string name="label_viewCapturedData">View captured data</string>    
-    <string name="view_captured_data_tab_info_player">Player</string>
-    <string name="view_captured_data_tab_monsters">Monsters</string>
-    <string name="view_captured_no_data">No data captured</string>
-    <string name="view_captured_info_item_name"><b>%1$s</b> (updated at %2$s)</string>
-    <string name="view_captured_info_item_rank">Rank %1$d (%2$d xp)</string>
-    <string name="view_captured_info_item_maxrank">%1$d stam, %2$d cost</string>
-    <string name="view_captured_info_item_maxstats">%1$d max box, %2$d max friends</string>
-    <string name="view_captured_info_item_currency">%1$d coins, %2$d stones</string>
-    
-    <string name="view_captured_monster_item_name">(%1$d) %2$s</string>
-    <string name="view_captured_monster_item_level">lv %1$d (%2$d xp)</string>    
-    <string name="view_captured_monster_item_plus">+%1$d +%2$d +%3$d %4$d</string>
-    
-    
-    
-    <!-- Compute Sync -->
+
+
+	<!-- View monster info -->
+	<string name="label_view_monster_info_activity">View monster info</string>
+	<string name="view_monster_info_tab_monsters">Monsters</string>
+	<string name="view_monster_info_tab_refresh_info">Refresh info</string>
+	<string name="view_monster_info_tab_refresh_images">Refresh images</string>
+	<string name="view_monster_info_name">(%1$d) %2$s</string>
+
+	<string name="monster_info_fetch_info_explain">This application uses monster information exposed by PADherder. This information is stored on the device. You can refresh this data if some inforations are not up to date (new awakenings for example)</string>
+	<string name="monster_info_fetch_info_current">The monster information has been refreshed at : %1$s</string>
+	<string name="monster_info_fetch_info_start">Refresh monster info</string>
+	<string name="monster_info_fetch_info_fetching">Fetching PadHerder information</string>
+	<string name="monster_info_fetch_info_calling">Calling PadHerder API</string>
+	<string name="monster_info_fetch_info_parsing">Parsing PadHerder API result</string>
+	<string name="monster_info_fetch_info_saving">Saving data</string>
+	<string name="monster_info_fetch_info_fetching_done">Fetching done</string>
+	<string name="monster_info_fetch_info_fetching_failed">Fetching failed : %1$s</string>
+
+	<string name="monster_info_fetch_images_explain">This application uses monster images exposed by PADherder. These images are stored on the device. You can refresh them if you want. Keep in mind that there are 1700+ images to download, it will take time !</string>
+	<string name="monster_info_fetch_images_current">The monster images have been refreshed at : %1$s</string>
+	<string name="monster_info_fetch_images_start">Refresh monster images</string>
+	<string name="monster_info_fetch_images_text">Fetching image %1$d / %2$d for monster %3$d</string>
+	<string name="monster_info_fetch_images_done">%1$d images fetched</string>
+
+
+	<!-- ViewCapturedData activity -->
+	<string name="label_viewCapturedData">View captured data</string>
+	<string name="view_captured_data_tab_info_player">Player</string>
+	<string name="view_captured_data_tab_monsters">Monsters</string>
+	<string name="view_captured_no_data">No data captured</string>
+	<string name="view_captured_info_item_name"><b>%1$s</b> (updated at %2$s)</string>
+	<string name="view_captured_info_item_rank">Rank %1$d (%2$d xp)</string>
+	<string name="view_captured_info_item_maxrank">%1$d stam, %2$d cost</string>
+	<string name="view_captured_info_item_maxstats">%1$d max box, %2$d max friends</string>
+	<string name="view_captured_info_item_currency">%1$d coins, %2$d stones</string>
+
+	<string name="view_captured_monster_item_name">(%1$d) %2$s</string>
+	<string name="view_captured_monster_item_level">lv %1$d (%2$d xp)</string>
+	<string name="view_captured_monster_item_plus">+%1$d +%2$d +%3$d %4$d</string>
+
+
+	<!-- Compute Sync -->
 	<string name="label_computeSync">Compute Sync</string>
-    <string name="compute_sync_explain">The sync process will first fetch data from your PADHerder account.\nIt will then use the data captured from PAD (at %1$s) and compute the differences.\nIt will finally list the differences so you can choose which ones you wish to push to your PADHerder account. Some differences will be preselected based on the sync settings.</string>
-    <string name="compute_sync_start">Start</string>
-    <string name="compute_sync_status">Sync status : %1$s</string>
-    
-    <string name="compute_sync_status_calling">calling PadHerder API</string>
-    <string name="compute_sync_status_parsing">parsing PadHerder API result</string>
-    <string name="compute_sync_status_computing">computing sync</string>
-    <string name="compute_sync_status_finished">finished</string>
-    <string name="compute_sync_status_failed">failed : %1$s</string>
-    <string name="compute_sync_check_login_case">This error can appear if your PADherder login is set up with an incorrect case. Please check that \'%1$s\' is your correct login. (PADherder\'s website accept login even when they have an incorrect case, but this app requires the correct case)</string>
-    <string name="compute_sync_check_creadentials">This error can occur if your PADherder login or password is incorrect. Please check that \'%1$s\' is your correct login, and that the password set in the settings is correct.</string>
-    <string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
-    <string name="compute_sync_missing_capture">You did not capture any data from PAD, there is nothing to sync !</string>
-    
+	<string name="compute_sync_explain">The sync process will first fetch data from your PADHerder account.\nIt will then use the data captured from PAD (at %1$s) and compute the differences.\nIt will finally list the differences so you can choose which ones you wish to push to your PADHerder account. Some differences will be preselected based on the sync settings.</string>
+	<string name="compute_sync_start">Start</string>
+	<string name="compute_sync_status">Sync status : %1$s</string>
+
+	<string name="compute_sync_status_calling">calling PadHerder API</string>
+	<string name="compute_sync_status_parsing">parsing PadHerder API result</string>
+	<string name="compute_sync_status_computing">computing sync</string>
+	<string name="compute_sync_status_finished">finished</string>
+	<string name="compute_sync_status_failed">failed : %1$s</string>
+	<string name="compute_sync_check_login_case">This error can appear if your PADherder login is set up with an incorrect case. Please check that \'%1$s\' is your correct login. (PADherder\'s website accept login even when they have an incorrect case, but this app requires the correct case)</string>
+	<string name="compute_sync_check_creadentials">This error can occur if your PADherder login or password is incorrect. Please check that \'%1$s\' is your correct login, and that the password set in the settings is correct.</string>
+	<string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
+	<string name="compute_sync_missing_capture">You did not capture any data from PAD, there is nothing to sync !</string>
+
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
 	<string name="choose_sync_info_label">Summary</string>
@@ -174,18 +174,18 @@
 	<string name="choose_sync_materialsUpdated_label">^ Materials</string>
 	<string name="choose_sync_monstersUpdated_label">^ Monsters</string>
 	<string name="choose_sync_monstersCreated_label">+ Monsters</string>
-	<string name="choose_sync_monstersDeleted_label">- Monsters</string>	
-	
+	<string name="choose_sync_monstersDeleted_label">- Monsters</string>
+
 	<string name="choose_sync_info_head">Sync computation is finished</string>
 	<string name="choose_sync_info_summary">- %1$d/%2$d materials updated\n- %3$d/%4$d monsters updated\n- %5$d/%6$d monsters created\n- %7$d/%8$d monsters deleted</string>
 	<string name="choose_sync_info_explain">In the following tabs, you can choose which element you want to sync or ignore. Your PADherder account will be updated with the chosen elements when you tap the button</string>
 	<string name="choose_sync_info_button_enabled">Sync !</string>
 	<string name="choose_sync_info_button_disabled">Nothing to sync</string>
 	<string name="choose_sync_userInfo_text">Rank %1$d -> %2$d</string>
-	
+
 	<string name="choose_sync_materials_item_name">(%1$d) %2$s</string>
 	<string name="choose_sync_materials_item_quantities">%1$d -> %2$d</string>
-	
+
 	<string name="choose_sync_monsters_item_name_simple">(%1$d) %2$s</string>
 	<string name="choose_sync_monsters_item_name_group">%1$d x (%2$d) %3$s</string>
 	<string name="choose_sync_monsters_item_label_exp">Exp</string>
@@ -194,15 +194,15 @@
 	<string name="choose_sync_monsters_item_label_plusHp">+Hp</string>
 	<string name="choose_sync_monsters_item_label_plusAtk">+Atk</string>
 	<string name="choose_sync_monsters_item_label_plusRcv">+Rcv</string>
-    
-    <!-- Execute Sync -->
+
+	<!-- Execute Sync -->
 	<string name="label_pushSync">Push sync</string>
 	<string name="push_sync_head_pushing">Pushing sync to PADherder</string>
 	<string name="push_sync_head_done">Sync to PADherder finished</string>
-    <string name="push_sync_summary_userinfo_updated"> - %1$d / %2$d info updated (%3$d errors)</string>
-    <string name="push_sync_summary_materials_updated"> - %1$d / %2$d materials updated (%3$d errors)</string>
-    <string name="push_sync_summary_monsters_updated"> - %1$d / %2$d monsters updated (%3$d errors)</string>
-    <string name="push_sync_summary_monsters_created"> - %1$d / %2$d monsters created (%3$d errors)</string>
-    <string name="push_sync_summary_monsters_deleted"> - %1$d / %2$d monsters deleted (%3$d errors)</string>
-    
+	<string name="push_sync_summary_userinfo_updated"> - %1$d / %2$d info updated (%3$d errors)</string>
+	<string name="push_sync_summary_materials_updated"> - %1$d / %2$d materials updated (%3$d errors)</string>
+	<string name="push_sync_summary_monsters_updated"> - %1$d / %2$d monsters updated (%3$d errors)</string>
+	<string name="push_sync_summary_monsters_created"> - %1$d / %2$d monsters created (%3$d errors)</string>
+	<string name="push_sync_summary_monsters_deleted"> - %1$d / %2$d monsters deleted (%3$d errors)</string>
+
 </resources>

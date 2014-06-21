@@ -14,6 +14,7 @@ dependencies {
 	compile 'com.android.support:support-v4:19.0.0'
 	compile 'org.apache.commons:commons-lang3:3.3.2'
 	compile 'commons-io:commons-io:2.4'
+	compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
 	compile project(':SandroProxyLib')
 }
 
@@ -28,11 +29,11 @@ android {
 			}
 		}
 	}
-	
+
 	lintOptions {
 		abortOnError false
 	}
-	
+
 	packagingOptions {
 		exclude 'META-INF/DEPENDENCIES.txt'
 		exclude 'META-INF/LICENSE.txt'
@@ -45,19 +46,19 @@ android {
 		exclude 'META-INF/dependencies.txt'
 		exclude 'META-INF/LGPL2.1'
 	}
-	
-	
+
+
 	String signingPropsFilePath = null
-	if(project.hasProperty("signingProperties.path") && new File(project.property("signingProperties.path")).exists()) {
+	if (project.hasProperty("signingProperties.path") && new File(project.property("signingProperties.path")).exists()) {
 		signingPropsFilePath = project.property("signingProperties.path")
-	} else if(System.getenv("SIGNING_PROPERTIES_PATH") != null && new File(System.getenv("SIGNING_PROPERTIES_PATH")).exists()) {
+	} else if (System.getenv("SIGNING_PROPERTIES_PATH") != null && new File(System.getenv("SIGNING_PROPERTIES_PATH")).exists()) {
 		signingPropsFilePath = System.getenv("SIGNING_PROPERTIES_PATH")
 	}
-	
-	if(signingPropsFilePath != null) {
+
+	if (signingPropsFilePath != null) {
 		Properties signingProps = new Properties()
 		signingProps.load(new FileInputStream(file(signingPropsFilePath)))
-		
+
 		signingConfigs {
 			release {
 				storeFile file(signingProps['signing.release.storeFile'])
@@ -66,7 +67,7 @@ android {
 				keyPassword signingProps['signing.release.keyPassword']
 			}
 		}
-		
+
 		buildTypes {
 			release {
 				runProguard false
@@ -76,35 +77,35 @@ android {
 	}
 }
 
-artifacts {  
-    archives file('build/apk/PADListener-arm-release.apk')
+artifacts {
+	archives file('build/apk/PADListener-arm-release.apk')
 }
 
 String uploadPropsFilePath = null
-if(project.hasProperty("uploadProperties.path") && new File(project.property("uploadProperties.path")).exists()) {
+if (project.hasProperty("uploadProperties.path") && new File(project.property("uploadProperties.path")).exists()) {
 	uploadPropsFilePath = project.property("uploadProperties.path")
-} else if(System.getenv("UPLOAD_PROPERTIES_PATH") != null && new File(System.getenv("UPLOAD_PROPERTIES_PATH")).exists()) {
+} else if (System.getenv("UPLOAD_PROPERTIES_PATH") != null && new File(System.getenv("UPLOAD_PROPERTIES_PATH")).exists()) {
 	uploadPropsFilePath = System.getenv("UPLOAD_PROPERTIES_PATH")
 }
 
-if(uploadPropsFilePath != null) {
+if (uploadPropsFilePath != null) {
 	Properties uploadProps = new Properties()
 	uploadProps.load(new FileInputStream(file(uploadPropsFilePath)))
-	
-	uploadArchives {  
-		repositories {  
-			mavenDeployer {  
-				repository(url: uploadProps['repo.release.url']) {  
-					authentication(userName: uploadProps['repo.release.userName'], password: uploadProps['repo.release.password']);  
-				}  
+
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				repository(url: uploadProps['repo.release.url']) {
+					authentication(userName: uploadProps['repo.release.userName'], password: uploadProps['repo.release.password']);
+				}
 				snapshotRepository(url: uploadProps['repo.snapshot.url']) {
-					authentication(userName: uploadProps['repo.snapshot.userName'], password: uploadProps['repo.snapshot.password']);  
+					authentication(userName: uploadProps['repo.snapshot.userName'], password: uploadProps['repo.snapshot.password']);
 				}
 				pom.groupId = 'fr.neraud'
 				pom.artifactId = 'PADListener'
 				pom.version = manifestVersionName()
-			}  
-		}  
+			}
+		}
 	}
 }
 

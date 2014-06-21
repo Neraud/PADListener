@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ckchangelog-1.2.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/intermediates/exploded-aar/de.cketti.library.changelog/ckchangelog/1.2.0/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/build/intermediates/exploded-aar/de.cketti.library.changelog/ckchangelog/1.2.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

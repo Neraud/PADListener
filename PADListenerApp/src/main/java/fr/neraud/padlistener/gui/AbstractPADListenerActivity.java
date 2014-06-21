@@ -13,8 +13,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
+import fr.neraud.padlistener.gui.helper.ChangeLogHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
 import fr.neraud.padlistener.service.InstallMonsterImagesService;
@@ -24,7 +26,7 @@ import fr.neraud.padlistener.util.VersionUtil;
 /**
  * Base class of all activities.<br/>
  * Handles the menu
- * 
+ *
  * @author Neraud
  */
 public class AbstractPADListenerActivity extends FragmentActivity {
@@ -36,6 +38,8 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 
 		// Init DB so it upgrades if necessary
 		new PADListenerSQLiteOpenHelper(this).getReadableDatabase().close();
+
+		new ChangeLogHelper(this).displayWhatsNew();
 
 		final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
 		if (!prefHelper.isHasBeenInstalled()) {
@@ -66,19 +70,23 @@ public class AbstractPADListenerActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean consumed = false;
 		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			consumed = true;
-			final Intent settingsIntent = new Intent(this, SettingsActivity.class);
-			Log.d(getClass().getName(), "onOptionsItemSelected : going to settings : " + settingsIntent);
-			startActivity(settingsIntent);
-			break;
-		case R.id.menu_about:
-			consumed = true;
-			openAboutDialog();
-			break;
-		default:
-			Log.d(getClass().getName(), "onOptionsItemSelected : unknown item " + item.getItemId());
-			break;
+			case R.id.menu_settings:
+				consumed = true;
+				final Intent settingsIntent = new Intent(this, SettingsActivity.class);
+				Log.d(getClass().getName(), "onOptionsItemSelected : going to settings : " + settingsIntent);
+				startActivity(settingsIntent);
+				break;
+			case R.id.menu_menu_changelog:
+				consumed = true;
+				new ChangeLogHelper(this).displayChangeLog();
+				break;
+			case R.id.menu_about:
+				consumed = true;
+				openAboutDialog();
+				break;
+			default:
+				Log.d(getClass().getName(), "onOptionsItemSelected : unknown item " + item.getItemId());
+				break;
 		}
 
 		if (!consumed) {
