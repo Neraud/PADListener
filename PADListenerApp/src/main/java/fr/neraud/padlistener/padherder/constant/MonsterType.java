@@ -21,11 +21,11 @@ public enum MonsterType {
 
 	// typeId in ParHerder API
 	private final int typeId;
-	private final boolean material;
+	//private final boolean material;
 
 	private MonsterType(int typeId, boolean material) {
 		this.typeId = typeId;
-		this.material = material;
+		//this.material = material;
 	}
 
 	public static MonsterType findById(int id) {

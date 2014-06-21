@@ -52,13 +52,13 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		}
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_materials_item_checkbox);
-		checkBox.setChecked(item.isChoosen());
+		checkBox.setChecked(item.isChosen());
 		checkBox.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				item.setChoosen(!item.isChoosen());
+				item.setChosen(!item.isChosen());
 			}
 		});
 
@@ -77,8 +77,8 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				item.setChoosen(!item.isChoosen());
-				checkBox.setChecked(item.isChoosen());
+				item.setChosen(!item.isChosen());
+				checkBox.setChecked(item.isChosen());
 			}
 		});
 

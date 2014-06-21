@@ -149,7 +149,7 @@ public class SwitchListenerFragment extends Fragment {
 
 	private String generateStatusStartedText() {
 		final ProxyMode mode = new TechnicalSharedPreferencesHelper(getActivity()).getLastListenerStartProxyMode();
-		String status = null;
+		String status;
 		switch (mode) {
 			case AUTO_WIFI_PROXY:
 				status = getString(R.string.switch_listener_status_started_proxy_wifi);

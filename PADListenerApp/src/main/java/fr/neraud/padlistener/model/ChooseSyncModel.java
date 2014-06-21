@@ -11,19 +11,19 @@ import java.util.List;
 public class ChooseSyncModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	boolean hasEncountredUnknownMonster = false;
+	private boolean hasEncounteredUnknownMonster = false;
 	private ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate;
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete;
 
-	public boolean isHasEncountredUnknownMonster() {
-		return hasEncountredUnknownMonster;
+	public boolean isHasEncounteredUnknownMonster() {
+		return hasEncounteredUnknownMonster;
 	}
 
-	public void setHasEncountredUnknownMonster(boolean hasEncountredUnknownMonster) {
-		this.hasEncountredUnknownMonster = hasEncountredUnknownMonster;
+	public void setHasEncounteredUnknownMonster(boolean hasEncounteredUnknownMonster) {
+		this.hasEncounteredUnknownMonster = hasEncounteredUnknownMonster;
 	}
 
 	public ChooseSyncModelContainer<SyncedUserInfoModel> getSyncedUserInfoToUpdate() {

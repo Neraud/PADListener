@@ -48,6 +48,7 @@ public class RestClient extends MyHttpClientClient<RestResponse> {
 					try {
 						inputStream.close();
 					} catch (final IOException e) {
+						Log.w(getClass().getName(), "createResultFromResponse : error closing in stream");
 					}
 				}
 			}

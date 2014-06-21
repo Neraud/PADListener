@@ -59,6 +59,7 @@ public class InstallMonsterImagesService extends IntentService {
 				try {
 					inputStreamDate.close();
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "saveDate : error closing in stream");
 				}
 			}
 		}

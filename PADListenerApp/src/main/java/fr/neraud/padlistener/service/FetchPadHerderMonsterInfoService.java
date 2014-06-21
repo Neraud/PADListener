@@ -44,8 +44,7 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 	protected List<MonsterInfoModel> parseResult(String responseContent) throws ParsingException {
 		Log.d(getClass().getName(), "parseResult");
 		final MonsterInfoJsonParser parser = new MonsterInfoJsonParser();
-		final List<MonsterInfoModel> monsters = parser.parse(responseContent);
-		return monsters;
+		return parser.parse(responseContent);
 	}
 
 	@Override

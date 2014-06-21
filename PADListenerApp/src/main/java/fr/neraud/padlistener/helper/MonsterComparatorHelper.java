@@ -17,7 +17,7 @@ public class MonsterComparatorHelper {
 		UNDETERMINED,
 		// All the fields are equals
 		EQUALS,
-		// All the fields are geater or equals
+		// All the fields are greater or equals
 		GREATER
 	}
 

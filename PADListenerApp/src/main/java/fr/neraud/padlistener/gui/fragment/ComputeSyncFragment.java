@@ -83,7 +83,7 @@ public class ComputeSyncFragment extends Fragment {
 							}
 						}
 						break;
-					case SUCCESSED:
+					case SUCCEEDED:
 						progress.setIndeterminate(false);
 						status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
 						progress.setProgress(4);

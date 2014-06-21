@@ -40,6 +40,9 @@ public class ChooseSyncDataPagerHelper {
 		UPDATED,
 		CREATED,
 		DELETED;
+
+		private Mode() {
+		}
 	}
 
 	@SuppressLint("UseSparseArrays")
@@ -122,11 +125,9 @@ public class ChooseSyncDataPagerHelper {
 
 	private Fragment createChoiceFragment(boolean isGrouped) {
 		if (isGrouped) {
-			final ChooseSyncMonstersGroupedFragment fragment = new ChooseSyncMonstersGroupedFragment();
-			return fragment;
+			return new ChooseSyncMonstersGroupedFragment();
 		} else {
-			final ChooseSyncMonstersSimpleFragment fragment = new ChooseSyncMonstersSimpleFragment();
-			return fragment;
+			return new ChooseSyncMonstersSimpleFragment();
 		}
 	}
 

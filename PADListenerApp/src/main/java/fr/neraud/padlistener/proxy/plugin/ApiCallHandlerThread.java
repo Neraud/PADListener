@@ -26,7 +26,7 @@ import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
 
 /**
- * Thread used to handle processing a call from PAD to Gunho servers
+ * Thread used to handle processing a call from PAD to Gungho servers
  *
  * @author Neraud
  */
@@ -54,7 +54,7 @@ public class ApiCallHandlerThread extends Thread {
 					showToast(context.getString(R.string.toast_data_captured, result.getPlayerInfo().getName()));
 					break;
 				default:
-					Log.d(getClass().getName(), "Ingoring action " + callModel.getAction());
+					Log.d(getClass().getName(), "Ignoring action " + callModel.getAction());
 			}
 		} catch (final ParsingException e) {
 			Log.e(getClass().getName(), "run : parsing error", e);

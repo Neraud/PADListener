@@ -14,7 +14,7 @@ public class VersionUtil {
 	 * @return the current version
 	 */
 	public static String getVersion(Context context) {
-		String version = null;
+		String version;
 		try {
 			version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
 		} catch (final NameNotFoundException e) {

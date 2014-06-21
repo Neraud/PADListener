@@ -54,7 +54,7 @@ public class PushSyncService extends IntentService {
 	private void pushUserInfoToUpdate(PushSyncHelper helper, ResultReceiver receiver, ChooseSyncModel result) {
 		Log.d(getClass().getName(), "pushUserInfoToUpdate");
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = result.getSyncedUserInfoToUpdate();
-		if (syncedUserInfoToUpdate.isChoosen()) {
+		if (syncedUserInfoToUpdate.isChosen()) {
 			try {
 				helper.pushUserInfoToUpdate(syncedUserInfoToUpdate.getSyncedModel());
 				notifyUserInfoUpdated(receiver);
@@ -71,7 +71,7 @@ public class PushSyncService extends IntentService {
 		Log.d(getClass().getName(), "pushMaterialsToUpdate");
 		for (final ChooseSyncModelContainer<SyncedMaterialModel> syncModel : result.getSyncedMaterialsToUpdate()) {
 			final SyncedMaterialModel model = syncModel.getSyncedModel();
-			if (syncModel.isChoosen()) {
+			if (syncModel.isChosen()) {
 				try {
 					helper.pushMaterialToUpdate(model);
 					notifyMaterialUpdated(receiver);
@@ -89,7 +89,7 @@ public class PushSyncService extends IntentService {
 		Log.d(getClass().getName(), "pushMonstersToUpdate");
 		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonstersToUpdate()) {
 			final SyncedMonsterModel model = syncModel.getSyncedModel();
-			if (syncModel.isChoosen()) {
+			if (syncModel.isChosen()) {
 				try {
 					helper.pushMonsterToUpdate(model);
 					notifyMonsterUpdated(receiver);
@@ -107,7 +107,7 @@ public class PushSyncService extends IntentService {
 		Log.d(getClass().getName(), "pushMonstersToCreate");
 		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonstersToCreate()) {
 			final SyncedMonsterModel model = syncModel.getSyncedModel();
-			if (syncModel.isChoosen()) {
+			if (syncModel.isChosen()) {
 				try {
 					helper.pushMonsterToCreate(model);
 					notifyMonsterCreated(receiver);
@@ -125,7 +125,7 @@ public class PushSyncService extends IntentService {
 		Log.d(getClass().getName(), "pushMonstersToDelete");
 		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonstersToDelete()) {
 			final SyncedMonsterModel model = syncModel.getSyncedModel();
-			if (syncModel.isChoosen()) {
+			if (syncModel.isChosen()) {
 				try {
 					helper.pushMonsterToDelete(model);
 					notifyMonsterDeleted(receiver);

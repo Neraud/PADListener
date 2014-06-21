@@ -3,4 +3,4 @@
 	android:id="@+id/view_captured_data_fragment"
 	android:name="fr.neraud.padlistener.gui.fragment.ViewCapturedDataFragment"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"></fragment>
+	android:layout_height="match_parent" />

@@ -28,7 +28,7 @@ import fr.neraud.padlistener.util.VersionUtil;
  *
  * @author Neraud
  */
-public class AbstractPADListenerActivity extends FragmentActivity {
+public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

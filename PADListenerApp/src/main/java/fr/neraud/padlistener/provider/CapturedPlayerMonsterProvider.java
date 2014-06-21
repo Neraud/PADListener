@@ -48,8 +48,8 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 		}
 
 		final int count = values.length;
-		for (int i = 0; i < count; i++) {
-			db.insert(CapturedPlayerMonsterDescriptor.TABLE_NAME, null, values[i]);
+		for (final ContentValues value : values) {
+			db.insert(CapturedPlayerMonsterDescriptor.TABLE_NAME, null, value);
 		}
 
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -92,7 +92,7 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 				tableBuilder.append(CapturedPlayerMonsterDescriptor.TABLE_NAME).append(".")
 						.append(CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID.getColName());
 				tableBuilder.append(" = ");
-				MonsterInfoDescriptor.Fields idField = null;
+				MonsterInfoDescriptor.Fields idField;
 				switch (region) {
 					case US:
 						idField = MonsterInfoDescriptor.Fields.ID_US;

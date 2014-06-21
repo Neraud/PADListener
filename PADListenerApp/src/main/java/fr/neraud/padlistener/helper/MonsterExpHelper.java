@@ -19,9 +19,9 @@ public class MonsterExpHelper {
 	/**
 	 * Computes the exp for a given exp curve and level
 	 *
-	 * @param expCurve
-	 * @param level
-	 * @return
+	 * @param expCurve the expCurve
+	 * @param level the level
+	 * @return the exp for a given exp curve and level
 	 * @see http://pad.wikia.com/wiki/Monster_EXP_Curves
 	 */
 	public static int computeExp(int expCurve, int level) {

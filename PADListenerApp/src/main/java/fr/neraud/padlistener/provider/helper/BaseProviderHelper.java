@@ -8,15 +8,15 @@ import java.util.Date;
 import fr.neraud.padlistener.provider.descriptor.IField;
 
 /**
- * Base prodiver helper<br/>
+ * Base provider helper<br/>
  * Provides helper method the access data in a Cursor and to put data in a ContentValues.
  *
  * @author Neraud
  */
 public class BaseProviderHelper {
 
-	public static final int BOOLEAN_FALSE = 0;
-	public static final int BOOLEAN_TRUE = 1;
+	private static final int BOOLEAN_FALSE = 0;
+	private static final int BOOLEAN_TRUE = 1;
 
 	/**
 	 * @param field the field to sum

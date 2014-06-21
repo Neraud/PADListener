@@ -14,7 +14,7 @@ public class MyDatabaseUtils extends DatabaseUtils {
 	 * @param whereArgs the whereArgs (if any)
 	 * @return both sets appended (whereArgs first)
 	 */
-	public static String[] appendWhenreArgsToSelectionArgs(String[] selectionArgs, String[] whereArgs) {
+	public static String[] appendWhereArgsToSelectionArgs(String[] selectionArgs, String[] whereArgs) {
 		if (whereArgs == null || whereArgs.length == 0) {
 			return selectionArgs;
 		}

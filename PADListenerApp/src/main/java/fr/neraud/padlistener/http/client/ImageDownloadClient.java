@@ -42,11 +42,12 @@ public class ImageDownloadClient extends MyHttpClientClient<ImageDownloadRespons
 		} catch (final IOException e) {
 			throw new HttpCallException(e);
 		} finally {
-			// Close when exception only, the stream needs to be opened ouside.
+			// Close when exception only, the stream needs to be opened outside.
 			if (!success && inputStream != null) {
 				try {
 					inputStream.close();
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "createResultFromResponse : error closing in stream");
 				}
 			}
 		}

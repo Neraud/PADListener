@@ -11,17 +11,17 @@ import java.util.List;
 public class ComputeSyncResultModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	boolean hasEncountredUnknownMonster = false;
+	private boolean hasEncounteredUnknownMonster = false;
 	private SyncedUserInfoModel syncedUserInfo;
 	private List<SyncedMaterialModel> syncedMaterials;
 	private List<SyncedMonsterModel> syncedMonsters;
 
-	public boolean isHasEncountredUnknownMonster() {
-		return hasEncountredUnknownMonster;
+	public boolean isHasEncounteredUnknownMonster() {
+		return hasEncounteredUnknownMonster;
 	}
 
-	public void setHasEncountredUnknownMonster(boolean hasEncountredUnknownMonster) {
-		this.hasEncountredUnknownMonster = hasEncountredUnknownMonster;
+	public void setHasEncounteredUnknownMonster(boolean hasEncounteredUnknownMonster) {
+		this.hasEncounteredUnknownMonster = hasEncounteredUnknownMonster;
 	}
 
 	public SyncedUserInfoModel getSyncedUserInfo() {

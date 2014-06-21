@@ -47,7 +47,7 @@ public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 		@Override
 		protected void onReceiveSuccess(Integer result) {
 			Log.d(getClass().getName(), "onReceiveSuccess");
-			state = RestCallState.SUCCESSED;
+			state = RestCallState.SUCCEEDED;
 			notifyCallBacks();
 		}
 

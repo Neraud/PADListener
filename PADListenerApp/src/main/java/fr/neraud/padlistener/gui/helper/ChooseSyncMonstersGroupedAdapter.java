@@ -139,13 +139,13 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		}
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_monsters_item_checkbox);
-		checkBox.setChecked(item.isChoosen());
+		checkBox.setChecked(item.isChosen());
 		checkBox.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				item.setChoosen(!item.isChoosen());
+				item.setChosen(!item.isChosen());
 			}
 		});
 

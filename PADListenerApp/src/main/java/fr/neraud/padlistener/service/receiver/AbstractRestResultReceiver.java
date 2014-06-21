@@ -45,7 +45,7 @@ public abstract class AbstractRestResultReceiver<R extends Serializable> extends
 				final RestCallRunningStep step = RestCallRunningStep.valueOf(stepString);
 				onReceiveProgress(step);
 				break;
-			case SUCCESSED:
+			case SUCCEEDED:
 				final R result = (R) resultData.getSerializable(AbstractRestResultReceiver.RECEIVER_BUNDLE_RESULT_NAME);
 				onReceiveSuccess(result);
 				break;

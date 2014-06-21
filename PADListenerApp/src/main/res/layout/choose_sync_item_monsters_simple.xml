@@ -58,7 +58,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
-					android:text="@string/choose_sync_monsters_item_label_awekenings"
+					android:text="@string/choose_sync_monsters_item_label_awakenings"
 					android:textSize="12sp" />
 
 				<TextView

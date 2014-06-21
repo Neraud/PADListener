@@ -11,4 +11,7 @@ public enum ProxyMode {
 	AUTO_WIFI_PROXY,
 	AUTO_IPTABLES;
 
+	private ProxyMode() {
+	}
+
 }

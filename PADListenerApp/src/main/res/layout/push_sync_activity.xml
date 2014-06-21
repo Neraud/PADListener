@@ -3,4 +3,4 @@
 	android:id="@+id/push_sync_fragment"
 	android:name="fr.neraud.padlistener.gui.fragment.PushSyncFragment"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"></fragment>
+	android:layout_height="match_parent" />

@@ -29,7 +29,6 @@ public class ProxyHelper {
 
 	private Framework framework = null;
 	private NetworkHostNameResolver networkHostNameResolver = null;
-	private IClientResolver clientResolver = null;
 
 	public ProxyHelper(Context context) {
 		this.context = context;
@@ -40,7 +39,7 @@ public class ProxyHelper {
 		framework = new Framework(context);
 		setStore(context);
 		networkHostNameResolver = new NetworkHostNameResolver(context);
-		clientResolver = new ClientResolver(context);
+		final IClientResolver clientResolver = new ClientResolver(context);
 		final Proxy proxy = new Proxy(framework, networkHostNameResolver, clientResolver);
 		framework.addPlugin(proxy);
 

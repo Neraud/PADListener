@@ -3,7 +3,7 @@ package fr.neraud.padlistener.model;
 import java.io.Serializable;
 
 /**
- * Base model for syncing. Stores captured and padherder informations.
+ * Base model for syncing. Stores captured and padherder information.
  *
  * @author Neraud
  */

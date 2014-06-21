@@ -21,7 +21,7 @@ public abstract class AbstractJsonParser<M> {
 		M result = null;
 		try {
 			if (jsonString != null) {
-				// With og.json api, you MUST know before hand if the root is an objet or array ...
+				// With og.json api, you MUST know before hand if the root is an object or array ...
 				if (jsonString.trim().startsWith("[")) {
 					final JSONArray json = new JSONArray(jsonString);
 					result = parseJsonArray(json);

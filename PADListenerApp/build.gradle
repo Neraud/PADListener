@@ -11,7 +11,7 @@ apply plugin: 'android'
 apply plugin: 'maven'
 
 dependencies {
-	compile 'com.android.support:support-v4:19.0.0'
+	compile 'com.android.support:support-v4:19.1.0'
 	compile 'org.apache.commons:commons-lang3:3.3.2'
 	compile 'commons-io:commons-io:2.4'
 	compile 'de.cketti.library.changelog:ckchangelog:1.2.0'

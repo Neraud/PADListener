@@ -25,7 +25,6 @@ public class PushSyncFragment extends Fragment {
 	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
 	protected static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
-	private PushSyncTaskFragment mTaskFragment;
 
 	private TextView head;
 	private ProgressBar progress;
@@ -88,7 +87,7 @@ public class PushSyncFragment extends Fragment {
 		summaryMonstersDeleted = (TextView) view.findViewById(R.id.push_sync_summary_monsters_deleted);
 
 		final FragmentManager fm = getFragmentManager();
-		mTaskFragment = (PushSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+		PushSyncTaskFragment mTaskFragment = (PushSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
 		if (mTaskFragment == null) {
 			mTaskFragment = new PushSyncTaskFragment();
 			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();

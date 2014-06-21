@@ -36,7 +36,7 @@ public class ChooseSyncInitHelper {
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseSyncModelContainer<SyncedUserInfoModel>();
-		syncedUserInfoToUpdate.setChoosen(prefHelper.isChooseSyncPreselectUserInfoToUpdate());
+		syncedUserInfoToUpdate.setChosen(prefHelper.isChooseSyncPreselectUserInfoToUpdate());
 		syncedUserInfoToUpdate.setSyncedModel(syncResult.getSyncedUserInfo());
 
 		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();
@@ -46,7 +46,7 @@ public class ChooseSyncInitHelper {
 				Log.d(getClass().getName(), "filterSyncResult : ignoring material : " + material);
 			} else {
 				final ChooseSyncModelContainer<SyncedMaterialModel> container = new ChooseSyncModelContainer<SyncedMaterialModel>();
-				container.setChoosen(prefHelper.isChooseSyncPreselectMaterialsUpdated());
+				container.setChosen(prefHelper.isChooseSyncPreselectMaterialsUpdated());
 				container.setSyncedModel(material);
 				Log.d(getClass().getName(), "filterSyncResult : keeping material : " + material);
 				syncedMaterialsToUpdate.add(container);
@@ -63,20 +63,20 @@ public class ChooseSyncInitHelper {
 
 			if (monster.getCapturedInfo() == null) {
 				Log.d(getClass().getName(), "filterSyncResult : deleting monster : " + monster);
-				container.setChoosen(prefHelper.isChooseSyncPreselectMonstersDeleted());
+				container.setChosen(prefHelper.isChooseSyncPreselectMonstersDeleted());
 				syncedMonstersToDelete.add(container);
 			} else if (monster.getPadherderInfo() == null) {
 				Log.d(getClass().getName(), "filterSyncResult : creating monster : " + monster);
-				container.setChoosen(prefHelper.isChooseSyncPreselectMonstersCreated());
+				container.setChosen(prefHelper.isChooseSyncPreselectMonstersCreated());
 				syncedMonstersToCreate.add(container);
 			} else {
 				Log.d(getClass().getName(), "filterSyncResult : updating monster : " + monster);
-				container.setChoosen(prefHelper.isChooseSyncPreselectMonstersUpdated());
+				container.setChosen(prefHelper.isChooseSyncPreselectMonstersUpdated());
 				syncedMonstersToUpdate.add(container);
 			}
 		}
 
-		chooseSync.setHasEncountredUnknownMonster(syncResult.isHasEncountredUnknownMonster());
+		chooseSync.setHasEncounteredUnknownMonster(syncResult.isHasEncounteredUnknownMonster());
 		chooseSync.setSyncedUserInfoToUpdate(syncedUserInfoToUpdate);
 		chooseSync.setSyncedMaterialsToUpdate(syncedMaterialsToUpdate);
 		chooseSync.setSyncedMonstersToUpdate(syncedMonstersToUpdate);

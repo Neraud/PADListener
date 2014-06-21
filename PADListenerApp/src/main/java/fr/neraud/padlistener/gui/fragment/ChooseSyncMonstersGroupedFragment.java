@@ -60,7 +60,6 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 				break;
 		}
 
-		final ExpandableListAdapter adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
-		return adapter;
+		return new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
 	}
 }

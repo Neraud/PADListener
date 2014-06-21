@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	package="fr.neraud.padlistener"
 	android:versionCode="13"
 	android:versionName="1.0.3">
@@ -83,15 +84,18 @@
 		<provider
 			android:name=".provider.CapturedPlayerInfoProvider"
 			android:authorities="fr.neraud.padlistener.provider.player_info"
-			android:exported="true" />
+			android:exported="true"
+			tools:ignore="ExportedContentProvider" />
 		<provider
 			android:name=".provider.CapturedPlayerMonsterProvider"
 			android:authorities="fr.neraud.padlistener.provider.player_monster"
-			android:exported="true" />
+			android:exported="true"
+			tools:ignore="ExportedContentProvider" />
 		<provider
 			android:name=".provider.MonsterInfoProvider"
 			android:authorities="fr.neraud.padlistener.provider.monster_info"
-			android:exported="true" />
+			android:exported="true"
+			tools:ignore="ExportedContentProvider" />
 	</application>
 
 </manifest>

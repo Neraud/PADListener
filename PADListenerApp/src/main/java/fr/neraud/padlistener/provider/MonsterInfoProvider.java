@@ -52,8 +52,8 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 		}
 
 		final int count = values.length;
-		for (int i = 0; i < count; i++) {
-			db.insert(MonsterInfoDescriptor.TABLE_NAME, null, values[i]);
+		for (final ContentValues value : values) {
+			db.insert(MonsterInfoDescriptor.TABLE_NAME, null, value);
 		}
 
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -90,7 +90,7 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 			case INFO_BY_ID:
 				// Add the ID
 				builder.appendWhere(MonsterInfoDescriptor.Fields.ID_JP.getColName() + "=?");
-				selectionArgs = MyDatabaseUtils.appendWhenreArgsToSelectionArgs(selectionArgs,
+				selectionArgs = MyDatabaseUtils.appendWhereArgsToSelectionArgs(selectionArgs,
 						new String[]{uri.getLastPathSegment()});
 				break;
 			case ALL_INFO:
@@ -205,8 +205,7 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 
 				Log.d(getClass().getName(), "openFile : -> " + imagePath.getAbsolutePath());
 
-				final ParcelFileDescriptor parcel = ParcelFileDescriptor.open(imagePath, imode);
-				return parcel;
+				return ParcelFileDescriptor.open(imagePath, imode);
 			default:
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}

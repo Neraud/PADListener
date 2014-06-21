@@ -58,6 +58,7 @@ public class MockCaptureHelper {
 				try {
 					is.close();
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "extractResponseContent : error closing in stream");
 				}
 			}
 		}

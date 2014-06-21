@@ -21,16 +21,14 @@ public class WifiConfigHelper {
 	private static Object getField(Object obj, String name) throws SecurityException, NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
 		final Field f = obj.getClass().getField(name);
-		final Object out = f.get(obj);
-		return out;
+		return f.get(obj);
 	}
 
 	private static Object getDeclaredField(Object obj, String name) throws SecurityException, NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
 		final Field f = obj.getClass().getDeclaredField(name);
 		f.setAccessible(true);
-		final Object out = f.get(obj);
-		return out;
+		return f.get(obj);
 	}
 
 	private static void setEnumField(Object obj, String value, String name) throws SecurityException, NoSuchFieldException,
@@ -52,10 +50,10 @@ public class WifiConfigHelper {
 		final List<WifiConfiguration> configurationList = manager.getConfiguredNetworks();
 		WifiConfiguration configuration = null;
 		final int cur = manager.getConnectionInfo().getNetworkId();
-		for (int i = 0; i < configurationList.size(); ++i) {
-			final WifiConfiguration wifiConfiguration = configurationList.get(i);
+		for (final WifiConfiguration wifiConfiguration : configurationList) {
 			if (wifiConfiguration.networkId == cur) {
 				configuration = wifiConfiguration;
+				break;
 			}
 		}
 

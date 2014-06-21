@@ -53,13 +53,13 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 		}
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_monsters_item_checkbox);
-		checkBox.setChecked(item.isChoosen());
+		checkBox.setChecked(item.isChosen());
 		checkBox.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				item.setChoosen(!item.isChoosen());
+				item.setChosen(!item.isChosen());
 			}
 		});
 
@@ -78,8 +78,8 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				item.setChoosen(!item.isChoosen());
-				checkBox.setChecked(item.isChoosen());
+				item.setChosen(!item.isChosen());
+				checkBox.setChecked(item.isChosen());
 			}
 		});
 

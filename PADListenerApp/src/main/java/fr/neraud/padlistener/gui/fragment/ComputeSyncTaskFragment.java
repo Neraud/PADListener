@@ -55,7 +55,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 		@Override
 		protected void onReceiveSuccess(ComputeSyncResultModel result) {
 			Log.d(getClass().getName(), "onReceiveSuccess");
-			state = RestCallState.SUCCESSED;
+			state = RestCallState.SUCCEEDED;
 			syncResult = result;
 			notifyCallBacks();
 		}
@@ -99,7 +99,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 	/**
 	 * Starts the ComputeSyncService
 	 *
-	 * @param accountId
+	 * @param accountId the accountId
 	 */
 	public void startComputeSyncService(int accountId) {
 		Log.d(getClass().getName(), "startComputeSyncService");

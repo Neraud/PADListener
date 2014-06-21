@@ -71,7 +71,7 @@ public class ViewMonsterInfoRefreshInfoFragment extends Fragment {
 								}
 							}
 							break;
-						case SUCCESSED:
+						case SUCCEEDED:
 							progress.setIndeterminate(false);
 							progress.setProgress(4);
 							progress.setMax(4);

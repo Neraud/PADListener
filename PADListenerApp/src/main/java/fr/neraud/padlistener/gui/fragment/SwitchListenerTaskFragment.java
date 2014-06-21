@@ -33,6 +33,9 @@ public class SwitchListenerTaskFragment extends Fragment {
 		STOPPING,
 		STOPPED,
 		STOP_FAILED;
+
+		private ListenerState() {
+		}
 	}
 
 	public static interface CallBacks {
@@ -48,9 +51,9 @@ public class SwitchListenerTaskFragment extends Fragment {
 				Log.d(getClass().getName(), "onServiceConnected");
 				listenerServiceBinder = (ListenerServiceBinder) service;
 
-				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarded());
+				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarted());
 
-				if (listenerServiceBinder.isListenerStarded()) {
+				if (listenerServiceBinder.isListenerStarted()) {
 					updateState(ListenerState.STARTED);
 				} else {
 					updateState(ListenerState.STOPPED);
@@ -130,8 +133,8 @@ public class SwitchListenerTaskFragment extends Fragment {
 			final ListenerServiceListener startListener = new ListenerServiceListener() {
 
 				@Override
-				public void notifyActionSucess() {
-					Log.d(getClass().getName(), "notifyActionSucess");
+				public void notifyActionSuccess() {
+					Log.d(getClass().getName(), "notifyActionSuccess");
 					updateState(ListenerState.STARTED);
 				}
 
@@ -155,8 +158,8 @@ public class SwitchListenerTaskFragment extends Fragment {
 			final ListenerServiceListener stopListener = new ListenerServiceListener() {
 
 				@Override
-				public void notifyActionSucess() {
-					Log.d(getClass().getName(), "notifyActionSucess");
+				public void notifyActionSuccess() {
+					Log.d(getClass().getName(), "notifyActionSuccess");
 					updateState(ListenerState.STOPPED);
 				}
 

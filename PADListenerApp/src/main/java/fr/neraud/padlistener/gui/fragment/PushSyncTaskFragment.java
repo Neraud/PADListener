@@ -102,14 +102,14 @@ public class PushSyncTaskFragment extends Fragment {
 		final PushSyncStatModel pushModel = new PushSyncStatModel();
 
 		int count = 0;
-		if (result.getSyncedUserInfoToUpdate().isChoosen()) {
+		if (result.getSyncedUserInfoToUpdate().isChosen()) {
 			count++;
 		}
 		pushModel.initElementsToPush(ElementToPush.USER_INFO, count);
 
 		count = 0;
 		for (final ChooseSyncModelContainer<?> element : result.getSyncedMaterialsToUpdate()) {
-			if (element.isChoosen()) {
+			if (element.isChosen()) {
 				count++;
 			}
 		}
@@ -117,7 +117,7 @@ public class PushSyncTaskFragment extends Fragment {
 
 		count = 0;
 		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonstersToUpdate()) {
-			if (element.isChoosen()) {
+			if (element.isChosen()) {
 				count++;
 			}
 		}
@@ -125,7 +125,7 @@ public class PushSyncTaskFragment extends Fragment {
 
 		count = 0;
 		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonstersToCreate()) {
-			if (element.isChoosen()) {
+			if (element.isChosen()) {
 				count++;
 			}
 		}
@@ -133,7 +133,7 @@ public class PushSyncTaskFragment extends Fragment {
 
 		count = 0;
 		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonstersToDelete()) {
-			if (element.isChoosen()) {
+			if (element.isChosen()) {
 				count++;
 			}
 		}

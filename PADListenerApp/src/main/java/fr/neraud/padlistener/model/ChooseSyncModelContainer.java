@@ -10,15 +10,15 @@ import java.io.Serializable;
 public class ChooseSyncModelContainer<M extends Serializable> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private boolean choosen;
+	private boolean chosen;
 	private M syncedModel;
 
-	public boolean isChoosen() {
-		return choosen;
+	public boolean isChosen() {
+		return chosen;
 	}
 
-	public void setChoosen(boolean choosen) {
-		this.choosen = choosen;
+	public void setChosen(boolean chosen) {
+		this.chosen = chosen;
 	}
 
 	public M getSyncedModel() {
@@ -31,6 +31,6 @@ public class ChooseSyncModelContainer<M extends Serializable> implements Seriali
 
 	@Override
 	public String toString() {
-		return choosen + " -> " + syncedModel;
+		return chosen + " -> " + syncedModel;
 	}
 }

@@ -15,7 +15,6 @@ import fr.neraud.padlistener.exception.RootCommandExecutionException;
  */
 public class RootCommandExecutor {
 
-	private static String TAG = RootCommandExecutor.class.getName();
 	private final String command;
 
 	public RootCommandExecutor(String command) {
@@ -29,16 +28,16 @@ public class RootCommandExecutor {
 
 			final DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
 
-			Log.d(TAG, "ipTablesForTransparentProxy : calling " + command);
+			Log.d(getClass().getName(), "ipTablesForTransparentProxy : calling " + command);
 
 			stdin.writeBytes(command + "\n");
 			stdin.writeBytes("exit $?\n");
 			final int code = p.waitFor();
-			Log.d(TAG, "ipTablesForTransparentProxy : finished : " + code);
+			Log.d(getClass().getName(), "ipTablesForTransparentProxy : finished : " + code);
 			final BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line = null;
+			String line;
 			while ((line = in.readLine()) != null) {
-				Log.d(TAG, line);
+				Log.d(getClass().getName(), line);
 			}
 
 			if (code > 0) {

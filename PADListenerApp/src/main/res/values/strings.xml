@@ -5,7 +5,6 @@
 
 	<!-- Menu -->
 	<string name="menu_settings">Settings</string>
-	<string name="menu_fetch_monster_info">Fetch monster info</string>
 	<string name="menu_changelog">Changelog</string>
 	<string name="menu_about">About</string>
 
@@ -35,9 +34,9 @@
 	<string name="settings_padherder_account_2_category">Account 2</string>
 	<string name="settings_padherder_account_3_category">Account 3</string>
 	<string name="settings_padherder_login_title">Login</string>
-	<string name="settings_padherder_login_summary"></string>
+	<string name="settings_padherder_login_summary" />
 	<string name="settings_padherder_password_title">Password</string>
-	<string name="settings_padherder_password_summary"></string>
+	<string name="settings_padherder_password_summary" />
 
 	<string name="settings_sync_page">Sync</string>
 	<string name="settings_sync_category">Sync</string>
@@ -48,23 +47,23 @@
 
 	<string name="settings_sync_preselect_category">Preselections</string>
 	<string name="settings_choose_sync_preselect_updated_user_info_title">Updated user info</string>
-	<string name="settings_choose_sync_preselect_updated_user_info_summary"></string>
+	<string name="settings_choose_sync_preselect_updated_user_info_summary" />
 	<string name="settings_choose_sync_preselect_updated_materials_title">Updated materials</string>
-	<string name="settings_choose_sync_preselect_updated_materials_summary"></string>
+	<string name="settings_choose_sync_preselect_updated_materials_summary" />
 	<string name="settings_choose_sync_preselect_updated_monsters_title">Updated monsters</string>
-	<string name="settings_choose_sync_preselect_updated_monsters_summary"></string>
+	<string name="settings_choose_sync_preselect_updated_monsters_summary" />
 	<string name="settings_choose_sync_preselect_created_monsters_title">Created monsters</string>
-	<string name="settings_choose_sync_preselect_created_monsters_summary"></string>
+	<string name="settings_choose_sync_preselect_created_monsters_summary" />
 	<string name="settings_choose_sync_preselect_deleted_monsters_title">Deleted monsters</string>
-	<string name="settings_choose_sync_preselect_deleted_monsters_summary"></string>
+	<string name="settings_choose_sync_preselect_deleted_monsters_summary" />
 
 	<string name="settings_sync_preselect_group">Group</string>
 	<string name="settings_choose_sync_group_monsters_updated_title">Updated monsters</string>
-	<string name="settings_choose_sync_group_monsters_updated_summary"></string>
+	<string name="settings_choose_sync_group_monsters_updated_summary" />
 	<string name="settings_choose_sync_group_monsters_created_title">Created monsters</string>
-	<string name="settings_choose_sync_group_monsters_created_summary"></string>
+	<string name="settings_choose_sync_group_monsters_created_summary" />
 	<string name="settings_choose_sync_group_monsters_deleted_title">Deleted monsters</string>
-	<string name="settings_choose_sync_group_monsters_deleted_summary"></string>
+	<string name="settings_choose_sync_group_monsters_deleted_summary" />
 
 
 	<!-- Install Activity -->
@@ -89,7 +88,6 @@
 	<string name="switchListener">Switch listener</string>
 	<string name="viewMonsterInfo">View monster info</string>
 	<string name="viewCapturedData">View captured data</string>
-	<string name="viewPadHerderData">View PadHerder data</string>
 	<string name="computeSync">Compute sync</string>
 
 
@@ -170,7 +168,7 @@
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
 	<string name="choose_sync_info_label">Summary</string>
-	<string name="choose_sync_unknown_monster_encountred">The sync process encountred unknown monsters, they have been ignored. You should refresh the monster informations (from the main screen, go into View monster info, the second tab will let you refresh the info)</string>
+	<string name="choose_sync_unknown_monster_encountered">The sync process encountered unknown monsters, they have been ignored. You should refresh the monster informations (from the main screen, go into View monster info, the second tab will let you refresh the info)</string>
 	<string name="choose_sync_materialsUpdated_label">^ Materials</string>
 	<string name="choose_sync_monstersUpdated_label">^ Monsters</string>
 	<string name="choose_sync_monstersCreated_label">+ Monsters</string>
@@ -190,7 +188,7 @@
 	<string name="choose_sync_monsters_item_name_group">%1$d x (%2$d) %3$s</string>
 	<string name="choose_sync_monsters_item_label_exp">Exp</string>
 	<string name="choose_sync_monsters_item_label_skill">Sk</string>
-	<string name="choose_sync_monsters_item_label_awekenings">Aw</string>
+	<string name="choose_sync_monsters_item_label_awakenings">Aw</string>
 	<string name="choose_sync_monsters_item_label_plusHp">+Hp</string>
 	<string name="choose_sync_monsters_item_label_plusAtk">+Atk</string>
 	<string name="choose_sync_monsters_item_label_plusRcv">+Rcv</string>

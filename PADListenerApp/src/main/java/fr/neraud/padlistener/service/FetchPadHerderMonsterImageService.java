@@ -86,7 +86,7 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 			final ImageDownloadResponse response = client.call(request);
 			in = response.getInputStream();
 			if (response.isResponseOk()) {
-				Log.d(getClass().getName(), "downloadImage : download sucess, saving");
+				Log.d(getClass().getName(), "downloadImage : download success, saving");
 				final Uri uri = MonsterInfoDescriptor.UriHelper.uriForImage(monsterId);
 				out = getContentResolver().openOutputStream(uri);
 				IOUtils.copy(in, out);
@@ -99,12 +99,14 @@ public class FetchPadHerderMonsterImageService extends IntentService {
 				try {
 					in.close();
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "downloadImage : error closing in stream");
 				}
 			}
 			if (out != null) {
 				try {
 					out.close();
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "downloadImage : error closing out stream");
 				}
 			}
 		}

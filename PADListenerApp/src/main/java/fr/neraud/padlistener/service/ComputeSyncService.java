@@ -61,8 +61,7 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 	protected UserInfoModel parseResult(String responseContent) throws ParsingException {
 		Log.d(getClass().getName(), "parseResult");
 		final UserInfoJsonParser parser = new UserInfoJsonParser();
-		final UserInfoModel userInfo = parser.parse(responseContent);
-		return userInfo;
+		return parser.parse(responseContent);
 	}
 
 	@Override
@@ -73,9 +72,8 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 		final List<MonsterInfoModel> monsterInfos = extractMonsterInfo();
 
 		final SyncHelper helper = new SyncHelper(getApplicationContext(), monsterInfos);
-		final ComputeSyncResultModel syncResult = helper.sync(capturedMonsters, capturedInfo, padInfo);
 
-		return syncResult;
+		return helper.sync(capturedMonsters, capturedInfo, padInfo);
 	}
 
 	private List<CapturedMonsterCardModel> extractCapturedPlayerMonster() {

@@ -43,7 +43,7 @@ public class SyncHelper {
 
 	private final DefaultSharedPreferencesHelper helper;
 
-	private boolean hasEncountredUnknownMonster = false;
+	private boolean hasEncounteredUnknownMonster = false;
 
 	public SyncHelper(Context context, List<MonsterInfoModel> monsterInfos) {
 		super();
@@ -74,7 +74,7 @@ public class SyncHelper {
 		result.setSyncedMaterials(syncedMaterials);
 		result.setSyncedMonsters(syncedMonsters);
 
-		result.setHasEncountredUnknownMonster(hasEncountredUnknownMonster);
+		result.setHasEncounteredUnknownMonster(hasEncounteredUnknownMonster);
 
 		return result;
 	}
@@ -125,7 +125,7 @@ public class SyncHelper {
 				capturedMonstersById.get(refId).add(capturedMonster);
 			} catch (final UnknownMonsterException e) {
 				Log.w(getClass().getName(), "reorgCapturedMonster", e);
-				hasEncountredUnknownMonster = true;
+				hasEncounteredUnknownMonster = true;
 			}
 		}
 
@@ -137,14 +137,14 @@ public class SyncHelper {
 		final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfo);
 		final long expCap = expHelper.getExpCap();
 		if (capturedMonster.getExp() > expCap) {
-			Log.d(getClass().getName(), "capMonsterData : caping monster xp for " + capturedMonster);
+			Log.d(getClass().getName(), "capMonsterData : capping monster xp for " + capturedMonster);
 			capturedMonster.setExp(expCap);
 		}
 
 		// PAD allows to awaken a monster beyond its max, but PADHerder caps to the max awakenings
 		final int maxAwakenings = monsterInfo.getAwokenSkillIds() == null ? 0 : monsterInfo.getAwokenSkillIds().size();
 		if (capturedMonster.getAwakenings() > maxAwakenings) {
-			Log.d(getClass().getName(), "capMonsterData : caping monster awakenings for " + capturedMonster);
+			Log.d(getClass().getName(), "capMonsterData : capping monster awakenings for " + capturedMonster);
 			capturedMonster.setAwakenings(maxAwakenings);
 		}
 
@@ -168,7 +168,7 @@ public class SyncHelper {
 				capturedMaterialsById.put(refId, ++count);
 			} catch (final UnknownMonsterException e) {
 				Log.w(getClass().getName(), "capturedMaterialsById", e);
-				hasEncountredUnknownMonster = true;
+				hasEncounteredUnknownMonster = true;
 			}
 		}
 
@@ -300,7 +300,7 @@ public class SyncHelper {
 
 			} catch (final UnknownMonsterException e) {
 				Log.w(getClass().getName(), "syncMaterials", e);
-				hasEncountredUnknownMonster = true;
+				hasEncounteredUnknownMonster = true;
 			}
 		}
 
@@ -398,7 +398,7 @@ public class SyncHelper {
 				syncedMonsters.add(model);
 			} catch (final UnknownMonsterException e) {
 				Log.w(getClass().getName(), "syncMonstersForOneId", e);
-				hasEncountredUnknownMonster = true;
+				hasEncounteredUnknownMonster = true;
 			}
 		}
 

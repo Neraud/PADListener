@@ -45,7 +45,7 @@ public class ViewMonsterInfoRefreshImagesTaskFragment extends Fragment {
 					monsterIdDownloading = resultData.getInt("monsterId");
 					break;
 				case 1:
-					state = RestCallState.SUCCESSED;
+					state = RestCallState.SUCCEEDED;
 					break;
 				default:
 					break;

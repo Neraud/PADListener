@@ -53,7 +53,7 @@ public class ViewMonsterInfoRefreshImagesFragment extends Fragment {
 							statusText.setText(getString(R.string.monster_info_fetch_images_text, (imagesDownloaded + 1), imagesToDownload,
 									monsterIdDownloading));
 							break;
-						case SUCCESSED:
+						case SUCCEEDED:
 							statusText.setText(getString(R.string.monster_info_fetch_images_done, imagesDownloaded));
 							refreshLastUpdate();
 							break;

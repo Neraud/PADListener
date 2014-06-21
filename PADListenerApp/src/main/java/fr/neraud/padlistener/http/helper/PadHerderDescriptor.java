@@ -59,7 +59,7 @@ public class PadHerderDescriptor {
 		public static MyHttpRequest initRequestForGetUserInfo(Context context, int accountId) {
 			final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
 
-			String cleanedAccountName = null;
+			String cleanedAccountName;
 			try {
 				cleanedAccountName = URLEncoder.encode(helper.getPadHerderUserName(accountId), "UTF-8");
 			} catch (final UnsupportedEncodingException e) {

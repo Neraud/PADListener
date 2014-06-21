@@ -40,14 +40,14 @@ public class ListenerService extends Service {
 
 	public interface ListenerServiceListener {
 
-		public void notifyActionSucess();
+		public void notifyActionSuccess();
 
 		public void notifyActionFailed(Exception e);
 	}
 
 	public class ListenerServiceBinder extends Binder {
 
-		public boolean isListenerStarded() {
+		public boolean isListenerStarted() {
 			return started;
 		}
 
@@ -167,7 +167,7 @@ public class ListenerService extends Service {
 			final Notification notification = buildNotification(proxyMode);
 			startForeground(NOTIFICATION_ID, notification);
 			if (listener != null) {
-				listener.notifyActionSucess();
+				listener.notifyActionSuccess();
 			}
 		} catch (final Exception e) {
 			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
@@ -236,7 +236,7 @@ public class ListenerService extends Service {
 			started = false;
 			stopForeground(true);
 			if (listener != null) {
-				listener.notifyActionSucess();
+				listener.notifyActionSuccess();
 			}
 		} catch (final Exception e) {
 			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage());

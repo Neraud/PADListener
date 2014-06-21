@@ -51,15 +51,15 @@ public abstract class AbstractAssetHelper {
 			if (in != null) {
 				try {
 					in.close();
-					in = null;
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "copyAsset : error closing in stream");
 				}
 			}
 			if (out != null) {
 				try {
 					out.close();
-					out = null;
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "copyAsset : error closing out stream");
 				}
 			}
 		}

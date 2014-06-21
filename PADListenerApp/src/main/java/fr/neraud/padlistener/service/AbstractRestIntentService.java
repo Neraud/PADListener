@@ -72,8 +72,7 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 	private RestResponse callRestApi() throws HttpCallException {
 		final RestClient restClient = createRestClient();
 		final MyHttpRequest restRequest = createMyHttpRequest();
-		final RestResponse restResponse = restClient.call(restRequest);
-		return restResponse;
+		return restClient.call(restRequest);
 	}
 
 	protected void initParams(Intent intent) {
@@ -104,7 +103,7 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 		if (receiver != null) {
 			final Bundle bundle = new Bundle();
 			bundle.putSerializable(AbstractRestResultReceiver.RECEIVER_BUNDLE_RESULT_NAME, result);
-			receiver.send(RestCallState.SUCCESSED.getCode(), bundle);
+			receiver.send(RestCallState.SUCCEEDED.getCode(), bundle);
 		} else {
 			Log.w(getClass().getName(), "processResult : no ResultReceiver available !");
 		}

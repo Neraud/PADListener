@@ -15,17 +15,16 @@ import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
  */
 public class AccountSpinnerAdapter extends ArrayAdapter<String> {
 
-	private final Map<Integer, String> accounts;
 	private final SparseIntArray accountIdsByPosition;
 
 	public AccountSpinnerAdapter(Context context) {
 		super(context, android.R.layout.simple_spinner_item);
-		accounts = new DefaultSharedPreferencesHelper(context).getPadHerderAccounts();
+		final Map<Integer, String> accounts = new DefaultSharedPreferencesHelper(context).getPadHerderAccounts();
 
 		super.addAll(accounts.values());
 
 		accountIdsByPosition = new SparseIntArray();
-		final Integer[] accountIds = accounts.keySet().toArray(new Integer[0]);
+		final Integer[] accountIds = accounts.keySet().toArray(new Integer[accounts.size()]);
 		for (int i = 0; i < accountIds.length; i++) {
 			accountIdsByPosition.put(i, accountIds[i]);
 		}

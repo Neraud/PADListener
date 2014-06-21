@@ -9,7 +9,7 @@ public enum RestCallState {
 
 	RUNNING(1),
 	FAILED(2),
-	SUCCESSED(0);
+	SUCCEEDED(0);
 
 	private final int code;
 

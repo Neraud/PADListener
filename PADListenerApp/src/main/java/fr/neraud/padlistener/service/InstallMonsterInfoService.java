@@ -57,6 +57,7 @@ public class InstallMonsterInfoService extends IntentService {
 				try {
 					inputStream.close();
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "onHandleIntent : error closing in stream");
 				}
 			}
 			if (scanner != null) {
@@ -83,6 +84,7 @@ public class InstallMonsterInfoService extends IntentService {
 				try {
 					inputStreamDate.close();
 				} catch (final IOException e) {
+					Log.w(getClass().getName(), "saveDate : error closing in stream");
 				}
 			}
 		}
@@ -91,8 +93,7 @@ public class InstallMonsterInfoService extends IntentService {
 	private List<MonsterInfoModel> parseData(String responseContent) throws ParsingException {
 		Log.d(getClass().getName(), "parseData");
 		final MonsterInfoJsonParser parser = new MonsterInfoJsonParser();
-		final List<MonsterInfoModel> monsters = parser.parse(responseContent);
-		return monsters;
+		return parser.parse(responseContent);
 	}
 
 	private void saveData(List<MonsterInfoModel> monsters) {

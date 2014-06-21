@@ -54,8 +54,8 @@ public class PADPlugin extends ProxyPlugin {
 					final String actionString = requestParams.get("action");
 					final ApiAction action = ApiAction.fromString(actionString);
 
-					final byte[] reponseContentByte = response.getContent();
-					final String responseContentString = new String(reponseContentByte);
+					final byte[] responseContentByte = response.getContent();
+					final String responseContentString = new String(responseContentByte);
 
 					final ApiCallModel model = new ApiCallModel();
 					model.setAction(action);
@@ -69,7 +69,7 @@ public class PADPlugin extends ProxyPlugin {
 
 				return response;
 			}
-			// just make normal action whitout any custom parsing
+			// just make normal action without any custom parsing
 			return _in.fetchResponse(request);
 		}
 
@@ -98,7 +98,7 @@ public class PADPlugin extends ProxyPlugin {
 
 	@Override
 	public String getPluginName() {
-		return new String("PADListenerPlugin");
+		return "PADListenerPlugin";
 	}
 
 	@Override
