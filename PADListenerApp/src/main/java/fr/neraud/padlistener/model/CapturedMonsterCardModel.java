@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.model;
 
 /**
  * MonsterModel for captured data
- * 
+ *
  * @author Neraud
  */
 public class CapturedMonsterCardModel extends BaseMonsterModel {

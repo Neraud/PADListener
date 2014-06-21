@@ -1,17 +1,17 @@
-
 package fr.neraud.padlistener.http.helper;
+
+import android.content.Context;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import android.content.Context;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 
 /**
  * Descriptor for PADherder
- * 
+ *
  * @author Neraud
  */
 public class PadHerderDescriptor {
@@ -19,8 +19,35 @@ public class PadHerderDescriptor {
 	public static final String serverUrl = "https://www.padherder.com";
 
 	/**
+	 * Services used by PadHerder
+	 *
+	 * @author Neraud
+	 */
+	private enum Services {
+
+		GET_MONSTER_INFO("/api/monsters/", HttpMethod.GET, false),
+		GET_USER_INFO("/user-api/user/[userName]/", HttpMethod.GET, true),
+		PATCH_USER_INFO("/user-api/profile/[id]/", HttpMethod.PATCH, true),
+		PATCH_MATERIAL("/user-api/material/[id]/", HttpMethod.PATCH, true),
+		PATCH_MONSTER("/user-api/monster/[id]/", HttpMethod.PATCH, true),
+		POST_MONSTER("/user-api/monster/", HttpMethod.POST, true),
+		DELETE_MONSTER("/user-api/monster/[id]/", HttpMethod.DELETE, true);
+
+		private final String apiUrl;
+		private final HttpMethod method;
+		private final boolean needsAuth;
+
+		private Services(String apiUrl, HttpMethod method, boolean needsAuth) {
+			this.apiUrl = apiUrl;
+			this.method = method;
+			this.needsAuth = needsAuth;
+		}
+
+	}
+
+	/**
 	 * Helper to create requests
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public static class RequestHelper {
@@ -90,33 +117,6 @@ public class PadHerderDescriptor {
 				restRequest.setBasicAuthUserPassword(helper.getPadHerderUserPassword(accountId));
 			}
 			return restRequest;
-		}
-
-	}
-
-	/**
-	 * Services used by PadHerder
-	 * 
-	 * @author Neraud
-	 */
-	private enum Services {
-
-		GET_MONSTER_INFO("/api/monsters/", HttpMethod.GET, false),
-		GET_USER_INFO("/user-api/user/[userName]/", HttpMethod.GET, true),
-		PATCH_USER_INFO("/user-api/profile/[id]/", HttpMethod.PATCH, true),
-		PATCH_MATERIAL("/user-api/material/[id]/", HttpMethod.PATCH, true),
-		PATCH_MONSTER("/user-api/monster/[id]/", HttpMethod.PATCH, true),
-		POST_MONSTER("/user-api/monster/", HttpMethod.POST, true),
-		DELETE_MONSTER("/user-api/monster/[id]/", HttpMethod.DELETE, true);
-
-		private final String apiUrl;
-		private final HttpMethod method;
-		private final boolean needsAuth;
-
-		private Services(String apiUrl, HttpMethod method, boolean needsAuth) {
-			this.apiUrl = apiUrl;
-			this.method = method;
-			this.needsAuth = needsAuth;
 		}
 
 	}

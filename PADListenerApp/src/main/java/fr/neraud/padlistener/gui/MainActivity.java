@@ -1,13 +1,13 @@
-
 package fr.neraud.padlistener.gui;
 
 import android.os.Bundle;
 import android.util.Log;
+
 import fr.neraud.padlistener.R;
 
 /**
  * Main activity
- * 
+ *
  * @author Neraud
  */
 public class MainActivity extends AbstractPADListenerActivity {

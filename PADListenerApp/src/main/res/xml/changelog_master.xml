@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version=""
-		versioncode="">
+		version="" versioncode="">
 		<change>Added changelog</change>
 	</release>
 </changelog>

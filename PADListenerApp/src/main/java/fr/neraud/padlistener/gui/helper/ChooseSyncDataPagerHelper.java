@@ -1,14 +1,14 @@
-
 package fr.neraud.padlistener.gui.helper;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.fragment.ChooseSyncInfoFragment;
 import fr.neraud.padlistener.gui.fragment.ChooseSyncMaterialsFragment;
@@ -19,7 +19,7 @@ import fr.neraud.padlistener.model.ChooseSyncModel;
 
 /**
  * Helper for the ChooseSync
- * 
+ *
  * @author Neraud
  */
 public class ChooseSyncDataPagerHelper {
@@ -27,22 +27,20 @@ public class ChooseSyncDataPagerHelper {
 	public static final String ARGUMENT_SYNC_RESULT_NAME = "result";
 	public static final String ARGUMENT_SYNC_MODE_NAME = "mode";
 	public static final String ARGUMENT_ACCOUNT_ID_NAME = "accountId";
+	private final ChooseSyncModel result;
+	private final int accountId;
+	private final Map<Integer, Fragment> fragmentsByPosition;
+	private final Map<Integer, Integer> titlesByPosition;
+	private final DefaultSharedPreferencesHelper prefHelper;
+	private int count = 0;
+	private int infoFragmentPosition = -1;
+	private ChooseSyncInfoFragment infoFragment;
 
 	public static enum Mode {
 		UPDATED,
 		CREATED,
 		DELETED;
 	}
-
-	private final ChooseSyncModel result;
-	private int count = 0;
-	private final int accountId;
-	private final Map<Integer, Fragment> fragmentsByPosition;
-	private final Map<Integer, Integer> titlesByPosition;
-	private final DefaultSharedPreferencesHelper prefHelper;
-
-	private int infoFragmentPosition = -1;
-	private ChooseSyncInfoFragment infoFragment;
 
 	@SuppressLint("UseSparseArrays")
 	public ChooseSyncDataPagerHelper(Context context, int accountId, ChooseSyncModel result) {

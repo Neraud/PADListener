@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.provider;
 
 import android.content.ContentValues;
@@ -7,13 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
+
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * ContentProvider to manipulate the PlayerMonster
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentProvider {
@@ -41,10 +41,10 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 		final CapturedPlayerMonsterDescriptor.Paths path = CapturedPlayerMonsterDescriptor.matchUri(uri);
 
 		switch (path) {
-		case ALL:
-			break;
-		default:
-			throw new UnsupportedOperationException("URI : " + uri + " not supported.");
+			case ALL:
+				break;
+			default:
+				throw new UnsupportedOperationException("URI : " + uri + " not supported.");
 		}
 
 		final int count = values.length;
@@ -81,33 +81,33 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 		final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
 
 		switch (path) {
-		case ALL:
-			builder.setTables(CapturedPlayerMonsterDescriptor.TABLE_NAME);
-			break;
-		case ALL_WITH_INFO:
-			final PADRegion region = PADRegion.valueOf(uri.getLastPathSegment());
-			final StringBuilder tableBuilder = new StringBuilder(CapturedPlayerMonsterDescriptor.TABLE_NAME);
-			tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME);
-			tableBuilder.append(" ON (");
-			tableBuilder.append(CapturedPlayerMonsterDescriptor.TABLE_NAME).append(".")
-			        .append(CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID.getColName());
-			tableBuilder.append(" = ");
-			MonsterInfoDescriptor.Fields idField = null;
-			switch (region) {
-			case US:
-				idField = MonsterInfoDescriptor.Fields.ID_US;
+			case ALL:
+				builder.setTables(CapturedPlayerMonsterDescriptor.TABLE_NAME);
 				break;
-			case JP:
-			default:
-				idField = MonsterInfoDescriptor.Fields.ID_JP;
-			}
-			tableBuilder.append(MonsterInfoDescriptor.TABLE_NAME).append(".").append(idField.getColName());
-			tableBuilder.append(")");
+			case ALL_WITH_INFO:
+				final PADRegion region = PADRegion.valueOf(uri.getLastPathSegment());
+				final StringBuilder tableBuilder = new StringBuilder(CapturedPlayerMonsterDescriptor.TABLE_NAME);
+				tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME);
+				tableBuilder.append(" ON (");
+				tableBuilder.append(CapturedPlayerMonsterDescriptor.TABLE_NAME).append(".")
+						.append(CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID.getColName());
+				tableBuilder.append(" = ");
+				MonsterInfoDescriptor.Fields idField = null;
+				switch (region) {
+					case US:
+						idField = MonsterInfoDescriptor.Fields.ID_US;
+						break;
+					case JP:
+					default:
+						idField = MonsterInfoDescriptor.Fields.ID_JP;
+				}
+				tableBuilder.append(MonsterInfoDescriptor.TABLE_NAME).append(".").append(idField.getColName());
+				tableBuilder.append(")");
 
-			builder.setTables(tableBuilder.toString());
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown URI " + uri);
+				builder.setTables(tableBuilder.toString());
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
 		final Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
@@ -124,10 +124,10 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 		int count;
 
 		switch (path) {
-		case ALL:
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			case ALL:
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
 		count = db.update(CapturedPlayerMonsterDescriptor.TABLE_NAME, values, selection, selectionArgs);
@@ -144,12 +144,12 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 		int count;
 
 		switch (path) {
-		case ALL:
-			count = db.delete(CapturedPlayerMonsterDescriptor.TABLE_NAME, selection, selectionArgs);
-			getContext().getContentResolver().notifyChange(uri, null);
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			case ALL:
+				count = db.delete(CapturedPlayerMonsterDescriptor.TABLE_NAME, selection, selectionArgs);
+				getContext().getContentResolver().notifyChange(uri, null);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
 		return count;

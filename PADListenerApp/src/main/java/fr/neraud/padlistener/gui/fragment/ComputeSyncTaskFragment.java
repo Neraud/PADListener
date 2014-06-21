@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.content.Intent;
@@ -6,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.service.ComputeSyncService;
 import fr.neraud.padlistener.service.constant.RestCallError;
@@ -15,7 +15,7 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 /**
  * ComputeSync retained fragment to store the sync computation progression
- * 
+ *
  * @author Neraud
  */
 public class ComputeSyncTaskFragment extends Fragment {
@@ -29,13 +29,13 @@ public class ComputeSyncTaskFragment extends Fragment {
 
 	/**
 	 * Interface to implement to be notified when the sync computation progresses
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public static interface CallBacks {
 
 		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
-		        Throwable errorCause);
+				Throwable errorCause);
 	}
 
 	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<ComputeSyncResultModel> {
@@ -98,7 +98,7 @@ public class ComputeSyncTaskFragment extends Fragment {
 
 	/**
 	 * Starts the ComputeSyncService
-	 * 
+	 *
 	 * @param accountId
 	 */
 	public void startComputeSyncService(int accountId) {

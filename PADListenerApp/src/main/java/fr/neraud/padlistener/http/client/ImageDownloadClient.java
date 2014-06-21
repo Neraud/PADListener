@@ -1,19 +1,19 @@
-
 package fr.neraud.padlistener.http.client;
+
+import android.content.Context;
+import android.util.Log;
+
+import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.http.HttpResponse;
-
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.model.ImageDownloadResponse;
 
 /**
  * HttpClient used to download images.
- * 
+ *
  * @author Neraud
  */
 public class ImageDownloadClient extends MyHttpClientClient<ImageDownloadResponse> {

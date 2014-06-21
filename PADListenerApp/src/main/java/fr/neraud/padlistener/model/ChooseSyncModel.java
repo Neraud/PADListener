@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
@@ -6,7 +5,7 @@ import java.util.List;
 
 /**
  * ChooseSync model
- * 
+ *
  * @author Neraud
  */
 public class ChooseSyncModel implements Serializable {

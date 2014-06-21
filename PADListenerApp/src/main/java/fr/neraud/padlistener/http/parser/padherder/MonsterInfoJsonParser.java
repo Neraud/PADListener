@@ -1,14 +1,14 @@
-
 package fr.neraud.padlistener.http.parser.padherder;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -17,7 +17,7 @@ import fr.neraud.padlistener.padherder.constant.MonsterType;
 
 /**
  * JSON parser used to parse PADherder monster api
- * 
+ *
  * @author Neraud
  */
 public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoModel>> {

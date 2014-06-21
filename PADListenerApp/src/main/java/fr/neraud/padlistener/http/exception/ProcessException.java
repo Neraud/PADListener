@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.http.exception;
 
 /**
  * Exception thrown when a process fails
- * 
+ *
  * @author Neraud
  */
 public class ProcessException extends Exception {

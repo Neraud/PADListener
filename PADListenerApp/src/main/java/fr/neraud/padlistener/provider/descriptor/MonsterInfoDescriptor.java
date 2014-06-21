@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.provider.descriptor;
 
 import android.content.ContentResolver;
@@ -8,7 +7,7 @@ import android.provider.BaseColumns;
 
 /**
  * Descriptor for the MonsterInfoProvider
- * 
+ *
  * @author Neraud
  */
 public class MonsterInfoDescriptor {
@@ -20,48 +19,8 @@ public class MonsterInfoDescriptor {
 	private static final UriMatcher URI_MATCHER = buildUriMatcher();
 
 	/**
-	 * Helper for the URIs
-	 * 
-	 * @author Neraud
-	 */
-	public static class UriHelper {
-
-		private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY).buildUpon().appendPath(BASE_PATH).build();
-
-		/**
-		 * @return the Uri to access all the MonsterInfo
-		 */
-		public static Uri uriForAll() {
-			return CONTENT_URI;
-		}
-
-		/**
-		 * @param monsterId the monsterId
-		 * @return the Uri to access the image of one monster
-		 */
-		public static Uri uriForImage(long monsterId) {
-			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
-			uriBuilder.appendPath("image");
-			uriBuilder.appendPath(String.valueOf(monsterId));
-
-			return uriBuilder.build();
-		}
-
-		/**
-		 * @param monsterId the monsterId
-		 * @return the Uri to access one monster
-		 */
-		public static Uri uriById(long monsterId) {
-			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
-			uriBuilder.appendPath(String.valueOf(monsterId));
-
-			return uriBuilder.build();
-		}
-	}
-
-	/**
 	 * Paths used by the StatusProvider
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public enum Paths {
@@ -87,7 +46,7 @@ public class MonsterInfoDescriptor {
 
 	/**
 	 * Fields used by the MonsterInfoProvider
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public enum Fields implements IField {
@@ -129,6 +88,46 @@ public class MonsterInfoDescriptor {
 		@Override
 		public String getColName() {
 			return colName;
+		}
+	}
+
+	/**
+	 * Helper for the URIs
+	 *
+	 * @author Neraud
+	 */
+	public static class UriHelper {
+
+		private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY).buildUpon().appendPath(BASE_PATH).build();
+
+		/**
+		 * @return the Uri to access all the MonsterInfo
+		 */
+		public static Uri uriForAll() {
+			return CONTENT_URI;
+		}
+
+		/**
+		 * @param monsterId the monsterId
+		 * @return the Uri to access the image of one monster
+		 */
+		public static Uri uriForImage(long monsterId) {
+			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
+			uriBuilder.appendPath("image");
+			uriBuilder.appendPath(String.valueOf(monsterId));
+
+			return uriBuilder.build();
+		}
+
+		/**
+		 * @param monsterId the monsterId
+		 * @return the Uri to access one monster
+		 */
+		public static Uri uriById(long monsterId) {
+			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
+			uriBuilder.appendPath(String.valueOf(monsterId));
+
+			return uriBuilder.build();
 		}
 	}
 

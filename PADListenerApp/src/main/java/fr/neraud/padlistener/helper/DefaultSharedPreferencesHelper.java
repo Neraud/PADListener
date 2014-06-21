@@ -1,21 +1,21 @@
-
 package fr.neraud.padlistener.helper;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 
 /**
  * Helper to access the default SharedPreferences
- * 
+ *
  * @author Neraud
  */
 public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHelper {

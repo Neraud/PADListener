@@ -1,33 +1,32 @@
-
 package fr.neraud.padlistener.proxy.helper;
+
+import android.content.Context;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import android.content.Context;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
-
 /**
  * Helper to access hidden WiFi settings.
- * 
- * @see http://stackoverflow.com/questions/12486441/how-can-i-set-proxysettings-and-proxyproperties-on-android-wi-fi-connection-usin
+ *
  * @author Neraud
+ * @see http://stackoverflow.com/questions/12486441/how-can-i-set-proxysettings-and-proxyproperties-on-android-wi-fi-connection-usin
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
+@SuppressWarnings({"unchecked", "rawtypes", "unused"})
 public class WifiConfigHelper {
 
 	private static Object getField(Object obj, String name) throws SecurityException, NoSuchFieldException,
-	        IllegalArgumentException, IllegalAccessException {
+			IllegalArgumentException, IllegalAccessException {
 		final Field f = obj.getClass().getField(name);
 		final Object out = f.get(obj);
 		return out;
 	}
 
 	private static Object getDeclaredField(Object obj, String name) throws SecurityException, NoSuchFieldException,
-	        IllegalArgumentException, IllegalAccessException {
+			IllegalArgumentException, IllegalAccessException {
 		final Field f = obj.getClass().getDeclaredField(name);
 		f.setAccessible(true);
 		final Object out = f.get(obj);
@@ -35,13 +34,13 @@ public class WifiConfigHelper {
 	}
 
 	private static void setEnumField(Object obj, String value, String name) throws SecurityException, NoSuchFieldException,
-	        IllegalArgumentException, IllegalAccessException {
+			IllegalArgumentException, IllegalAccessException {
 		final Field f = obj.getClass().getField(name);
 		f.set(obj, Enum.valueOf((Class<Enum>) f.getType(), value));
 	}
 
 	public static void setProxySettings(String assign, WifiConfiguration wifiConf) throws SecurityException,
-	        IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
+			IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
 		setEnumField(wifiConf, assign, "proxySettings");
 	}
 
@@ -79,23 +78,23 @@ public class WifiConfigHelper {
 
 		//get the setHttpProxy method for LinkProperties
 		final Class proxyPropertiesClass = Class.forName("android.net.ProxyProperties");
-		final Class[] setHttpProxyParams = new Class[] { proxyPropertiesClass };
+		final Class[] setHttpProxyParams = new Class[]{proxyPropertiesClass};
 		final Class lpClass = Class.forName("android.net.LinkProperties");
 		final Method setHttpProxy = lpClass.getDeclaredMethod("setHttpProxy", setHttpProxyParams);
 		setHttpProxy.setAccessible(true);
 
 		//get ProxyProperties constructor
-		final Class[] proxyPropertiesCtorParamTypes = new Class[] { String.class, int.class, String.class };
+		final Class[] proxyPropertiesCtorParamTypes = new Class[]{String.class, int.class, String.class};
 		final Constructor proxyPropertiesCtor = proxyPropertiesClass.getConstructor(proxyPropertiesCtorParamTypes);
 
 		//create the parameters for the constructor
-		final Object[] proxyPropertiesCtorParams = new Object[] { proxyHost, proxyPost, null };
+		final Object[] proxyPropertiesCtorParams = new Object[]{proxyHost, proxyPost, null};
 
 		//create a new object using the params
 		final Object proxySettings = proxyPropertiesCtor.newInstance(proxyPropertiesCtorParams);
 
 		//pass the new object to setHttpProxy
-		final Object[] params = new Object[] { proxySettings };
+		final Object[] params = new Object[]{proxySettings};
 		setHttpProxy.invoke(linkProperties, params);
 
 		setProxySettings("STATIC", config);
@@ -122,13 +121,13 @@ public class WifiConfigHelper {
 
 		//get the setHttpProxy method for LinkProperties
 		final Class proxyPropertiesClass = Class.forName("android.net.ProxyProperties");
-		final Class[] setHttpProxyParams = new Class[] { proxyPropertiesClass };
+		final Class[] setHttpProxyParams = new Class[]{proxyPropertiesClass};
 		final Class lpClass = Class.forName("android.net.LinkProperties");
 		final Method setHttpProxy = lpClass.getDeclaredMethod("setHttpProxy", setHttpProxyParams);
 		setHttpProxy.setAccessible(true);
 
 		//pass null as the proxy
-		final Object[] params = new Object[] { null };
+		final Object[] params = new Object[]{null};
 		setHttpProxy.invoke(linkProperties, params);
 
 		setProxySettings("NONE", config);

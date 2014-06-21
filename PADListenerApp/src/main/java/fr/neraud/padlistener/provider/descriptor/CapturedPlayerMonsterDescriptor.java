@@ -1,15 +1,15 @@
-
 package fr.neraud.padlistener.provider.descriptor;
 
 import android.content.ContentResolver;
 import android.content.UriMatcher;
 import android.net.Uri;
 import android.provider.BaseColumns;
+
 import fr.neraud.padlistener.constant.PADRegion;
 
 /**
  * Descriptor for the PlayerMonsterProvider
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerMonsterDescriptor {
@@ -21,43 +21,15 @@ public class CapturedPlayerMonsterDescriptor {
 	private static final UriMatcher URI_MATCHER = buildUriMatcher();
 
 	/**
-	 * Helper for the URIs
-	 * 
-	 * @author Neraud
-	 */
-	public static class UriHelper {
-
-		private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY).buildUpon().appendPath(BASE_PATH).build();
-
-		/**
-		 * @return the Uri to access all the PlayerMonster
-		 */
-		public static Uri uriForAll() {
-			return CONTENT_URI;
-		}
-
-		/**
-		 * @return the Uri to access all the PlayerMonster with info
-		 */
-		public static Uri uriForAllWithInfo(PADRegion region) {
-			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
-			uriBuilder.appendPath("withInfo");
-			uriBuilder.appendPath(region.name());
-
-			return uriBuilder.build();
-		}
-	}
-
-	/**
 	 * Paths used by the StatusProvider
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public enum Paths {
 
 		ALL(1, BASE_PATH, ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_monster"),
 		ALL_WITH_INFO(2, BASE_PATH + "/withInfo/*", ContentResolver.CURSOR_DIR_BASE_TYPE
-		        + "/vnd.fr.neraud.padlistener.player_monster_with_info");
+				+ "/vnd.fr.neraud.padlistener.player_monster_with_info");
 
 		private final int id;
 		private final String path;
@@ -76,7 +48,7 @@ public class CapturedPlayerMonsterDescriptor {
 
 	/**
 	 * Fields used by the PlayerMonsterProvider
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public enum Fields implements IField {
@@ -100,6 +72,34 @@ public class CapturedPlayerMonsterDescriptor {
 		@Override
 		public String getColName() {
 			return colName;
+		}
+	}
+
+	/**
+	 * Helper for the URIs
+	 *
+	 * @author Neraud
+	 */
+	public static class UriHelper {
+
+		private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY).buildUpon().appendPath(BASE_PATH).build();
+
+		/**
+		 * @return the Uri to access all the PlayerMonster
+		 */
+		public static Uri uriForAll() {
+			return CONTENT_URI;
+		}
+
+		/**
+		 * @return the Uri to access all the PlayerMonster with info
+		 */
+		public static Uri uriForAllWithInfo(PADRegion region) {
+			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
+			uriBuilder.appendPath("withInfo");
+			uriBuilder.appendPath(region.name());
+
+			return uriBuilder.build();
 		}
 	}
 

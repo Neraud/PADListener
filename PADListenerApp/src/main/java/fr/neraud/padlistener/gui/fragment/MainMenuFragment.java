@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.os.Bundle;
@@ -9,13 +8,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 
 /**
  * Main fragment for MainMenu
- * 
+ *
  * @author Neraud
  */
 public class MainMenuFragment extends Fragment {

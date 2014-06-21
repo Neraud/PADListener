@@ -1,11 +1,9 @@
-
 package fr.neraud.padlistener.model;
 
 /**
  * Base model for syncing monsters and materials
- * 
+ *
  * @author Neraud
- * @param <T>
  */
 public abstract class SyncedBaseCardModel<T> extends SyncedBaseModel<T> {
 

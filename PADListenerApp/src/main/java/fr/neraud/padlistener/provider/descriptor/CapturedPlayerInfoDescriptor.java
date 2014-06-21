@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.provider.descriptor;
 
 import android.content.ContentResolver;
@@ -8,7 +7,7 @@ import android.provider.BaseColumns;
 
 /**
  * Descriptor for the PlayerInfoProvider
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerInfoDescriptor {
@@ -20,25 +19,8 @@ public class CapturedPlayerInfoDescriptor {
 	private static final UriMatcher URI_MATCHER = buildUriMatcher();
 
 	/**
-	 * Helper for the URIs
-	 * 
-	 * @author Neraud
-	 */
-	public static class UriHelper {
-
-		private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY).buildUpon().appendPath(BASE_PATH).build();
-
-		/**
-		 * @return the Uri to access all the PlayerInfo
-		 */
-		public static Uri uriForAll() {
-			return CONTENT_URI;
-		}
-	}
-
-	/**
 	 * Paths used by the StatusProvider
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public enum Paths {
@@ -62,7 +44,7 @@ public class CapturedPlayerInfoDescriptor {
 
 	/**
 	 * Fields used by the PlayerInfoProvider
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public enum Fields implements IField {
@@ -91,6 +73,23 @@ public class CapturedPlayerInfoDescriptor {
 		@Override
 		public String getColName() {
 			return colName;
+		}
+	}
+
+	/**
+	 * Helper for the URIs
+	 *
+	 * @author Neraud
+	 */
+	public static class UriHelper {
+
+		private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY).buildUpon().appendPath(BASE_PATH).build();
+
+		/**
+		 * @return the Uri to access all the PlayerInfo
+		 */
+		public static Uri uriForAll() {
+			return CONTENT_URI;
 		}
 	}
 

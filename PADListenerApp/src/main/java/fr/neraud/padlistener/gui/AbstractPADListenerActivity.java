@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui;
 
 import android.app.AlertDialog;

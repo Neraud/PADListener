@@ -1,11 +1,11 @@
-
 package fr.neraud.padlistener.provider.helper;
+
+import android.content.ContentValues;
+import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.padherder.constant.MonsterElement;
 import fr.neraud.padlistener.padherder.constant.MonsterType;
@@ -14,7 +14,7 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor.Fields;
 
 /**
  * Helper for the PlayerMonsterProvider
- * 
+ *
  * @author Neraud
  */
 public class MonsterInfoHelper extends BaseProviderHelper {
@@ -65,7 +65,7 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 	}
 
 	/**
-	 * @param status the MonsterInfoModel
+	 * @param model the MonsterInfoModel
 	 * @return the filled ContentValues
 	 */
 	public static ContentValues modelToValues(MonsterInfoModel model) {

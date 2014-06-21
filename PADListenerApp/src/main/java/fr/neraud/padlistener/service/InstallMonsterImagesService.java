@@ -1,5 +1,11 @@
-
 package fr.neraud.padlistener.service;
+
+import android.annotation.SuppressLint;
+import android.app.IntentService;
+import android.content.Intent;
+import android.util.Log;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,19 +13,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-
-import android.annotation.SuppressLint;
-import android.app.IntentService;
-import android.content.Intent;
-import android.util.Log;
 import fr.neraud.padlistener.constant.InstallAsset;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.util.MonsterImageAssetHelper;
 
 /**
  * IntentService used in the installation phase to copy monster images bundled in the assets
- * 
+ *
  * @author Neraud
  */
 public class InstallMonsterImagesService extends IntentService {

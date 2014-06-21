@@ -1,15 +1,15 @@
-
 package fr.neraud.padlistener.http.parser.pad;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
@@ -18,7 +18,7 @@ import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
 
 /**
  * JSON parser used to parse PAD GetPlayerData
- * 
+ *
  * @author Neraud
  */
 public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApiCallResult> {

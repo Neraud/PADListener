@@ -1,14 +1,14 @@
-
 package fr.neraud.padlistener.helper;
+
+import android.content.Context;
 
 import java.util.Date;
 
-import android.content.Context;
 import fr.neraud.padlistener.constant.ProxyMode;
 
 /**
  * Helper to access the technical SharedPreferences
- * 
+ *
  * @author Neraud
  */
 public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesHelper {
@@ -25,35 +25,35 @@ public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesH
 		setBooleanPreference("hasBeenInstalled", bool);
 	}
 
-	public void setLastCaptureDate(Date date) {
-		setLongPreference("lastCaptureDate", date.getTime());
-	}
-
 	public Date getLastCaptureDate() {
 		return new Date(getLongPreference("lastCaptureDate", 0L));
 	}
 
-	public void setLastListenerStartProxyMode(ProxyMode proxyMode) {
-		setStringPreference("lastListenerStartProxyMode", proxyMode.name());
+	public void setLastCaptureDate(Date date) {
+		setLongPreference("lastCaptureDate", date.getTime());
 	}
 
 	public ProxyMode getLastListenerStartProxyMode() {
 		return ProxyMode.valueOf(getStringPreference("lastListenerStartProxyMode", "MANUAL"));
 	}
 
-	public void setMonsterInfoRefreshDate(Date date) {
-		setLongPreference("monsterInfoRefreshDate", date.getTime());
+	public void setLastListenerStartProxyMode(ProxyMode proxyMode) {
+		setStringPreference("lastListenerStartProxyMode", proxyMode.name());
 	}
 
 	public Date getMonsterInfoRefreshDate() {
 		return new Date(getLongPreference("monsterInfoRefreshDate", 0L));
 	}
 
-	public void setMonsterImagesRefreshDate(Date date) {
-		setLongPreference("monsterImagesRefreshDate", date.getTime());
+	public void setMonsterInfoRefreshDate(Date date) {
+		setLongPreference("monsterInfoRefreshDate", date.getTime());
 	}
 
 	public Date getMonsterImagesRefreshDate() {
 		return new Date(getLongPreference("monsterImagesRefreshDate", 0L));
+	}
+
+	public void setMonsterImagesRefreshDate(Date date) {
+		setLongPreference("monsterImagesRefreshDate", date.getTime());
 	}
 }

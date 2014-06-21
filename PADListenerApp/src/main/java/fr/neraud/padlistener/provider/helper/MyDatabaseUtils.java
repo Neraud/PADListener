@@ -1,11 +1,10 @@
-
 package fr.neraud.padlistener.provider.helper;
 
 import android.database.DatabaseUtils;
 
 /**
  * Utilities to manipulate a databases
- * 
+ *
  * @author Neraud
  */
 public class MyDatabaseUtils extends DatabaseUtils {

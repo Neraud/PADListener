@@ -1,62 +1,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/view_captured_data_info_item_name"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/view_captured_info_item_name"
-        android:textSize="20sp" />
+	<TextView
+		android:id="@+id/view_captured_data_info_item_name"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/view_captured_info_item_name"
+		android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/view_captured_data_info_item_rank"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/view_captured_info_item_rank"
-        android:textSize="18sp" />
+	<TextView
+		android:id="@+id/view_captured_data_info_item_rank"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/view_captured_info_item_rank"
+		android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/view_captured_data_info_item_maxrank"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/view_captured_info_item_maxrank"
-        android:textSize="16sp" />
+	<TextView
+		android:id="@+id/view_captured_data_info_item_maxrank"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/view_captured_info_item_maxrank"
+		android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/view_captured_data_info_item_maxstats"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/view_captured_info_item_maxstats"
-        android:textSize="16sp" />
+	<TextView
+		android:id="@+id/view_captured_data_info_item_maxstats"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/view_captured_info_item_maxstats"
+		android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/view_captured_data_info_item_currency"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/view_captured_info_item_currency"
-        android:textSize="16sp" />
+	<TextView
+		android:id="@+id/view_captured_data_info_item_currency"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/view_captured_info_item_currency"
+		android:textSize="16sp" />
 
 </LinearLayout>

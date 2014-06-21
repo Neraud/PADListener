@@ -1,15 +1,15 @@
-
 package fr.neraud.padlistener.util;
-
-import java.io.IOException;
 
 import android.content.Context;
 import android.util.Log;
+
+import java.io.IOException;
+
 import fr.neraud.padlistener.constant.ScriptAsset;
 
 /**
  * Helper to copy the scripts bundled in the assets
- * 
+ *
  * @author Neraud
  */
 public class ScriptAssetHelper extends AbstractAssetHelper {

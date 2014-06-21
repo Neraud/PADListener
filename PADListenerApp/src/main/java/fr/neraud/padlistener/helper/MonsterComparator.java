@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.helper;
 
 import java.util.Comparator;
@@ -16,7 +15,7 @@ import fr.neraud.padlistener.model.BaseMonsterModel;
  * <li>plusRcv</li>
  * <li>awakenings</li>
  * </ul>
- * 
+ *
  * @author Neraud
  */
 public class MonsterComparator implements Comparator<BaseMonsterModel> {

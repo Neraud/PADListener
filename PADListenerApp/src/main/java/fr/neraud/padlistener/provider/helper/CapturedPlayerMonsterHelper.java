@@ -1,8 +1,8 @@
-
 package fr.neraud.padlistener.provider.helper;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedMonsterFullInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -10,7 +10,7 @@ import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor
 
 /**
  * Helper for the PlayerMonsterProvider
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerMonsterHelper extends BaseProviderHelper {
@@ -50,7 +50,7 @@ public class CapturedPlayerMonsterHelper extends BaseProviderHelper {
 	}
 
 	/**
-	 * @param status the MonsterCardModel
+	 * @param model the CapturedMonsterCardModel
 	 * @return the filled ContentValues
 	 */
 	public static ContentValues modelToValues(CapturedMonsterCardModel model) {

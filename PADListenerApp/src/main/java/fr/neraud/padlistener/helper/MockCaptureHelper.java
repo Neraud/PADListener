@@ -1,21 +1,21 @@
-
 package fr.neraud.padlistener.helper;
+
+import android.content.Context;
+import android.util.Log;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 import fr.neraud.padlistener.proxy.plugin.ApiCallHandlerThread;
 
 /**
  * Helper to load a mock capture
- * 
+ *
  * @author Neraud
  */
 public class MockCaptureHelper {

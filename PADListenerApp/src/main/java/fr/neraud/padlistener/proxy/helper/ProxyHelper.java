@@ -1,7 +1,7 @@
-
 package fr.neraud.padlistener.proxy.helper;
 
-import java.io.File;
+import android.content.Context;
+import android.util.Log;
 
 import org.sandrop.webscarab.model.StoreException;
 import org.sandrop.webscarab.plugin.Framework;
@@ -13,14 +13,14 @@ import org.sandroproxy.utils.PreferenceUtils;
 import org.sandroproxy.utils.network.ClientResolver;
 import org.sandroproxy.webscarab.store.sql.SqlLiteStore;
 
-import android.content.Context;
-import android.util.Log;
+import java.io.File;
+
 import fr.neraud.padlistener.exception.ListenerSetupException;
 import fr.neraud.padlistener.proxy.plugin.PADPlugin;
 
 /**
  * Helper to start / stop the proxy
- * 
+ *
  * @author Neraud
  */
 public class ProxyHelper {

@@ -1,13 +1,13 @@
-
 package fr.neraud.padlistener.service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.neraud.padlistener.helper.SyncHelper;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -29,7 +29,7 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 
 /**
  * Service used to compute sync
- * 
+ *
  * @author Neraud
  */
 public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel, ComputeSyncResultModel> {

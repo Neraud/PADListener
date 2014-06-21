@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.http.exception;
 
 /**
  * Exception thrown when a parsing fails
- * 
+ *
  * @author Neraud
  */
 public class ParsingException extends Exception {

@@ -1,20 +1,20 @@
-
 package fr.neraud.padlistener.http.client;
+
+import android.content.Context;
+import android.util.Log;
+
+import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import org.apache.http.HttpResponse;
-
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.model.RestResponse;
 
 /**
  * HttpClient used for rest calls
- * 
+ *
  * @author Neraud
  */
 public class RestClient extends MyHttpClientClient<RestResponse> {

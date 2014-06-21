@@ -1,11 +1,11 @@
-
 package fr.neraud.padlistener.helper;
+
+import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
@@ -16,7 +16,7 @@ import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
 /**
  * Helper to push sync to PADherder.
- * 
+ *
  * @author Neraud
  */
 public class PushSyncHelper {
@@ -35,7 +35,7 @@ public class PushSyncHelper {
 		Log.d(getClass().getName(), "pushMaterialUpdate : " + model);
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMaterial(context, accountId,
-		        model.getPadherderId());
+				model.getPadherderId());
 
 		/*
 		{
@@ -56,7 +56,7 @@ public class PushSyncHelper {
 		Log.d(getClass().getName(), "pushMonsterToUpdate : " + model);
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMonster(context, accountId,
-		        model.getPadherderId());
+				model.getPadherderId());
 
 		/*
 		{
@@ -117,7 +117,7 @@ public class PushSyncHelper {
 	public void pushMonsterToDelete(SyncedMonsterModel model) throws HttpCallException {
 		Log.d(getClass().getName(), "pushMonsterToDelete : " + model);
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForDeleteMonster(context, accountId,
-		        model.getPadherderId());
+				model.getPadherderId());
 
 		client.call(httpRequest);
 	}
@@ -126,7 +126,7 @@ public class PushSyncHelper {
 		Log.d(getClass().getName(), "pushUserInfoToUpdate : " + model);
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForUpdateUserInfo(context, accountId,
-		        model.getProfileApiId());
+				model.getProfileApiId());
 
 		/*
 

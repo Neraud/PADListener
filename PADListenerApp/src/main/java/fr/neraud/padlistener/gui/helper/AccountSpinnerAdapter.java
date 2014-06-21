@@ -1,16 +1,16 @@
-
 package fr.neraud.padlistener.gui.helper;
-
-import java.util.Map;
 
 import android.content.Context;
 import android.util.SparseIntArray;
 import android.widget.ArrayAdapter;
+
+import java.util.Map;
+
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 
 /**
  * Adapter for the account Spinner on the ComputeSyncFragment
- * 
+ *
  * @author Neraud
  */
 public class AccountSpinnerAdapter extends ArrayAdapter<String> {

@@ -1,8 +1,8 @@
-
 package fr.neraud.padlistener.http.client;
 
-import java.io.IOException;
-import java.util.Map;
+import android.content.Context;
+import android.util.Base64;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -15,9 +15,9 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.content.Context;
-import android.util.Base64;
-import android.util.Log;
+import java.io.IOException;
+import java.util.Map;
+
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.helper.HttpPatch;
@@ -27,9 +27,9 @@ import fr.neraud.padlistener.util.VersionUtil;
 
 /**
  * Abstract HttpClient. Handles the basic calls.
- * 
- * @author Neraud
+ *
  * @param <R> the response
+ * @author Neraud
  */
 public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
@@ -53,7 +53,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 		if (httpRequest.isBasicAuthEnabled()) {
 			Log.d(getClass().getName(), "call : adding basic auth with user " + httpRequest.getBasicAuthUserName());
 			final byte[] authorizationBytes = (httpRequest.getBasicAuthUserName() + ":" + httpRequest.getBasicAuthUserPassword())
-			        .getBytes();
+					.getBytes();
 			final String authorizationString = "Basic " + Base64.encodeToString(authorizationBytes, Base64.NO_WRAP);
 			httpMethod.setHeader("Authorization", authorizationString);
 		}
@@ -69,17 +69,17 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 				Log.d(getClass().getName(), "call : setting body : " + httpRequest.getBody());
 				final StringEntity entity = new StringEntity(httpRequest.getBody(), "UTF-8");
 				switch (httpRequest.getMethod()) {
-				case POST:
-					((HttpPost) httpMethod).setEntity(entity);
-					break;
-				case PUT:
-					((HttpPut) httpMethod).setEntity(entity);
-					break;
-				case PATCH:
-					((HttpPatch) httpMethod).setEntity(entity);
-					break;
-				default:
-					Log.w(getClass().getName(), "call : cannot set body for method : " + httpRequest.getMethod());
+					case POST:
+						((HttpPost) httpMethod).setEntity(entity);
+						break;
+					case PUT:
+						((HttpPut) httpMethod).setEntity(entity);
+						break;
+					case PATCH:
+						((HttpPatch) httpMethod).setEntity(entity);
+						break;
+					default:
+						Log.w(getClass().getName(), "call : cannot set body for method : " + httpRequest.getMethod());
 				}
 			}
 
@@ -125,18 +125,18 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
 	private HttpRequestBase createMethod(HttpMethod method, String fullUrl) {
 		switch (method) {
-		case GET:
-			return new HttpGet(fullUrl);
-		case POST:
-			return new HttpPost(fullUrl);
-		case PUT:
-			return new HttpPut(fullUrl);
-		case PATCH:
-			return new HttpPatch(fullUrl);
-		case DELETE:
-			return new HttpDelete(fullUrl);
-		default:
-			throw new IllegalArgumentException(method + " is not an allowed method");
+			case GET:
+				return new HttpGet(fullUrl);
+			case POST:
+				return new HttpPost(fullUrl);
+			case PUT:
+				return new HttpPut(fullUrl);
+			case PATCH:
+				return new HttpPatch(fullUrl);
+			case DELETE:
+				return new HttpDelete(fullUrl);
+			default:
+				throw new IllegalArgumentException(method + " is not an allowed method");
 		}
 	}
 }

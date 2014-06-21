@@ -1,11 +1,10 @@
-
 package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
 
 /**
  * Base MonsterModel
- * 
+ *
  * @author Neraud
  */
 public abstract class BaseMonsterModel implements Serializable {

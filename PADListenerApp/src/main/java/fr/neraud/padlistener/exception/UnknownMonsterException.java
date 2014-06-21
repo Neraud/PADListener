@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.exception;
 
 /**
  * Exception thrown when trying to find MonsterInfo for an unknown monster
- * 
+ *
  * @author Neraud
  */
 public class UnknownMonsterException extends Exception {

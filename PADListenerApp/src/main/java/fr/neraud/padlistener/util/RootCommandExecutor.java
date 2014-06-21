@@ -1,16 +1,16 @@
-
 package fr.neraud.padlistener.util;
+
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 
-import android.util.Log;
 import fr.neraud.padlistener.exception.RootCommandExecutionException;
 
 /**
  * Helper to execute a shell command as root
- * 
+ *
  * @author Neraud
  */
 public class RootCommandExecutor {
@@ -25,7 +25,7 @@ public class RootCommandExecutor {
 	public void execute() throws RootCommandExecutionException {
 		Process p;
 		try {
-			p = Runtime.getRuntime().exec(new String[] { "su", "-c", "sh" });
+			p = Runtime.getRuntime().exec(new String[]{"su", "-c", "sh"});
 
 			final DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
 

@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.padherder.constant;
 
 /**
  * Enum of monster types
- * 
+ *
  * @author Neraud
  */
 public enum MonsterType {
@@ -29,8 +28,13 @@ public enum MonsterType {
 		this.material = material;
 	}
 
-	public int getTypeId() {
-		return typeId;
+	public static MonsterType findById(int id) {
+		for (final MonsterType type : values()) {
+			if (type.typeId == id) {
+				return type;
+			}
+		}
+		return null;
 	}
 
 	/*
@@ -39,12 +43,7 @@ public enum MonsterType {
 	}
 	*/
 
-	public static MonsterType findById(int id) {
-		for (final MonsterType type : values()) {
-			if (type.typeId == id) {
-				return type;
-			}
-		}
-		return null;
+	public int getTypeId() {
+		return typeId;
 	}
 }

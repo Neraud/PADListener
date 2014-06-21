@@ -1,18 +1,18 @@
-
 package fr.neraud.padlistener.http.parser;
+
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
 import fr.neraud.padlistener.http.exception.ParsingException;
 
 /**
  * Base JSON parser
- * 
- * @author Neraud
+ *
  * @param <M> the model to return
+ * @author Neraud
  */
 public abstract class AbstractJsonParser<M> {
 

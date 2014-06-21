@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.service;
 
 import android.app.IntentService;
@@ -6,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+
 import fr.neraud.padlistener.helper.PushSyncHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
@@ -17,7 +17,7 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 /**
  * IntentService used to push sync to PADherder
- * 
+ *
  * @author Neraud
  */
 public class PushSyncService extends IntentService {

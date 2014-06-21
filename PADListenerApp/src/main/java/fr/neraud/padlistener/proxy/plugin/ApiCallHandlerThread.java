@@ -1,8 +1,4 @@
-
 package fr.neraud.padlistener.proxy.plugin;
-
-import java.util.Date;
-import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -12,6 +8,10 @@ import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.Date;
+import java.util.List;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -27,7 +27,7 @@ import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
 
 /**
  * Thread used to handle processing a call from PAD to Gunho servers
- * 
+ *
  * @author Neraud
  */
 public class ApiCallHandlerThread extends Thread {
@@ -46,15 +46,15 @@ public class ApiCallHandlerThread extends Thread {
 
 		try {
 			switch (callModel.getAction()) {
-			case GET_PLAYER_DATA:
-				final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
-				savePlayerInfo(result.getPlayerInfo());
-				saveMonsters(result.getMonsterCards());
-				new TechnicalSharedPreferencesHelper(context).setLastCaptureDate(new Date());
-				showToast(context.getString(R.string.toast_data_captured, result.getPlayerInfo().getName()));
-				break;
-			default:
-				Log.d(getClass().getName(), "Ingoring action " + callModel.getAction());
+				case GET_PLAYER_DATA:
+					final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
+					savePlayerInfo(result.getPlayerInfo());
+					saveMonsters(result.getMonsterCards());
+					new TechnicalSharedPreferencesHelper(context).setLastCaptureDate(new Date());
+					showToast(context.getString(R.string.toast_data_captured, result.getPlayerInfo().getName()));
+					break;
+				default:
+					Log.d(getClass().getName(), "Ingoring action " + callModel.getAction());
 			}
 		} catch (final ParsingException e) {
 			Log.e(getClass().getName(), "run : parsing error", e);
@@ -75,8 +75,8 @@ public class ApiCallHandlerThread extends Thread {
 
 		Long fake_id = null;
 
-		final Cursor cursor = cr.query(uri, new String[] { CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() }, null, null,
-		        null);
+		final Cursor cursor = cr.query(uri, new String[]{CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName()}, null, null,
+				null);
 		if (cursor != null && cursor.moveToNext()) {
 			fake_id = cursor.getLong(0);
 		}
@@ -88,7 +88,7 @@ public class ApiCallHandlerThread extends Thread {
 		} else {
 			Log.d(getClass().getName(), "savePlayerData : Update existing data");
 			cr.update(uri, values, CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() + " = ?",
-			        new String[] { fake_id.toString() });
+					new String[]{fake_id.toString()});
 		}
 	}
 

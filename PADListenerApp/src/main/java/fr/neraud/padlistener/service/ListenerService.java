@@ -1,10 +1,4 @@
-
 package fr.neraud.padlistener.service;
-
-import java.io.IOException;
-
-import org.sandrop.webscarab.model.Preferences;
-import org.sandroproxy.utils.PreferenceUtils;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -15,6 +9,12 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import org.sandrop.webscarab.model.Preferences;
+import org.sandroproxy.utils.PreferenceUtils;
+
+import java.io.IOException;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.gui.MainActivity;
@@ -27,18 +27,23 @@ import fr.neraud.padlistener.util.ScriptAssetHelper;
 
 /**
  * ListenerService that captures PAD calls to GunHo servers
- * 
+ *
  * @author Neraud
  */
 public class ListenerService extends Service {
 
-	public static String EXTRA_TOSTART_NAME = "activate";
 	private static final int NOTIFICATION_ID = 1;
-
+	public static String EXTRA_TOSTART_NAME = "activate";
+	private final IBinder mBinder = new ListenerServiceBinder();
 	private boolean started = false;
 	private ProxyHelper proxyHelper = null;
 
-	private final IBinder mBinder = new ListenerServiceBinder();
+	public interface ListenerServiceListener {
+
+		public void notifyActionSucess();
+
+		public void notifyActionFailed(Exception e);
+	}
 
 	public class ListenerServiceBinder extends Binder {
 
@@ -53,13 +58,6 @@ public class ListenerService extends Service {
 		public void stopListener(ListenerServiceListener listener) {
 			doStopListener(listener);
 		}
-	}
-
-	public interface ListenerServiceListener {
-
-		public void notifyActionSucess();
-
-		public void notifyActionFailed(Exception e);
 	}
 
 	public ListenerService() {
@@ -97,7 +95,7 @@ public class ListenerService extends Service {
 		// by default we listen on all adapters
 		pref.edit().putBoolean(PreferenceUtils.proxyListenNonLocal, true).commit();
 
-		// we listen also for transparent flow 
+		// we listen also for transparent flow
 		pref.edit().putBoolean(PreferenceUtils.proxyTransparentKey, true).commit();
 
 		// don't capture data to database
@@ -145,18 +143,18 @@ public class ListenerService extends Service {
 			final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
 			final ProxyMode proxyMode = prefHelper.getProxyMode();
 			switch (proxyMode) {
-			case AUTO_IPTABLES:
-				final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
-				iptablesHelper.activateIptables();
-				break;
-			case AUTO_WIFI_PROXY:
-				final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
-				wifiAutoProxyHelper.activateAutoProxy();
-				break;
-			case MANUAL:
-			default:
-				// Nothing to do
-				break;
+				case AUTO_IPTABLES:
+					final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
+					iptablesHelper.activateIptables();
+					break;
+				case AUTO_WIFI_PROXY:
+					final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
+					wifiAutoProxyHelper.activateAutoProxy();
+					break;
+				case MANUAL:
+				default:
+					// Nothing to do
+					break;
 			}
 
 			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
@@ -184,22 +182,22 @@ public class ListenerService extends Service {
 
 		String notifContent;
 		switch (proxyMode) {
-		case AUTO_IPTABLES:
-			notifContent = getString(R.string.notification_listener_content_iptables);
-			break;
-		case AUTO_WIFI_PROXY:
-			notifContent = getString(R.string.notification_listener_content_proxy_wifi);
-			break;
-		case MANUAL:
-		default:
-			notifContent = getString(R.string.notification_listener_content_manual);
-			break;
+			case AUTO_IPTABLES:
+				notifContent = getString(R.string.notification_listener_content_iptables);
+				break;
+			case AUTO_WIFI_PROXY:
+				notifContent = getString(R.string.notification_listener_content_proxy_wifi);
+				break;
+			case MANUAL:
+			default:
+				notifContent = getString(R.string.notification_listener_content_manual);
+				break;
 		}
 
 		final Intent notificationIntent = new Intent(this, MainActivity.class);
 
 		final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-		        PendingIntent.FLAG_CANCEL_CURRENT);
+				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		final Notification.Builder builder = new Notification.Builder(this);
 
@@ -221,18 +219,18 @@ public class ListenerService extends Service {
 			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
 			final ProxyMode proxyMode = techPrefHelper.getLastListenerStartProxyMode();
 			switch (proxyMode) {
-			case AUTO_IPTABLES:
-				final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
-				iptablesHelper.deactivateIptables();
-				break;
-			case AUTO_WIFI_PROXY:
-				final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
-				wifiAutoProxyHelper.deactivateAutoProxy();
-				break;
-			case MANUAL:
-			default:
-				// Nothing to do
-				break;
+				case AUTO_IPTABLES:
+					final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
+					iptablesHelper.deactivateIptables();
+					break;
+				case AUTO_WIFI_PROXY:
+					final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
+					wifiAutoProxyHelper.deactivateAutoProxy();
+					break;
+				case MANUAL:
+				default:
+					// Nothing to do
+					break;
 			}
 
 			started = false;

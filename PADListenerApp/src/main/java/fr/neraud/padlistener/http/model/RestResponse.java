@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.http.model;
 
 /**
  * Http response used for rest calls
- * 
+ *
  * @author Neraud
  */
 public class RestResponse extends MyHttpResponse {

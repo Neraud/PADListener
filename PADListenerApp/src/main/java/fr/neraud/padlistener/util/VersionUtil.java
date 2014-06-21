@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.util;
 
 import android.content.Context;
@@ -6,13 +5,12 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 /**
  * Helper to get the current version
- * 
+ *
  * @author Neraud
  */
 public class VersionUtil {
 
 	/**
-	 * @param context
 	 * @return the current version
 	 */
 	public static String getVersion(Context context) {

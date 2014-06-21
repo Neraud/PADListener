@@ -1,9 +1,4 @@
-
 package fr.neraud.padlistener.gui.helper;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.List;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
@@ -25,7 +25,7 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * Adaptor to display the choose sync materials
- * 
+ *
  * @author Neraud
  */
 public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMaterialModel>> {
@@ -34,7 +34,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 	private Integer defaultTextColor = null;
 
 	public ChooseSyncMaterialsAdapter(Context context, int layout,
-	        List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
+			List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
 		super(context, layout, 0, syncedMaterialsToUpdate);
 		this.layout = layout;
 	}
@@ -48,7 +48,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(layout, null);
 			defaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_materials_item_quantities)).getTextColors()
-			        .getDefaultColor();
+					.getDefaultColor();
 		}
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_materials_item_checkbox);
@@ -65,7 +65,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_materials_item_image);
 		try {
 			final InputStream is = getContext().getContentResolver().openInputStream(
-			        MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getMonsterInfo().getIdJP()));
+					MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getMonsterInfo().getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			image.setImageDrawable(bm);
@@ -84,12 +84,12 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_materials_item_name);
 		nameText.setText(getContext().getString(R.string.choose_sync_materials_item_name,
-		        item.getSyncedModel().getMonsterInfo().getId(prefHelper.getPlayerRegion()),
-		        item.getSyncedModel().getMonsterInfo().getName()));
+				item.getSyncedModel().getMonsterInfo().getId(prefHelper.getPlayerRegion()),
+				item.getSyncedModel().getMonsterInfo().getName()));
 
 		final TextView quantitiesText = (TextView) view.findViewById(R.id.choose_sync_materials_item_quantities);
 		quantitiesText.setText(getContext().getString(R.string.choose_sync_materials_item_quantities,
-		        item.getSyncedModel().getPadherderInfo(), item.getSyncedModel().getCapturedInfo()));
+				item.getSyncedModel().getPadherderInfo(), item.getSyncedModel().getCapturedInfo()));
 
 		if (item.getSyncedModel().getPadherderInfo() < item.getSyncedModel().getCapturedInfo()) {
 			quantitiesText.setTextColor(Color.GREEN);

@@ -1,13 +1,13 @@
-
 package fr.neraud.padlistener.service;
-
-import java.util.Date;
-import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.util.Log;
+
+import java.util.Date;
+import java.util.List;
+
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -21,7 +21,7 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 
 /**
  * Service used to refresh MonsterInfo from PADherder
- * 
+ *
  * @author Neraud
  */
 public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<List<MonsterInfoModel>, Integer> {

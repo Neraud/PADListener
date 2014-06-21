@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.padherder.constant;
 
 /**
  * Enum of monster elements
- * 
+ *
  * @author Neraud
  */
 public enum MonsterElement {
@@ -21,14 +20,6 @@ public enum MonsterElement {
 		this.elementId = elementId;
 	}
 
-	public int getElementId() {
-		return elementId;
-	}
-
-	public void setElementId(int elementId) {
-		this.elementId = elementId;
-	}
-
 	public static MonsterElement findById(int id) {
 		for (final MonsterElement element : values()) {
 			if (element.elementId == id) {
@@ -36,5 +27,13 @@ public enum MonsterElement {
 			}
 		}
 		return null;
+	}
+
+	public int getElementId() {
+		return elementId;
+	}
+
+	public void setElementId(int elementId) {
+		this.elementId = elementId;
 	}
 }

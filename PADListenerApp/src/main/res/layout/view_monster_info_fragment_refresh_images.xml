@@ -1,56 +1,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/monster_info_fetch_images_explain"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/monster_info_fetch_images_explain" />
-    
-    <TextView
-        android:id="@+id/monster_info_fetch_images_current"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/monster_info_fetch_images_current" />
+	<TextView
+		android:id="@+id/monster_info_fetch_images_explain"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/monster_info_fetch_images_explain" />
 
-    <Button
-        android:id="@+id/monster_info_fetch_images_button"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:text="@string/monster_info_fetch_images_start" />
+	<TextView
+		android:id="@+id/monster_info_fetch_images_current"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/monster_info_fetch_images_current" />
 
-    <ProgressBar
-        android:id="@+id/monster_info_fetch_images_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:indeterminate="true" />
+	<Button
+		android:id="@+id/monster_info_fetch_images_button"
+		android:layout_width="250dp"
+		android:layout_height="50dp"
+		android:layout_gravity="center"
+		android:text="@string/monster_info_fetch_images_start" />
 
-    <TextView
-        android:id="@+id/monster_info_fetch_images_status"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical" />
+	<ProgressBar
+		android:id="@+id/monster_info_fetch_images_progress"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="40dp"
+		android:layout_marginRight="40dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:indeterminate="true" />
+
+	<TextView
+		android:id="@+id/monster_info_fetch_images_status"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical" />
 
 </LinearLayout>

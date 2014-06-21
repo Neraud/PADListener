@@ -1,78 +1,77 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/push_sync_head"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/push_sync_head_pushing"
-        android:textSize="20sp" />
+	<TextView
+		android:id="@+id/push_sync_head"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:text="@string/push_sync_head_pushing"
+		android:textSize="20sp" />
 
-    <ProgressBar
-        android:id="@+id/push_sync_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:indeterminate="true" />
+	<ProgressBar
+		android:id="@+id/push_sync_progress"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="40dp"
+		android:layout_marginRight="40dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:indeterminate="true" />
 
-    <TextView
-        android:id="@+id/push_sync_summary_userinfo_updated"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/push_sync_summary_userinfo_updated" />
+	<TextView
+		android:id="@+id/push_sync_summary_userinfo_updated"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/push_sync_summary_userinfo_updated" />
 
-    <TextView
-        android:id="@+id/push_sync_summary_materials_updated"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/push_sync_summary_materials_updated" />
+	<TextView
+		android:id="@+id/push_sync_summary_materials_updated"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/push_sync_summary_materials_updated" />
 
-    <TextView
-        android:id="@+id/push_sync_summary_monsters_updated"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/push_sync_summary_monsters_updated" />
+	<TextView
+		android:id="@+id/push_sync_summary_monsters_updated"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/push_sync_summary_monsters_updated" />
 
-    <TextView
-        android:id="@+id/push_sync_summary_monsters_created"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/push_sync_summary_monsters_created" />
+	<TextView
+		android:id="@+id/push_sync_summary_monsters_created"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/push_sync_summary_monsters_created" />
 
-    <TextView
-        android:id="@+id/push_sync_summary_monsters_deleted"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/push_sync_summary_monsters_deleted" />
+	<TextView
+		android:id="@+id/push_sync_summary_monsters_deleted"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/push_sync_summary_monsters_deleted" />
 
 </LinearLayout>

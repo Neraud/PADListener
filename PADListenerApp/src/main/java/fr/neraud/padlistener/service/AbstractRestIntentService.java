@@ -1,13 +1,13 @@
-
 package fr.neraud.padlistener.service;
-
-import java.io.Serializable;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+
+import java.io.Serializable;
+
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.exception.HttpResponseException;
@@ -22,10 +22,10 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 /**
  * Base IntentService used for Rest calls
- * 
- * @author Neraud
+ *
  * @param <R>
  * @param <M>
+ * @author Neraud
  */
 public abstract class AbstractRestIntentService<R, M extends Serializable> extends IntentService {
 
@@ -52,7 +52,7 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 				notifyResult(resultModel);
 			} else {
 				throw new HttpResponseException(restResponse.getStatus(), "Code " + restResponse.getStatus()
-				        + " received with content : " + restResponse.getContentResult());
+						+ " received with content : " + restResponse.getContentResult());
 			}
 		} catch (final HttpCallException e) {
 			Log.e(getClass().getName(), "onHandleIntent : HttpCallException " + e.getMessage(), e);

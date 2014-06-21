@@ -10,7 +10,6 @@
 		android:id="@+id/menu_menu_changelog"
 		android:showAsAction="collapseActionView"
 		android:title="@string/menu_changelog" />
-	/>
 	<item
 		android:id="@+id/menu_about"
 		android:showAsAction="collapseActionView"

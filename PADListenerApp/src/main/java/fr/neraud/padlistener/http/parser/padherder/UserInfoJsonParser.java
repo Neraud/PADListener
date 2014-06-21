@@ -1,15 +1,15 @@
-
 package fr.neraud.padlistener.http.parser.padherder;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.UserInfoMaterialModel;
@@ -18,7 +18,7 @@ import fr.neraud.padlistener.model.UserInfoMonsterModel;
 
 /**
  * JSON parser used to parse PADherder user api
- * 
+ *
  * @author Neraud
  */
 public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {

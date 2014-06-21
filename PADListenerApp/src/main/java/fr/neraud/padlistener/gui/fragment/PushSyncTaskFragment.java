@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.content.Intent;
@@ -7,6 +6,7 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.PushSyncStatModel;
@@ -15,7 +15,7 @@ import fr.neraud.padlistener.service.PushSyncService;
 
 /**
  * PushSync retained fragment to store the sync push progression
- * 
+ *
  * @author Neraud
  */
 public class PushSyncTaskFragment extends Fragment {
@@ -30,7 +30,7 @@ public class PushSyncTaskFragment extends Fragment {
 
 	/**
 	 * Interface to implement to be notified when the sync computation progresses
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public static interface CallBacks {

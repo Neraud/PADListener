@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.http.model;
 
 import java.util.Map;
@@ -7,7 +6,7 @@ import fr.neraud.padlistener.http.constant.HttpMethod;
 
 /**
  * Http request
- * 
+ *
  * @author Neraud
  */
 public class MyHttpRequest {

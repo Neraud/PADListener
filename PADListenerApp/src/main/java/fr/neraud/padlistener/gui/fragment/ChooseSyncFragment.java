@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.os.Bundle;
@@ -7,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
 import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
@@ -14,7 +14,7 @@ import fr.neraud.padlistener.model.ComputeSyncResultModel;
 
 /**
  * Main fragment for ChooseSync
- * 
+ *
  * @author Neraud
  */
 public class ChooseSyncFragment extends AbstractViewPagerFragment {

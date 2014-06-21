@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.http.exception;
 
 /**
  * Exception thrown when a rest call fails
- * 
+ *
  * @author Neraud
  */
 public class HttpResponseException extends Exception {

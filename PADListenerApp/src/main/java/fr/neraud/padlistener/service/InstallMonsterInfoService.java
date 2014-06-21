@@ -1,14 +1,4 @@
-
 package fr.neraud.padlistener.service;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
-
-import org.apache.commons.io.IOUtils;
 
 import android.annotation.SuppressLint;
 import android.app.IntentService;
@@ -17,6 +7,16 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+
 import fr.neraud.padlistener.constant.InstallAsset;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -27,7 +27,7 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 
 /**
  * IntentService used in the installation phase to load monster information bundled in the assets
- * 
+ *
  * @author Neraud
  */
 public class InstallMonsterInfoService extends IntentService {

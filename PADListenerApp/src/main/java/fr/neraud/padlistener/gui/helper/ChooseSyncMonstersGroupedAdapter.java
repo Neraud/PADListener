@@ -1,13 +1,4 @@
-
 package fr.neraud.padlistener.gui.helper;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,6 +12,15 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.BaseMonsterModel;
@@ -31,25 +31,25 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * Adaptor to display Monsters set up as grouped
- * 
+ *
  * @author Neraud
  */
 public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter {
 
 	private final Context context;
-	private Integer defaultTextColor = null;
 	private final List<MonsterInfoModel> groups;
 	private final Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> syncedMonsters;
+	private Integer defaultTextColor = null;
 
 	public ChooseSyncMonstersGroupedAdapter(Context context,
-	        List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
+			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
 		this.context = context;
 		syncedMonsters = reorgMonsters(syncedMonstersToUpdate);
 		groups = new ArrayList<MonsterInfoModel>(syncedMonsters.keySet());
 	}
 
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
-	        List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
+			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
 		Log.d(getClass().getName(), "reorgMonsters");
 		final Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> syncedMonsters = new HashMap<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>>();
 
@@ -112,7 +112,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_monsters_item_image);
 		try {
 			final InputStream is = context.getContentResolver().openInputStream(
-			        MonsterInfoDescriptor.UriHelper.uriForImage(monsterInfo.getIdJP()));
+					MonsterInfoDescriptor.UriHelper.uriForImage(monsterInfo.getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			image.setImageDrawable(bm);
@@ -122,7 +122,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(context.getString(R.string.choose_sync_monsters_item_name_group, syncedMonsters.get(monsterInfo).size(),
-		        monsterInfo.getId(prefHelper.getPlayerRegion()), monsterInfo.getName()));
+				monsterInfo.getId(prefHelper.getPlayerRegion()), monsterInfo.getName()));
 
 		return view;
 	}
@@ -135,7 +135,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.choose_sync_item_monsters_child, parent, false);
 			defaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_monsters_item_padherder_exp)).getTextColors()
-			        .getDefaultColor();
+					.getDefaultColor();
 		}
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_monsters_item_checkbox);
@@ -154,17 +154,17 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 		if (padherder != null && captured != null) {
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_exp, padherder.getExp(),
-			        R.id.choose_sync_monsters_item_captured_exp, captured.getExp());
+					R.id.choose_sync_monsters_item_captured_exp, captured.getExp());
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_skill, padherder.getSkillLevel(),
-			        R.id.choose_sync_monsters_item_captured_skill, captured.getSkillLevel());
+					R.id.choose_sync_monsters_item_captured_skill, captured.getSkillLevel());
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_awakenings, padherder.getAwakenings(),
-			        R.id.choose_sync_monsters_item_captured_awakenings, captured.getAwakenings());
+					R.id.choose_sync_monsters_item_captured_awakenings, captured.getAwakenings());
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_plusHp, padherder.getPlusHp(),
-			        R.id.choose_sync_monsters_item_captured_plusHp, captured.getPlusHp());
+					R.id.choose_sync_monsters_item_captured_plusHp, captured.getPlusHp());
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_plusAtk, padherder.getPlusAtk(),
-			        R.id.choose_sync_monsters_item_captured_plusAtk, captured.getPlusAtk());
+					R.id.choose_sync_monsters_item_captured_plusAtk, captured.getPlusAtk());
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_plusRcv, padherder.getPlusRcv(),
-			        R.id.choose_sync_monsters_item_captured_plusRcv, captured.getPlusRcv());
+					R.id.choose_sync_monsters_item_captured_plusRcv, captured.getPlusRcv());
 		} else if (padherder != null) {
 			fillOneText(view, R.id.choose_sync_monsters_item_padherder_exp, padherder.getExp());
 			fillOneText(view, R.id.choose_sync_monsters_item_padherder_skill, padherder.getSkillLevel());
@@ -202,7 +202,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	}
 
 	private void fillBothText(View view, int padherderTextViewResId, long padherderValue, int capturedTextViewResId,
-	        long capturedValue) {
+			long capturedValue) {
 		fillOneText(view, padherderTextViewResId, padherderValue);
 		fillOneText(view, capturedTextViewResId, capturedValue);
 

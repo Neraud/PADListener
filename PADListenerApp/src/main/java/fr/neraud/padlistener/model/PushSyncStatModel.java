@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.model;
 
 import java.util.ArrayList;
@@ -8,14 +7,22 @@ import java.util.Map;
 
 /**
  * Model containing statistics for a PushSync operation
- * 
+ *
  * @author Neraud
  */
 public class PushSyncStatModel {
 
+	private final Map<ElementToPush, Integer> elementsToPush;
+	private final Map<ElementToPush, Integer> elementsPushed;
+	private final Map<ElementToPush, Integer> elementsError;
+	private final Map<ElementToPush, List<String>> errorMessages;
+	private int elementToPushCount = 0;
+	private int elementPushedCount = 0;
+	private int elementErrorCount = 0;
+
 	/**
 	 * Enum of element types to push
-	 * 
+	 *
 	 * @author Neraud
 	 */
 	public static enum ElementToPush {
@@ -25,14 +32,6 @@ public class PushSyncStatModel {
 		MONSTER_TO_CREATE,
 		MONSTER_TO_DELETE
 	}
-
-	private final Map<ElementToPush, Integer> elementsToPush;
-	private final Map<ElementToPush, Integer> elementsPushed;
-	private final Map<ElementToPush, Integer> elementsError;
-	private final Map<ElementToPush, List<String>> errorMessages;
-	private int elementToPushCount = 0;
-	private int elementPushedCount = 0;
-	private int elementErrorCount = 0;
 
 	public PushSyncStatModel() {
 		elementsToPush = new HashMap<ElementToPush, Integer>();

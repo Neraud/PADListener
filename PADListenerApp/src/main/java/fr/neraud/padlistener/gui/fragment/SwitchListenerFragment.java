@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.content.Intent;
@@ -19,6 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.gui.fragment.SwitchListenerTaskFragment.ListenerState;
@@ -26,60 +26,61 @@ import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 
 /**
  * Main fragment for SwitchListener
- * 
+ *
  * @author Neraud
  */
 public class SwitchListenerFragment extends Fragment {
 
 	private static final String TAG_TASK_FRAGMENT = "switch_listener_task_fragment";
+	private final SwitchListenerTaskFragment.CallBacks callbacks;
 	private SwitchListenerTaskFragment mTaskFragment;
-
 	private TextView listenerStatus;
 	private Switch listenerSwitch;
-
 	private OnCheckedChangeListener onCheckedListener;
 
-	private final SwitchListenerTaskFragment.CallBacks callbacks = new SwitchListenerTaskFragment.CallBacks() {
+	public SwitchListenerFragment() {
+		callbacks = new SwitchListenerTaskFragment.CallBacks() {
 
-		@Override
-		public void updateState(ListenerState state, Throwable error) {
-			Log.d(getClass().getName(), "updateState : " + state);
-			if (state != null) {
-				switch (state) {
-				case STARTING:
-					listenerSwitch.setEnabled(false);
-					forceToggledWithoutListener(true);
-					break;
-				case STARTED:
-					listenerSwitch.setEnabled(true);
-					forceToggledWithoutListener(true);
-					listenerStatus.setText(generateStatusStartedText());
-					break;
-				case START_FAILED:
-					listenerSwitch.setEnabled(true);
-					forceToggledWithoutListener(false);
-					listenerStatus.setText(getString(R.string.switch_listener_status_start_failed, error.getMessage()));
-					break;
-				case STOPPING:
-					listenerSwitch.setEnabled(false);
-					forceToggledWithoutListener(false);
-					break;
-				case STOPPED:
-					listenerSwitch.setEnabled(true);
-					forceToggledWithoutListener(false);
-					listenerStatus.setText(R.string.switch_listener_status_stopped);
-					break;
-				case STOP_FAILED:
-					listenerSwitch.setEnabled(true);
-					forceToggledWithoutListener(true);
-					listenerStatus.setText(getString(R.string.switch_listener_status_stop_failed, error.getMessage()));
-					break;
-				default:
+			@Override
+			public void updateState(ListenerState state, Throwable error) {
+				Log.d(getClass().getName(), "updateState : " + state);
+				if (state != null) {
+					switch (state) {
+						case STARTING:
+							listenerSwitch.setEnabled(false);
+							forceToggledWithoutListener(true);
+							break;
+						case STARTED:
+							listenerSwitch.setEnabled(true);
+							forceToggledWithoutListener(true);
+							listenerStatus.setText(generateStatusStartedText());
+							break;
+						case START_FAILED:
+							listenerSwitch.setEnabled(true);
+							forceToggledWithoutListener(false);
+							listenerStatus.setText(getString(R.string.switch_listener_status_start_failed, error.getMessage()));
+							break;
+						case STOPPING:
+							listenerSwitch.setEnabled(false);
+							forceToggledWithoutListener(false);
+							break;
+						case STOPPED:
+							listenerSwitch.setEnabled(true);
+							forceToggledWithoutListener(false);
+							listenerStatus.setText(R.string.switch_listener_status_stopped);
+							break;
+						case STOP_FAILED:
+							listenerSwitch.setEnabled(true);
+							forceToggledWithoutListener(true);
+							listenerStatus.setText(getString(R.string.switch_listener_status_stop_failed, error.getMessage()));
+							break;
+						default:
+					}
 				}
 			}
-		}
 
-	};
+		};
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -150,16 +151,16 @@ public class SwitchListenerFragment extends Fragment {
 		final ProxyMode mode = new TechnicalSharedPreferencesHelper(getActivity()).getLastListenerStartProxyMode();
 		String status = null;
 		switch (mode) {
-		case AUTO_WIFI_PROXY:
-			status = getString(R.string.switch_listener_status_started_proxy_wifi);
-			break;
-		case AUTO_IPTABLES:
-			status = getString(R.string.switch_listener_status_started_iptables);
-			break;
-		case MANUAL:
-		default:
-			status = getString(R.string.switch_listener_status_started_manual);
-			break;
+			case AUTO_WIFI_PROXY:
+				status = getString(R.string.switch_listener_status_started_proxy_wifi);
+				break;
+			case AUTO_IPTABLES:
+				status = getString(R.string.switch_listener_status_started_iptables);
+				break;
+			case MANUAL:
+			default:
+				status = getString(R.string.switch_listener_status_started_manual);
+				break;
 		}
 		return status;
 	}

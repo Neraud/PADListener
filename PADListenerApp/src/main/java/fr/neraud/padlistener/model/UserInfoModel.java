@@ -1,11 +1,10 @@
-
 package fr.neraud.padlistener.model;
 
 import java.util.List;
 
 /**
  * UserInfoModel resulting from a PADherder user-api call
- * 
+ *
  * @author Neraud
  */
 public class UserInfoModel {
@@ -77,7 +76,7 @@ public class UserInfoModel {
 	@Override
 	public String toString() {
 		return "UserInfoModel [accountId=" + accountId + ", countryCode=" + countryCode + ", rank=" + rank + ", starterColor="
-		        + starterColor + "]";
+				+ starterColor + "]";
 	}
 
 }

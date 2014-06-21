@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.provider;
 
 import android.content.ContentValues;
@@ -7,11 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
+
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
 /**
  * ContentProvider to manipulate the PlayerInfo
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerInfoProvider extends AbstractPADListenerDbContentProvider {
@@ -57,10 +57,10 @@ public class CapturedPlayerInfoProvider extends AbstractPADListenerDbContentProv
 		builder.setTables(CapturedPlayerInfoDescriptor.TABLE_NAME);
 
 		switch (path) {
-		case ALL:
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			case ALL:
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
 		final Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
@@ -77,10 +77,10 @@ public class CapturedPlayerInfoProvider extends AbstractPADListenerDbContentProv
 		int count;
 
 		switch (path) {
-		case ALL:
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			case ALL:
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
 		count = db.update(CapturedPlayerInfoDescriptor.TABLE_NAME, values, selection, selectionArgs);
@@ -97,12 +97,12 @@ public class CapturedPlayerInfoProvider extends AbstractPADListenerDbContentProv
 		int count;
 
 		switch (path) {
-		case ALL:
-			count = db.delete(CapturedPlayerInfoDescriptor.TABLE_NAME, selection, selectionArgs);
-			getContext().getContentResolver().notifyChange(uri, null);
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			case ALL:
+				count = db.delete(CapturedPlayerInfoDescriptor.TABLE_NAME, selection, selectionArgs);
+				getContext().getContentResolver().notifyChange(uri, null);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
 		return count;

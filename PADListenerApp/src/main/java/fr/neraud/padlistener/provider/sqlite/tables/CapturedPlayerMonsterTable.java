@@ -1,16 +1,16 @@
-
 package fr.neraud.padlistener.provider.sqlite.tables;
+
+import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 
 /**
  * The player_info table
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerMonsterTable implements ITable {
@@ -50,7 +50,7 @@ public class CapturedPlayerMonsterTable implements ITable {
 			queries.add(createTable());
 		} else {
 			Log.i(getClass().getName(), "Table " + CapturedPlayerMonsterDescriptor.TABLE_NAME
-			        + " is already up to date (hasn't changed since version " + getVersion() + ")");
+					+ " is already up to date (hasn't changed since version " + getVersion() + ")");
 		}
 
 		return queries;

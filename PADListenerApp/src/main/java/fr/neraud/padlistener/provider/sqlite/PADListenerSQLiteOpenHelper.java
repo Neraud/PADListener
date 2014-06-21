@@ -1,13 +1,13 @@
-
 package fr.neraud.padlistener.provider.sqlite;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerInfoTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerMonsterTable;
 import fr.neraud.padlistener.provider.sqlite.tables.ITable;
@@ -15,7 +15,7 @@ import fr.neraud.padlistener.provider.sqlite.tables.MonsterInfoTable;
 
 /**
  * OpenHelper to access the accounts table in the database
- * 
+ *
  * @author Neraud
  */
 public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
@@ -24,6 +24,7 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "padlistener.db";
 
 	private static final List<ITable> TABLES = new ArrayList<ITable>();
+
 	static {
 		addTable(new CapturedPlayerInfoTable());
 		addTable(new CapturedPlayerMonsterTable());

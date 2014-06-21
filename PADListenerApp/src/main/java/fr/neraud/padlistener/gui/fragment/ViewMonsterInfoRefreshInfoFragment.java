@@ -1,7 +1,4 @@
-
 package fr.neraud.padlistener.gui.fragment;
-
-import java.text.SimpleDateFormat;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.fragment.ViewMonsterInfoRefreshInfoTaskFragment.CallBacks;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -22,73 +22,75 @@ import fr.neraud.padlistener.service.constant.RestCallState;
 
 /**
  * ViewMonsterInfo fragment for the RefreshInfo tab
- * 
+ *
  * @author Neraud
  */
 public class ViewMonsterInfoRefreshInfoFragment extends Fragment {
 
 	private static final String TAG_TASK_FRAGMENT = "info_task_fragment";
+	private final CallBacks callbacks;
 	private ViewMonsterInfoRefreshInfoTaskFragment mTaskFragment;
-
 	private TextView statusText;
 	private TextView current;
 	private ProgressBar progress;
 	private Button startButton;
 
-	private final CallBacks callbacks = new CallBacks() {
+	public ViewMonsterInfoRefreshInfoFragment() {
+		callbacks = new CallBacks() {
 
-		@Override
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, Throwable errorCause) {
-			Log.d(getClass().getName(), "updateState");
-			if (state != null) {
-				startButton.setEnabled(false);
-				progress.setVisibility(View.VISIBLE);
+			@Override
+			public void updateState(RestCallState state, RestCallRunningStep runningStep, Throwable errorCause) {
+				Log.d(getClass().getName(), "updateState");
+				if (state != null) {
+					startButton.setEnabled(false);
+					progress.setVisibility(View.VISIBLE);
 
-				switch (state) {
-				case RUNNING:
-					if (runningStep == null) {
-						progress.setIndeterminate(true);
-						statusText.setText(R.string.monster_info_fetch_info_fetching);
-					} else {
-						progress.setIndeterminate(false);
-						progress.setMax(4);
-						switch (runningStep) {
-						case STARTED:
-							statusText.setText(R.string.monster_info_fetch_info_calling);
-							progress.setProgress(1);
+					switch (state) {
+						case RUNNING:
+							if (runningStep == null) {
+								progress.setIndeterminate(true);
+								statusText.setText(R.string.monster_info_fetch_info_fetching);
+							} else {
+								progress.setIndeterminate(false);
+								progress.setMax(4);
+								switch (runningStep) {
+									case STARTED:
+										statusText.setText(R.string.monster_info_fetch_info_calling);
+										progress.setProgress(1);
+										break;
+									case RESPONSE_RECEIVED:
+										statusText.setText(R.string.monster_info_fetch_info_parsing);
+										progress.setProgress(2);
+										break;
+									case RESPONSE_PARSED:
+										statusText.setText(R.string.monster_info_fetch_info_saving);
+										progress.setProgress(3);
+										break;
+									default:
+										break;
+								}
+							}
 							break;
-						case RESPONSE_RECEIVED:
-							statusText.setText(R.string.monster_info_fetch_info_parsing);
-							progress.setProgress(2);
+						case SUCCESSED:
+							progress.setIndeterminate(false);
+							progress.setProgress(4);
+							progress.setMax(4);
+							statusText.setText(R.string.monster_info_fetch_info_fetching_done);
+							refreshLastUpdate();
 							break;
-						case RESPONSE_PARSED:
-							statusText.setText(R.string.monster_info_fetch_info_saving);
-							progress.setProgress(3);
-							break;
+						case FAILED:
+							final String message = errorCause != null ? errorCause.getMessage() : "?";
+							statusText.setText(getString(R.string.monster_info_fetch_info_fetching_failed, message));
 						default:
 							break;
-						}
 					}
-					break;
-				case SUCCESSED:
-					progress.setIndeterminate(false);
-					progress.setProgress(4);
-					progress.setMax(4);
-					statusText.setText(R.string.monster_info_fetch_info_fetching_done);
-					refreshLastUpdate();
-					break;
-				case FAILED:
-					final String message = errorCause != null ? errorCause.getMessage() : "?";
-					statusText.setText(getString(R.string.monster_info_fetch_info_fetching_failed, message));
-				default:
-					break;
+				} else {
+					progress.setVisibility(View.GONE);
 				}
-			} else {
-				progress.setVisibility(View.GONE);
 			}
-		}
 
-	};
+		};
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,7 +127,7 @@ public class ViewMonsterInfoRefreshInfoFragment extends Fragment {
 
 	private void refreshLastUpdate() {
 		final String lastRefreshDate = SimpleDateFormat.getDateInstance().format(
-		        new TechnicalSharedPreferencesHelper(getActivity()).getMonsterInfoRefreshDate());
+				new TechnicalSharedPreferencesHelper(getActivity()).getMonsterInfoRefreshDate());
 		current.setText(getString(R.string.monster_info_fetch_info_current, lastRefreshDate));
 	}
 }

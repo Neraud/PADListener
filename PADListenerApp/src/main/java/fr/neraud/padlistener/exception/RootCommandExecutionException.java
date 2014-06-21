@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.exception;
 
 /**
  * Exception thrown when the execution of a command fails
- * 
+ *
  * @author Neraud
  */
 public class RootCommandExecutionException extends Exception {

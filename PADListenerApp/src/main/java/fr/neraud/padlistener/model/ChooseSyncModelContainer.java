@@ -1,13 +1,11 @@
-
 package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
 
 /**
  * Container for ChooseSync. Wraps a syncedModel and adds a flag to indicate if te user has choose to sync this model.
- * 
+ *
  * @author Neraud
- * @param <M>
  */
 public class ChooseSyncModelContainer<M extends Serializable> implements Serializable {
 

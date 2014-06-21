@@ -1,54 +1,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="horizontal"
-    tools:context=".gui.fragment.ViewCapturedDataMonstersFragment" >
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="80dp"
+	android:orientation="horizontal"
+	tools:context=".gui.fragment.ViewCapturedDataMonstersFragment">
 
-    <ImageView
-        android:id="@+id/view_captured_data_monster_item_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/no_monster_image" />
+	<ImageView
+		android:id="@+id/view_captured_data_monster_item_image"
+		android:layout_width="75dp"
+		android:layout_height="75dp"
+		android:layout_gravity="center_vertical"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:src="@drawable/no_monster_image" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/view_captured_data_monster_item_name"
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:text="@string/view_captured_monster_item_name" />
+		<TextView
+			android:id="@+id/view_captured_data_monster_item_name"
+			android:layout_width="fill_parent"
+			android:layout_height="20dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:layout_marginTop="5dp"
+			android:gravity="center_vertical"
+			android:text="@string/view_captured_monster_item_name" />
 
-        <TextView
-            android:id="@+id/view_captured_data_monster_item_level"
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:text="@string/view_captured_monster_item_level" />
+		<TextView
+			android:id="@+id/view_captured_data_monster_item_level"
+			android:layout_width="fill_parent"
+			android:layout_height="20dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:gravity="center_vertical"
+			android:text="@string/view_captured_monster_item_level" />
 
-        <TextView
-            android:id="@+id/view_captured_data_monster_item_plus"
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:text="@string/view_captured_monster_item_plus" />
-    </LinearLayout>
+		<TextView
+			android:id="@+id/view_captured_data_monster_item_plus"
+			android:layout_width="fill_parent"
+			android:layout_height="20dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:gravity="center_vertical"
+			android:text="@string/view_captured_monster_item_plus" />
+	</LinearLayout>
 
 </LinearLayout>

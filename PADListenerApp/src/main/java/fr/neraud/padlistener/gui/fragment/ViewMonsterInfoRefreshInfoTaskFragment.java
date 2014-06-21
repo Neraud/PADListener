@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.content.Intent;
@@ -6,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import fr.neraud.padlistener.service.FetchPadHerderMonsterInfoService;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
@@ -14,7 +14,7 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 /**
  * ViewMonsterInfo retained fragment to store the RefreshInfo progression
- * 
+ *
  * @author Neraud
  */
 public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {

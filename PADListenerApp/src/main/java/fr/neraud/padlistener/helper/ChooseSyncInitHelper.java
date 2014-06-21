@@ -1,11 +1,11 @@
-
 package fr.neraud.padlistener.helper;
+
+import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
@@ -15,7 +15,7 @@ import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
 /**
  * Helper to prepare data for ChooseSync
- * 
+ *
  * @author Neraud
  */
 public class ChooseSyncInitHelper {

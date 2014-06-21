@@ -1,16 +1,16 @@
-
 package fr.neraud.padlistener.util;
+
+import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
 
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.constant.InstallAsset;
 
 /**
  * Helper to copy the monster images bundled in the assets
- * 
+ *
  * @author Neraud
  */
 public class MonsterImageAssetHelper extends AbstractAssetHelper {

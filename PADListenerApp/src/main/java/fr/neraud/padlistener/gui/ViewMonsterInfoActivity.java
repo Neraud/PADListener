@@ -1,13 +1,13 @@
-
 package fr.neraud.padlistener.gui;
 
 import android.os.Bundle;
 import android.util.Log;
+
 import fr.neraud.padlistener.R;
 
 /**
  * Activity to view monster information fetched from PADherder
- * 
+ *
  * @author Neraud
  */
 public class ViewMonsterInfoActivity extends AbstractPADListenerActivity {

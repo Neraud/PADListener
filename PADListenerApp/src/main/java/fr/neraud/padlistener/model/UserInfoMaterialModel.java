@@ -1,11 +1,10 @@
-
 package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
 
 /**
  * UserInfoMaterial model resulting from a PADherder user-api call for the materials section
- * 
+ *
  * @author Neraud
  */
 public class UserInfoMaterialModel implements Serializable {

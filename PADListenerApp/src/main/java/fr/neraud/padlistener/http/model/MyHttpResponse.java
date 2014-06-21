@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.http.model;
 
 /**
  * Base Http response
- * 
+ *
  * @author Neraud
  */
 public class MyHttpResponse {

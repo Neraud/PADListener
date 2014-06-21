@@ -1,7 +1,4 @@
-
 package fr.neraud.padlistener.gui.fragment;
-
-import java.text.SimpleDateFormat;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.fragment.ViewMonsterInfoRefreshImagesTaskFragment.CallBacks;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -21,50 +21,52 @@ import fr.neraud.padlistener.service.constant.RestCallState;
 
 /**
  * ViewMonsterInfo fragment for the RefreshImages tab
- * 
+ *
  * @author Neraud
  */
 public class ViewMonsterInfoRefreshImagesFragment extends Fragment {
 
 	private static final String TAG_TASK_FRAGMENT = "images_task_fragment";
+	private final CallBacks callbacks;
 	private ViewMonsterInfoRefreshImagesTaskFragment mTaskFragment;
-
 	private TextView statusText;
 	private TextView current;
 	private ProgressBar progress;
 	private Button startButton;
 
-	private final CallBacks callbacks = new CallBacks() {
+	public ViewMonsterInfoRefreshImagesFragment() {
+		callbacks = new CallBacks() {
 
-		@Override
-		public void updateState(RestCallState state, int imagesDownloaded, int imagesToDownload, int monsterIdDownloading) {
-			Log.d(getClass().getName(), "updateState");
+			@Override
+			public void updateState(RestCallState state, int imagesDownloaded, int imagesToDownload, int monsterIdDownloading) {
+				Log.d(getClass().getName(), "updateState");
 
-			if (state != null) {
-				startButton.setEnabled(false);
-				progress.setVisibility(View.VISIBLE);
-				progress.setIndeterminate(false);
+				if (state != null) {
+					startButton.setEnabled(false);
+					progress.setVisibility(View.VISIBLE);
+					progress.setIndeterminate(false);
 
-				switch (state) {
-				case RUNNING:
-					progress.setProgress(imagesDownloaded);
-					progress.setMax(imagesToDownload);
-					statusText.setText(getString(R.string.monster_info_fetch_images_text, (imagesDownloaded + 1), imagesToDownload,
-					        monsterIdDownloading));
-					break;
-				case SUCCESSED:
-					statusText.setText(getString(R.string.monster_info_fetch_images_done, imagesDownloaded));
-					refreshLastUpdate();
-					break;
-				default:
-					break;
+					switch (state) {
+						case RUNNING:
+							progress.setProgress(imagesDownloaded);
+							progress.setMax(imagesToDownload);
+							statusText.setText(getString(R.string.monster_info_fetch_images_text, (imagesDownloaded + 1), imagesToDownload,
+									monsterIdDownloading));
+							break;
+						case SUCCESSED:
+							statusText.setText(getString(R.string.monster_info_fetch_images_done, imagesDownloaded));
+							refreshLastUpdate();
+							break;
+						default:
+							break;
+					}
+				} else {
+					progress.setVisibility(View.GONE);
 				}
-			} else {
-				progress.setVisibility(View.GONE);
 			}
-		}
 
-	};
+		};
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,7 +103,7 @@ public class ViewMonsterInfoRefreshImagesFragment extends Fragment {
 
 	private void refreshLastUpdate() {
 		final String lastRefreshDate = SimpleDateFormat.getDateInstance().format(
-		        new TechnicalSharedPreferencesHelper(getActivity()).getMonsterImagesRefreshDate());
+				new TechnicalSharedPreferencesHelper(getActivity()).getMonsterImagesRefreshDate());
 		current.setText(getString(R.string.monster_info_fetch_images_current, lastRefreshDate));
 	}
 

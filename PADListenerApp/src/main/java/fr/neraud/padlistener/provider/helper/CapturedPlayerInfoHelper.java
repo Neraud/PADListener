@@ -1,14 +1,14 @@
-
 package fr.neraud.padlistener.provider.helper;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
 /**
  * Helper for the PlayerInfoProvider
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerInfoHelper extends BaseProviderHelper {
@@ -38,7 +38,7 @@ public class CapturedPlayerInfoHelper extends BaseProviderHelper {
 	}
 
 	/**
-	 * @param status the PlayerInfoModel
+	 * @param model the CapturedPlayerInfoModel
 	 * @return the filled ContentValues
 	 */
 	public static ContentValues modelToValues(CapturedPlayerInfoModel model) {

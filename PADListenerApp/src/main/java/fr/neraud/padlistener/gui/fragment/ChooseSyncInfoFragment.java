@@ -1,8 +1,4 @@
-
 package fr.neraud.padlistener.gui.fragment;
-
-import java.io.Serializable;
-import java.util.List;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import java.io.Serializable;
+import java.util.List;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
@@ -25,7 +25,7 @@ import fr.neraud.padlistener.model.SyncedUserInfoModel;
 
 /**
  * ChooseSync fragment for the Information tab
- * 
+ *
  * @author Neraud
  */
 public class ChooseSyncInfoFragment extends Fragment {
@@ -74,7 +74,7 @@ public class ChooseSyncInfoFragment extends Fragment {
 
 			final TextView userInfoText = (TextView) view.findViewById(R.id.choose_sync_userInfo_text);
 			userInfoText.setText(getString(R.string.choose_sync_userInfo_text, userInfoModel.getPadherderInfo(),
-			        userInfoModel.getCapturedInfo()));
+					userInfoModel.getCapturedInfo()));
 
 			if (userInfoModel.getPadherderInfo() < userInfoModel.getCapturedInfo()) {
 				userInfoText.setTextColor(Color.GREEN);
@@ -106,11 +106,11 @@ public class ChooseSyncInfoFragment extends Fragment {
 		final int monsterlToDeleteChosenCount = countChosenItems(result.getSyncedMonstersToDelete());
 
 		summaryText.setText(getString(R.string.choose_sync_info_summary, materialToUpdateChosenCount, materialToUpdateCount,
-		        monsterToUpdateChosenCount, monsterToUpdateCount, monsterlToCreateChosenCount, monsterlToCreateCount,
-		        monsterlToDeleteChosenCount, monsterlToDeleteCount));
+				monsterToUpdateChosenCount, monsterToUpdateCount, monsterlToCreateChosenCount, monsterlToCreateCount,
+				monsterlToDeleteChosenCount, monsterlToDeleteCount));
 
 		if (materialToUpdateChosenCount > 0 || monsterToUpdateChosenCount > 0 || monsterlToCreateChosenCount > 0
-		        || monsterlToDeleteChosenCount > 0 || hasUserInfoToUpdateChosen) {
+				|| monsterlToDeleteChosenCount > 0 || hasUserInfoToUpdateChosen) {
 			syncButton.setEnabled(true);
 			syncButton.setText(R.string.choose_sync_info_button_enabled);
 			syncButton.setOnClickListener(new OnClickListener() {

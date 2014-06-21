@@ -1,5 +1,8 @@
-
 package fr.neraud.padlistener.helper;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,9 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.util.Log;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.helper.MonsterComparatorHelper.MonsterComparisonResult;
@@ -31,7 +31,7 @@ import fr.neraud.padlistener.model.UserInfoMonsterModel;
 
 /**
  * Helper to prepare the sync models. Compares the captured and PADherder data and merges the monsters.
- * 
+ *
  * @author Neraud
  */
 public class SyncHelper {
@@ -53,7 +53,7 @@ public class SyncHelper {
 	}
 
 	public ComputeSyncResultModel sync(List<CapturedMonsterCardModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo,
-	        UserInfoModel padInfo) {
+			UserInfoModel padInfo) {
 		Log.d(getClass().getName(), "sync");
 
 		final Map<Integer, UserInfoMaterialModel> padherderMaterialsById = reorgPadherderMaterials(padInfo.getMaterials());
@@ -204,8 +204,8 @@ public class SyncHelper {
 	}
 
 	private void filterMaterials(Map<Integer, UserInfoMaterialModel> padherderMaterialsById,
-	        Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById, Map<Integer, Integer> capturedMaterialsById,
-	        Map<Integer, List<CapturedMonsterCardModel>> capturedMonstersById) {
+			Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById, Map<Integer, Integer> capturedMaterialsById,
+			Map<Integer, List<CapturedMonsterCardModel>> capturedMonstersById) {
 		Log.d(getClass().getName(), "filterMaterials");
 
 		final SyncMaterialInMonster syncMaterialInMonster = helper.getSyncMaterialInMonster();
@@ -221,13 +221,13 @@ public class SyncHelper {
 					} else if (syncMaterialInMonster == SyncMaterialInMonster.ONLY_IF_ALREADY_IN_PADHERDER) {
 						if (!padherderMonstersById.containsKey(materialId)) {
 							Log.d(getClass().getName(),
-							        "filterMaterials : not in padherder's monsters, removing all from captured monsters");
+									"filterMaterials : not in padherder's monsters, removing all from captured monsters");
 							capturedMonstersById.remove(materialId);
 						} else {
 							final int numberToKeep = padherderMonstersById.get(materialId).size();
 							final int numberToRemove = capturedMonstersById.get(materialId).size() - numberToKeep;
 							Log.d(getClass().getName(), "filterMaterials : in padherder's monsters, removing " + numberToRemove
-							        + " from captured");
+									+ " from captured");
 							final Iterator<CapturedMonsterCardModel> iter = capturedMonstersById.get(materialId).iterator();
 							int i = 0;
 							while (iter.hasNext() && i < numberToRemove) {
@@ -246,7 +246,7 @@ public class SyncHelper {
 							if (capturedMaterialsById.containsKey(materialId)) {
 								final int nbAlreadyMonsters = capturedMonstersById.get(materialId).size();
 								Log.d(getClass().getName(), "filterMaterials : in capturedMonster, reducing captured quantity by "
-								        + nbAlreadyMonsters);
+										+ nbAlreadyMonsters);
 								final int old = capturedMaterialsById.get(materialId);
 								capturedMaterialsById.put(materialId, old - nbAlreadyMonsters);
 							} else {
@@ -274,7 +274,7 @@ public class SyncHelper {
 	}
 
 	private List<SyncedMaterialModel> syncMaterials(Map<Integer, Integer> capturedMaterialsById,
-	        Map<Integer, UserInfoMaterialModel> padherderMaterialsById) {
+			Map<Integer, UserInfoMaterialModel> padherderMaterialsById) {
 		Log.d(getClass().getName(), "syncMaterials");
 
 		final List<SyncedMaterialModel> syncedMaterials = new ArrayList<SyncedMaterialModel>();
@@ -292,7 +292,7 @@ public class SyncHelper {
 				syncedMaterial.setMonsterInfo(monsterInfo);
 				syncedMaterial.setPadherderId(padherderMaterial.getPadherderId());
 				syncedMaterial.setCapturedInfo(capturedMaterialsById.containsKey(materialId) ? capturedMaterialsById
-				        .get(materialId) : 0);
+						.get(materialId) : 0);
 				syncedMaterial.setPadherderInfo(padherderMaterial.getQuantity());
 
 				Log.d(getClass().getName(), "syncedMaterial : - " + syncedMaterial);
@@ -308,7 +308,7 @@ public class SyncHelper {
 	}
 
 	private List<SyncedMonsterModel> syncMonsters(Map<Integer, List<CapturedMonsterCardModel>> capturedMonstersById,
-	        Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById) {
+			Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById) {
 		Log.d(getClass().getName(), "syncMonsters");
 
 		final List<SyncedMonsterModel> syncedMonsters = new ArrayList<SyncedMonsterModel>();
@@ -321,7 +321,7 @@ public class SyncHelper {
 			final List<UserInfoMonsterModel> padherderMonsters = padherderMonstersById.get(monsterId);
 
 			final List<SyncedMonsterModel> syncedMonstersForId = syncMonstersForOneId(monsterId, capturedMonsters,
-			        padherderMonsters);
+					padherderMonsters);
 
 			syncedMonsters.addAll(syncedMonstersForId);
 		}
@@ -330,7 +330,7 @@ public class SyncHelper {
 	}
 
 	private List<SyncedMonsterModel> syncMonstersForOneId(Integer monsterId, List<CapturedMonsterCardModel> capturedMonsters,
-	        List<UserInfoMonsterModel> padherderMonsters) {
+			List<UserInfoMonsterModel> padherderMonsters) {
 		Log.d(getClass().getName(), "syncMonstersForOneId : " + monsterId);
 		final List<SyncedMonsterModel> syncedMonsters = new ArrayList<SyncedMonsterModel>();
 
@@ -349,7 +349,8 @@ public class SyncHelper {
 		final Iterator<CapturedMonsterCardModel> capturedIter = capturedMonstersWork.iterator();
 
 		// Filter "equals" monsters
-		capturedLoop: while (capturedIter.hasNext()) {
+		capturedLoop:
+		while (capturedIter.hasNext()) {
 			final CapturedMonsterCardModel captured = capturedIter.next();
 			final Iterator<UserInfoMonsterModel> parherderIter = padherderMonstersWork.iterator();
 			while (parherderIter.hasNext()) {

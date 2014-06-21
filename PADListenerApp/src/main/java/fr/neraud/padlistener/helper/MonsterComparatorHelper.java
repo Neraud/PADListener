@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.helper;
 
 import fr.neraud.padlistener.model.BaseMonsterModel;
@@ -6,7 +5,7 @@ import fr.neraud.padlistener.model.BaseMonsterModel;
 /**
  * Helper to compare monsters. Not a real comparator.<br/>
  * It is used to sort monsters in the sync process.
- * 
+ *
  * @author Neraud
  */
 public class MonsterComparatorHelper {
@@ -46,7 +45,7 @@ public class MonsterComparatorHelper {
 	}
 
 	private static MonsterComparisonResult compareOneProperty(MonsterComparisonResult previousResult, long a, long b)
-	        throws UndeterminedException {
+			throws UndeterminedException {
 		final MonsterComparisonResult newResult = compareNumbers(a, b);
 		if (previousResult == newResult) {
 			return previousResult;

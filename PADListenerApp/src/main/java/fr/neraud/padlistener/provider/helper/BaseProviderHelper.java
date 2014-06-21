@@ -1,16 +1,16 @@
-
 package fr.neraud.padlistener.provider.helper;
-
-import java.util.Date;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
+import java.util.Date;
+
 import fr.neraud.padlistener.provider.descriptor.IField;
 
 /**
  * Base prodiver helper<br/>
  * Provides helper method the access data in a Cursor and to put data in a ContentValues.
- * 
+ *
  * @author Neraud
  */
 public class BaseProviderHelper {

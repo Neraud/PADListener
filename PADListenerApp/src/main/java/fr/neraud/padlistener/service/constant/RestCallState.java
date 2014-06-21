@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.service.constant;
 
 /**
  * Enum of states for a Rest request
- * 
+ *
  * @author Neraud
  */
 public enum RestCallState {
@@ -18,10 +17,6 @@ public enum RestCallState {
 		this.code = code;
 	}
 
-	public int getCode() {
-		return code;
-	}
-
 	public static RestCallState findByCode(int code) {
 		for (final RestCallState state : values()) {
 			if (state.code == code) {
@@ -29,5 +24,9 @@ public enum RestCallState {
 			}
 		}
 		return null;
+	}
+
+	public int getCode() {
+		return code;
 	}
 }

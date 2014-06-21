@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.pad.constant;
 
 /**
  * Enum a api actions captured from PAD
- * 
+ *
  * @author Neraud
  */
 public enum ApiAction {

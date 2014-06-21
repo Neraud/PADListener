@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.app.ActionBar;
@@ -12,12 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import fr.neraud.padlistener.R;
 
 /**
  * Base fragment with a ViewPager and tabs.<br/>
  * Handles paging and links with tabs.
- * 
+ *
  * @author Neraud
  */
 public abstract class AbstractViewPagerFragment extends Fragment {

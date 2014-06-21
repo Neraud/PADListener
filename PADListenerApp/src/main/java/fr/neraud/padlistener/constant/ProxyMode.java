@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.constant;
 
 /**
  * Enum of proxy modes
- * 
+ *
  * @author Neraud
  */
 public enum ProxyMode {

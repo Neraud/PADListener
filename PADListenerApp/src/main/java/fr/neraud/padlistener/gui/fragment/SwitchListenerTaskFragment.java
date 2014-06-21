@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.content.ComponentName;
@@ -8,21 +7,22 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import fr.neraud.padlistener.service.ListenerService;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceBinder;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceListener;
 
 /**
  * Task fragment for SwitchListener
- * 
+ *
  * @author Neraud
  */
 public class SwitchListenerTaskFragment extends Fragment {
 
+	private final ServiceConnection mConnection;
 	private boolean mIsBound = false;
 	private ListenerServiceBinder listenerServiceBinder;
 	private CallBacks callbacks = null;
-
 	private ListenerState state = null;
 	private Throwable error = null;
 
@@ -40,31 +40,33 @@ public class SwitchListenerTaskFragment extends Fragment {
 		public void updateState(ListenerState state, Throwable error);
 	}
 
-	private final ServiceConnection mConnection = new ServiceConnection() {
+	public SwitchListenerTaskFragment() {
+		mConnection = new ServiceConnection() {
 
-		@Override
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.d(getClass().getName(), "onServiceConnected");
-			listenerServiceBinder = (ListenerServiceBinder) service;
+			@Override
+			public void onServiceConnected(ComponentName className, IBinder service) {
+				Log.d(getClass().getName(), "onServiceConnected");
+				listenerServiceBinder = (ListenerServiceBinder) service;
 
-			Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarded());
+				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarded());
 
-			if (listenerServiceBinder.isListenerStarded()) {
-				updateState(ListenerState.STARTED);
-			} else {
-				updateState(ListenerState.STOPPED);
+				if (listenerServiceBinder.isListenerStarded()) {
+					updateState(ListenerState.STARTED);
+				} else {
+					updateState(ListenerState.STOPPED);
+				}
+
+				mIsBound = true;
 			}
 
-			mIsBound = true;
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName className) {
-			Log.d(getClass().getName(), "onServiceDisconnected");
-			listenerServiceBinder = null;
-			mIsBound = false;
-		}
-	};
+			@Override
+			public void onServiceDisconnected(ComponentName className) {
+				Log.d(getClass().getName(), "onServiceDisconnected");
+				listenerServiceBinder = null;
+				mIsBound = false;
+			}
+		};
+	}
 
 	private void doBindService() {
 		Log.d(getClass().getName(), "doBindService");
@@ -172,39 +174,39 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 	private boolean canStart() {
 		switch (state) {
-		case STARTING:
-			return false;
-		case STARTED:
-			return false;
-		case START_FAILED:
-			return true;
-		case STOPPING:
-			return false;
-		case STOPPED:
-			return true;
-		case STOP_FAILED:
-			return false;
-		default:
-			return false;
+			case STARTING:
+				return false;
+			case STARTED:
+				return false;
+			case START_FAILED:
+				return true;
+			case STOPPING:
+				return false;
+			case STOPPED:
+				return true;
+			case STOP_FAILED:
+				return false;
+			default:
+				return false;
 		}
 	}
 
 	private boolean canStop() {
 		switch (state) {
-		case STARTING:
-			return false;
-		case STARTED:
-			return true;
-		case START_FAILED:
-			return false;
-		case STOPPING:
-			return false;
-		case STOPPED:
-			return false;
-		case STOP_FAILED:
-			return true;
-		default:
-			return false;
+			case STARTING:
+				return false;
+			case STARTED:
+				return true;
+			case START_FAILED:
+				return false;
+			case STOPPING:
+				return false;
+			case STOPPED:
+				return false;
+			case STOP_FAILED:
+				return true;
+			default:
+				return false;
 		}
 	}
 

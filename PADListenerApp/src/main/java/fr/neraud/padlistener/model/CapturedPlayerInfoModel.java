@@ -1,11 +1,10 @@
-
 package fr.neraud.padlistener.model;
 
 import java.util.Date;
 
 /**
  * PlayerInfoModel for captured data
- * 
+ *
  * @author Neraud
  */
 public class CapturedPlayerInfoModel {

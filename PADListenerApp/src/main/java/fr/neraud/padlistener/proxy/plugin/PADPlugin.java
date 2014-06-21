@@ -1,9 +1,7 @@
-
 package fr.neraud.padlistener.proxy.plugin;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import android.content.Context;
+import android.util.Log;
 
 import org.sandrop.webscarab.httpclient.HTTPClient;
 import org.sandrop.webscarab.model.HttpUrl;
@@ -11,49 +9,24 @@ import org.sandrop.webscarab.model.Request;
 import org.sandrop.webscarab.model.Response;
 import org.sandrop.webscarab.plugin.proxy.ProxyPlugin;
 
-import android.content.Context;
-import android.util.Log;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 
 /**
  * ProxyPlugin to capture PAD calls to GunHo servers
- * 
+ *
  * @author Neraud
  */
 public class PADPlugin extends ProxyPlugin {
 
-	private boolean _enabled = true;
 	private final Context context;
 	private final String targetHost;
-
-	public PADPlugin(Context context) {
-		this.context = context;
-		targetHost = new DefaultSharedPreferencesHelper(context).getListenerTargetHostname();
-	}
-
-	public void parseProperties() {
-	}
-
-	@Override
-	public String getPluginName() {
-		return new String("PADListenerPlugin");
-	}
-
-	public void setEnabled(boolean bool) {
-		_enabled = bool;
-	}
-
-	@Override
-	public boolean getEnabled() {
-		return _enabled;
-	}
-
-	@Override
-	public HTTPClient getProxyPlugin(HTTPClient in) {
-		return new Plugin(in);
-	}
+	private boolean _enabled = true;
 
 	private class Plugin implements HTTPClient {
 
@@ -113,6 +86,33 @@ public class PADPlugin extends ProxyPlugin {
 			}
 			return params;
 		}
+	}
+
+	public PADPlugin(Context context) {
+		this.context = context;
+		targetHost = new DefaultSharedPreferencesHelper(context).getListenerTargetHostname();
+	}
+
+	public void parseProperties() {
+	}
+
+	@Override
+	public String getPluginName() {
+		return new String("PADListenerPlugin");
+	}
+
+	@Override
+	public boolean getEnabled() {
+		return _enabled;
+	}
+
+	public void setEnabled(boolean bool) {
+		_enabled = bool;
+	}
+
+	@Override
+	public HTTPClient getProxyPlugin(HTTPClient in) {
+		return new Plugin(in);
 	}
 
 }

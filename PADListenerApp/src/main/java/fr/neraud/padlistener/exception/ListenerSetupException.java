@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.exception;
 
 /**
  * Exception thrown when setting the proxy up fails
- * 
+ *
  * @author Neraud
  */
 public class ListenerSetupException extends Exception {

@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.database.Cursor;
@@ -9,6 +8,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.helper.CapturedPlayerMonsterCursorAdapter;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
@@ -16,7 +16,7 @@ import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor
 
 /**
  * ViewCapturedData fragment for the Monsters tabs
- * 
+ *
  * @author Neraud
  */
 public class ViewCapturedDataMonstersFragment extends ListFragment implements LoaderCallbacks<Cursor> {
@@ -29,7 +29,7 @@ public class ViewCapturedDataMonstersFragment extends ListFragment implements Lo
 		super.onCreate(savedInstanceState);
 
 		adapter = new CapturedPlayerMonsterCursorAdapter(getActivity().getApplicationContext(),
-		        R.layout.view_captured_data_item_monster);
+				R.layout.view_captured_data_item_monster);
 		setListAdapter(adapter);
 	}
 
@@ -45,7 +45,7 @@ public class ViewCapturedDataMonstersFragment extends ListFragment implements Lo
 		Log.d(getClass().getName(), "onCreateLoader");
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		return new CursorLoader(getActivity(), CapturedPlayerMonsterDescriptor.UriHelper.uriForAllWithInfo(prefHelper
-		        .getPlayerRegion()), null, null, null, null);
+				.getPlayerRegion()), null, null, null, null);
 	}
 
 	@Override

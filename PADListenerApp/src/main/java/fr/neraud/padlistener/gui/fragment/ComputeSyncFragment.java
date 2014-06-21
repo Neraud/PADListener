@@ -1,7 +1,4 @@
-
 package fr.neraud.padlistener.gui.fragment;
-
-import java.text.DateFormat;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +15,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
@@ -31,7 +31,7 @@ import fr.neraud.padlistener.service.constant.RestCallState;
 
 /**
  * ComputeSync fragment
- * 
+ *
  * @author Neraud
  */
 public class ComputeSyncFragment extends Fragment {
@@ -48,7 +48,7 @@ public class ComputeSyncFragment extends Fragment {
 
 		@Override
 		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
-		        Throwable errorCause) {
+				Throwable errorCause) {
 			Log.d(getClass().getName(), "updateState");
 			if (state != null) {
 				startButton.setEnabled(false);
@@ -58,64 +58,64 @@ public class ComputeSyncFragment extends Fragment {
 				progress.setMax(4);
 
 				switch (state) {
-				case RUNNING:
-					if (runningStep == null) {
-						progress.setIndeterminate(true);
-						status.setText(R.string.monster_info_fetch_info_fetching);
-					} else {
+					case RUNNING:
+						if (runningStep == null) {
+							progress.setIndeterminate(true);
+							status.setText(R.string.monster_info_fetch_info_fetching);
+						} else {
+							progress.setIndeterminate(false);
+							switch (runningStep) {
+								case STARTED:
+									status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_calling)));
+									progress.setProgress(1);
+									break;
+								case RESPONSE_RECEIVED:
+									status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_parsing)));
+									progress.setProgress(2);
+									break;
+								case RESPONSE_PARSED:
+									status.setText(getString(R.string.compute_sync_status,
+											getString(R.string.compute_sync_status_computing)));
+									progress.setProgress(3);
+									break;
+								default:
+									break;
+							}
+						}
+						break;
+					case SUCCESSED:
 						progress.setIndeterminate(false);
-						switch (runningStep) {
-						case STARTED:
-							status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_calling)));
-							progress.setProgress(1);
-							break;
-						case RESPONSE_RECEIVED:
-							status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_parsing)));
-							progress.setProgress(2);
-							break;
-						case RESPONSE_PARSED:
-							status.setText(getString(R.string.compute_sync_status,
-							        getString(R.string.compute_sync_status_computing)));
-							progress.setProgress(3);
-							break;
-						default:
-							break;
+						status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
+						progress.setProgress(4);
+
+						final Bundle extras = new Bundle();
+						extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, syncResult);
+						extras.putInt(ChooseSyncFragment.EXTRA_ACCOUNT_ID_NAME, accountId);
+						((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.CHOOSE_SYNC, extras);
+
+						break;
+					case FAILED:
+						progress.setIndeterminate(false);
+
+						final String message = errorCause != null ? errorCause.getMessage() : "?";
+						status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, message)));
+						if (errorCause instanceof HttpResponseException) {
+							final int code = ((HttpResponseException) errorCause).getCode();
+							if (code == 403) {
+								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
+										.getPadHerderUserName(accountId);
+								checkLogin.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
+								checkLogin.setVisibility(View.VISIBLE);
+							} else if (code == 404) {
+								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
+										.getPadHerderUserName(accountId);
+								checkLogin.setText(getString(R.string.compute_sync_check_login_case, accountLogin));
+								checkLogin.setVisibility(View.VISIBLE);
+
+							}
 						}
-					}
-					break;
-				case SUCCESSED:
-					progress.setIndeterminate(false);
-					status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
-					progress.setProgress(4);
-
-					final Bundle extras = new Bundle();
-					extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, syncResult);
-					extras.putInt(ChooseSyncFragment.EXTRA_ACCOUNT_ID_NAME, accountId);
-					((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.CHOOSE_SYNC, extras);
-
-					break;
-				case FAILED:
-					progress.setIndeterminate(false);
-
-					final String message = errorCause != null ? errorCause.getMessage() : "?";
-					status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, message)));
-					if (errorCause instanceof HttpResponseException) {
-						final int code = ((HttpResponseException) errorCause).getCode();
-						if (code == 403) {
-							final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
-							        .getPadHerderUserName(accountId);
-							checkLogin.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
-							checkLogin.setVisibility(View.VISIBLE);
-						} else if (code == 404) {
-							final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
-							        .getPadHerderUserName(accountId);
-							checkLogin.setText(getString(R.string.compute_sync_check_login_case, accountLogin));
-							checkLogin.setVisibility(View.VISIBLE);
-
-						}
-					}
-				default:
-					break;
+					default:
+						break;
 				}
 			} else {
 				progress.setVisibility(View.GONE);

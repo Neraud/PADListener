@@ -1,15 +1,15 @@
-
 package fr.neraud.padlistener.proxy.helper;
 
 import android.content.Context;
 import android.util.Log;
+
 import fr.neraud.padlistener.exception.RootCommandExecutionException;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.util.RootCommandExecutor;
 
 /**
  * Helper to manipulate iptables
- * 
+ *
  * @author Neraud
  */
 public class IptablesHelper {

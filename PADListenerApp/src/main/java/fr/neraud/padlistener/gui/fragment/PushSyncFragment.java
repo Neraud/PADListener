@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.PushSyncStatModel;
@@ -17,14 +17,14 @@ import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
 
 /**
  * Main fragment for PushSync
- * 
+ *
  * @author Neraud
  */
 public class PushSyncFragment extends Fragment {
 
 	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
-	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
 	protected static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
+	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
 	private PushSyncTaskFragment mTaskFragment;
 
 	private TextView head;
@@ -42,20 +42,20 @@ public class PushSyncFragment extends Fragment {
 			Log.d(getClass().getName(), "updateState");
 			if (pushModel != null) {
 				Log.d(getClass().getName(), "updateState : " + pushModel.getElementPushedCount() + pushModel.getElementErrorCount()
-				        + " / " + pushModel.getElementToPushCount());
+						+ " / " + pushModel.getElementToPushCount());
 
 				progress.setIndeterminate(false);
 				progress.setMax(pushModel.getElementToPushCount());
 				progress.setProgress(pushModel.getElementPushedCount() + pushModel.getElementErrorCount());
 				updateText(pushModel, summaryUserInfoUpdated, R.string.push_sync_summary_userinfo_updated, ElementToPush.USER_INFO);
 				updateText(pushModel, summaryMaterialsUpdated, R.string.push_sync_summary_materials_updated,
-				        ElementToPush.MATERIAL_TO_UPDATE);
+						ElementToPush.MATERIAL_TO_UPDATE);
 				updateText(pushModel, summaryMonstersUpdated, R.string.push_sync_summary_monsters_updated,
-				        ElementToPush.MONSTER_TO_UPDATE);
+						ElementToPush.MONSTER_TO_UPDATE);
 				updateText(pushModel, summaryMonstersCreated, R.string.push_sync_summary_monsters_created,
-				        ElementToPush.MONSTER_TO_CREATE);
+						ElementToPush.MONSTER_TO_CREATE);
 				updateText(pushModel, summaryMonstersDeleted, R.string.push_sync_summary_monsters_deleted,
-				        ElementToPush.MONSTER_TO_DELETE);
+						ElementToPush.MONSTER_TO_DELETE);
 
 				if (pushModel.getElementPushedCount() + pushModel.getElementErrorCount() >= pushModel.getElementToPushCount()) {
 					head.setText(R.string.push_sync_head_done);
@@ -94,7 +94,7 @@ public class PushSyncFragment extends Fragment {
 			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
 
 			final ChooseSyncModel result = (ChooseSyncModel) getActivity().getIntent().getSerializableExtra(
-			        EXTRA_CHOOSE_SYNC_MODEL_NAME);
+					EXTRA_CHOOSE_SYNC_MODEL_NAME);
 			final int accountId = getActivity().getIntent().getIntExtra(EXTRA_ACCOUNT_ID_NAME, 0);
 
 			mTaskFragment.setChooseSyncModel(result);

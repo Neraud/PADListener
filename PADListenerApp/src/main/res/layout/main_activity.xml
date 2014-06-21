@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:name="fr.neraud.padlistener.gui.fragment.MainMenuFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/switch_listener_fragment">
-</fragment>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/switch_listener_fragment"
+	android:name="fr.neraud.padlistener.gui.fragment.MainMenuFragment"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"></fragment>

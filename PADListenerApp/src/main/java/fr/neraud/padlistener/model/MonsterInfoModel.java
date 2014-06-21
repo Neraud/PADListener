@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
@@ -10,7 +9,7 @@ import fr.neraud.padlistener.padherder.constant.MonsterType;
 
 /**
  * MonsterInfoModel from PADherder
- * 
+ *
  * @author Neraud
  */
 public class MonsterInfoModel implements Serializable {
@@ -66,11 +65,11 @@ public class MonsterInfoModel implements Serializable {
 
 	public Integer getId(PADRegion region) {
 		switch (region) {
-		case US:
-			return idUS;
-		case JP:
-		default:
-			return idJP;
+			case US:
+				return idUS;
+			case JP:
+			default:
+				return idJP;
 		}
 	}
 

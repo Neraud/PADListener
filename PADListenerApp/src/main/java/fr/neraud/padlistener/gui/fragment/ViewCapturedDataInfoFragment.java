@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.database.Cursor;
@@ -9,13 +8,14 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.helper.CapturedPlayerInfoCursorAdapter;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
 /**
  * ViewCapturedData fragment for the Information tab
- * 
+ *
  * @author Neraud
  */
 public class ViewCapturedDataInfoFragment extends ListFragment implements LoaderCallbacks<Cursor> {
@@ -28,7 +28,7 @@ public class ViewCapturedDataInfoFragment extends ListFragment implements Loader
 		super.onCreate(savedInstanceState);
 
 		adapter = new CapturedPlayerInfoCursorAdapter(getActivity().getApplicationContext(),
-		        R.layout.view_captured_data_fragment_info);
+				R.layout.view_captured_data_fragment_info);
 		setListAdapter(adapter);
 	}
 

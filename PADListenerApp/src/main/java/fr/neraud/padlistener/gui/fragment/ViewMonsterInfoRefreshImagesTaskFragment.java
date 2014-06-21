@@ -1,4 +1,3 @@
-
 package fr.neraud.padlistener.gui.fragment;
 
 import android.content.Intent;
@@ -7,13 +6,14 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import fr.neraud.padlistener.service.FetchPadHerderMonsterImageService;
 import fr.neraud.padlistener.service.constant.RestCallState;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 /**
  * ViewMonsterInfo retained fragment to store the RefreshImages progression
- * 
+ *
  * @author Neraud
  */
 public class ViewMonsterInfoRefreshImagesTaskFragment extends Fragment {
@@ -40,15 +40,15 @@ public class ViewMonsterInfoRefreshImagesTaskFragment extends Fragment {
 			imagesDownloaded = resultData.getInt("imagesDownloaded");
 			imagesToDownload = resultData.getInt("imagesToDownload");
 			switch (resultCode) {
-			case 0:
-				//final String imageUrl = resultData.getString("imageUrl");
-				monsterIdDownloading = resultData.getInt("monsterId");
-				break;
-			case 1:
-				state = RestCallState.SUCCESSED;
-				break;
-			default:
-				break;
+				case 0:
+					//final String imageUrl = resultData.getString("imageUrl");
+					monsterIdDownloading = resultData.getInt("monsterId");
+					break;
+				case 1:
+					state = RestCallState.SUCCESSED;
+					break;
+				default:
+					break;
 			}
 			notifyCallBacks();
 		}

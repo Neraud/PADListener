@@ -1,10 +1,9 @@
-
 package fr.neraud.padlistener.model;
 
 /**
  * MonsterModel wrapping a CapturedMonsterCardModel captured from PAD, and a MonsterInfoModel to provide additionnal informations
  * from PADherder
- * 
+ *
  * @author Neraud
  */
 public class CapturedMonsterFullInfoModel {

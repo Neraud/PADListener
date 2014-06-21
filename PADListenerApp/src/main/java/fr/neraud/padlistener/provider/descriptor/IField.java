@@ -1,9 +1,8 @@
-
 package fr.neraud.padlistener.provider.descriptor;
 
 /**
  * Field interface
- * 
+ *
  * @author Neraud
  */
 public interface IField {
