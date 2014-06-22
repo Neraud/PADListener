@@ -4,7 +4,7 @@ PADListener
 TL;DR description
 ----------
 PADListener is an Android application aimed at synchronizing your PAD monster box to [PADherder](https://www.padherder.com).
-It's simmilar to [padherder_sync](https://github.com/madcowfred/padherder-sync) or [padproxy.py](https://bitbucket.org/mywaifu/padproxy/), but doesn't require a computer.
+It's similar to [padherder_sync](https://github.com/madcowfred/padherder-sync) or [padproxy.py](https://bitbucket.org/mywaifu/padproxy/), but doesn't require a computer.
 
 You can watch a [demonstration on youtube](https://www.youtube.com/watch?v=6zCGqFWgW80).
 
@@ -49,7 +49,7 @@ To set up the build, you need to set up the android sdk home with one of the fol
 * create a file ROOT/local.properties containing a single key sdk.dir
 * set up an ANDROID_HOME environment variable
 
-If you want a properly sign apk, you should create a properties file containing your keystore informations (cf the example signing.properties.example).
+If you want a properly sign apk, you should create a properties file containing your keystore information (cf the example signing.properties.example).
 You need to reference this properties file with one of the following methods : 
 * create a ROOT/gradle.properties containing a single key signingProperties.path
 * set up an SIGNING_PROPERTIES_PATH environment variable
