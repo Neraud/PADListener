@@ -16,6 +16,7 @@ import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.gui.helper.ChangeLogHelper;
+import fr.neraud.padlistener.helper.InstallationHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
 import fr.neraud.padlistener.service.InstallMonsterImagesService;
@@ -40,11 +41,12 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		new ChangeLogHelper(this).displayWhatsNew();
 
-		final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
-		if (!prefHelper.isHasBeenInstalled()) {
+		final InstallationHelper installHelper = new InstallationHelper(getApplicationContext());
+		if (installHelper.needsInstall()) {
 			Log.d(getClass().getName(), "onCreate : starting install");
 			startService(new Intent(getApplicationContext(), InstallMonsterInfoService.class));
 			startService(new Intent(getApplicationContext(), InstallMonsterImagesService.class));
+			final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
 			prefHelper.setHasBeenInstalled(true);
 
 			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
