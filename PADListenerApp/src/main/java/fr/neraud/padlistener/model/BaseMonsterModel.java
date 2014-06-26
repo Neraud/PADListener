@@ -20,6 +20,7 @@ public abstract class BaseMonsterModel implements Serializable {
 	private int plusRcv;
 	private int awakenings;
 	private MonsterPriority priority;
+	private String note;
 
 	public int getId() {
 		return id;
@@ -83,6 +84,14 @@ public abstract class BaseMonsterModel implements Serializable {
 
 	public void setPriority(MonsterPriority priority) {
 		this.priority = priority;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	@Override

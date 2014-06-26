@@ -3,6 +3,7 @@ package fr.neraud.padlistener.helper;
 import android.content.Context;
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,6 +88,9 @@ public class PushSyncHelper {
 		if (model.getCapturedInfo().getPriority() != model.getPadherderInfo().getPriority()) {
 			json.put("priority", model.getCapturedInfo().getPriority().getValue());
 		}
+		if(!StringUtils.equals(model.getCapturedInfo().getNote(), model.getPadherderInfo().getNote())) {
+			json.put("note", model.getCapturedInfo().getNote());
+		}
 
 		httpRequest.setBody(json.toString());
 
@@ -112,6 +116,7 @@ public class PushSyncHelper {
 		json.put("plus_atk", model.getCapturedInfo().getPlusAtk());
 		json.put("plus_rcv", model.getCapturedInfo().getPlusRcv());
 		json.put("priority", model.getCapturedInfo().getPriority().getValue());
+		json.put("note", model.getCapturedInfo().getNote());
 
 		httpRequest.setBody(json.toString());
 

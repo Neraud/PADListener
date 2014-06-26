@@ -203,6 +203,7 @@
 	<string name="choose_sync_monsters_item_label_plusAtk">+Atk</string>
 	<string name="choose_sync_monsters_item_label_plusRcv">+Rcv</string>
 	<string name="choose_sync_monsters_item_priority">Priority : %1$s</string>
+	<string name="choose_sync_monsters_item_note">Note : %1$s</string>
 
 
 	<string name="choose_sync_context_menu_one_title">%1$s</string>
@@ -210,12 +211,19 @@
 	<string name="choose_sync_context_menu_one_deselect">Deselect</string>
 	<string name="choose_sync_context_menu_one_change_priority">Change priority</string>
 	<string name="choose_sync_context_menu_one_change_priority_dialog_title">Priority for %1$s</string>
+	<string name="choose_sync_context_menu_one_change_note">Change note</string>
+	<string name="choose_sync_context_menu_one_change_note_dialog_title">Note for %1$s</string>
 
 	<string name="choose_sync_context_menu_all_title">%1$s</string>
 	<string name="choose_sync_context_menu_all_select">Select all</string>
 	<string name="choose_sync_context_menu_all_deselect">Deselect all</string>
 	<string name="choose_sync_context_menu_all_change_priority">Change priority for all</string>
 	<string name="choose_sync_context_menu_all_change_priority_dialog_title">Priority for all %1$s</string>
+	<string name="choose_sync_context_menu_all_change_note">Change note for all</string>
+	<string name="choose_sync_context_menu_all_change_note_dialog_title">Note for all %1$s</string>
+
+	<string name="choose_sync_context_menu_change_note_dialog_ok">Ok</string>
+	<string name="choose_sync_context_menu_change_note_dialog_cancel">Cancel</string>
 
 
 	<!-- Execute Sync -->

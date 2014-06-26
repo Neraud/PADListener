@@ -181,6 +181,15 @@
 			android:gravity="left"
 			android:text="@string/choose_sync_monsters_item_priority"
 			android:textSize="12sp"/>
+
+		<TextView
+			android:id="@+id/choose_sync_monsters_item_note"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="end"
+			android:gravity="left"
+			android:text="@string/choose_sync_monsters_item_note"
+			android:textSize="12sp"/>
 	</LinearLayout>
 
 </LinearLayout>

@@ -383,8 +383,9 @@ public class SyncHelper {
 					final UserInfoMonsterModel padherder = padherderMonstersWork.get(i);
 					final CapturedMonsterCardModel captured = capturedMonstersWork.get(i);
 
-					// Keep priority
+					// Keep priority and note
 					captured.setPriority(padherder.getPriority());
+					captured.setNote(padherder.getNote());
 
 					model.setCapturedInfo(captured);
 					model.setPadherderInfo(padherder);

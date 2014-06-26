@@ -13,6 +13,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -163,6 +165,13 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		final TextView priorityText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_priority);
 		final String priorityLabel = context.getString(modelToUse.getPriority().getLabelResId());
 		priorityText.setText(context.getString(R.string.choose_sync_monsters_item_priority, priorityLabel));
+		final TextView noteText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_note);
+		if(StringUtils.isNotBlank(modelToUse.getNote())) {
+			noteText.setVisibility(View.VISIBLE);
+			noteText.setText(context.getString(R.string.choose_sync_monsters_item_note, modelToUse.getNote()));
+		} else {
+			noteText.setVisibility(View.GONE);
+		}
 
 		return view;
 	}

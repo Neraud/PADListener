@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -29,10 +30,12 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	private static final int MENU_ID_SELECT = 1;
 	private static final int MENU_ID_DESELECT = 2;
 	private static final int MENU_ID_CHANGE_PRIORITY = 3;
+	private static final int MENU_ID_CHANGE_NOTE = 4;
 
 	private static final int MENU_ID_SELECT_ALL = 11;
 	private static final int MENU_ID_DESELECT_ALL = 12;
 	private static final int MENU_ID_CHANGE_PRIORITY_ALL = 13;
+	private static final int MENU_ID_CHANGE_NOTE_ALL = 14;
 
 	private final BaseExpandableListAdapter adapter;
 
@@ -71,6 +74,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 
 		if (getMode() != ChooseSyncDataPagerHelper.Mode.DELETED) {
 			menu.add(getGroupId(), MENU_ID_CHANGE_PRIORITY_ALL, 0, R.string.choose_sync_context_menu_all_change_priority);
+			menu.add(getGroupId(), MENU_ID_CHANGE_NOTE_ALL, 0, R.string.choose_sync_context_menu_all_change_note);
 		}
 	}
 
@@ -87,6 +91,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 
 		if (getMode() != ChooseSyncDataPagerHelper.Mode.DELETED) {
 			menu.add(getGroupId(), MENU_ID_CHANGE_PRIORITY, 0, R.string.choose_sync_context_menu_one_change_priority);
+			menu.add(getGroupId(), MENU_ID_CHANGE_NOTE, 0, R.string.choose_sync_context_menu_one_change_note);
 		}
 	}
 
@@ -129,6 +134,32 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				});
 
 				builder.create().show();
+				break;
+			case MENU_ID_CHANGE_NOTE_ALL:
+				AlertDialog.Builder noteDialogBuilder = new AlertDialog.Builder(getContext());
+				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterInfo.getName());
+				noteDialogBuilder.setTitle(noteDialogTitle);
+
+				final EditText input = new EditText(getContext());
+				noteDialogBuilder.setView(input);
+				noteDialogBuilder.setPositiveButton(R.string.choose_sync_context_menu_change_note_dialog_ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						Log.d(getClass().getName(), "onClick");
+						String newNote = input.getText().toString().trim();
+						for (final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
+							monsterItem.getSyncedModel().getCapturedInfo().setNote(newNote);
+						}
+						notifyDataSetChanged();
+					}
+				});
+
+				noteDialogBuilder.setNegativeButton(R.string.choose_sync_context_menu_change_note_dialog_cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.cancel();
+					}
+				});
+				noteDialogBuilder.create().show();
+
 				break;
 			default:
 		}
@@ -173,6 +204,31 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				});
 
 				builder.create().show();
+				break;
+			case MENU_ID_CHANGE_NOTE:
+				AlertDialog.Builder noteDialogBuilder = new AlertDialog.Builder(getContext());
+				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterItem.getSyncedModel().getMonsterInfo().getName());
+				noteDialogBuilder.setTitle(noteDialogTitle);
+
+				final EditText input = new EditText(getContext());
+				input.setText(monsterItem.getSyncedModel().getCapturedInfo().getNote());
+				noteDialogBuilder.setView(input);
+				noteDialogBuilder.setPositiveButton(R.string.choose_sync_context_menu_change_note_dialog_ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						Log.d(getClass().getName(), "onClick");
+						String newNote = input.getText().toString().trim();
+						monsterItem.getSyncedModel().getCapturedInfo().setNote(newNote);
+						notifyDataSetChanged();
+					}
+				});
+
+				noteDialogBuilder.setNegativeButton(R.string.choose_sync_context_menu_change_note_dialog_cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.cancel();
+					}
+				});
+				noteDialogBuilder.create().show();
+
 				break;
 			default:
 		}
