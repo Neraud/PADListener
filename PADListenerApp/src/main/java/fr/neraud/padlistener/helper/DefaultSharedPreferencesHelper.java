@@ -12,6 +12,7 @@ import java.util.Map;
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
+import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
 /**
  * Helper to access the default SharedPreferences
@@ -97,4 +98,7 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return PADRegion.US;
 	}
 
+	public MonsterPriority getDefaultMonsterCreatePriority() {
+		return MonsterPriority.valueOf(getStringPreference("default_monster_create_priority", MonsterPriority.MED.name()));
+	}
 }

@@ -136,22 +136,38 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			view = inflater.inflate(R.layout.choose_sync_item_monsters_child, parent, false);
 			defaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_monsters_item_padherder_exp)).getTextColors()
 					.getDefaultColor();
+			// To enable the contextMenu
+			view.setLongClickable(true);
 		}
 
 		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_monsters_item_checkbox);
 		checkBox.setChecked(item.isChosen());
-		checkBox.setOnClickListener(new OnClickListener() {
+		// the whole view is clickable, disable the checkBox to prevent missing clicks on it
+		checkBox.setClickable(false);
 
+		view.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				Log.d(getClass().getName(), "onClick");
 				item.setChosen(!item.isChosen());
+				checkBox.setChecked(item.isChosen());
 			}
 		});
 
 		final BaseMonsterModel padherder = item.getSyncedModel().getPadherderInfo();
 		final BaseMonsterModel captured = item.getSyncedModel().getCapturedInfo();
 
+		fillTable(view, padherder, captured);
+
+		final BaseMonsterModel modelToUse = captured != null ? captured : padherder;
+		final TextView priorityText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_priority);
+		final String priorityLabel = context.getString(modelToUse.getPriority().getLabelResId());
+		priorityText.setText(context.getString(R.string.choose_sync_monsters_item_priority, priorityLabel));
+
+		return view;
+	}
+
+	private void fillTable(View view, BaseMonsterModel padherder, BaseMonsterModel captured) {
 		if (padherder != null && captured != null) {
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_exp, padherder.getExp(),
 					R.id.choose_sync_monsters_item_captured_exp, captured.getExp());
@@ -192,8 +208,6 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			resetOneText(view, R.id.choose_sync_monsters_item_padherder_plusAtk);
 			resetOneText(view, R.id.choose_sync_monsters_item_padherder_plusRcv);
 		}
-
-		return view;
 	}
 
 	@Override

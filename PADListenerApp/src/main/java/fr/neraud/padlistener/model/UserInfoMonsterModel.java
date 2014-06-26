@@ -1,5 +1,7 @@
 package fr.neraud.padlistener.model;
 
+import fr.neraud.padlistener.padherder.constant.MonsterPriority;
+
 /**
  * UserInfoMaterial model resulting from a PADherder user-api call for the monsters section
  *
@@ -9,7 +11,7 @@ public class UserInfoMonsterModel extends BaseMonsterModel {
 
 	private static final long serialVersionUID = 1L;
 	private long padherderId;
-	private int priority;
+	private MonsterPriority priority;
 	private Integer targetEvolutionId;
 	private String note;
 
@@ -21,11 +23,11 @@ public class UserInfoMonsterModel extends BaseMonsterModel {
 		this.padherderId = padherderId;
 	}
 
-	public int getPriority() {
+	public MonsterPriority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(int priority) {
+	public void setPriority(MonsterPriority priority) {
 		this.priority = priority;
 	}
 

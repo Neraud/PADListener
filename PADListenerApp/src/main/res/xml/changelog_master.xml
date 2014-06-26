@@ -2,6 +2,7 @@
 <changelog>
 	<release
 		version="" versioncode="">
+		<change>Added priority management</change>
 		<change>Added changelog</change>
 	</release>
 </changelog>

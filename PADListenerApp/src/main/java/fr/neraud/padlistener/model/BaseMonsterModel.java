@@ -2,6 +2,8 @@ package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
 
+import fr.neraud.padlistener.padherder.constant.MonsterPriority;
+
 /**
  * Base MonsterModel
  *
@@ -17,6 +19,7 @@ public abstract class BaseMonsterModel implements Serializable {
 	private int plusAtk;
 	private int plusRcv;
 	private int awakenings;
+	private MonsterPriority priority;
 
 	public int getId() {
 		return id;
@@ -74,6 +77,14 @@ public abstract class BaseMonsterModel implements Serializable {
 		this.awakenings = awakenings;
 	}
 
+	public MonsterPriority getPriority() {
+		return priority;
+	}
+
+	public void setPriority(MonsterPriority priority) {
+		this.priority = priority;
+	}
+
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
@@ -81,6 +92,7 @@ public abstract class BaseMonsterModel implements Serializable {
 		builder.append(exp).append(" xp, ");
 		builder.append(skillLevel).append(" skill, ");
 		builder.append("+").append(plusHp);
+		builder.append(" ").append(priority);
 		builder.append(" +").append(plusAtk);
 		builder.append(" +").append(plusRcv);
 		builder.append(" ").append(awakenings);

@@ -44,6 +44,8 @@
 	<string name="settings_sync_material_in_monster_summary">You can choose to sync materials in your monsters\' list. This can be useful for some materials (like KoR) that you may use in your teams. \n\n%1$s</string>
 	<string name="settings_sync_deduct_monster_in_material_title">Deduct materials ?</string>
 	<string name="settings_sync_deduct_monster_in_material_summary">If you sync materials in your monsters\' list, should they still be counted in your materials ? \nFor example, if you have 4 KoR with 1 used in your monsters, do you want to have 3 or 4 KoR available in your materials ?</string>
+	<string name="settings_sync_default_monster_create_priority_title">Default monster created priority</string>
+	<string name="settings_sync_default_monster_create_priority_summary">%1$s</string>
 
 	<string name="settings_sync_preselect_category">Preselections</string>
 	<string name="settings_choose_sync_preselect_updated_user_info_title">Updated user info</string>
@@ -64,6 +66,13 @@
 	<string name="settings_choose_sync_group_monsters_created_summary" />
 	<string name="settings_choose_sync_group_monsters_deleted_title">Deleted monsters</string>
 	<string name="settings_choose_sync_group_monsters_deleted_summary" />
+
+
+	<!-- Monster priorities -->
+	<string name="monster_priority_high">High</string>
+	<string name="monster_priority_med">Medium</string>
+	<string name="monster_priority_low">Low</string>
+	<string name="monster_priority_zero">Zero</string>
 
 
 	<!-- Install Activity -->
@@ -165,6 +174,7 @@
 	<string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
 	<string name="compute_sync_missing_capture">You did not capture any data from PAD, there is nothing to sync !</string>
 
+
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
 	<string name="choose_sync_info_label">Summary</string>
@@ -192,6 +202,21 @@
 	<string name="choose_sync_monsters_item_label_plusHp">+Hp</string>
 	<string name="choose_sync_monsters_item_label_plusAtk">+Atk</string>
 	<string name="choose_sync_monsters_item_label_plusRcv">+Rcv</string>
+	<string name="choose_sync_monsters_item_priority">Priority : %1$s</string>
+
+
+	<string name="choose_sync_context_menu_one_title">%1$s</string>
+	<string name="choose_sync_context_menu_one_select">Select</string>
+	<string name="choose_sync_context_menu_one_deselect">Deselect</string>
+	<string name="choose_sync_context_menu_one_change_priority">Change priority</string>
+	<string name="choose_sync_context_menu_one_change_priority_dialog_title">Priority for %1$s</string>
+
+	<string name="choose_sync_context_menu_all_title">%1$s</string>
+	<string name="choose_sync_context_menu_all_select">Select all</string>
+	<string name="choose_sync_context_menu_all_deselect">Deselect all</string>
+	<string name="choose_sync_context_menu_all_change_priority">Change priority for all</string>
+	<string name="choose_sync_context_menu_all_change_priority_dialog_title">Priority for all %1$s</string>
+
 
 	<!-- Execute Sync -->
 	<string name="label_pushSync">Push sync</string>

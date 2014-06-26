@@ -379,12 +379,24 @@ public class SyncHelper {
 				if (i < nbCaptured && i < nbPadherder) {
 					// Update while we have enough monsters in each list
 					model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
-					model.setCapturedInfo(capturedMonstersWork.get(i));
-					model.setPadherderInfo(padherderMonstersWork.get(i));
+
+					final UserInfoMonsterModel padherder = padherderMonstersWork.get(i);
+					final CapturedMonsterCardModel captured = capturedMonstersWork.get(i);
+
+					// Keep priority
+					captured.setPriority(padherder.getPriority());
+
+					model.setCapturedInfo(captured);
+					model.setPadherderInfo(padherder);
 					Log.d(getClass().getName(), "syncMonstersForOneId : updated : " + model);
 				} else if (i < nbCaptured) {
 					// more captured -> creating
+
+					final CapturedMonsterCardModel captured = capturedMonstersWork.get(i);
+					// default create priority
+					captured.setPriority(helper.getDefaultMonsterCreatePriority());
 					model.setCapturedInfo(capturedMonstersWork.get(i));
+
 					model.setPadherderInfo(null);
 					Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
 				} else {

@@ -1,154 +1,167 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="50dp"
+	android:layout_height="wrap_content"
 	android:orientation="horizontal">
 
 	<CheckBox
 		android:id="@+id/choose_sync_monsters_item_checkbox"
 		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
-		android:layout_marginLeft="10dp" />
+		android:layout_height="fill_parent"/>
 
-	<TableLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="10dp"
-		android:layout_marginRight="10dp">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
 
-		<TableRow android:layout_width="fill_parent">
+		<TableLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp">
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_weight="2"
-				android:gravity="center"
-				android:text="@string/choose_sync_monsters_item_label_exp"
-				android:textSize="12sp" />
+			<TableRow android:layout_width="fill_parent">
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:text="@string/choose_sync_monsters_item_label_skill"
-				android:textSize="12sp" />
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:gravity="center"
+					android:text="@string/choose_sync_monsters_item_label_exp"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:text="@string/choose_sync_monsters_item_label_awakenings"
-				android:textSize="12sp" />
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/choose_sync_monsters_item_label_skill"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:text="@string/choose_sync_monsters_item_label_plusHp"
-				android:textSize="12sp" />
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/choose_sync_monsters_item_label_awakenings"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:text="@string/choose_sync_monsters_item_label_plusAtk"
-				android:textSize="12sp" />
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/choose_sync_monsters_item_label_plusHp"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:text="@string/choose_sync_monsters_item_label_plusRcv"
-				android:textSize="12sp" />
-		</TableRow>
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/choose_sync_monsters_item_label_plusAtk"
+					android:textSize="12sp"/>
 
-		<TableRow android:layout_width="fill_parent">
+				<TextView
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text="@string/choose_sync_monsters_item_label_plusRcv"
+					android:textSize="12sp"/>
+			</TableRow>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_padherder_exp"
-				android:layout_height="wrap_content"
-				android:layout_weight="2"
-				android:gravity="center"
-				android:textSize="12sp" />
+			<TableRow android:layout_width="fill_parent">
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_padherder_skill"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_padherder_exp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_padherder_awakenings"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_padherder_skill"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_padherder_plusHp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_padherder_awakenings"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_padherder_plusAtk"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_padherder_plusHp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_padherder_plusRcv"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
-		</TableRow>
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_padherder_plusAtk"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-		<TableRow android:layout_width="fill_parent">
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_padherder_plusRcv"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
+			</TableRow>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_captured_exp"
-				android:layout_height="wrap_content"
-				android:layout_weight="2"
-				android:gravity="center"
-				android:textSize="12sp" />
+			<TableRow android:layout_width="fill_parent">
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_captured_skill"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_captured_exp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_captured_awakenings"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_captured_skill"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_captured_plusHp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_captured_awakenings"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_captured_plusAtk"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_captured_plusHp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
 
-			<TextView
-				android:id="@+id/choose_sync_monsters_item_captured_plusRcv"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:textSize="12sp" />
-		</TableRow>
-	</TableLayout>
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_captured_plusAtk"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
+
+				<TextView
+					android:id="@+id/choose_sync_monsters_item_captured_plusRcv"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="12sp"/>
+			</TableRow>
+		</TableLayout>
+
+		<TextView
+			android:id="@+id/choose_sync_monsters_item_priority"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="@string/choose_sync_monsters_item_priority"
+			android:textSize="12sp"/>
+	</LinearLayout>
 
 </LinearLayout>

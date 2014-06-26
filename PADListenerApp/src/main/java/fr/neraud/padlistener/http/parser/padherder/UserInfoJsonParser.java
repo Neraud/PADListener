@@ -15,6 +15,7 @@ import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.UserInfoMaterialModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.model.UserInfoMonsterModel;
+import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
 /**
  * JSON parser used to parse PADherder user api
@@ -122,7 +123,7 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		monster.setPadherderId(monsterJson.getLong("id"));
 		monster.setId(monsterJson.getInt("monster"));
 		monster.setNote(monsterJson.getString("note"));
-		monster.setPriority(monsterJson.getInt("priority"));
+		monster.setPriority(MonsterPriority.findByValue(monsterJson.getInt("priority")));
 		monster.setExp(monsterJson.getInt("current_xp"));
 		monster.setSkillLevel(monsterJson.getInt("current_skill"));
 		monster.setAwakenings(monsterJson.getInt("current_awakening"));

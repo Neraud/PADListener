@@ -23,4 +23,17 @@
 		<item>NEVER</item>
 	</string-array>
 
+	<string-array name="settings_sync_default_monster_create_priority_entries">
+		<item>High</item>
+		<item>Medium</item>
+		<item>Low</item>
+		<item>Zeo</item>
+	</string-array>
+	<string-array name="settings_sync_default_monster_create_priority_entryValues">
+		<item>HIGH</item>
+		<item>MED</item>
+		<item>LOW</item>
+		<item>ZERO</item>
+	</string-array>
+
 </resources>

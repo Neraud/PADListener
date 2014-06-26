@@ -84,6 +84,9 @@ public class PushSyncHelper {
 		if (model.getCapturedInfo().getPlusRcv() != model.getPadherderInfo().getPlusRcv()) {
 			json.put("plus_rcv", model.getCapturedInfo().getPlusRcv());
 		}
+		if (model.getCapturedInfo().getPriority() != model.getPadherderInfo().getPriority()) {
+			json.put("priority", model.getCapturedInfo().getPriority().getValue());
+		}
 
 		httpRequest.setBody(json.toString());
 
@@ -108,6 +111,7 @@ public class PushSyncHelper {
 		json.put("plus_hp", model.getCapturedInfo().getPlusHp());
 		json.put("plus_atk", model.getCapturedInfo().getPlusAtk());
 		json.put("plus_rcv", model.getCapturedInfo().getPlusRcv());
+		json.put("priority", model.getCapturedInfo().getPriority().getValue());
 
 		httpRequest.setBody(json.toString());
 
