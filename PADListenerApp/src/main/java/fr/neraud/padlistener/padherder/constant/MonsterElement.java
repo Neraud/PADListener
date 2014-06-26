@@ -14,7 +14,7 @@ public enum MonsterElement {
 	DARK(4);
 
 	// elementId in ParHerder API
-	private int elementId;
+	private final int elementId;
 
 	private MonsterElement(int elementId) {
 		this.elementId = elementId;
@@ -33,7 +33,4 @@ public enum MonsterElement {
 		return elementId;
 	}
 
-	public void setElementId(int elementId) {
-		this.elementId = elementId;
-	}
 }
