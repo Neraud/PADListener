@@ -5,14 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Date;
 import java.util.List;
 
-import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.CaptureCallbackHelper;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -35,10 +33,13 @@ public class ApiCallHandlerThread extends Thread {
 
 	private final Context context;
 	private final ApiCallModel callModel;
+	private CaptureCallbackHelper captureCallback = null;
+
 
 	public ApiCallHandlerThread(Context context, ApiCallModel callModel) {
 		this.context = context;
 		this.callModel = callModel;
+		this.captureCallback = new CaptureCallbackHelper(context);
 	}
 
 	@Override
@@ -48,6 +49,8 @@ public class ApiCallHandlerThread extends Thread {
 		try {
 			switch (callModel.getAction()) {
 				case GET_PLAYER_DATA:
+					captureCallback.notifyCaptureStarted();
+
 					final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
 					savePlayerInfo(result.getPlayerInfo());
 					saveMonsters(result.getMonsterCards());
@@ -56,7 +59,8 @@ public class ApiCallHandlerThread extends Thread {
 					saveHelper.savePadCapturedData(callModel.getResponseContent());
 
 					new TechnicalSharedPreferencesHelper(context).setLastCaptureDate(new Date());
-					showToast(context.getString(R.string.toast_data_captured, result.getPlayerInfo().getName()));
+					captureCallback.notifyCaptureFinished(result.getPlayerInfo().getName());
+
 					break;
 				default:
 					Log.d(getClass().getName(), "Ignoring action " + callModel.getAction());
@@ -117,13 +121,4 @@ public class ApiCallHandlerThread extends Thread {
 		cr.bulkInsert(uri, values);
 	}
 
-	private void showToast(final String toastMessage) {
-		new Handler(context.getMainLooper()).post(new Runnable() {
-
-			@Override
-			public void run() {
-				Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show();
-			}
-		});
-	}
 }
