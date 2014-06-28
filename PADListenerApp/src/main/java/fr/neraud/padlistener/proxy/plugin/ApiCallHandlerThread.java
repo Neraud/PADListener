@@ -82,9 +82,13 @@ public class ApiCallHandlerThread extends Thread {
 
 		final Cursor cursor = cr.query(uri, new String[]{CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName()}, null, null,
 				null);
-		if (cursor != null && cursor.moveToNext()) {
-			fake_id = cursor.getLong(0);
+		if (cursor != null) {
+			if(cursor.moveToNext()) {
+				fake_id = cursor.getLong(0);
+			}
+			cursor.close();
 		}
+
 		final ContentValues values = CapturedPlayerInfoHelper.modelToValues(playerInfoModel);
 
 		if (fake_id == null) {
