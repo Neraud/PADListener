@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.pad.GetPlayerDataJsonParser;
@@ -50,6 +51,10 @@ public class ApiCallHandlerThread extends Thread {
 					final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
 					savePlayerInfo(result.getPlayerInfo());
 					saveMonsters(result.getMonsterCards());
+
+					final JsonCaptureHelper saveHelper = new JsonCaptureHelper(context);
+					saveHelper.savePadCapturedData(callModel.getResponseContent());
+
 					new TechnicalSharedPreferencesHelper(context).setLastCaptureDate(new Date());
 					showToast(context.getString(R.string.toast_data_captured, result.getPlayerInfo().getName()));
 					break;

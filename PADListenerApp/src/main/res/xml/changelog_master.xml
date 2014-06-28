@@ -2,6 +2,7 @@
 <changelog>
 	<release
 		version="" versioncode="">
+		<change>Added the ability to share the capture.json</change>
 		<change>Added priority and note management</change>
 		<change>Added changelog</change>
 	</release>

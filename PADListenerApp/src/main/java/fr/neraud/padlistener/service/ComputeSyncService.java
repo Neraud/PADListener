@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.SyncHelper;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -60,6 +61,10 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 	@Override
 	protected UserInfoModel parseResult(String responseContent) throws ParsingException {
 		Log.d(getClass().getName(), "parseResult");
+
+		final JsonCaptureHelper saveHelper = new JsonCaptureHelper(getApplicationContext());
+		saveHelper.savePadHerderUserInfo(responseContent);
+
 		final UserInfoJsonParser parser = new UserInfoJsonParser();
 		return parser.parse(responseContent);
 	}

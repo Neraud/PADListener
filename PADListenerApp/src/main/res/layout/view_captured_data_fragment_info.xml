@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/view_captured_data_info_item_name"
@@ -12,7 +12,7 @@
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
 		android:text="@string/view_captured_info_item_name"
-		android:textSize="20sp" />
+		android:textSize="20sp"/>
 
 	<TextView
 		android:id="@+id/view_captured_data_info_item_rank"
@@ -23,7 +23,7 @@
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
 		android:text="@string/view_captured_info_item_rank"
-		android:textSize="18sp" />
+		android:textSize="18sp"/>
 
 	<TextView
 		android:id="@+id/view_captured_data_info_item_maxrank"
@@ -34,7 +34,7 @@
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
 		android:text="@string/view_captured_info_item_maxrank"
-		android:textSize="16sp" />
+		android:textSize="16sp"/>
 
 	<TextView
 		android:id="@+id/view_captured_data_info_item_maxstats"
@@ -45,7 +45,7 @@
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
 		android:text="@string/view_captured_info_item_maxstats"
-		android:textSize="16sp" />
+		android:textSize="16sp"/>
 
 	<TextView
 		android:id="@+id/view_captured_data_info_item_currency"
@@ -56,6 +56,13 @@
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
 		android:text="@string/view_captured_info_item_currency"
-		android:textSize="16sp" />
+		android:textSize="16sp"/>
+
+	<Button
+		android:id="@+id/view_captured_data_info_item_share"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:text="@string/view_captured_info_item_share_button" />
 
 </LinearLayout>
