@@ -1,5 +1,6 @@
 package fr.neraud.padlistener.helper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -17,7 +18,7 @@ public class JsonCaptureHelper {
 
 	private static final String PAD_CAPTURED_DATA_FILE_NAME = "capture.json";
 	private static final String PADHERDER_USER_INFO_FILE_NAME = "padherder.json";
-	private Context context;
+	private final Context context;
 
 	public JsonCaptureHelper(Context context) {
 		this.context = context;
@@ -55,9 +56,11 @@ public class JsonCaptureHelper {
 		return getFile(PAD_CAPTURED_DATA_FILE_NAME);
 	}
 
+	@SuppressLint("WorldReadableFiles")
 	private void saveData(String fileName, String content) {
 		OutputStream out = null;
 		try {
+			// Written with MODE_WORLD_READABLE to be able to share the json files directly without having to copy them to ext storage
 			out = context.openFileOutput(fileName, Context.MODE_WORLD_READABLE);
 			IOUtils.write(content, out);
 		} catch (IOException e) {

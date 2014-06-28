@@ -24,7 +24,6 @@ import fr.neraud.padlistener.model.SyncedMonsterModel;
  */
 public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 
-	private ChooseSyncMonstersSimpleAdapter adapter;
 	private ChooseSyncSimpleContextMenuHelper menuHelper;
 
 	@Override
@@ -52,7 +51,7 @@ public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 				break;
 		}
 
-		adapter = new ChooseSyncMonstersSimpleAdapter(getActivity().getApplicationContext(), monsters);
+		final ChooseSyncMonstersSimpleAdapter adapter = new ChooseSyncMonstersSimpleAdapter(getActivity().getApplicationContext(), monsters);
 		menuHelper = new ChooseSyncSimpleContextMenuHelper(getActivity(), mode, adapter);
 		setListAdapter(adapter);
 	}

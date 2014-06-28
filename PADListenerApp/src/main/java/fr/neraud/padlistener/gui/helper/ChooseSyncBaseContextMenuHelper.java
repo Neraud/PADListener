@@ -4,12 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MenuItem;
 
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
 /**
+ * Base Helper to build and manage a context menu when displaying monsters
  * Created by Neraud on 22/06/2014.
  */
 public abstract class ChooseSyncBaseContextMenuHelper {
@@ -17,6 +17,7 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 	/**
 	 * All fragments from an Activity receive the onContextItemSelected callback.<br/>
 	 * We use a generated unique ID to only use the correct helper to handle a callback
+	 *
 	 * @see http://adanware.blogspot.fr/2012/05/android-oncreatecontextmenu-in-multiple.html
 	 */
 	private static final AtomicInteger GROUP_ID_GENERATOR = new AtomicInteger();

@@ -29,7 +29,6 @@ import fr.neraud.padlistener.model.SyncedMonsterModel;
  */
 public class ChooseSyncMonstersGroupedFragment extends Fragment {
 
-	private BaseExpandableListAdapter adapter;
 	private ChooseSyncGroupedContextMenuHelper menuHelper;
 
 	@Override
@@ -60,7 +59,7 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 				break;
 		}
 
-		adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
+		final BaseExpandableListAdapter adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
 		menuHelper = new ChooseSyncGroupedContextMenuHelper(getActivity(), mode, adapter);
 
 		listView.setAdapter(adapter);

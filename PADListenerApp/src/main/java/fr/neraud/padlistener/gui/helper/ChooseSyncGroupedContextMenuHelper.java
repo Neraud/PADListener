@@ -21,7 +21,6 @@ import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
 /**
  * Helper to build and manage a context menu when displaying monster in a grouped list
- *
  * Created by Neraud on 22/06/2014.
  */
 public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMenuHelper {
@@ -137,7 +136,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				break;
 			case MENU_ID_CHANGE_NOTE_ALL:
 				AlertDialog.Builder noteDialogBuilder = new AlertDialog.Builder(getContext());
-				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterInfo.getName());
+				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_all_change_note_dialog_title, monsterInfo.getName());
 				noteDialogBuilder.setTitle(noteDialogTitle);
 
 				final EditText input = new EditText(getContext());
@@ -251,6 +250,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 		return (MonsterInfoModel) adapter.getGroup(groupPosition);
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<ChooseSyncModelContainer<SyncedMonsterModel>> getGroupChildMonsterItems(ContextMenu.ContextMenuInfo menuInfo) {
 		Log.d(getClass().getName(), "getGroupChildMonsterItems : " + menuInfo);
 		ExpandableListView.ExpandableListContextMenuInfo listItem = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
@@ -268,6 +268,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 		return monsterItems;
 	}
 
+	@SuppressWarnings("unchecked")
 	private ChooseSyncModelContainer<SyncedMonsterModel> getChildMonsterItem(ContextMenu.ContextMenuInfo menuInfo) {
 		Log.d(getClass().getName(), "getChildMonsterItem : " + menuInfo);
 		ExpandableListView.ExpandableListContextMenuInfo listItem = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;

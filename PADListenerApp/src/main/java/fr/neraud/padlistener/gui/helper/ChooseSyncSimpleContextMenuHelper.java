@@ -25,7 +25,7 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 	private static final int MENU_ID_CHANGE_PRIORITY = 3;
 	private static final int MENU_ID_CHANGE_NOTE = 4;
 
-	private ChooseSyncMonstersSimpleAdapter adapter;
+	private final ChooseSyncMonstersSimpleAdapter adapter;
 
 	public ChooseSyncSimpleContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, ChooseSyncMonstersSimpleAdapter adapter) {
 		super(context, mode);

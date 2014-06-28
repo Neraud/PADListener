@@ -225,7 +225,7 @@
 	<string name="choose_sync_context_menu_all_change_note">Change note for all</string>
 	<string name="choose_sync_context_menu_all_change_note_dialog_title">Note for all %1$s</string>
 
-	<string name="choose_sync_context_menu_change_note_dialog_ok">Ok</string>
+	<string name="choose_sync_context_menu_change_note_dialog_ok">OK</string>
 	<string name="choose_sync_context_menu_change_note_dialog_cancel">Cancel</string>
 
 

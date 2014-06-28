@@ -35,8 +35,7 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
  */
 public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel, ComputeSyncResultModel> {
 
-	public static String EXTRA_ACCOUNT_ID_NAME = "accountId";
-	public static String SYNC_RESULT_BUNDLE_KEY = "sync_result";
+	public static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private int accountId;
 
 	public ComputeSyncService() {
