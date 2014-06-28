@@ -100,8 +100,8 @@ public class WifiConfigHelper {
 		//save the settings
 		manager.updateNetwork(config);
 		manager.saveConfiguration();
-		manager.disconnect();
-		manager.reconnect();
+		//manager.disconnect();
+		//manager.reconnect();
 	}
 
 	public void unsetWifiProxySettings(Context context) throws Exception {
@@ -133,7 +133,7 @@ public class WifiConfigHelper {
 		//save the config
 		manager.updateNetwork(config);
 		manager.saveConfiguration();
-		manager.disconnect();
-		manager.reconnect();
+		//manager.disconnect();
+		//manager.reconnect();
 	}
 }
