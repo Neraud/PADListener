@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="bsf-2.3.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/intermediates/exploded-aar/PADListener/SandroProxyLib/unspecified/libs/bsf-2.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/SandroProxyLib/libs/bsf-2.3.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

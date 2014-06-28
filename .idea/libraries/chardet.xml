@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="chardet">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/intermediates/exploded-aar/PADListener/SandroProxyLib/unspecified/libs/chardet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/SandroProxyLib/libs/chardet.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

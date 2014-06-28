@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="concurrent">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/intermediates/exploded-aar/PADListener/SandroProxyLib/unspecified/libs/concurrent.jar!/" />
+      <root url="jar://$PROJECT_DIR$/SandroProxyLib/libs/concurrent.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

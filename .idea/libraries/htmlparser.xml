@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="htmlparser">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/intermediates/exploded-aar/PADListener/SandroProxyLib/unspecified/libs/htmlparser.jar!/" />
+      <root url="jar://$PROJECT_DIR$/SandroProxyLib/libs/htmlparser.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
