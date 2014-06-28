@@ -10,10 +10,8 @@
 
 
 	<!-- Notification -->
-	<string name="notification_listener_title">PADListener</string>
-	<string name="notification_listener_content_manual">Started in manual mode</string>
-	<string name="notification_listener_content_proxy_wifi">Started in auto Wifi proxy mode</string>
-	<string name="notification_listener_content_iptables">Started in auto iptables mode</string>
+	<string name="notification_listener_title">PADListener (%1$s)</string>
+	<string name="notification_listener_content">proxy : %1$s</string>
 
 	<string name="notification_data_capture_title">PADListener capture</string>
 	<string name="notification_data_capture_started">PAD data being captured ...</string>
@@ -32,6 +30,8 @@
 	<string name="settings_listener_target_hostname_summary">Hostname for PAD calls.\nYou probably should not change this ;p</string>
 	<string name="settings_proxy_mode_title">Proxy settings mode</string>
 	<string name="settings_proxy_mode_summary">%1$s</string>
+	<string name="settings_listener_on_local_title">Non local mode</string>
+	<string name="settings_listener_on_local_summary">Enable to make the listener accessible from other devices connected to the same network (ex : to capture from iOS)</string>
 
 	<string name="settings_padherder_page">PadHerder</string>
 	<string name="settings_padherder_account_1_category">Account 1</string>
@@ -70,6 +70,12 @@
 	<string name="settings_choose_sync_group_monsters_created_summary" />
 	<string name="settings_choose_sync_group_monsters_deleted_title">Deleted monsters</string>
 	<string name="settings_choose_sync_group_monsters_deleted_summary" />
+
+
+	<!-- Proxy Modes -->
+	<string name="proxy_mode_manual">Manual</string>
+	<string name="proxy_mode_auto_wifi">AutoWifi</string>
+	<string name="proxy_mode_auto_iptables">AutoIptables</string>
 
 
 	<!-- Monster priorities -->
@@ -113,8 +119,10 @@
 	<string name="switch_listener_status_stopped">Listener stopped</string>
 	<string name="switch_listener_status_start_failed">Listener start failed (%1$s)</string>
 	<string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
-    
-    <string name="switch_listener_mode_explain">The listener can be started in 2 modes. You can select a mode in the settings.\n
+	<string name="switch_listener_proxy_started">Proxy started : %1$s</string>
+
+	<string name="switch_listener_settings_require_wifi">Your Listener settings (AutoProxy mode or Enable non local) require a WiFI connection. Please connect to a WiFI network or change those settings.</string>
+	<string name="switch_listener_mode_explain">The listener can be started in 2 modes. You can select a mode in the settings.\n
          - Manual mode only works with a WiFi connexion. You have to manually configure your WiFi proxy to localhost:8008. All http requests will go through PADListener.\n
          - AutoProxy mode only works with a WiFi connexion. When the listener is started, it automatically set your WiFI proxy up. This mode uses undocument Android API and can be unstable. All http requests will go through PADListener.\n
 	    <!--- Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener--></string>

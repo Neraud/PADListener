@@ -23,6 +23,26 @@
 		android:textSize="20sp" />
 
 	<TextView
+		android:id="@+id/switch_listener_settings_require_wifi"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:text="@string/switch_listener_settings_require_wifi"
+		android:textSize="16sp" />
+
+	<TextView
+		android:id="@+id/switch_listener_proxy_started"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:text="@string/switch_listener_proxy_started"
+		android:textSize="16sp" />
+
+	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="10dp"

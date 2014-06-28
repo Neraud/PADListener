@@ -20,6 +20,7 @@ import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.gui.MainActivity;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
+import fr.neraud.padlistener.helper.WifiHelper;
 import fr.neraud.padlistener.proxy.helper.IptablesHelper;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
 import fr.neraud.padlistener.proxy.helper.WifiAutoProxyHelper;
@@ -79,27 +80,33 @@ public class ListenerService extends Service {
 			} catch (final IOException e) {
 				Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
 			}
-
 			proxyHelper = new ProxyHelper(getApplicationContext());
-			initValues();
 		}
 	}
 
-	private void initValues() {
+	private void initValues(DefaultSharedPreferencesHelper prefHelper) {
 		Log.d(getClass().getName(), "initValues");
-		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+
+		// listen to all adapters only if non local mode is enabled
+		final boolean proxyListenNonLocal = prefHelper.isListenerNonLocalEnabled();
+
+		// Transparent proxy only for iptables mode
+		final boolean proxyTransparentKey = prefHelper.getProxyMode() == ProxyMode.AUTO_IPTABLES;
 
 		// checking for directory to write data...
-		pref.edit().putString(PreferenceUtils.dataStorageKey, getExternalCacheDir().getAbsolutePath()).commit();
+		editor.putString(PreferenceUtils.dataStorageKey, getExternalCacheDir().getAbsolutePath());
 
-		// by default we listen on all adapters
-		pref.edit().putBoolean(PreferenceUtils.proxyListenNonLocal, true).commit();
+		// should we listen on all adapters ?
+		editor.putBoolean(PreferenceUtils.proxyListenNonLocal, proxyListenNonLocal);
 
-		// we listen also for transparent flow
-		pref.edit().putBoolean(PreferenceUtils.proxyTransparentKey, true).commit();
+		// should we listen also for transparent flow ?
+		editor.putBoolean(PreferenceUtils.proxyTransparentKey, proxyTransparentKey);
 
 		// don't capture data to database
-		pref.edit().putBoolean(PreferenceUtils.proxyCaptureData, false).commit();
+		editor.putBoolean(PreferenceUtils.proxyCaptureData, false);
+
+		editor.commit();
 	}
 
 	@Override
@@ -137,11 +144,13 @@ public class ListenerService extends Service {
 
 	private void doStartListener(ListenerServiceListener listener) {
 		Log.d(getClass().getName(), "doStartListener");
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
+		final ProxyMode proxyMode = prefHelper.getProxyMode();
+
+		initValues(prefHelper);
 		Preferences.init(getApplicationContext());
 
 		try {
-			final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
-			final ProxyMode proxyMode = prefHelper.getProxyMode();
 			switch (proxyMode) {
 				case AUTO_IPTABLES:
 					final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
@@ -180,28 +189,24 @@ public class ListenerService extends Service {
 	private Notification buildNotification(ProxyMode proxyMode) {
 		Log.d(getClass().getName(), "buildNotification");
 
-		String notifContent;
-		switch (proxyMode) {
-			case AUTO_IPTABLES:
-				notifContent = getString(R.string.notification_listener_content_iptables);
-				break;
-			case AUTO_WIFI_PROXY:
-				notifContent = getString(R.string.notification_listener_content_proxy_wifi);
-				break;
-			case MANUAL:
-			default:
-				notifContent = getString(R.string.notification_listener_content_manual);
-				break;
+		final String modeLabel = getString(proxyMode.getLabelResId());
+		final String notifTitle = getString(R.string.notification_listener_title, modeLabel);
+
+		String proxyUrl ="localhost:8008";
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
+		if(prefHelper.isListenerNonLocalEnabled()) {
+			final WifiHelper wifiHelper = new WifiHelper(getApplicationContext());
+			proxyUrl = wifiHelper.getWifiIpAddress() + ":8008";
 		}
 
-		final Intent notificationIntent = new Intent(this, MainActivity.class);
+		final String notifContent = getString(R.string.notification_listener_content, proxyUrl);
 
+		final Intent notificationIntent = new Intent(this, MainActivity.class);
 		final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
 		final Notification.Builder builder = new Notification.Builder(this);
-
-		builder.setContentTitle(getString(R.string.notification_listener_title));
+		builder.setContentTitle(notifTitle);
 		builder.setOngoing(true);
 		builder.setContentText(notifContent);
 		builder.setSmallIcon(R.drawable.ic_launcher);

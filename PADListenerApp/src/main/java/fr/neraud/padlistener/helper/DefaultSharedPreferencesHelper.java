@@ -33,6 +33,10 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return ProxyMode.valueOf(getStringPreference("listener_proxy_mode", "MANUAL"));
 	}
 
+	public boolean isListenerNonLocalEnabled() {
+		return getBooleanPreference("listener_non_local_enabled", false);
+	}
+
 	@SuppressLint("UseSparseArrays")
 	public Map<Integer, String> getPadHerderAccounts() {
 		final Map<Integer, String> result = new HashMap<Integer, String>();

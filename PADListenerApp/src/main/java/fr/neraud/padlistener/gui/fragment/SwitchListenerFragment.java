@@ -3,6 +3,7 @@ package fr.neraud.padlistener.gui.fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,9 @@ import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.gui.fragment.SwitchListenerTaskFragment.ListenerState;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
+import fr.neraud.padlistener.helper.WifiHelper;
 
 /**
  * Main fragment for SwitchListener
@@ -36,6 +39,7 @@ public class SwitchListenerFragment extends Fragment {
 	private SwitchListenerTaskFragment mTaskFragment;
 	private TextView listenerStatus;
 	private Switch listenerSwitch;
+	private TextView proxyStartedTextView;
 	private OnCheckedChangeListener onCheckedListener;
 
 	public SwitchListenerFragment() {
@@ -44,6 +48,7 @@ public class SwitchListenerFragment extends Fragment {
 			@Override
 			public void updateState(ListenerState state, Throwable error) {
 				Log.d(getClass().getName(), "updateState : " + state);
+				proxyStartedTextView.setVisibility(View.GONE);
 				if (state != null) {
 					switch (state) {
 						case STARTING:
@@ -54,6 +59,15 @@ public class SwitchListenerFragment extends Fragment {
 							listenerSwitch.setEnabled(true);
 							forceToggledWithoutListener(true);
 							listenerStatus.setText(generateStatusStartedText());
+
+							String proxyUrl ="localhost:8008";
+							final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
+							if(prefHelper.isListenerNonLocalEnabled()) {
+								final WifiHelper wifiHelper = new WifiHelper(getActivity());
+								proxyUrl = wifiHelper.getWifiIpAddress() + ":8008";
+							}
+							proxyStartedTextView.setText(getString(R.string.switch_listener_proxy_started, proxyUrl));
+							proxyStartedTextView.setVisibility(View.VISIBLE);
 							break;
 						case START_FAILED:
 							listenerSwitch.setEnabled(true);
@@ -103,6 +117,23 @@ public class SwitchListenerFragment extends Fragment {
 			}
 		};
 		listenerSwitch.setOnCheckedChangeListener(onCheckedListener);
+
+		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
+
+		final TextView requireWifiTextView = (TextView) view.findViewById(R.id.switch_listener_settings_require_wifi);
+		final boolean requireWifi = prefHelper.getProxyMode() == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
+		final WifiHelper wifiHelper = new WifiHelper(getActivity());
+		if (requireWifi && !wifiHelper.isWifiConnected()) {
+			listenerSwitch.setClickable(false);
+			requireWifiTextView.setTextColor(Color.RED);
+			requireWifiTextView.setVisibility(View.VISIBLE);
+		} else {
+			listenerSwitch.setClickable(true);
+			requireWifiTextView.setVisibility(View.GONE);
+		}
+
+		proxyStartedTextView = (TextView) view.findViewById(R.id.switch_listener_proxy_started);
+		proxyStartedTextView.setVisibility(View.GONE);
 
 		final Button launchWifiSettingsButton = (Button) view.findViewById(R.id.switch_listener_launch_wifi_settings_button);
 		launchWifiSettingsButton.setOnClickListener(new OnClickListener() {
