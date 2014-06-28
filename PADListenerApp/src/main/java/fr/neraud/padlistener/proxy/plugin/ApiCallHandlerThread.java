@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.Date;
 import java.util.List;
 
-import fr.neraud.padlistener.helper.CaptureCallbackHelper;
+import fr.neraud.padlistener.helper.CaptureNotificationHelper;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -33,13 +33,13 @@ public class ApiCallHandlerThread extends Thread {
 
 	private final Context context;
 	private final ApiCallModel callModel;
-	private CaptureCallbackHelper captureCallback = null;
+	private final CaptureNotificationHelper captureCallback;
 
 
 	public ApiCallHandlerThread(Context context, ApiCallModel callModel) {
 		this.context = context;
 		this.callModel = callModel;
-		this.captureCallback = new CaptureCallbackHelper(context);
+		this.captureCallback = new CaptureNotificationHelper(context);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class ApiCallHandlerThread extends Thread {
 		final Cursor cursor = cr.query(uri, new String[]{CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName()}, null, null,
 				null);
 		if (cursor != null) {
-			if(cursor.moveToNext()) {
+			if (cursor.moveToNext()) {
 				fake_id = cursor.getLong(0);
 			}
 			cursor.close();

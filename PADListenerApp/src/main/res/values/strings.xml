@@ -15,8 +15,12 @@
 	<string name="notification_listener_content_proxy_wifi">Started in auto Wifi proxy mode</string>
 	<string name="notification_listener_content_iptables">Started in auto iptables mode</string>
 
+	<string name="notification_data_capture_title">PADListener capture</string>
+	<string name="notification_data_capture_started">PAD data being captured ...</string>
+	<string name="notification_data_capture_finished">PAD data captured for %1$s</string>
+
 	<!-- Toasts -->
-	<string name="toast_data_captured">PAD data captured for %1$s</string>
+	<string name="toast_data_capture_finished">PAD data captured for %1$s</string>
 
 
 	<!-- Settings -->
