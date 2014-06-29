@@ -110,7 +110,7 @@ if (uploadPropsFilePath != null) {
 }
 
 def manifestVersionName() {
-	def manifestFile = file(project.projectDir.absolutePath + '/AndroidManifest.xml')
+	def manifestFile = file(project.projectDir.absolutePath + '/src/main/AndroidManifest.xml')
 	def ns = new groovy.xml.Namespace("http://schemas.android.com/apk/res/android", "android")
 	def xml = new XmlParser().parse(manifestFile)
 	return xml.attributes()[ns.versionName].toString()
