@@ -78,7 +78,7 @@ android {
 }
 
 artifacts {
-	archives file('build/apk/PADListener-arm-release.apk')
+	archives file('build/outputs/apk/PADListener-arm-release.apk')
 }
 
 String uploadPropsFilePath = null
