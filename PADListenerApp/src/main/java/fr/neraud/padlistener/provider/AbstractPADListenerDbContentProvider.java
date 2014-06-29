@@ -12,17 +12,12 @@ import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
  */
 public abstract class AbstractPADListenerDbContentProvider extends ContentProvider {
 
-	private SQLiteOpenHelper sqlHelper = null;
-
 	/**
 	 * Initializes the SQLiteOpenHelper if necessary, and returns the instance
 	 *
 	 * @return the SQLiteOpenHelper
 	 */
 	protected SQLiteOpenHelper getDbHelper() {
-		if (sqlHelper == null) {
-			sqlHelper = new PADListenerSQLiteOpenHelper(getContext());
-		}
-		return sqlHelper;
+		return PADListenerSQLiteOpenHelper.getInstance(getContext());
 	}
 }

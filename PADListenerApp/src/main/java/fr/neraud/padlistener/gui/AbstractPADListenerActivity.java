@@ -37,7 +37,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		// Init DB so it upgrades if necessary
-		new PADListenerSQLiteOpenHelper(this).getReadableDatabase().close();
+		PADListenerSQLiteOpenHelper.getInstance(getApplicationContext()).getReadableDatabase().close();
 
 		new ChangeLogHelper(this).displayWhatsNew();
 

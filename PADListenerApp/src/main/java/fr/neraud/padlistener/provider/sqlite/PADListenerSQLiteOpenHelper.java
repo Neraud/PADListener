@@ -24,6 +24,7 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "padlistener.db";
 
 	private static final List<ITable> TABLES = new ArrayList<ITable>();
+	private static PADListenerSQLiteOpenHelper INSTANCE;
 
 	static {
 		addTable(new CapturedPlayerInfoTable());
@@ -33,9 +34,21 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 
 	private final Context context;
 
-	public PADListenerSQLiteOpenHelper(Context context) {
+	private PADListenerSQLiteOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DB_VERSION);
 		this.context = context;
+	}
+	/**
+	 * Initializes the SQLiteOpenHelper if necessary, and returns the instance
+	 *
+	 * @param context the context
+	 * @return the SQLiteOpenHelper
+	 */
+	public static synchronized PADListenerSQLiteOpenHelper getInstance(Context context) {
+		if(INSTANCE == null) {
+			INSTANCE = new PADListenerSQLiteOpenHelper(context);
+		}
+		return INSTANCE;
 	}
 
 	private static void addTable(ITable table) {
