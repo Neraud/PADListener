@@ -151,6 +151,11 @@ public class ListenerService extends Service {
 		Preferences.init(getApplicationContext());
 
 		try {
+			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
+			techPrefHelper.setLastListenerStartProxyMode(proxyMode);
+
+			proxyHelper.activateProxy();
+
 			switch (proxyMode) {
 				case AUTO_IPTABLES:
 					final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
@@ -165,11 +170,6 @@ public class ListenerService extends Service {
 					// Nothing to do
 					break;
 			}
-
-			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
-			techPrefHelper.setLastListenerStartProxyMode(proxyMode);
-
-			proxyHelper.activateProxy();
 
 			started = true;
 

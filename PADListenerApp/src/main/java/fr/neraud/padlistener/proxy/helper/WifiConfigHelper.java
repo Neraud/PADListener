@@ -3,6 +3,7 @@ package fr.neraud.padlistener.proxy.helper;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -61,6 +62,7 @@ public class WifiConfigHelper {
 	}
 
 	public void modifyWifiProxySettings(Context context, String proxyHost, int proxyPost) throws Exception {
+		Log.d(getClass().getName(), "modifyWifiProxySettings");
 		//get the current wifi configuration
 		final WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		final WifiConfiguration config = findCurrentWifiConfiguration(manager);
@@ -100,11 +102,12 @@ public class WifiConfigHelper {
 		//save the settings
 		manager.updateNetwork(config);
 		manager.saveConfiguration();
-		//manager.disconnect();
-		//manager.reconnect();
+		manager.disconnect();
+		manager.reconnect();
 	}
 
 	public void unsetWifiProxySettings(Context context) throws Exception {
+		Log.d(getClass().getName(), "unsetWifiProxySettings");
 		final WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		final WifiConfiguration config = findCurrentWifiConfiguration(manager);
 		if (null == config) {
@@ -133,7 +136,7 @@ public class WifiConfigHelper {
 		//save the config
 		manager.updateNetwork(config);
 		manager.saveConfiguration();
-		//manager.disconnect();
-		//manager.reconnect();
+		manager.disconnect();
+		manager.reconnect();
 	}
 }
