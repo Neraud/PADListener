@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="1.1.1" versioncode="15">
+		<change>Fixed the Wifi not restart in Auto Proxy mode. Some devices might work without restart, some won't ...</change>
+	</release>
+	<release
 		version="1.1.0" versioncode="14">
 		<change>Added the ability to start the listener on non local IP to allow capturing data from another device on the network (ex : from iOS)</change>
 		<change>Added the ability to share the capture.json</change>
