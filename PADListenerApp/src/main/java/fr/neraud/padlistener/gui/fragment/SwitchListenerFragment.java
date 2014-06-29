@@ -90,6 +90,11 @@ public class SwitchListenerFragment extends Fragment {
 							break;
 						default:
 					}
+				} else {
+					// No state -> force to stopped
+					listenerSwitch.setEnabled(true);
+					forceToggledWithoutListener(false);
+					listenerStatus.setText(R.string.switch_listener_status_stopped);
 				}
 			}
 

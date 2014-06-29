@@ -95,8 +95,22 @@ public class SwitchListenerTaskFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		setRetainInstance(true);
+	}
+
+	@Override
+	public void onStart() {
+		Log.d(getClass().getName(), "onStart");
+		super.onStart();
 
 		doBindService();
+	}
+
+	@Override
+	public void onStop() {
+		Log.d(getClass().getName(), "onStop");
+		super.onStop();
+
+		doUnbindService();
 	}
 
 	@Override
@@ -115,13 +129,6 @@ public class SwitchListenerTaskFragment extends Fragment {
 		if (callbacks != null) {
 			callbacks.updateState(state, error);
 		}
-	}
-
-	@Override
-	public void onDestroy() {
-		Log.d(getClass().getName(), "onDestroyView");
-		super.onDestroyView();
-		doUnbindService();
 	}
 
 	public void startListener() {
@@ -146,6 +153,8 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 			};
 			listenerServiceBinder.startListener(startListener);
+		} else {
+			notifyCallBacks();
 		}
 	}
 
@@ -172,44 +181,54 @@ public class SwitchListenerTaskFragment extends Fragment {
 			};
 
 			listenerServiceBinder.stopListener(stopListener);
+		} else {
+			notifyCallBacks();
 		}
 	}
 
 	private boolean canStart() {
-		switch (state) {
-			case STARTING:
-				return false;
-			case STARTED:
-				return false;
-			case START_FAILED:
-				return true;
-			case STOPPING:
-				return false;
-			case STOPPED:
-				return true;
-			case STOP_FAILED:
-				return false;
-			default:
-				return false;
+		if (state != null) {
+			switch (state) {
+				case STARTING:
+					return false;
+				case STARTED:
+					return false;
+				case START_FAILED:
+					return true;
+				case STOPPING:
+					return false;
+				case STOPPED:
+					return true;
+				case STOP_FAILED:
+					return false;
+				default:
+					return false;
+			}
+		} else {
+			return false;
 		}
 	}
 
 	private boolean canStop() {
-		switch (state) {
-			case STARTING:
-				return false;
-			case STARTED:
-				return true;
-			case START_FAILED:
-				return false;
-			case STOPPING:
-				return false;
-			case STOPPED:
-				return false;
-			case STOP_FAILED:
-				return true;
-			default:
-				return false;
+		if (state != null) {
+			switch (state) {
+				case STARTING:
+					return false;
+				case STARTED:
+					return true;
+				case START_FAILED:
+					return false;
+				case STOPPING:
+					return false;
+				case STOPPED:
+					return false;
+				case STOP_FAILED:
+					return true;
+				default:
+					return false;
+			}
+		} else {
+			return false;
 		}
 	}
 
