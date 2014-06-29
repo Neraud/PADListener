@@ -427,7 +427,7 @@ public class SyncHelper {
 	}
 
 	private int getMonsterRefIdByCapturedId(int capturedId) throws UnknownMonsterException {
-		if (monsterInfoById.containsKey(capturedId)) {
+		if (monsterIdInCapturedRegionToRef.containsKey(capturedId)) {
 			return monsterIdInCapturedRegionToRef.get(capturedId);
 		} else {
 			throw new UnknownMonsterException("Unknown monster with capturedId = " + capturedId);
