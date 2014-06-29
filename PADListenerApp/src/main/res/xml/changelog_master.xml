@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="1.1.0" versioncode="14">
 		<change>Added the ability to start the listener on non local IP to allow capturing data from another device on the network (ex : from iOS)</change>
 		<change>Added the ability to share the capture.json</change>
 		<change>Added priority and note management</change>
