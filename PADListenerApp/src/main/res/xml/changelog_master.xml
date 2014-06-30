@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="1.1.2" versioncode="16">
+		<change>Fixed rare occurring bugs (on Switch Listener and Main screens)</change>
+	</release>
+	<release
 		version="1.1.1" versioncode="15">
 		<change>Fixed the Wifi not restart in Auto Proxy mode. Some devices might work without restart, some won't ...</change>
 	</release>
