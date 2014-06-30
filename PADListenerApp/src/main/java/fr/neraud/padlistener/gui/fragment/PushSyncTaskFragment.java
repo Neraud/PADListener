@@ -102,7 +102,7 @@ public class PushSyncTaskFragment extends Fragment {
 		final PushSyncStatModel pushModel = new PushSyncStatModel();
 
 		int count = 0;
-		if (result.getSyncedUserInfoToUpdate().isChosen()) {
+		if (result.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync() && result.getSyncedUserInfoToUpdate().isChosen()) {
 			count++;
 		}
 		pushModel.initElementsToPush(ElementToPush.USER_INFO, count);

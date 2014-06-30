@@ -18,4 +18,7 @@ public class SyncedUserInfoModel extends SyncedBaseModel<Integer> {
 		this.profileApiId = profileApiId;
 	}
 
+	public boolean hasDataToSync() {
+		return !getCapturedInfo().equals(getPadherderInfo());
+	}
 }

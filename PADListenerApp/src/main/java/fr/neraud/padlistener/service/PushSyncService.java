@@ -54,7 +54,7 @@ public class PushSyncService extends IntentService {
 	private void pushUserInfoToUpdate(PushSyncHelper helper, ResultReceiver receiver, ChooseSyncModel result) {
 		Log.d(getClass().getName(), "pushUserInfoToUpdate");
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = result.getSyncedUserInfoToUpdate();
-		if (syncedUserInfoToUpdate.isChosen()) {
+		if (syncedUserInfoToUpdate.getSyncedModel().hasDataToSync() && syncedUserInfoToUpdate.isChosen()) {
 			try {
 				helper.pushUserInfoToUpdate(syncedUserInfoToUpdate.getSyncedModel());
 				notifyUserInfoUpdated(receiver);

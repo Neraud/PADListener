@@ -56,9 +56,7 @@ public class ChooseSyncInfoFragment extends Fragment {
 		final View userInfoBlockView = view.findViewById(R.id.choose_sync_userInfo_block);
 
 		final SyncedUserInfoModel userInfoModel = result.getSyncedUserInfoToUpdate().getSyncedModel();
-		if (userInfoModel.getCapturedInfo().equals(userInfoModel.getPadherderInfo())) {
-			userInfoBlockView.setVisibility(View.GONE);
-		} else {
+		if (userInfoModel.hasDataToSync()) {
 			userInfoBlockView.setVisibility(View.VISIBLE);
 			final CheckBox userInfoCheckBox = (CheckBox) view.findViewById(R.id.choose_sync_userInfo_checkbox);
 			userInfoCheckBox.setChecked(result.getSyncedUserInfoToUpdate().isChosen());
@@ -81,6 +79,8 @@ public class ChooseSyncInfoFragment extends Fragment {
 			} else if (userInfoModel.getPadherderInfo() > userInfoModel.getCapturedInfo()) {
 				userInfoText.setTextColor(Color.RED);
 			}
+		} else {
+			userInfoBlockView.setVisibility(View.GONE);
 		}
 
 		syncButton = (Button) view.findViewById(R.id.choose_sync_button);
@@ -93,8 +93,7 @@ public class ChooseSyncInfoFragment extends Fragment {
 	private void updateCounts() {
 		Log.d(getClass().getName(), "updateCounts");
 
-		final SyncedUserInfoModel userInfoModel = result.getSyncedUserInfoToUpdate().getSyncedModel();
-		final boolean hasUserInfoToUpdate = !userInfoModel.getCapturedInfo().equals(userInfoModel.getPadherderInfo());
+		final boolean hasUserInfoToUpdate = result.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync();
 		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && result.getSyncedUserInfoToUpdate().isChosen();
 		final int materialToUpdateCount = result.getSyncedMaterialsToUpdate().size();
 		final int materialToUpdateChosenCount = countChosenItems(result.getSyncedMaterialsToUpdate());
