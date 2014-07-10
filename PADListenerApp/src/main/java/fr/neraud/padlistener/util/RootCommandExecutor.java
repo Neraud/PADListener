@@ -28,12 +28,12 @@ public class RootCommandExecutor {
 
 			final DataOutputStream stdin = new DataOutputStream(p.getOutputStream());
 
-			Log.d(getClass().getName(), "ipTablesForTransparentProxy : calling " + command);
+			Log.d(getClass().getName(), "execute : calling " + command);
 
 			stdin.writeBytes(command + "\n");
 			stdin.writeBytes("exit $?\n");
 			final int code = p.waitFor();
-			Log.d(getClass().getName(), "ipTablesForTransparentProxy : finished : " + code);
+			Log.d(getClass().getName(), "execute : finished : " + code);
 			final BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line;
 			while ((line = in.readLine()) != null) {
