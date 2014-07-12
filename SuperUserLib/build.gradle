@@ -1,0 +1,10 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 15
+    buildToolsVersion "20.0.0"
+
+    lintOptions {
+        abortOnError false
+    }
+}

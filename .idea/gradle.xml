@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/PADListenerApp" />
             <option value="$PROJECT_DIR$/SandroProxyLib" />
+            <option value="$PROJECT_DIR$/SuperUserLib" />
           </set>
         </option>
       </GradleProjectSettings>

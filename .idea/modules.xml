@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/PADListener.iml" filepath="$PROJECT_DIR$/PADListener.iml" />
       <module fileurl="file://$PROJECT_DIR$/PADListenerApp/PADListenerApp.iml" filepath="$PROJECT_DIR$/PADListenerApp/PADListenerApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/SandroProxyLib/SandroProxyLib.iml" filepath="$PROJECT_DIR$/SandroProxyLib/SandroProxyLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SuperUserLib/SuperUserLib.iml" filepath="$PROJECT_DIR$/SuperUserLib/SuperUserLib.iml" />
     </modules>
   </component>
 </project>

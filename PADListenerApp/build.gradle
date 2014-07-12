@@ -15,7 +15,8 @@ dependencies {
 	compile 'org.apache.commons:commons-lang3:3.3.2'
 	compile 'commons-io:commons-io:2.4'
 	compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
-	compile project(':SandroProxyLib')
+    compile project(':SandroProxyLib')
+    compile project(':SuperUserLib')
 }
 
 android {
