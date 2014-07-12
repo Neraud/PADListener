@@ -181,7 +181,7 @@ public class ListenerService extends Service {
 				listener.notifyActionSuccess();
 			}
 		} catch (final Exception e) {
-			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
+			Log.e(getClass().getName(), "PADListener start failed  : " + e.getMessage(), e);
 			if (listener != null) {
 				listener.notifyActionFailed(e);
 			}
@@ -194,9 +194,9 @@ public class ListenerService extends Service {
 		final String modeLabel = getString(proxyMode.getLabelResId());
 		final String notifTitle = getString(R.string.notification_listener_title, modeLabel);
 
-		String proxyUrl ="localhost:8008";
+		String proxyUrl = "localhost:8008";
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
-		if(prefHelper.isListenerNonLocalEnabled()) {
+		if (prefHelper.isListenerNonLocalEnabled()) {
 			final WifiHelper wifiHelper = new WifiHelper(getApplicationContext());
 			proxyUrl = wifiHelper.getWifiIpAddress() + ":8008";
 		}
