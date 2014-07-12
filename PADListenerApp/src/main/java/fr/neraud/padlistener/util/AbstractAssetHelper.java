@@ -32,6 +32,10 @@ public abstract class AbstractAssetHelper {
 			targetFile.delete();
 		}
 
+		doCopyAsset(assetFileName, targetFilePath, targetFile);
+	}
+
+	protected void doCopyAsset(String assetFileName, String targetFilePath, File targetFile) throws IOException {
 		InputStream in = null;
 		OutputStream out = null;
 		try {
@@ -52,14 +56,14 @@ public abstract class AbstractAssetHelper {
 				try {
 					in.close();
 				} catch (final IOException e) {
-					Log.w(getClass().getName(), "copyAsset : error closing in stream");
+					Log.w(getClass().getName(), "doCopyAsset : error closing in stream");
 				}
 			}
 			if (out != null) {
 				try {
 					out.close();
 				} catch (final IOException e) {
-					Log.w(getClass().getName(), "copyAsset : error closing out stream");
+					Log.w(getClass().getName(), "doCopyAsset : error closing out stream");
 				}
 			}
 		}

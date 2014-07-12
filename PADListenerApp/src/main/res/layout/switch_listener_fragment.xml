@@ -22,14 +22,20 @@
 		android:text="@string/switch_listener_switchLabel"
 		android:textSize="20sp" />
 
+	<Button
+		android:id="@+id/switch_listener_force_stop_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:text="@string/switch_listener_force_stop" />
+
 	<TextView
-		android:id="@+id/switch_listener_settings_require_wifi"
+		android:id="@+id/switch_listener_missing_requirement"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="10dp"
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
-		android:text="@string/switch_listener_settings_require_wifi"
 		android:textSize="16sp" />
 
 	<TextView
@@ -40,15 +46,6 @@
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
 		android:text="@string/switch_listener_proxy_started"
-		android:textSize="16sp" />
-
-	<TextView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="10dp"
-		android:layout_marginRight="10dp"
-		android:layout_marginTop="10dp"
-		android:text="@string/switch_listener_mode_explain"
 		android:textSize="16sp" />
 
 	<LinearLayout

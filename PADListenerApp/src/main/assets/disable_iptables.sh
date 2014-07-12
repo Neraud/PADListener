@@ -76,6 +76,5 @@ iptables -t nat --delete-chain $CHAIN_NAME_2
 if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
 
 
-
-echo "Finished !"
+echo "Finished"
 exit $EXIT_CODE

@@ -112,6 +112,7 @@
 
 	<!-- Switch listener -->
 	<string name="switch_listener_switchLabel">Switch listener</string>
+    <string name="switch_listener_force_stop">Force stop</string>
 
 	<string name="switch_listener_status_started_manual">Listener started in manual mode</string>
 	<string name="switch_listener_status_started_proxy_wifi">Listener started in auto Wifi proxy mode</string>
@@ -121,11 +122,9 @@
 	<string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
 	<string name="switch_listener_proxy_started">Proxy started : %1$s</string>
 
+    <string name="switch_listener_settings_not_working_anymore">Your Listener settings are not supported anymore. Please edit them in the settings</string>
 	<string name="switch_listener_settings_require_wifi">Your Listener settings (AutoProxy mode or Enable non local) require a WiFI connection. Please connect to a WiFI network or change those settings.</string>
-	<string name="switch_listener_mode_explain">The listener can be started in 2 modes. You can select a mode in the settings.\n
-         - Manual mode only works with a WiFi connexion. You have to manually configure your WiFi proxy to localhost:8008. All http requests will go through PADListener.\n
-         - AutoProxy mode only works with a WiFi connexion. When the listener is started, it automatically set your WiFI proxy up. This mode uses undocument Android API and can be unstable. All http requests will go through PADListener.\n
-	    <!--- Auto iptables requires root privileges and works both for WiFi and mobile connexions. When the listener is started, it modifies the iptables configuration. Only PAD requests will go through PADListener--></string>
+	<string name="switch_listener_settings_require_root">Your Listener settings (Auto iptables) require a rooted device.</string>
 	<string name="switch_listener_launch_pad">Launch PAD</string>
 	<string name="switch_listener_launch_wifi_settings">WiFi Settings</string>
 
