@@ -33,6 +33,7 @@ public class IptablesHelper {
 
 		final StringBuilder commandBuilder = new StringBuilder("sh ");
 		commandBuilder.append(context.getFilesDir().getPath()).append("/enable_iptables.sh");
+		commandBuilder.append(" ").append(context.getFilesDir().getPath());
 		commandBuilder.append(" ").append(CHAIN_PREFIX);
 		commandBuilder.append(" ").append(helper.getListenerTargetHostname());
 		final int processId = context.getApplicationInfo().uid;
@@ -49,6 +50,7 @@ public class IptablesHelper {
 
 		final StringBuilder commandBuilder = new StringBuilder("sh ");
 		commandBuilder.append(context.getFilesDir().getPath()).append("/disable_iptables.sh");
+		commandBuilder.append(" ").append(context.getFilesDir().getPath());
 		commandBuilder.append(" ").append(CHAIN_PREFIX);
 
 		final String targetCommand = commandBuilder.toString();
