@@ -92,7 +92,7 @@ public class ListenerService extends Service {
 		final boolean proxyListenNonLocal = prefHelper.isListenerNonLocalEnabled();
 
 		// Transparent proxy only for iptables mode
-		final boolean proxyTransparentKey = prefHelper.getProxyMode() == ProxyMode.AUTO_IPTABLES;
+		final boolean isModeIptables = prefHelper.getProxyMode() == ProxyMode.AUTO_IPTABLES;
 
 		// checking for directory to write data...
 		editor.putString(PreferenceUtils.dataStorageKey, getExternalCacheDir().getAbsolutePath());
@@ -101,10 +101,12 @@ public class ListenerService extends Service {
 		editor.putBoolean(PreferenceUtils.proxyListenNonLocal, proxyListenNonLocal);
 
 		// should we listen also for transparent flow ?
-		editor.putBoolean(PreferenceUtils.proxyTransparentKey, proxyTransparentKey);
+		editor.putBoolean(PreferenceUtils.proxyTransparentKey, isModeIptables);
 
-		// don't capture data to database
-		editor.putBoolean(PreferenceUtils.proxyCaptureData, false);
+		editor.putBoolean(PreferenceUtils.proxyFakeCerts, isModeIptables);
+
+		// Capture data is necessary for SSL capture to work
+		editor.putBoolean(PreferenceUtils.proxyCaptureData, true);
 
 		editor.commit();
 	}
