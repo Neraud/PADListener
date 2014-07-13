@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="1.2.0" versioncode="17">
 		<change>Removed the deprecated Listener modes (Manual and AutoWifi proxy)</change>
 		<change>Added a new Listener mode (Auto Iptables)</change>
 	</release>
