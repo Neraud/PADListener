@@ -18,6 +18,7 @@ I'd like to thank [Freddie](https://github.com/madcowfred) for his great work on
 I use the following libraries :
 * [SandroProxyLib](http://code.google.com/p/sandrop/) : local proxy on an Android device
 * [ckChangeLog](https://github.com/cketti/ckChangeLog) : changelog library
+* [libsuperuser](https://github.com/Chainfire/libsuperuser)
 
 
 Warning

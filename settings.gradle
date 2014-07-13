@@ -1,1 +1,1 @@
-include ':PADListenerApp', ':SandroProxyLib'
+include ':PADListenerApp', ':SandroProxyLib', ':SuperUserLib'

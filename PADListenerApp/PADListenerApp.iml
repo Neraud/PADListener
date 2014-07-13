@@ -86,6 +86,7 @@
     <orderEntry type="library" exported="" name="ckchangelog-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
     <orderEntry type="library" exported="" name="commons-lang3-3.3.2" level="project" />
+    <orderEntry type="module" module-name="SuperUserLib" exported="" />
     <orderEntry type="module" module-name="SandroProxyLib" exported="" />
   </component>
 </module>
