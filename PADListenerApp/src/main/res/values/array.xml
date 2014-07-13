@@ -2,13 +2,13 @@
 <resources>
 
 	<string-array name="settings_proxy_mode_entries">
-		<item>Manual</item>
-		<item>Auto Wifi proxy</item>
+		<!--<item>Manual</item>-->
+		<!--<item>Auto Wifi proxy</item>-->
 		<item>Auto iptables (root required)</item>
 	</string-array>
 	<string-array name="settings_proxy_mode_entryValues">
-		<item>MANUAL</item>
-		<item>AUTO_WIFI_PROXY</item>
+		<!--<item>MANUAL</item>-->
+		<!--<item>AUTO_WIFI_PROXY</item>-->
 		<item>AUTO_IPTABLES</item>
 	</string-array>
 
