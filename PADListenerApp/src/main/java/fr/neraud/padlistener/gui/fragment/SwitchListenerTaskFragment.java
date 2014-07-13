@@ -161,7 +161,8 @@ public class SwitchListenerTaskFragment extends Fragment {
 	public void stopListener(boolean forced) {
 		Log.d(getClass().getName(), "stopListener");
 
-		if (forced || canStop()) {
+
+		if (canStop()) {
 			updateState(ListenerState.STOPPING);
 
 			final ListenerServiceListener stopListener = new ListenerServiceListener() {
@@ -181,6 +182,8 @@ public class SwitchListenerTaskFragment extends Fragment {
 			};
 
 			listenerServiceBinder.stopListener(stopListener);
+		} else if (forced) {
+			listenerServiceBinder.stopListener(null);
 		} else {
 			notifyCallBacks();
 		}

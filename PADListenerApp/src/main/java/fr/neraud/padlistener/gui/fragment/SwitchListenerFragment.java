@@ -40,6 +40,7 @@ public class SwitchListenerFragment extends Fragment {
 	private SwitchListenerTaskFragment mTaskFragment;
 	private TextView listenerStatus;
 	private Switch listenerSwitch;
+	private Button secondaryActionButton;
 	private TextView missingRequirementTextView;
 	private TextView proxyStartedTextView;
 	private OnCheckedChangeListener onCheckedListener;
@@ -104,12 +105,10 @@ public class SwitchListenerFragment extends Fragment {
 			}
 
 			private void updateMissingRequirementFromError(Throwable error) {
+				Log.d(getClass().getName(), "updateMissingRequirementFromError : " + error);
 				if(error instanceof MissingRequirementException) {
 					final int resId = ((MissingRequirementException) error).getRequirement().getErrorTextResId();
 					updateMissingRequirement(resId);
-				} else {
-					listenerSwitch.setClickable(true);
-					missingRequirementTextView.setVisibility(View.GONE);
 				}
 			}
 
@@ -139,42 +138,48 @@ public class SwitchListenerFragment extends Fragment {
 		listenerSwitch.setOnCheckedChangeListener(onCheckedListener);
 
 
-        final Button forceStopButton = (Button) view.findViewById(R.id.switch_listener_force_stop_button);
-        forceStopButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(getClass().getName(), "forceStopButton.onClick");
-                mTaskFragment.stopListener(true);
-            }
-        });
-
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
-
-		missingRequirementTextView = (TextView) view.findViewById(R.id.switch_listener_missing_requirement);
-        final boolean requireWifi = prefHelper.getProxyMode() == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
-		final WifiHelper wifiHelper = new WifiHelper(getActivity());
-
-        if(prefHelper.getProxyMode() == ProxyMode.MANUAL || prefHelper.getProxyMode() == ProxyMode.AUTO_WIFI_PROXY) {
-	        updateMissingRequirement(R.string.switch_listener_settings_not_working_anymore);
-        } else if (requireWifi && !wifiHelper.isWifiConnected()) {
-	        updateMissingRequirement(R.string.switch_listener_settings_require_wifi);
-        } else {
-			listenerSwitch.setClickable(true);
-            missingRequirementTextView.setVisibility(View.GONE);
-		}
+		final ProxyMode proxyMode = prefHelper.getProxyMode();
 
 		proxyStartedTextView = (TextView) view.findViewById(R.id.switch_listener_proxy_started);
 		proxyStartedTextView.setVisibility(View.GONE);
 
-		final Button launchWifiSettingsButton = (Button) view.findViewById(R.id.switch_listener_launch_wifi_settings_button);
-		launchWifiSettingsButton.setOnClickListener(new OnClickListener() {
+		secondaryActionButton = (Button) view.findViewById(R.id.switch_listener_secondary_action_button);
+		if(proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
+			secondaryActionButton.setText(R.string.switch_listener_launch_wifi_settings);
+			secondaryActionButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				Log.d(getClass().getName(), "onClick");
-				startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
-			}
-		});
+				@Override
+				public void onClick(View v) {
+					Log.d(getClass().getName(), "onClick");
+					startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+				}
+			});
+		} else if(proxyMode == ProxyMode.AUTO_IPTABLES) {
+			secondaryActionButton.setText(R.string.switch_listener_force_stop);
+			secondaryActionButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.d(getClass().getName(), "secondaryActionButton.onClick");
+					mTaskFragment.stopListener(true);
+				}
+			});
+		} else {
+			secondaryActionButton.setVisibility(View.INVISIBLE);
+		}
+
+		missingRequirementTextView = (TextView) view.findViewById(R.id.switch_listener_missing_requirement);
+		final boolean requireWifi = proxyMode == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
+		final WifiHelper wifiHelper = new WifiHelper(getActivity());
+
+		if(proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
+			updateMissingRequirement(R.string.switch_listener_settings_not_working_anymore);
+		} else if (requireWifi && !wifiHelper.isWifiConnected()) {
+			updateMissingRequirement(R.string.switch_listener_settings_require_wifi);
+		} else {
+			listenerSwitch.setClickable(true);
+			missingRequirementTextView.setVisibility(View.GONE);
+		}
 
 		final ImageButton launchPadButton = (ImageButton) view.findViewById(R.id.switch_listener_launch_pad_button);
 		final View launchPadBlock = view.findViewById(R.id.switch_listener_launch_pad_block);
@@ -210,7 +215,10 @@ public class SwitchListenerFragment extends Fragment {
 	}
 
 	private void updateMissingRequirement(int textResId) {
+		Log.d(getClass().getName(), "updateMissingRequirement");
+
 		listenerSwitch.setClickable(false);
+		secondaryActionButton.setClickable(false);
 		missingRequirementTextView.setTextColor(Color.RED);
 		missingRequirementTextView.setVisibility(View.VISIBLE);
 		missingRequirementTextView.setText(textResId);

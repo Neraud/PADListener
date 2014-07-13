@@ -4,14 +4,9 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
-import org.sandrop.webscarab.model.Preferences;
-import org.sandroproxy.utils.PreferenceUtils;
 
 import java.io.IOException;
 
@@ -19,11 +14,11 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.gui.MainActivity;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
-import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.WifiHelper;
-import fr.neraud.padlistener.proxy.helper.IptablesHelper;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
-import fr.neraud.padlistener.proxy.helper.WifiAutoProxyHelper;
+import fr.neraud.padlistener.service.task.StartListenerAsyncTask;
+import fr.neraud.padlistener.service.task.StopListenerAsyncTask;
+import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 import fr.neraud.padlistener.util.ScriptAssetHelper;
 
 /**
@@ -84,32 +79,6 @@ public class ListenerService extends Service {
 		}
 	}
 
-	private void initValues(DefaultSharedPreferencesHelper prefHelper) {
-		Log.d(getClass().getName(), "initValues");
-		final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-
-		// listen to all adapters only if non local mode is enabled
-		final boolean proxyListenNonLocal = prefHelper.isListenerNonLocalEnabled();
-
-		// Transparent proxy only for iptables mode
-		final boolean isModeIptables = prefHelper.getProxyMode() == ProxyMode.AUTO_IPTABLES;
-
-		// checking for directory to write data...
-		editor.putString(PreferenceUtils.dataStorageKey, getExternalCacheDir().getAbsolutePath());
-
-		// should we listen on all adapters ?
-		editor.putBoolean(PreferenceUtils.proxyListenNonLocal, proxyListenNonLocal);
-
-		// should we listen also for transparent flow ?
-		editor.putBoolean(PreferenceUtils.proxyTransparentKey, isModeIptables);
-
-		editor.putBoolean(PreferenceUtils.proxyFakeCerts, isModeIptables);
-
-		// Capture data is necessary for SSL capture to work
-		editor.putBoolean(PreferenceUtils.proxyCaptureData, true);
-
-		editor.commit();
-	}
 
 	@Override
 	public boolean onUnbind(Intent intent) {
@@ -144,48 +113,32 @@ public class ListenerService extends Service {
 		return mBinder;
 	}
 
-	private void doStartListener(ListenerServiceListener listener) {
+	private void doStartListener(final ListenerServiceListener listener) {
 		Log.d(getClass().getName(), "doStartListener");
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
-		final ProxyMode proxyMode = prefHelper.getProxyMode();
 
-		initValues(prefHelper);
-		Preferences.init(getApplicationContext());
 
-		try {
-			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
-			techPrefHelper.setLastListenerStartProxyMode(proxyMode);
+		final StartListenerAsyncTask asyncTask = new StartListenerAsyncTask(getApplicationContext(), proxyHelper) {
 
-			proxyHelper.activateProxy();
+			@Override
+			protected void onPostExecute(SwitchListenerResult switchListenerResult) {
+				Log.d(getClass().getName(), "onPostExecute");
 
-			switch (proxyMode) {
-				case AUTO_IPTABLES:
-					final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
-					iptablesHelper.activateIptables();
-					break;
-				case AUTO_WIFI_PROXY:
-					final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
-					wifiAutoProxyHelper.activateAutoProxy();
-					break;
-				case MANUAL:
-				default:
-					// Nothing to do
-					break;
+				if (switchListenerResult.isSuccess()) {
+					started = true;
+
+					final Notification notification = buildNotification(getProxyMode());
+					startForeground(NOTIFICATION_ID, notification);
+					if (listener != null) {
+						listener.notifyActionSuccess();
+					}
+				} else {
+					if (listener != null) {
+						listener.notifyActionFailed(switchListenerResult.getError());
+					}
+				}
 			}
-
-			started = true;
-
-			final Notification notification = buildNotification(proxyMode);
-			startForeground(NOTIFICATION_ID, notification);
-			if (listener != null) {
-				listener.notifyActionSuccess();
-			}
-		} catch (final Exception e) {
-			Log.e(getClass().getName(), "PADListener start failed  : " + e.getMessage(), e);
-			if (listener != null) {
-				listener.notifyActionFailed(e);
-			}
-		}
+		};
+		asyncTask.execute();
 	}
 
 	private Notification buildNotification(ProxyMode proxyMode) {
@@ -217,39 +170,27 @@ public class ListenerService extends Service {
 		return builder.getNotification();
 	}
 
-	private void doStopListener(ListenerServiceListener listener) {
+	private void doStopListener(final ListenerServiceListener listener) {
 		Log.d(getClass().getName(), "doStopListener");
 
-		try {
-			proxyHelper.deactivateProxy();
+		final StopListenerAsyncTask asyncTask = new StopListenerAsyncTask(getApplicationContext(), proxyHelper) {
+			@Override
+			protected void onPostExecute(SwitchListenerResult switchListenerResult) {
+				Log.d(getClass().getName(), "onPostExecute");
 
-			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
-			final ProxyMode proxyMode = techPrefHelper.getLastListenerStartProxyMode();
-			switch (proxyMode) {
-				case AUTO_IPTABLES:
-					final IptablesHelper iptablesHelper = new IptablesHelper(getApplicationContext());
-					iptablesHelper.deactivateIptables();
-					break;
-				case AUTO_WIFI_PROXY:
-					final WifiAutoProxyHelper wifiAutoProxyHelper = new WifiAutoProxyHelper(getApplicationContext());
-					wifiAutoProxyHelper.deactivateAutoProxy();
-					break;
-				case MANUAL:
-				default:
-					// Nothing to do
-					break;
+				if (switchListenerResult.isSuccess()) {
+					started = false;
+					stopForeground(true);
+					if (listener != null) {
+						listener.notifyActionSuccess();
+					}
+				} else {
+					if (listener != null) {
+						listener.notifyActionFailed(switchListenerResult.getError());
+					}
+				}
 			}
-
-			started = false;
-			stopForeground(true);
-			if (listener != null) {
-				listener.notifyActionSuccess();
-			}
-		} catch (final Exception e) {
-			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage());
-			if (listener != null) {
-				listener.notifyActionFailed(e);
-			}
-		}
+		};
+		asyncTask.execute();
 	}
 }
