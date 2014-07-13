@@ -5,15 +5,15 @@ package fr.neraud.padlistener.exception;
  *
  * @author Neraud
  */
-public class RootCommandExecutionException extends Exception {
+public class CommandExecutionException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public RootCommandExecutionException(Throwable cause) {
+	public CommandExecutionException(Throwable cause) {
 		super(cause);
 	}
 
-	public RootCommandExecutionException(String detailMessage) {
+	public CommandExecutionException(String detailMessage) {
 		super(detailMessage);
 	}
 

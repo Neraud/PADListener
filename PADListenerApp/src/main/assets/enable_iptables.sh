@@ -102,6 +102,5 @@ iptables -t nat -A OUTPUT -j $CHAIN_NAME_2
 if [ $? -ne 0 ] ; then echo "Error !" && exit 1 ; fi
 
 
-
-echo "Finished !"
+echo "Finished"
 exit 0

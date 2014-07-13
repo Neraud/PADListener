@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
+import fr.neraud.padlistener.exception.MissingRequirementException;
 import fr.neraud.padlistener.gui.fragment.SwitchListenerTaskFragment.ListenerState;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -39,6 +40,7 @@ public class SwitchListenerFragment extends Fragment {
 	private SwitchListenerTaskFragment mTaskFragment;
 	private TextView listenerStatus;
 	private Switch listenerSwitch;
+	private TextView missingRequirementTextView;
 	private TextView proxyStartedTextView;
 	private OnCheckedChangeListener onCheckedListener;
 
@@ -49,6 +51,9 @@ public class SwitchListenerFragment extends Fragment {
 			public void updateState(ListenerState state, Throwable error) {
 				Log.d(getClass().getName(), "updateState : " + state);
 				proxyStartedTextView.setVisibility(View.GONE);
+
+				updateMissingRequirementFromError(error);
+
 				if (state != null) {
 					switch (state) {
 						case STARTING:
@@ -98,6 +103,16 @@ public class SwitchListenerFragment extends Fragment {
 				}
 			}
 
+			private void updateMissingRequirementFromError(Throwable error) {
+				if(error instanceof MissingRequirementException) {
+					final int resId = ((MissingRequirementException) error).getRequirement().getErrorTextResId();
+					updateMissingRequirement(resId);
+				} else {
+					listenerSwitch.setClickable(true);
+					missingRequirementTextView.setVisibility(View.GONE);
+				}
+			}
+
 		};
 	}
 
@@ -117,24 +132,35 @@ public class SwitchListenerFragment extends Fragment {
 				if (isChecked) {
 					mTaskFragment.startListener();
 				} else {
-					mTaskFragment.stopListener();
+					mTaskFragment.stopListener(false);
 				}
 			}
 		};
 		listenerSwitch.setOnCheckedChangeListener(onCheckedListener);
 
+
+        final Button forceStopButton = (Button) view.findViewById(R.id.switch_listener_force_stop_button);
+        forceStopButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(getClass().getName(), "forceStopButton.onClick");
+                mTaskFragment.stopListener(true);
+            }
+        });
+
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 
-		final TextView requireWifiTextView = (TextView) view.findViewById(R.id.switch_listener_settings_require_wifi);
-		final boolean requireWifi = prefHelper.getProxyMode() == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
+		missingRequirementTextView = (TextView) view.findViewById(R.id.switch_listener_missing_requirement);
+        final boolean requireWifi = prefHelper.getProxyMode() == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
 		final WifiHelper wifiHelper = new WifiHelper(getActivity());
-		if (requireWifi && !wifiHelper.isWifiConnected()) {
-			listenerSwitch.setClickable(false);
-			requireWifiTextView.setTextColor(Color.RED);
-			requireWifiTextView.setVisibility(View.VISIBLE);
-		} else {
+
+        if(prefHelper.getProxyMode() == ProxyMode.MANUAL || prefHelper.getProxyMode() == ProxyMode.AUTO_WIFI_PROXY) {
+	        updateMissingRequirement(R.string.switch_listener_settings_not_working_anymore);
+        } else if (requireWifi && !wifiHelper.isWifiConnected()) {
+	        updateMissingRequirement(R.string.switch_listener_settings_require_wifi);
+        } else {
 			listenerSwitch.setClickable(true);
-			requireWifiTextView.setVisibility(View.GONE);
+            missingRequirementTextView.setVisibility(View.GONE);
 		}
 
 		proxyStartedTextView = (TextView) view.findViewById(R.id.switch_listener_proxy_started);
@@ -181,6 +207,13 @@ public class SwitchListenerFragment extends Fragment {
 		mTaskFragment.registerCallbacks(callbacks);
 
 		return view;
+	}
+
+	private void updateMissingRequirement(int textResId) {
+		listenerSwitch.setClickable(false);
+		missingRequirementTextView.setTextColor(Color.RED);
+		missingRequirementTextView.setVisibility(View.VISIBLE);
+		missingRequirementTextView.setText(textResId);
 	}
 
 	private String generateStatusStartedText() {
