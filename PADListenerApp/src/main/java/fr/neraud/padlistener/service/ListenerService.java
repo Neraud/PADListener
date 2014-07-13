@@ -19,6 +19,7 @@ import fr.neraud.padlistener.proxy.helper.ProxyHelper;
 import fr.neraud.padlistener.service.task.StartListenerAsyncTask;
 import fr.neraud.padlistener.service.task.StopListenerAsyncTask;
 import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
+import fr.neraud.padlistener.util.ExecutableAssetHelper;
 import fr.neraud.padlistener.util.ScriptAssetHelper;
 
 /**
@@ -62,7 +63,7 @@ public class ListenerService extends Service {
 
 	@Override
 	public void onCreate() {
-		Log.d(getClass().getName(), "onCreate : " + this);
+		Log.d(getClass().getName(), "onCreate");
 		super.onCreate();
 
 		if (started) {
@@ -70,10 +71,13 @@ public class ListenerService extends Service {
 		} else {
 			Log.d(getClass().getName(), "onCreate : starting !");
 			try {
-				final ScriptAssetHelper scriptAssetUtils = new ScriptAssetHelper(getApplicationContext());
-				scriptAssetUtils.copyScriptsFromAssets();
+				final ScriptAssetHelper scriptAssetHelper = new ScriptAssetHelper(getApplicationContext());
+				scriptAssetHelper.copyScriptsFromAssets();
+
+				final ExecutableAssetHelper executableAssetHelper = new ExecutableAssetHelper(getApplicationContext());
+				executableAssetHelper.copyExecutablessFromAssets();
 			} catch (final IOException e) {
-				Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
+				Log.e(getClass().getName(), "Asset install failed  : " + e.getMessage(), e);
 			}
 			proxyHelper = new ProxyHelper(getApplicationContext());
 		}
