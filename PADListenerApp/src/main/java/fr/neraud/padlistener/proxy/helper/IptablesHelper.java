@@ -3,8 +3,6 @@ package fr.neraud.padlistener.proxy.helper;
 import android.content.Context;
 import android.util.Log;
 
-import java.util.List;
-
 import eu.chainfire.libsuperuser.Shell;
 import fr.neraud.padlistener.exception.CommandExecutionException;
 import fr.neraud.padlistener.exception.MissingRequirementException;
@@ -23,7 +21,6 @@ public class IptablesHelper {
 	public IptablesHelper(Context context) {
 		this.context = context;
 	}
-
 
 	public void activateIptables() throws MissingRequirementException, CommandExecutionException {
 		Log.d(getClass().getName(), "activateIptables");
@@ -44,7 +41,7 @@ public class IptablesHelper {
 		executeCommand(targetCommand);
 	}
 
-	public void deactivateIptables() throws MissingRequirementException,CommandExecutionException {
+	public void deactivateIptables() throws MissingRequirementException, CommandExecutionException {
 		Log.d(getClass().getName(), "deactivateIptables");
 		checkRoot();
 
@@ -57,8 +54,8 @@ public class IptablesHelper {
 		executeCommand(targetCommand);
 	}
 
-	private void checkRoot() throws MissingRequirementException {
-		if(!Shell.SU.available()) {
+	private void checkRoot() throws MissingRequirementException, CommandExecutionException {
+		if (!Shell.SU.available()) {
 			Log.d(getClass().getName(), "checkRoot : SU not available");
 			throw new MissingRequirementException(MissingRequirementException.Requirement.ROOT);
 		} else {
@@ -66,22 +63,14 @@ public class IptablesHelper {
 		}
 	}
 
-	private void executeCommand(String command) throws CommandExecutionException {
-		final List<String> results = Shell.run("su", new String[]{command}, null, true);
 
-		if(results == null) {
-			throw new CommandExecutionException("Error executing script");
-		}
+	private void executeCommand(String targetCommand) throws CommandExecutionException {
+		final SuCommandExecutor executor = new SuCommandExecutor(targetCommand);
+		executor.execute();
 
-		String lastLine = "";
-		for (final String result : results) {
-			Log.d(getClass().getName(), "executeCommands : " + result);
-			lastLine = result;
-		}
-
+		final String lastLine = executor.getLogs().get(executor.getLogs().size() - 1);
 		if(!"Finished".equals(lastLine)) {
-			throw new CommandExecutionException("Script failed : " + lastLine);
+			throw new CommandExecutionException("Script failed : " + lastLine, executor.getLogs());
 		}
 	}
-
 }

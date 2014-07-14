@@ -37,9 +37,9 @@ public class ListenerService extends Service {
 
 	public interface ListenerServiceListener {
 
-		public void notifyActionSuccess();
+		public void notifyActionSuccess(SwitchListenerResult result);
 
-		public void notifyActionFailed(Exception e);
+		public void notifyActionFailed(SwitchListenerResult result);
 	}
 
 	public class ListenerServiceBinder extends Binder {
@@ -120,7 +120,6 @@ public class ListenerService extends Service {
 	private void doStartListener(final ListenerServiceListener listener) {
 		Log.d(getClass().getName(), "doStartListener");
 
-
 		final StartListenerAsyncTask asyncTask = new StartListenerAsyncTask(getApplicationContext(), proxyHelper) {
 
 			@Override
@@ -133,11 +132,11 @@ public class ListenerService extends Service {
 					final Notification notification = buildNotification(getProxyMode());
 					startForeground(NOTIFICATION_ID, notification);
 					if (listener != null) {
-						listener.notifyActionSuccess();
+						listener.notifyActionSuccess(switchListenerResult);
 					}
 				} else {
 					if (listener != null) {
-						listener.notifyActionFailed(switchListenerResult.getError());
+						listener.notifyActionFailed(switchListenerResult);
 					}
 				}
 			}
@@ -186,11 +185,11 @@ public class ListenerService extends Service {
 					started = false;
 					stopForeground(true);
 					if (listener != null) {
-						listener.notifyActionSuccess();
+						listener.notifyActionSuccess(switchListenerResult);
 					}
 				} else {
 					if (listener != null) {
-						listener.notifyActionFailed(switchListenerResult.getError());
+						listener.notifyActionFailed(switchListenerResult);
 					}
 				}
 			}

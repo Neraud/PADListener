@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import fr.neraud.padlistener.constant.ProxyMode;
+import fr.neraud.padlistener.exception.CommandExecutionException;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.proxy.helper.IptablesHelper;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
@@ -13,7 +14,6 @@ import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 
 /**
  * AsyncTask used to stop the Listener
- *
  * Created by Neraud on 13/07/2014.
  */
 public class StopListenerAsyncTask extends AsyncTask<Void, Void, SwitchListenerResult> {
@@ -52,6 +52,11 @@ public class StopListenerAsyncTask extends AsyncTask<Void, Void, SwitchListenerR
 			}
 
 			result.setSuccess(true);
+		} catch (final CommandExecutionException e) {
+			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
+			result.setSuccess(false);
+			result.setError(e);
+			result.setLogs(e.getLogs());
 		} catch (final Exception e) {
 			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage());
 			result.setSuccess(false);

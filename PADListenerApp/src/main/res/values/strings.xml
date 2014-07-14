@@ -125,6 +125,9 @@
     <string name="switch_listener_settings_not_working_anymore">Your Listener settings are not supported anymore. Please change them in the settings</string>
 	<string name="switch_listener_settings_require_wifi">Your Listener settings (AutoProxy mode or Enable non local) require a WiFI connection. Please connect to a WiFI network or change those settings.</string>
 	<string name="switch_listener_settings_require_root">Your Listener settings (Auto iptables) require a rooted device.</string>
+	<string name="switch_listener_show_logs">Logs</string>
+	<string name="switch_listener_show_logs_title">Logs</string>
+	<string name="switch_listener_show_logs_close">Close</string>
 	<string name="switch_listener_launch_pad">Launch PAD</string>
 	<string name="switch_listener_launch_wifi_settings">WiFi Settings</string>
 

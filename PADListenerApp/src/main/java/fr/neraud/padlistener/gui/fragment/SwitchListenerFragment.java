@@ -1,5 +1,7 @@
 package fr.neraud.padlistener.gui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -13,12 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import java.util.List;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
@@ -27,6 +32,7 @@ import fr.neraud.padlistener.gui.fragment.SwitchListenerTaskFragment.ListenerSta
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.WifiHelper;
+import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 
 /**
  * Main fragment for SwitchListener
@@ -41,19 +47,20 @@ public class SwitchListenerFragment extends Fragment {
 	private TextView listenerStatus;
 	private Switch listenerSwitch;
 	private Button secondaryActionButton;
-	private TextView missingRequirementTextView;
 	private TextView proxyStartedTextView;
+	private Button showLogsButton;
+	private TextView errorText;
 	private OnCheckedChangeListener onCheckedListener;
 
 	public SwitchListenerFragment() {
 		callbacks = new SwitchListenerTaskFragment.CallBacks() {
 
 			@Override
-			public void updateState(ListenerState state, Throwable error) {
+			public void updateState(ListenerState state, SwitchListenerResult result) {
 				Log.d(getClass().getName(), "updateState : " + state);
 				proxyStartedTextView.setVisibility(View.GONE);
 
-				updateMissingRequirementFromError(error);
+				handleError(result);
 
 				if (state != null) {
 					switch (state) {
@@ -66,9 +73,9 @@ public class SwitchListenerFragment extends Fragment {
 							forceToggledWithoutListener(true);
 							listenerStatus.setText(generateStatusStartedText());
 
-							String proxyUrl ="localhost:8008";
+							String proxyUrl = "localhost:8008";
 							final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
-							if(prefHelper.isListenerNonLocalEnabled()) {
+							if (prefHelper.isListenerNonLocalEnabled()) {
 								final WifiHelper wifiHelper = new WifiHelper(getActivity());
 								proxyUrl = wifiHelper.getWifiIpAddress() + ":8008";
 							}
@@ -78,7 +85,7 @@ public class SwitchListenerFragment extends Fragment {
 						case START_FAILED:
 							listenerSwitch.setEnabled(true);
 							forceToggledWithoutListener(false);
-							listenerStatus.setText(getString(R.string.switch_listener_status_start_failed, error.getMessage()));
+							listenerStatus.setText(R.string.switch_listener_status_start_failed);
 							break;
 						case STOPPING:
 							listenerSwitch.setEnabled(false);
@@ -92,7 +99,7 @@ public class SwitchListenerFragment extends Fragment {
 						case STOP_FAILED:
 							listenerSwitch.setEnabled(true);
 							forceToggledWithoutListener(true);
-							listenerStatus.setText(getString(R.string.switch_listener_status_stop_failed, error.getMessage()));
+							listenerStatus.setText(R.string.switch_listener_status_stop_failed);
 							break;
 						default:
 					}
@@ -104,14 +111,19 @@ public class SwitchListenerFragment extends Fragment {
 				}
 			}
 
-			private void updateMissingRequirementFromError(Throwable error) {
-				Log.d(getClass().getName(), "updateMissingRequirementFromError : " + error);
-				if(error instanceof MissingRequirementException) {
-					final int resId = ((MissingRequirementException) error).getRequirement().getErrorTextResId();
+			private void handleError(SwitchListenerResult result) {
+				Log.d(getClass().getName(), "handleError");
+
+				if (result == null || result.isSuccess()) {
+					errorText.setVisibility(View.GONE);
+					showLogsButton.setVisibility(View.GONE);
+				} else if (result.getError() instanceof MissingRequirementException) {
+					final int resId = ((MissingRequirementException) result.getError()).getRequirement().getErrorTextResId();
 					updateMissingRequirement(resId);
+				} else {
+					updateError(result.getError().getMessage(), result.getLogs());
 				}
 			}
-
 		};
 	}
 
@@ -145,7 +157,7 @@ public class SwitchListenerFragment extends Fragment {
 		proxyStartedTextView.setVisibility(View.GONE);
 
 		secondaryActionButton = (Button) view.findViewById(R.id.switch_listener_secondary_action_button);
-		if(proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
+		if (proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
 			secondaryActionButton.setText(R.string.switch_listener_launch_wifi_settings);
 			secondaryActionButton.setOnClickListener(new OnClickListener() {
 
@@ -155,7 +167,7 @@ public class SwitchListenerFragment extends Fragment {
 					startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
 				}
 			});
-		} else if(proxyMode == ProxyMode.AUTO_IPTABLES) {
+		} else if (proxyMode == ProxyMode.AUTO_IPTABLES) {
 			secondaryActionButton.setText(R.string.switch_listener_force_stop);
 			secondaryActionButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -168,17 +180,21 @@ public class SwitchListenerFragment extends Fragment {
 			secondaryActionButton.setVisibility(View.INVISIBLE);
 		}
 
-		missingRequirementTextView = (TextView) view.findViewById(R.id.switch_listener_missing_requirement);
+		errorText = (TextView) view.findViewById(R.id.switch_listener_error_text);
+		errorText.setVisibility(View.GONE);
+		showLogsButton = (Button) view.findViewById(R.id.switch_listener_show_logs_button);
+		showLogsButton.setVisibility(View.GONE);
+
 		final boolean requireWifi = proxyMode == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
 		final WifiHelper wifiHelper = new WifiHelper(getActivity());
 
-		if(proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
+		if (proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
 			updateMissingRequirement(R.string.switch_listener_settings_not_working_anymore);
 		} else if (requireWifi && !wifiHelper.isWifiConnected()) {
 			updateMissingRequirement(R.string.switch_listener_settings_require_wifi);
 		} else {
 			listenerSwitch.setClickable(true);
-			missingRequirementTextView.setVisibility(View.GONE);
+			errorText.setVisibility(View.GONE);
 		}
 
 		final ImageButton launchPadButton = (ImageButton) view.findViewById(R.id.switch_listener_launch_pad_button);
@@ -219,9 +235,48 @@ public class SwitchListenerFragment extends Fragment {
 
 		listenerSwitch.setClickable(false);
 		secondaryActionButton.setClickable(false);
-		missingRequirementTextView.setTextColor(Color.RED);
-		missingRequirementTextView.setVisibility(View.VISIBLE);
-		missingRequirementTextView.setText(textResId);
+		errorText.setTextColor(Color.RED);
+		errorText.setVisibility(View.VISIBLE);
+		errorText.setText(textResId);
+	}
+
+	private void updateError(String errorMessage, final List<String> logs) {
+		Log.d(getClass().getName(), "updateError");
+
+		listenerSwitch.setClickable(false);
+		secondaryActionButton.setClickable(false);
+		errorText.setTextColor(Color.RED);
+		errorText.setVisibility(View.VISIBLE);
+		errorText.setText(errorMessage);
+
+		showLogsButton.setVisibility(View.VISIBLE);
+		showLogsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Log.d(getClass().getName(), "showLogsButton.onClick");
+
+				AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+				alert.setTitle(R.string.switch_listener_show_logs_title);
+
+				WebView wv = new WebView(getActivity());
+				final StringBuilder dataBuilder = new StringBuilder();
+				dataBuilder.append("<html><body><ul>");
+				for(final String logLine : logs) {
+					dataBuilder.append("<li>").append(logLine).append("</li>");
+				}
+				dataBuilder.append("</ul></body></html>");
+				wv.loadDataWithBaseURL("", dataBuilder.toString(), "text/html", "UTF-8", "");
+
+				alert.setView(wv);
+				alert.setNegativeButton(R.string.switch_listener_show_logs_close, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+				alert.show();
+			}
+		});
 	}
 
 	private String generateStatusStartedText() {

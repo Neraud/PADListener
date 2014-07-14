@@ -40,15 +40,15 @@ EXIT_CODE=0
 ##################################################
 echo "Removing Chain 1"
 $IPTABLES -D INPUT -j $CHAIN_NAME_1
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error removing Chain 1 !" && EXIT_CODE=1 ; fi
 
 echo "Removing Chain 1 nat"
 $IPTABLES -t nat -D PREROUTING -j $CHAIN_NAME_1
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error removing Chain 1 nat !" && EXIT_CODE=1 ; fi
 
 echo "Removing Chain 2 nat"
 $IPTABLES -t nat -D OUTPUT -j $CHAIN_NAME_2
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error removing Chain 2 nat !" && EXIT_CODE=1 ; fi
 
 
 ##################################################
@@ -56,15 +56,15 @@ if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
 ##################################################
 echo "Removing rules for Chain 1"
 $IPTABLES --flush $CHAIN_NAME_1
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error removing rules for Chain 1 !" && EXIT_CODE=1 ; fi
 
 echo "Removing rules for Chain 1 nat"
 $IPTABLES -t nat --flush $CHAIN_NAME_1
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error removing rules for Chain 1 nat !" && EXIT_CODE=1 ; fi
 
 echo "Removing rules for Chain 1 nat"
 $IPTABLES -t nat --flush $CHAIN_NAME_2
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error removing rules for Chain 1 nat !" && EXIT_CODE=1 ; fi
 
 
 ##################################################
@@ -72,15 +72,15 @@ if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
 ##################################################
 echo "Deleting Chain 1"
 $IPTABLES --delete-chain $CHAIN_NAME_1
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error deleting Chain  !" && EXIT_CODE=1 ; fi
 
 echo "Deleting Chain 1 nat"
 $IPTABLES -t nat --delete-chain $CHAIN_NAME_1
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error deleting Chain 1 nat !" && EXIT_CODE=1 ; fi
 
 echo "Deleting Chain 2 nat"
 $IPTABLES -t nat --delete-chain $CHAIN_NAME_2
-if [ $? -ne 0 ] ; then echo "Error !" && EXIT_CODE=1 ; fi
+if [ $? -ne 0 ] ; then echo "Error deleting Chain 2 nat !" && EXIT_CODE=1 ; fi
 
 
 echo "Finished"

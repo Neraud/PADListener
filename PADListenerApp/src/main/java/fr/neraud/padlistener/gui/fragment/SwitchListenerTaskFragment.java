@@ -11,6 +11,7 @@ import android.util.Log;
 import fr.neraud.padlistener.service.ListenerService;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceBinder;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceListener;
+import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 
 /**
  * Task fragment for SwitchListener
@@ -24,7 +25,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 	private ListenerServiceBinder listenerServiceBinder;
 	private CallBacks callbacks = null;
 	private ListenerState state = null;
-	private Throwable error = null;
+	private SwitchListenerResult result = null;
 
 	public enum ListenerState {
 		STARTING,
@@ -40,7 +41,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 	public static interface CallBacks {
 
-		public void updateState(ListenerState state, Throwable error);
+		public void updateState(ListenerState state, SwitchListenerResult result);
 	}
 
 	public SwitchListenerTaskFragment() {
@@ -127,7 +128,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 	private void notifyCallBacks() {
 		if (callbacks != null) {
-			callbacks.updateState(state, error);
+			callbacks.updateState(state, result);
 		}
 	}
 
@@ -140,15 +141,17 @@ public class SwitchListenerTaskFragment extends Fragment {
 			final ListenerServiceListener startListener = new ListenerServiceListener() {
 
 				@Override
-				public void notifyActionSuccess() {
+				public void notifyActionSuccess(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionSuccess");
+					result = newResult;
 					updateState(ListenerState.STARTED);
 				}
 
 				@Override
-				public void notifyActionFailed(Exception e) {
+				public void notifyActionFailed(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionFailed");
-					updateState(ListenerState.START_FAILED, e);
+					result = newResult;
+					updateState(ListenerState.START_FAILED);
 				}
 
 			};
@@ -168,15 +171,17 @@ public class SwitchListenerTaskFragment extends Fragment {
 			final ListenerServiceListener stopListener = new ListenerServiceListener() {
 
 				@Override
-				public void notifyActionSuccess() {
+				public void notifyActionSuccess(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionSuccess");
+					result = newResult;
 					updateState(ListenerState.STOPPED);
 				}
 
 				@Override
-				public void notifyActionFailed(Exception e) {
+				public void notifyActionFailed(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionFailed");
-					updateState(ListenerState.STOP_FAILED, e);
+					result = newResult;
+					updateState(ListenerState.STOP_FAILED);
 				}
 
 			};
@@ -236,12 +241,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 	}
 
 	private void updateState(ListenerState status) {
-		updateState(status, null);
-	}
-
-	private void updateState(ListenerState status, Throwable t) {
 		this.state = status;
-		error = t;
 		notifyCallBacks();
 	}
 

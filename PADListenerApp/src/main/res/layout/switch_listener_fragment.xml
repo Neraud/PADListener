@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/switch_listener_status"
@@ -10,7 +10,7 @@
 		android:layout_marginLeft="10dp"
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
-		android:textSize="20sp" />
+		android:textSize="20sp"/>
 
 	<Switch
 		android:id="@+id/switch_listener_switch"
@@ -20,16 +20,7 @@
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
 		android:text="@string/switch_listener_switchLabel"
-		android:textSize="20sp" />
-
-	<TextView
-		android:id="@+id/switch_listener_missing_requirement"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="10dp"
-		android:layout_marginRight="10dp"
-		android:layout_marginTop="10dp"
-		android:textSize="16sp" />
+		android:textSize="20sp"/>
 
 	<TextView
 		android:id="@+id/switch_listener_proxy_started"
@@ -39,7 +30,34 @@
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
 		android:text="@string/switch_listener_proxy_started"
-		android:textSize="16sp" />
+		android:textSize="16sp"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="20dp"
+		android:orientation="horizontal">
+
+		<Button
+			android:id="@+id/switch_listener_show_logs_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="@string/switch_listener_show_logs"/>
+
+		<TextView
+			android:id="@+id/switch_listener_error_text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:layout_marginTop="10dp"
+			android:textSize="16sp"/>
+
+	</LinearLayout>
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -67,14 +85,14 @@
 				android:id="@+id/switch_listener_launch_pad_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_gravity="center" />
+				android:layout_gravity="center"/>
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
 				android:text="@string/switch_listener_launch_pad"
-				android:textSize="16sp" />
+				android:textSize="16sp"/>
 		</LinearLayout>
 	</LinearLayout>
 
