@@ -191,9 +191,7 @@ public class SwitchListenerFragment extends Fragment {
 		final boolean requireWifi = proxyMode == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
 		final WifiHelper wifiHelper = new WifiHelper(getActivity());
 
-		if (proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
-			updateMissingRequirement(R.string.switch_listener_settings_not_working_anymore);
-		} else if (requireWifi && !wifiHelper.isWifiConnected()) {
+		if (requireWifi && !wifiHelper.isWifiConnected()) {
 			updateMissingRequirement(R.string.switch_listener_settings_require_wifi);
 		} else {
 			listenerSwitch.setClickable(true);
