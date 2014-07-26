@@ -3,11 +3,18 @@
 
 	<PreferenceScreen android:title="@string/settings_listener_page">
 		<PreferenceCategory android:title="@string/settings_listener_category">
+			<MultiSelectListPreference
+				android:key="listener_target_hostnames"
+			    android:entries="@array/settings_listener_target_hostname_entries"
+			    android:entryValues="@array/settings_listener_target_hostname_entryValues"
+			    android:defaultValue="@array/settings_listener_target_hostname_entryValues"
+			    android:summary="@string/settings_listener_target_hostnames_summary"
+			    android:title="@string/settings_listener_target_hostnames_title"/>
 			<EditTextPreference
-				android:defaultValue="api-na-adr-pad.gungho.jp"
-				android:key="listener_target_hostname"
-				android:summary="@string/settings_listener_target_hostname_summary"
-				android:title="@string/settings_listener_target_hostname_title"/>
+				android:defaultValue=""
+				android:key="listener_custom_target_hostname"
+				android:summary="@string/settings_listener_custom_target_hostname_summary"
+				android:title="@string/settings_listener_custom_target_hostname_title"/>
 			<ListPreference
 				android:defaultValue="MANUAL"
 				android:entries="@array/settings_proxy_mode_entries"

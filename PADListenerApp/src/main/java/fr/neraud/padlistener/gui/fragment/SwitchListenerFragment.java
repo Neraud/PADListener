@@ -116,7 +116,7 @@ public class SwitchListenerFragment extends Fragment {
 				Log.d(getClass().getName(), "handleError");
 
 				if (result == null || result.isSuccess()) {
-					if(!missingRequirement) {
+					if (!missingRequirement) {
 						errorText.setVisibility(View.GONE);
 						showLogsButton.setVisibility(View.GONE);
 					}
@@ -191,7 +191,9 @@ public class SwitchListenerFragment extends Fragment {
 		final boolean requireWifi = proxyMode == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
 		final WifiHelper wifiHelper = new WifiHelper(getActivity());
 
-		if (requireWifi && !wifiHelper.isWifiConnected()) {
+		if (prefHelper.getAllListenerTargetHostnames().isEmpty()) {
+			updateMissingRequirement(R.string.switch_listener_settings_no_target_hostname);
+		} else if (requireWifi && !wifiHelper.isWifiConnected()) {
 			updateMissingRequirement(R.string.switch_listener_settings_require_wifi);
 		} else {
 			listenerSwitch.setClickable(true);
@@ -263,7 +265,7 @@ public class SwitchListenerFragment extends Fragment {
 				WebView wv = new WebView(getActivity());
 				final StringBuilder dataBuilder = new StringBuilder();
 				dataBuilder.append("<html><body><ul>");
-				for(final String logLine : logs) {
+				for (final String logLine : logs) {
 					dataBuilder.append("<li>").append(logLine).append("</li>");
 				}
 				dataBuilder.append("</ul></body></html>");

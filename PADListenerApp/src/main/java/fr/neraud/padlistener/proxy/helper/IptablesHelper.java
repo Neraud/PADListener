@@ -32,7 +32,13 @@ public class IptablesHelper {
 		commandBuilder.append(context.getFilesDir().getPath()).append("/enable_iptables.sh");
 		commandBuilder.append(" ").append(context.getFilesDir().getPath());
 		commandBuilder.append(" ").append(CHAIN_PREFIX);
-		commandBuilder.append(" ").append(helper.getListenerTargetHostname());
+
+		commandBuilder.append(" '");
+		for(final String hostname : helper.getAllListenerTargetHostnames()) {
+			commandBuilder.append(hostname).append(" ");
+		}
+		commandBuilder.append("'");
+
 		final int processId = context.getApplicationInfo().uid;
 		final String excludedUid = String.valueOf(processId);
 		commandBuilder.append(" ").append(excludedUid);

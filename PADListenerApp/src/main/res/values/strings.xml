@@ -26,8 +26,10 @@
 
 	<string name="settings_listener_page">Listener</string>
 	<string name="settings_listener_category">Listener</string>
-	<string name="settings_listener_target_hostname_title">Target hostname</string>
-	<string name="settings_listener_target_hostname_summary">Hostname for PAD calls.\nYou probably should not change this ;p</string>
+	<string name="settings_listener_target_hostnames_title">Target hostnames</string>
+	<string name="settings_listener_target_hostnames_summary">Hostnames for PAD calls.</string>
+	<string name="settings_listener_custom_target_hostname_title">Custom target hostname</string>
+	<string name="settings_listener_custom_target_hostname_summary">Custom hostname added to the list of intercepted hostname for PAD calls.</string>
 	<string name="settings_proxy_mode_title">Proxy settings mode</string>
 	<string name="settings_proxy_mode_summary">%1$s</string>
 	<string name="settings_listener_on_local_title">Non local mode</string>
@@ -122,6 +124,7 @@
 	<string name="switch_listener_status_stop_failed">Listener stop failed (%1$s)</string>
 	<string name="switch_listener_proxy_started">Proxy started : %1$s</string>
 
+	<string name="switch_listener_settings_no_target_hostname">You did not select any target hostname for the listener, it cannot capture anything.</string>
 	<string name="switch_listener_settings_require_wifi">Your Listener settings (AutoProxy mode or Enable non local) require a WiFI connection. Please connect to a WiFI network or change those settings.</string>
 	<string name="switch_listener_settings_require_root">Your Listener settings (Auto iptables) require a rooted device.</string>
 	<string name="switch_listener_show_logs">Logs</string>

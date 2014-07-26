@@ -12,6 +12,7 @@ import org.sandrop.webscarab.plugin.proxy.ProxyPlugin;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.pad.constant.ApiAction;
@@ -25,7 +26,7 @@ import fr.neraud.padlistener.pad.model.ApiCallModel;
 public class PADPlugin extends ProxyPlugin {
 
 	private final Context context;
-	private final String targetHost;
+	private final Set<String> targetHostnames;
 	private boolean _enabled = true;
 
 	private class Plugin implements HTTPClient {
@@ -47,7 +48,7 @@ public class PADPlugin extends ProxyPlugin {
 				final String reqPath = reqUrl.getPath();
 
 				// Read only calls to GunHo API, with a 200 HTTP code
-				if ("200".equals(response.getStatus()) && targetHost.equals(reqHost) && "/api.php".equals(reqPath)) {
+				if ("200".equals(response.getStatus()) && targetHostnames.contains(reqHost) && "/api.php".equals(reqPath)) {
 					final byte[] requestContentByte = request.getContent();
 					final String requestContentString = new String(requestContentByte);
 					final Map<String, String> requestParams = extractParams(reqUrl);
@@ -90,7 +91,7 @@ public class PADPlugin extends ProxyPlugin {
 
 	public PADPlugin(Context context) {
 		this.context = context;
-		targetHost = new DefaultSharedPreferencesHelper(context).getListenerTargetHostname();
+		targetHostnames = new DefaultSharedPreferencesHelper(context).getAllListenerTargetHostnames();
 	}
 
 	public void parseProperties() {

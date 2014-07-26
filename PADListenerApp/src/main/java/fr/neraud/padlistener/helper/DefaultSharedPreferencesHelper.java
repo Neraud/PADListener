@@ -3,11 +3,12 @@ package fr.neraud.padlistener.helper;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
-
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.ProxyMode;
@@ -25,8 +26,18 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		super(PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
-	public String getListenerTargetHostname() {
-		return getStringPreference("listener_target_hostname", "api-na-adr-pad.gungho.jp");
+	public Set<String> getAllListenerTargetHostnames() {
+		final Set<String> targetHostNames = new HashSet<String>();
+
+		final Set<String> selectedTargetHostNames = getStringSetPreference("listener_target_hostnames", new HashSet<String>());
+		final String customTargetHostName = getStringPreference("listener_custom_target_hostname", null);
+
+		targetHostNames.addAll(selectedTargetHostNames);
+		if(StringUtils.isNotBlank(customTargetHostName)) {
+			targetHostNames.add(customTargetHostName);
+		}
+
+		return targetHostNames;
 	}
 
 	public ProxyMode getProxyMode() {
