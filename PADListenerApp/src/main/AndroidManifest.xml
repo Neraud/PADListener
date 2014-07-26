@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	package="fr.neraud.padlistener"
-	android:versionCode="19"
-	android:versionName="1.2.2">
+	android:versionCode="20"
+	android:versionName="1.2.3">
 
 	<uses-sdk
 		android:minSdkVersion="15"

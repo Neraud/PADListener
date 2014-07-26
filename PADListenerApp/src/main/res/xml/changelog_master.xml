@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="1.2.3" versioncode="20">
+		<change>Added the former Listener modes back</change>
+	</release>
+	<release
 		version="1.2.2" versioncode="19">
 		<change>Improved logs when the listener start/stop fails</change>
 	</release>
