@@ -42,6 +42,7 @@ import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 public class SwitchListenerFragment extends Fragment {
 
 	private static final String TAG_TASK_FRAGMENT = "switch_listener_task_fragment";
+	private boolean missingRequirement;
 	private final SwitchListenerTaskFragment.CallBacks callbacks;
 	private SwitchListenerTaskFragment mTaskFragment;
 	private TextView listenerStatus;
@@ -115,8 +116,10 @@ public class SwitchListenerFragment extends Fragment {
 				Log.d(getClass().getName(), "handleError");
 
 				if (result == null || result.isSuccess()) {
-					errorText.setVisibility(View.GONE);
-					showLogsButton.setVisibility(View.GONE);
+					if(!missingRequirement) {
+						errorText.setVisibility(View.GONE);
+						showLogsButton.setVisibility(View.GONE);
+					}
 				} else if (result.getError() instanceof MissingRequirementException) {
 					final int resId = ((MissingRequirementException) result.getError()).getRequirement().getErrorTextResId();
 					updateMissingRequirement(resId);
@@ -233,6 +236,7 @@ public class SwitchListenerFragment extends Fragment {
 	private void updateMissingRequirement(int textResId) {
 		Log.d(getClass().getName(), "updateMissingRequirement");
 
+		missingRequirement = true;
 		listenerSwitch.setClickable(false);
 		secondaryActionButton.setClickable(false);
 		errorText.setTextColor(Color.RED);
