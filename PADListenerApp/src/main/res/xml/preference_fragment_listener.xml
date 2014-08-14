@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:title="@string/settings_listener_page">
+	<PreferenceCategory android:title="@string/settings_listener_category">
+		<MultiSelectListPreference
+			android:defaultValue="@array/settings_listener_target_hostname_entryValues"
+			android:entries="@array/settings_listener_target_hostname_entries"
+			android:entryValues="@array/settings_listener_target_hostname_entryValues"
+			android:key="listener_target_hostnames"
+			android:summary="@string/settings_listener_target_hostnames_summary"
+			android:title="@string/settings_listener_target_hostnames_title"/>
+		<EditTextPreference
+			android:defaultValue=""
+			android:key="listener_custom_target_hostname"
+			android:summary="@string/settings_listener_custom_target_hostname_summary"
+			android:title="@string/settings_listener_custom_target_hostname_title"/>
+		<ListPreference
+			android:defaultValue="MANUAL"
+			android:entries="@array/settings_proxy_mode_entries"
+			android:entryValues="@array/settings_proxy_mode_entryValues"
+			android:key="listener_proxy_mode"
+			android:summary="@string/settings_proxy_mode_summary"
+			android:title="@string/settings_proxy_mode_title"/>
+		<CheckBoxPreference
+			android:defaultValue="true"
+			android:key="listener_auto_shutdown"
+			android:summary="@string/settings_listener_auto_shutdown_summary"
+			android:title="@string/settings_listener_auto_shutdown_title"/>
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="listener_non_local_enabled"
+			android:summary="@string/settings_listener_on_local_summary"
+			android:title="@string/settings_listener_on_local_title"/>
+	</PreferenceCategory>
+</PreferenceScreen>

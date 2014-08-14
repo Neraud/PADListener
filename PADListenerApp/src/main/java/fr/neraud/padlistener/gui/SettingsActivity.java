@@ -1,22 +1,37 @@
 package fr.neraud.padlistener.gui;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.annotation.SuppressLint;
+import android.preference.PreferenceActivity;
+import android.util.Log;
 
-import fr.neraud.padlistener.gui.fragment.SettingsFragment;
+import java.util.List;
+
+import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.gui.fragment.GenericPreferenceFragment;
+import fr.neraud.padlistener.gui.fragment.PADherderAccountsPreferenceFragment;
 
 /**
  * Activity handling settings
  *
  * @author Neraud
  */
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends PreferenceActivity {
+
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onBuildHeaders(List<PreferenceActivity.Header> target) {
+		Log.d(getClass().getName(), "onBuildHeaders");
+		loadHeadersFromResource(R.xml.preference_headers, target);
+	}
 
-		// Display the fragment as the main content.
-		getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+	@SuppressLint("Override")
+	protected boolean isValidFragment(String fragmentName) {
+		Log.d(getClass().getName(), "isValidFragment : " + fragmentName);
+		if (GenericPreferenceFragment.class.getName().equals(fragmentName)) {
+			return true;
+		} else if(PADherderAccountsPreferenceFragment.class.getName().equals(fragmentName)) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<header
+		android:fragment="fr.neraud.padlistener.gui.fragment.GenericPreferenceFragment"
+		android:title="@string/settings_listener_page">
+		<extra
+			android:name="settings" android:value="prefs_listener"></extra>
+	</header>
+	<header
+		android:fragment="fr.neraud.padlistener.gui.fragment.PADherderAccountsPreferenceFragment"
+		android:title="@string/settings_padherder_page">
+	</header>
+	<header
+		android:fragment="fr.neraud.padlistener.gui.fragment.GenericPreferenceFragment"
+		android:title="@string/settings_sync_page">
+		<extra
+			android:name="settings" android:value="prefs_sync"></extra>
+	</header>
+
+</preference-headers>
