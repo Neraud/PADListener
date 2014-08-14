@@ -2,12 +2,19 @@ package fr.neraud.padlistener.gui.fragment;
 
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.text.InputType;
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 
 /**
  * PreferenceFragment handling padherder accounts
@@ -16,7 +23,8 @@ import fr.neraud.padlistener.R;
  */
 public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 
-	public static final int MAX_PADHERDER_ACCOUNTS = 3;
+	private int numberOfAccounts;
+	private Map<Integer, Preference> accountsByPosition;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +33,34 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 
 		addPreferencesFromResource(R.xml.preference_fragment_padherder);
 
-		for (int i = 1; i <= MAX_PADHERDER_ACCOUNTS; i++) {
+		getPreferenceScreen().getPreference(0).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object o) {
+				Log.d(getClass().getName(), "onPreferenceChange : " + o);
+				if ("padherder_account_number".equals(preference.getKey())) {
+					final String newNumberOfAccountsString = (String) o;
+					final int newNumberOfAccounts = StringUtils.isNotBlank(newNumberOfAccountsString) ? Integer.parseInt(newNumberOfAccountsString) : 3;
+
+					if (newNumberOfAccounts < numberOfAccounts) {
+						for (int i = newNumberOfAccounts + 1; i <= numberOfAccounts; i++) {
+							removePreferencesForOneAccount(i);
+						}
+					} else if (newNumberOfAccounts > numberOfAccounts) {
+						for (int i = numberOfAccounts + 1; i <= newNumberOfAccounts; i++) {
+							addPreferencesForOneAccount(i);
+						}
+					}
+
+					numberOfAccounts = newNumberOfAccounts;
+					return true;
+				}
+				return false;
+			}
+		});
+		accountsByPosition = new HashMap<Integer, Preference>();
+		numberOfAccounts = new DefaultSharedPreferencesHelper(getActivity()).getPadHerderAccountNumber();
+
+		for (int i = 1; i <= numberOfAccounts; i++) {
 			addPreferencesForOneAccount(i);
 		}
 	}
@@ -34,6 +69,7 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 		Log.d(getClass().getName(), "addPreferencesForOneAccount : " + accountId);
 		final PreferenceCategory accountCategory = new PreferenceCategory(getActivity());
 		accountCategory.setTitle(getString(R.string.settings_padherder_account_category, accountId));
+		accountsByPosition.put(accountId, accountCategory);
 		getPreferenceScreen().addPreference(accountCategory);
 
 		final EditTextPreference accountLogin = new EditTextPreference(getActivity());
@@ -52,4 +88,9 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 		accountCategory.addPreference(accountPassword);
 	}
 
+	private void removePreferencesForOneAccount(int accountId) {
+		final Preference category = accountsByPosition.get(accountId);
+		getPreferenceScreen().removePreference(category);
+		accountsByPosition.remove(accountId);
+	}
 }

@@ -2,6 +2,8 @@ package fr.neraud.padlistener.helper;
 
 import android.content.SharedPreferences;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Set;
 
 /**
@@ -39,6 +41,14 @@ public abstract class AbstractSharedPreferencesHelper {
 
 	protected void setLongPreference(String name, Long value) {
 		sharedPreferences.edit().putLong(name, value).commit();
+	}
+
+	protected int getIntFromStringPreference(String name, int defaultValue) {
+		final String value = sharedPreferences.getString(name, "");
+		if (StringUtils.isNotBlank(value))
+			return Integer.parseInt(sharedPreferences.getString(name, ""));
+		else
+			return defaultValue;
 	}
 
 	protected Set<String> getStringSetPreference(String name, Set<String> defaultValue) {

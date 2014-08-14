@@ -38,6 +38,9 @@
 	<string name="settings_listener_on_local_summary">Enable to make the listener accessible from other devices connected to the same network (ex : to capture from another Android device, won\'t work with iOS)</string>
 
 	<string name="settings_padherder_page">PadHerder</string>
+	<string name="settings_padherder_account_number_title">Number of accounts</string>
+	<string name="settings_padherder_account_number_summary">How many PADherder accounts you want to be able to use at the same time</string>
+
 	<string name="settings_padherder_account_category">Account %1$d</string>
 	<string name="settings_padherder_login_title">Login</string>
 	<string name="settings_padherder_login_summary" />

@@ -14,7 +14,6 @@ import java.util.Set;
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
-import fr.neraud.padlistener.gui.fragment.PADherderAccountsPreferenceFragment;
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
 /**
@@ -54,10 +53,14 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return getBooleanPreference("listener_non_local_enabled", false);
 	}
 
+	public int getPadHerderAccountNumber() {
+		return getIntFromStringPreference("padherder_account_number", 3);
+	}
+
 	@SuppressLint("UseSparseArrays")
 	public Map<Integer, String> getPadHerderAccounts() {
 		final Map<Integer, String> result = new HashMap<Integer, String>();
-		for (int i = 1; i <= PADherderAccountsPreferenceFragment.MAX_PADHERDER_ACCOUNTS; i++) {
+		for (int i = 1; i <= getPadHerderAccountNumber(); i++) {
 			if (StringUtils.isNotBlank(getPadHerderUserName(i)) && StringUtils.isNotBlank(getPadHerderUserPassword(i))) {
 				result.put(i, getPadHerderUserName(i));
 			}
