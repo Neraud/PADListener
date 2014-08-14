@@ -132,7 +132,7 @@ public class SyncHelper {
 
 		// Sort monsters DESC
 		final Comparator<BaseMonsterModel> comparatorDesc = Collections.reverseOrder(new MonsterComparator());
-		for(final List<CapturedMonsterCardModel> capturedMonstersList : capturedMonstersById.values()) {
+		for (final List<CapturedMonsterCardModel> capturedMonstersList : capturedMonstersById.values()) {
 			Collections.sort(capturedMonstersList, comparatorDesc);
 		}
 
@@ -197,7 +197,7 @@ public class SyncHelper {
 
 		// Sort monsters DESC
 		final Comparator<BaseMonsterModel> comparatorDesc = Collections.reverseOrder(new MonsterComparator());
-		for(final List<UserInfoMonsterModel> capturedMonstersList : padherderMonstersById.values()) {
+		for (final List<UserInfoMonsterModel> capturedMonstersList : padherderMonstersById.values()) {
 			Collections.sort(capturedMonstersList, comparatorDesc);
 		}
 
@@ -232,16 +232,12 @@ public class SyncHelper {
 						Log.d(getClass().getName(), "filterMaterials : removing all from captured monsters");
 						capturedMonstersById.remove(materialId);
 					} else if (syncMaterialInMonster == SyncMaterialInMonster.ONLY_IF_ALREADY_IN_PADHERDER) {
-						if (!padherderMonstersById.containsKey(materialId)) {
-							Log.d(getClass().getName(),
-									"filterMaterials : not in padherder's monsters, removing all from captured monsters");
-							capturedMonstersById.remove(materialId);
-						} else {
-							final int numberToKeep = padherderMonstersById.get(materialId).size();
-							final int numberToRemove = capturedMonstersById.get(materialId).size() - numberToKeep;
-							Log.d(getClass().getName(), "filterMaterials : in padherder's monsters, removing " + numberToRemove
-									+ " from captured");
-							final List<CapturedMonsterCardModel> capturedMonsterList =  capturedMonstersById.get(materialId);
+						if (padherderMaterialsById.containsKey(materialId)) {
+							final int numberToRemove = padherderMaterialsById.get(materialId).getQuantity();
+							Log.d(getClass().getName(), "filterMaterials : in padherder's materials, removing " + numberToRemove
+									+ " from captured monsters");
+
+							final List<CapturedMonsterCardModel> capturedMonsterList = capturedMonstersById.get(materialId);
 							// Start an iterator at the end of the list, to remove the lowest monsters first
 							final ListIterator<CapturedMonsterCardModel> iter = capturedMonsterList.listIterator(capturedMonsterList.size());
 							int i = 0;
@@ -250,25 +246,24 @@ public class SyncHelper {
 								iter.remove();
 								i++;
 							}
+						} else {
+							Log.d(getClass().getName(),
+									"filterMaterials : not in padherder's materials, nothing to do");
 						}
 					} else {
 						Log.d(getClass().getName(), "filterMaterials : not removing from monsters");
 					}
 
 					// Same if than above, but a remove can occur, so we need to check again
-					if (capturedMonstersById.containsKey(materialId)) {
-						if (syncDeductMonsterInMaterial) {
-							if (capturedMaterialsById.containsKey(materialId)) {
-								final int nbAlreadyMonsters = capturedMonstersById.get(materialId).size();
-								Log.d(getClass().getName(), "filterMaterials : in capturedMonster, reducing captured quantity by "
-										+ nbAlreadyMonsters);
-								final int old = capturedMaterialsById.get(materialId);
-								capturedMaterialsById.put(materialId, old - nbAlreadyMonsters);
-							} else {
-								Log.d(getClass().getName(), "filterMaterials : not in capturedMonster, nothing to do");
-							}
+					if (syncDeductMonsterInMaterial) {
+						if (padherderMonstersById.containsKey(materialId)) {
+							final int nbAlreadyMonsters = padherderMonstersById.get(materialId).size();
+							Log.d(getClass().getName(), "filterMaterials : in capturedMonster, reducing captured quantity by "
+									+ nbAlreadyMonsters);
+							final int old = capturedMaterialsById.get(materialId);
+							capturedMaterialsById.put(materialId, old - nbAlreadyMonsters);
 						} else {
-							Log.d(getClass().getName(), "filterMaterials : not removing from captured materials");
+							Log.d(getClass().getName(), "filterMaterials : not in capturedMonster, nothing to do");
 						}
 					}
 				}
