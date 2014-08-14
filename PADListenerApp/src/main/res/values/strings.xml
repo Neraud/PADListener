@@ -35,7 +35,7 @@
 	<string name="settings_listener_auto_shutdown_title">Auto shutdown</string>
 	<string name="settings_listener_auto_shutdown_summary">Automatically shuts down the Listener when the capture is done. Only used for automatic listener modes</string>
 	<string name="settings_listener_on_local_title">Non local mode</string>
-	<string name="settings_listener_on_local_summary">Enable to make the listener accessible from other devices connected to the same network (ex : to capture from iOS)</string>
+	<string name="settings_listener_on_local_summary">Enable to make the listener accessible from other devices connected to the same network (ex : to capture from another Android device, won\'t work with iOS)</string>
 
 	<string name="settings_padherder_page">PadHerder</string>
 	<string name="settings_padherder_account_1_category">Account 1</string>
