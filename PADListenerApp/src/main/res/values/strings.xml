@@ -32,6 +32,8 @@
 	<string name="settings_listener_custom_target_hostname_summary">Custom hostname added to the list of intercepted hostname for PAD calls.</string>
 	<string name="settings_proxy_mode_title">Proxy settings mode</string>
 	<string name="settings_proxy_mode_summary">%1$s</string>
+	<string name="settings_listener_auto_shutdown_title">Auto shutdown</string>
+	<string name="settings_listener_auto_shutdown_summary">Automatically shuts down the Listener when the capture is done. Only used for automatic listener modes</string>
 	<string name="settings_listener_on_local_title">Non local mode</string>
 	<string name="settings_listener_on_local_summary">Enable to make the listener accessible from other devices connected to the same network (ex : to capture from iOS)</string>
 

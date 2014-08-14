@@ -3,6 +3,7 @@ package fr.neraud.padlistener.proxy.plugin;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import fr.neraud.padlistener.helper.CaptureNotificationHelper;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -23,6 +25,7 @@ import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
+import fr.neraud.padlistener.service.ListenerService;
 
 /**
  * Thread used to handle processing a call from PAD to Gungho servers
@@ -58,9 +61,14 @@ public class ApiCallHandlerThread extends Thread {
 					final JsonCaptureHelper saveHelper = new JsonCaptureHelper(context);
 					saveHelper.savePadCapturedData(callModel.getResponseContent());
 
-					new TechnicalSharedPreferencesHelper(context).setLastCaptureDate(new Date());
+					final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(context);
+					techPrefHelper.setLastCaptureDate(new Date());
 					captureCallback.notifyCaptureFinished(result.getPlayerInfo().getName());
 
+					final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
+					if(prefHelper.isListenerAutoShutdown() && techPrefHelper.getLastListenerStartProxyMode().isAutomatic()) {
+						stopListener();
+					}
 					break;
 				default:
 					Log.d(getClass().getName(), "Ignoring action " + callModel.getAction());
@@ -119,6 +127,12 @@ public class ApiCallHandlerThread extends Thread {
 			i++;
 		}
 		cr.bulkInsert(uri, values);
+	}
+
+	private void stopListener() {
+		Log.d(getClass().getName(), "stopListener");
+		final Intent serviceIntent = new Intent(context, ListenerService.class);
+		context.stopService(serviceIntent);
 	}
 
 }

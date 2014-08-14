@@ -23,6 +23,11 @@
 				android:summary="@string/settings_proxy_mode_summary"
 				android:title="@string/settings_proxy_mode_title"/>
 			<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="listener_auto_shutdown"
+				android:summary="@string/settings_listener_auto_shutdown_summary"
+				android:title="@string/settings_listener_auto_shutdown_title"/>
+			<CheckBoxPreference
 				android:defaultValue="false"
 				android:key="listener_non_local_enabled"
 				android:summary="@string/settings_listener_on_local_summary"

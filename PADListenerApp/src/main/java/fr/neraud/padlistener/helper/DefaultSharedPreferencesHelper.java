@@ -3,6 +3,7 @@ package fr.neraud.padlistener.helper;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		final String customTargetHostName = getStringPreference("listener_custom_target_hostname", null);
 
 		targetHostNames.addAll(selectedTargetHostNames);
-		if(StringUtils.isNotBlank(customTargetHostName)) {
+		if (StringUtils.isNotBlank(customTargetHostName)) {
 			targetHostNames.add(customTargetHostName);
 		}
 
@@ -42,6 +43,10 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 
 	public ProxyMode getProxyMode() {
 		return ProxyMode.valueOf(getStringPreference("listener_proxy_mode", "MANUAL"));
+	}
+
+	public boolean isListenerAutoShutdown() {
+		return getBooleanPreference("listener_auto_shutdown", true);
 	}
 
 	public boolean isListenerNonLocalEnabled() {
