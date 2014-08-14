@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -129,6 +130,12 @@ public class SyncHelper {
 			}
 		}
 
+		// Sort monsters DESC
+		final Comparator<BaseMonsterModel> comparatorDesc = Collections.reverseOrder(new MonsterComparator());
+		for(final List<CapturedMonsterCardModel> capturedMonstersList : capturedMonstersById.values()) {
+			Collections.sort(capturedMonstersList, comparatorDesc);
+		}
+
 		return capturedMonstersById;
 	}
 
@@ -188,6 +195,12 @@ public class SyncHelper {
 			padherderMonstersById.get(monster.getId()).add(monster);
 		}
 
+		// Sort monsters DESC
+		final Comparator<BaseMonsterModel> comparatorDesc = Collections.reverseOrder(new MonsterComparator());
+		for(final List<UserInfoMonsterModel> capturedMonstersList : padherderMonstersById.values()) {
+			Collections.sort(capturedMonstersList, comparatorDesc);
+		}
+
 		return padherderMonstersById;
 	}
 
@@ -228,10 +241,12 @@ public class SyncHelper {
 							final int numberToRemove = capturedMonstersById.get(materialId).size() - numberToKeep;
 							Log.d(getClass().getName(), "filterMaterials : in padherder's monsters, removing " + numberToRemove
 									+ " from captured");
-							final Iterator<CapturedMonsterCardModel> iter = capturedMonstersById.get(materialId).iterator();
+							final List<CapturedMonsterCardModel> capturedMonsterList =  capturedMonstersById.get(materialId);
+							// Start an iterator at the end of the list, to remove the lowest monsters first
+							final ListIterator<CapturedMonsterCardModel> iter = capturedMonsterList.listIterator(capturedMonsterList.size());
 							int i = 0;
-							while (iter.hasNext() && i < numberToRemove) {
-								iter.next();
+							while (iter.hasPrevious() && i < numberToRemove) {
+								iter.previous();
 								iter.remove();
 								i++;
 							}
@@ -297,7 +312,6 @@ public class SyncHelper {
 
 				Log.d(getClass().getName(), "syncedMaterial : - " + syncedMaterial);
 				syncedMaterials.add(syncedMaterial);
-
 			} catch (final UnknownMonsterException e) {
 				Log.w(getClass().getName(), "syncMaterials", e);
 				hasEncounteredUnknownMonster = true;
@@ -364,10 +378,6 @@ public class SyncHelper {
 			}
 		}
 
-		// Sort monsters DESC
-		final Comparator<BaseMonsterModel> comparatorDesc = Collections.reverseOrder(new MonsterComparator());
-		Collections.sort(capturedMonstersWork, comparatorDesc);
-		Collections.sort(padherderMonstersWork, comparatorDesc);
 		final int nbCaptured = capturedMonstersWork.size();
 		final int nbPadherder = padherderMonstersWork.size();
 
