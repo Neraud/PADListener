@@ -33,6 +33,14 @@ public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesH
 		setLongPreference("lastCaptureDate", date.getTime());
 	}
 
+	public String getLastCaptureName() {
+		return getStringPreference("lastCaptureName", null);
+	}
+
+	public void setLastCaptureName(String accountName) {
+		setStringPreference("lastCaptureName", accountName);
+	}
+
 	public ProxyMode getLastListenerStartProxyMode() {
 		return ProxyMode.valueOf(getStringPreference("lastListenerStartProxyMode", "MANUAL"));
 	}

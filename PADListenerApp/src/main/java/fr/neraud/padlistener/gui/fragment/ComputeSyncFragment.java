@@ -16,7 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.DateFormat;
+import java.util.List;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
@@ -26,6 +29,7 @@ import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.HttpResponseException;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
+import fr.neraud.padlistener.model.PADHerderAccountModel;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 
@@ -141,8 +145,22 @@ public class ComputeSyncFragment extends Fragment {
 		progress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		status = (TextView) view.findViewById(R.id.compute_sync_status);
 		checkLogin = (TextView) view.findViewById(R.id.compute_sync_check_credentials);
-		final AccountSpinnerAdapter adapter = new AccountSpinnerAdapter(getActivity());
+
+		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(getActivity()).getPadHerderAccounts();
+
+		final AccountSpinnerAdapter adapter = new AccountSpinnerAdapter(getActivity(), accounts);
 		chooseAccountSpinner.setAdapter(adapter);
+
+		final String lastCaptureAccountName = new TechnicalSharedPreferencesHelper(getActivity()).getLastCaptureName();
+		if(StringUtils.isNotBlank(lastCaptureAccountName)) {
+			for (final PADHerderAccountModel account : accounts) {
+				if (lastCaptureAccountName.equals(account.getName())) {
+					final int selectedPosition = adapter.getPositionById(account.getAccountId());
+					chooseAccountSpinner.setSelection(selectedPosition);
+					break;
+				}
+			}
+		}
 
 		final FragmentManager fm = getFragmentManager();
 		mTaskFragment = (ComputeSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);

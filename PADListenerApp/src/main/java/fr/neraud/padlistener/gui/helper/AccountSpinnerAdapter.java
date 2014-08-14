@@ -4,9 +4,10 @@ import android.content.Context;
 import android.util.SparseIntArray;
 import android.widget.ArrayAdapter;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.model.PADHerderAccountModel;
 
 /**
  * Adapter for the account Spinner on the ComputeSyncFragment
@@ -17,17 +18,18 @@ public class AccountSpinnerAdapter extends ArrayAdapter<String> {
 
 	private final SparseIntArray accountIdsByPosition;
 
-	public AccountSpinnerAdapter(Context context) {
+	public AccountSpinnerAdapter(Context context, List<PADHerderAccountModel> accounts) {
 		super(context, android.R.layout.simple_spinner_item);
-		final Map<Integer, String> accounts = new DefaultSharedPreferencesHelper(context).getPadHerderAccounts();
 
-		super.addAll(accounts.values());
-
+		final List<String> labels = new ArrayList<String>();
 		accountIdsByPosition = new SparseIntArray();
-		final Integer[] accountIds = accounts.keySet().toArray(new Integer[accounts.size()]);
-		for (int i = 0; i < accountIds.length; i++) {
-			accountIdsByPosition.put(i, accountIds[i]);
+		int i = 0 ;
+		for(final PADHerderAccountModel account : accounts)  {
+			labels.add(account.getLogin());
+			accountIdsByPosition.put(i, account.getAccountId());
+			i++;
 		}
+		super.addAll(labels);
 	}
 
 	@Override

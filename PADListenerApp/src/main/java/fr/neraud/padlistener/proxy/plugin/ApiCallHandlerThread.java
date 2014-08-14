@@ -63,6 +63,7 @@ public class ApiCallHandlerThread extends Thread {
 
 					final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(context);
 					techPrefHelper.setLastCaptureDate(new Date());
+					techPrefHelper.setLastCaptureName(result.getPlayerInfo().getName());
 					captureCallback.notifyCaptureFinished(result.getPlayerInfo().getName());
 
 					final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);

@@ -42,6 +42,8 @@
 	<string name="settings_padherder_account_number_summary">How many PADherder accounts you want to be able to use at the same time</string>
 
 	<string name="settings_padherder_account_category">Account %1$d</string>
+	<string name="settings_padherder_name_title">PAD Name</string>
+	<string name="settings_padherder_name_summary">PAD account name to automatically match the captured data</string>
 	<string name="settings_padherder_login_title">Login</string>
 	<string name="settings_padherder_login_summary" />
 	<string name="settings_padherder_password_title">Password</string>

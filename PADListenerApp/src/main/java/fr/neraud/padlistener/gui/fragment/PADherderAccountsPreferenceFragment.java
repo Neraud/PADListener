@@ -72,6 +72,13 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 		accountsByPosition.put(accountId, accountCategory);
 		getPreferenceScreen().addPreference(accountCategory);
 
+		final EditTextPreference accountName = new EditTextPreference(getActivity());
+		accountName.setKey("padherder_name_" + accountId);
+		accountName.setTitle(R.string.settings_padherder_name_title);
+		accountName.setDialogTitle(R.string.settings_padherder_name_title);
+		accountName.setSummary(R.string.settings_padherder_name_summary);
+		accountCategory.addPreference(accountName);
+
 		final EditTextPreference accountLogin = new EditTextPreference(getActivity());
 		accountLogin.setKey("padherder_login_" + accountId);
 		accountLogin.setTitle(R.string.settings_padherder_login_title);

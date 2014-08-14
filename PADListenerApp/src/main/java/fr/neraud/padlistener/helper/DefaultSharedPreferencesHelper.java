@@ -6,14 +6,15 @@ import android.preference.PreferenceManager;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
+import fr.neraud.padlistener.model.PADHerderAccountModel;
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
 /**
@@ -58,15 +59,24 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 	}
 
 	@SuppressLint("UseSparseArrays")
-	public Map<Integer, String> getPadHerderAccounts() {
-		final Map<Integer, String> result = new HashMap<Integer, String>();
+	public List<PADHerderAccountModel> getPadHerderAccounts() {
+		final List<PADHerderAccountModel> results = new ArrayList<PADHerderAccountModel>();
 		for (int i = 1; i <= getPadHerderAccountNumber(); i++) {
 			if (StringUtils.isNotBlank(getPadHerderUserName(i)) && StringUtils.isNotBlank(getPadHerderUserPassword(i))) {
-				result.put(i, getPadHerderUserName(i));
+				final PADHerderAccountModel account = new PADHerderAccountModel();
+				account.setAccountId(i);
+				account.setLogin(getPadHerderUserName(i));
+				account.setPassword(getPadHerderUserPassword(i));
+				account.setName(getPadHerderName(i));
+				results.add(account);
 			}
 		}
 
-		return result;
+		return results;
+	}
+
+	public String getPadHerderName(int accountId) {
+		return getStringPreference("padherder_name_" + accountId, null);
 	}
 
 	public String getPadHerderUserName(int accountId) {
