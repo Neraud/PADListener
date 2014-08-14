@@ -50,12 +50,23 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 		final HttpRequestBase httpMethod = createMethod(httpRequest.getMethod(), fullUrl);
 		httpMethod.setHeader("user-agent", "PADListener/" + VersionUtil.getVersion(context));
 
-		if (httpRequest.isBasicAuthEnabled()) {
-			Log.d(getClass().getName(), "call : adding basic auth with user " + httpRequest.getBasicAuthUserName());
-			final byte[] authorizationBytes = (httpRequest.getBasicAuthUserName() + ":" + httpRequest.getBasicAuthUserPassword())
-					.getBytes();
-			final String authorizationString = "Basic " + Base64.encodeToString(authorizationBytes, Base64.NO_WRAP);
-			httpMethod.setHeader("Authorization", authorizationString);
+		if (httpRequest.getAuthMode() != null) {
+			switch (httpRequest.getAuthMode()) {
+				case BASIC:
+					Log.d(getClass().getName(), "call : adding basic auth with user " + httpRequest.getAuthUserName());
+					final byte[] authorizationBytes = (httpRequest.getAuthUserName() + ":" + httpRequest.getAuthUserPassword())
+							.getBytes();
+					final String authorizationString = "Basic " + Base64.encodeToString(authorizationBytes, Base64.NO_WRAP);
+					httpMethod.setHeader("Authorization", authorizationString);
+					break;
+				case X_HEADER:
+					Log.d(getClass().getName(), "call : adding x-header auth with user " + httpRequest.getAuthUserName());
+
+					httpMethod.setHeader("X-Username", httpRequest.getAuthUserName());
+					httpMethod.setHeader("X-Password", httpRequest.getAuthUserPassword());
+					break;
+				default:
+			}
 		}
 		if (httpRequest.getHeaderAccept() != null) {
 			httpMethod.setHeader("Accept", httpRequest.getHeaderAccept());

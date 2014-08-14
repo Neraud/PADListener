@@ -2,6 +2,7 @@ package fr.neraud.padlistener.http.model;
 
 import java.util.Map;
 
+import fr.neraud.padlistener.http.constant.AuthMode;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 
 /**
@@ -17,9 +18,9 @@ public class MyHttpRequest {
 	private String headerAccept;
 	private String headerContentType;
 	private String body;
-	private boolean basicAuthEnabled = false;
-	private String basicAuthUserName;
-	private String basicAuthUserPassword;
+	private AuthMode authMode = null;
+	private String authUserName;
+	private String authUserPassword;
 
 	public HttpMethod getMethod() {
 		return method;
@@ -69,28 +70,28 @@ public class MyHttpRequest {
 		this.body = body;
 	}
 
-	public boolean isBasicAuthEnabled() {
-		return basicAuthEnabled;
+	public AuthMode getAuthMode() {
+		return authMode;
 	}
 
-	public void setBasicAuthEnabled(boolean basicAuthEnabled) {
-		this.basicAuthEnabled = basicAuthEnabled;
+	public void setAuthMode(AuthMode authMode) {
+		this.authMode = authMode;
 	}
 
-	public String getBasicAuthUserName() {
-		return basicAuthUserName;
+	public String getAuthUserName() {
+		return authUserName;
 	}
 
-	public void setBasicAuthUserName(String basicAuthUserName) {
-		this.basicAuthUserName = basicAuthUserName;
+	public void setAuthUserName(String authUserName) {
+		this.authUserName = authUserName;
 	}
 
-	public String getBasicAuthUserPassword() {
-		return basicAuthUserPassword;
+	public String getAuthUserPassword() {
+		return authUserPassword;
 	}
 
-	public void setBasicAuthUserPassword(String basicAuthUserPassword) {
-		this.basicAuthUserPassword = basicAuthUserPassword;
+	public void setAuthUserPassword(String authUserPassword) {
+		this.authUserPassword = authUserPassword;
 	}
 
 }

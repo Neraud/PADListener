@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.http.constant.AuthMode;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 
@@ -112,9 +113,9 @@ public class PadHerderDescriptor {
 			restRequest.setHeaderContentType("application/json");
 			if (service.needsAuth) {
 				final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
-				restRequest.setBasicAuthEnabled(true);
-				restRequest.setBasicAuthUserName(helper.getPadHerderUserName(accountId));
-				restRequest.setBasicAuthUserPassword(helper.getPadHerderUserPassword(accountId));
+				restRequest.setAuthMode(AuthMode.X_HEADER);
+				restRequest.setAuthUserName(helper.getPadHerderUserName(accountId));
+				restRequest.setAuthUserPassword(helper.getPadHerderUserPassword(accountId));
 			}
 			return restRequest;
 		}
