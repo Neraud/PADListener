@@ -7,6 +7,8 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.HttpCallException;
@@ -23,13 +25,20 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 /**
  * Base IntentService used for Rest calls
  *
- * @param <R>
- * @param <M>
  * @author Neraud
  */
-public abstract class AbstractRestIntentService<R, M extends Serializable> extends IntentService {
+public abstract class AbstractRestIntentService<M extends Serializable> extends IntentService {
 
 	private ResultReceiver receiver;
+
+	protected abstract class RestTask<R> {
+
+		protected abstract RestClient createRestClient();
+
+		protected abstract MyHttpRequest createMyHttpRequest();
+
+		protected abstract R parseResult(final String responseContent) throws ParsingException;
+	}
 
 	public AbstractRestIntentService(String name) {
 		super(name);
@@ -41,19 +50,18 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 		initParams(intent);
 		receiver = intent.getParcelableExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME);
 		notifyProgress(RestCallRunningStep.STARTED);
-		try {
-			final RestResponse restResponse = callRestApi();
-			notifyProgress(RestCallRunningStep.RESPONSE_RECEIVED);
-			if (restResponse.isResponseOk()) {
-				final R result = parseResult(restResponse.getContentResult());
 
-				notifyProgress(RestCallRunningStep.RESPONSE_PARSED);
-				final M resultModel = processResult(result);
-				notifyResult(resultModel);
-			} else {
-				throw new HttpResponseException(restResponse.getStatus(), "Code " + restResponse.getStatus()
-						+ " received with content : " + restResponse.getContentResult());
-			}
+		List<RestTask<?>> tasks = createRestTasks();
+
+		try {
+			final List<RestResponse> restResponse = callRestApi(tasks);
+			notifyProgress(RestCallRunningStep.RESPONSE_RECEIVED);
+
+			List<?> results = extractResults(tasks, restResponse);
+			notifyProgress(RestCallRunningStep.RESPONSE_PARSED);
+
+			final M resultModel = processResult(results);
+			notifyResult(resultModel);
 		} catch (final HttpCallException e) {
 			Log.e(getClass().getName(), "onHandleIntent : HttpCallException " + e.getMessage(), e);
 			notifyError(RestCallError.REST_CALL_ERROR, e);
@@ -69,23 +77,44 @@ public abstract class AbstractRestIntentService<R, M extends Serializable> exten
 		}
 	}
 
-	private RestResponse callRestApi() throws HttpCallException {
-		final RestClient restClient = createRestClient();
-		final MyHttpRequest restRequest = createMyHttpRequest();
-		return restClient.call(restRequest);
+	protected abstract List<RestTask<?>> createRestTasks();
+
+	private List<RestResponse> callRestApi(List<RestTask<?>> tasks) throws HttpCallException {
+		final List<RestResponse> responses = new ArrayList<RestResponse>();
+
+		for (final RestTask<?> task : tasks) {
+			final RestClient restClient = task.createRestClient();
+			final MyHttpRequest restRequest = task.createMyHttpRequest();
+			final RestResponse response = restClient.call(restRequest);
+			responses.add(response);
+		}
+		return responses;
 	}
+
+	private List<?> extractResults(List<RestTask<?>> tasks, List<RestResponse> responses) throws ParsingException, HttpResponseException {
+		final List<Object> results = new ArrayList();
+
+		for (int i = 0; i < tasks.size(); i++) {
+			final RestTask task = tasks.get(i);
+			final RestResponse restResponse = responses.get(i);
+
+			if (restResponse.isResponseOk()) {
+				final Object result = task.parseResult(restResponse.getContentResult());
+				results.add(result);
+
+			} else {
+				throw new HttpResponseException(restResponse.getStatus(), "Code " + restResponse.getStatus()
+						+ " received with content : " + restResponse.getContentResult());
+			}
+		}
+		return results;
+	}
+
+	protected abstract M processResult(List<?> results) throws ProcessException;
 
 	protected void initParams(Intent intent) {
 		// Override if necessary
 	}
-
-	protected abstract RestClient createRestClient();
-
-	protected abstract MyHttpRequest createMyHttpRequest();
-
-	protected abstract R parseResult(final String responseContent) throws ParsingException;
-
-	protected abstract M processResult(R result) throws ProcessException;
 
 	protected void notifyProgress(RestCallRunningStep step) {
 		Log.d(getClass().getName(), "notifyProgress : " + step);

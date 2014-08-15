@@ -33,13 +33,43 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
  *
  * @author Neraud
  */
-public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel, ComputeSyncResultModel> {
+public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncResultModel> {
 
 	public static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private int accountId;
 
+	private class FetchUserInfoTask extends RestTask<UserInfoModel> {
+
+		@Override
+		protected RestClient createRestClient() {
+			return new RestClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
+		}
+
+		@Override
+		protected MyHttpRequest createMyHttpRequest() {
+			return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo(getApplicationContext(), accountId);
+		}
+
+		@Override
+		protected UserInfoModel parseResult(String responseContent) throws ParsingException {
+			Log.d(getClass().getName(), "parseResult");
+
+			final JsonCaptureHelper saveHelper = new JsonCaptureHelper(getApplicationContext());
+			saveHelper.savePadHerderUserInfo(responseContent);
+
+			final UserInfoJsonParser parser = new UserInfoJsonParser();
+			return parser.parse(responseContent);
+		}
+	}
+
 	public ComputeSyncService() {
 		super("ComputeSyncService");
+	}
+
+	protected List<RestTask<?>> createRestTasks() {
+		final List<RestTask<?>> tasks = new ArrayList<RestTask<?>>();
+		tasks.add(new FetchUserInfoTask());
+		return tasks;
 	}
 
 	@Override
@@ -48,29 +78,10 @@ public class ComputeSyncService extends AbstractRestIntentService<UserInfoModel,
 	}
 
 	@Override
-	protected RestClient createRestClient() {
-		return new RestClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
-	}
-
-	@Override
-	protected MyHttpRequest createMyHttpRequest() {
-		return PadHerderDescriptor.RequestHelper.initRequestForGetUserInfo(getApplicationContext(), accountId);
-	}
-
-	@Override
-	protected UserInfoModel parseResult(String responseContent) throws ParsingException {
-		Log.d(getClass().getName(), "parseResult");
-
-		final JsonCaptureHelper saveHelper = new JsonCaptureHelper(getApplicationContext());
-		saveHelper.savePadHerderUserInfo(responseContent);
-
-		final UserInfoJsonParser parser = new UserInfoJsonParser();
-		return parser.parse(responseContent);
-	}
-
-	@Override
-	protected ComputeSyncResultModel processResult(UserInfoModel padInfo) throws ProcessException {
+	protected ComputeSyncResultModel processResult(List results) throws ProcessException {
 		Log.d(getClass().getName(), "processResult");
+		final UserInfoModel padInfo = (UserInfoModel) results.get(0);
+
 		final List<CapturedMonsterCardModel> capturedMonsters = extractCapturedPlayerMonster();
 		final CapturedPlayerInfoModel capturedInfo = extractCapturedPlayerInfo();
 		final List<MonsterInfoModel> monsterInfos = extractMonsterInfo();

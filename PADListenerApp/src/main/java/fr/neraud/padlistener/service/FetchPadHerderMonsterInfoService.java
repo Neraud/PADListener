@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,32 +25,42 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
  *
  * @author Neraud
  */
-public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<List<MonsterInfoModel>, Integer> {
+public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<Integer> {
+
+	private class FetchInfoTask extends RestTask<List<MonsterInfoModel>> {
+
+		@Override
+		protected RestClient createRestClient() {
+			return new RestClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
+		}
+
+		@Override
+		protected MyHttpRequest createMyHttpRequest() {
+			return PadHerderDescriptor.RequestHelper.initRequestForGetMonsterInfo();
+		}
+
+		@Override
+		protected List<MonsterInfoModel> parseResult(String responseContent) throws ParsingException {
+			Log.d(getClass().getName(), "parseResult");
+			final MonsterInfoJsonParser parser = new MonsterInfoJsonParser();
+			return parser.parse(responseContent);
+		}
+	}
 
 	public FetchPadHerderMonsterInfoService() {
 		super("FetchPadHerderMonsterInfoService");
 	}
 
-	@Override
-	protected RestClient createRestClient() {
-		return new RestClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
+	protected List<RestTask<?>> createRestTasks() {
+		final List<RestTask<?>> tasks = new ArrayList<RestTask<?>>();
+		tasks.add(new FetchInfoTask());
+		return tasks;
 	}
 
 	@Override
-	protected MyHttpRequest createMyHttpRequest() {
-		return PadHerderDescriptor.RequestHelper.initRequestForGetMonsterInfo();
-	}
-
-	@Override
-	protected List<MonsterInfoModel> parseResult(String responseContent) throws ParsingException {
-		Log.d(getClass().getName(), "parseResult");
-		final MonsterInfoJsonParser parser = new MonsterInfoJsonParser();
-		return parser.parse(responseContent);
-	}
-
-	@Override
-	protected Integer processResult(List<MonsterInfoModel> monsters) throws ProcessException {
+	protected Integer processResult(List results) throws ProcessException {
 		Log.d(getClass().getName(), "processResult");
+		final List<MonsterInfoModel> monsters = (List<MonsterInfoModel>) results.get(0);
 		final ContentResolver cr = getContentResolver();
 		final Uri uri = MonsterInfoDescriptor.UriHelper.uriForAll();
 
