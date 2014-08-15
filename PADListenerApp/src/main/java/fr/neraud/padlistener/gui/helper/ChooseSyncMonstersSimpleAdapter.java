@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
@@ -38,6 +40,14 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 	public ChooseSyncMonstersSimpleAdapter(Context context,
 			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
 		super(context, R.layout.choose_sync_item_monsters_simple, syncedMonstersToUpdate);
+
+		final Comparator<ChooseSyncModelContainer<SyncedMonsterModel>> comparator = new Comparator<ChooseSyncModelContainer<SyncedMonsterModel>>() {
+			@Override
+			public int compare(ChooseSyncModelContainer<SyncedMonsterModel> a, ChooseSyncModelContainer<SyncedMonsterModel> b) {
+				return a.getSyncedModel().getMonsterInfo().getIdJP() - b.getSyncedModel().getMonsterInfo().getIdJP();
+			}
+		};
+		Collections.sort(syncedMonstersToUpdate, comparator);
 	}
 
 	@Override

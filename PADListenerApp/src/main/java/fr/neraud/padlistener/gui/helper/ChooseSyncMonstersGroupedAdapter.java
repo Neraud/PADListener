@@ -19,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,14 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		this.context = context;
 		syncedMonsters = reorgMonsters(syncedMonstersToUpdate);
 		groups = new ArrayList<MonsterInfoModel>(syncedMonsters.keySet());
+
+		final Comparator<MonsterInfoModel> comparator = new Comparator<MonsterInfoModel>() {
+			@Override
+			public int compare(MonsterInfoModel a, MonsterInfoModel b) {
+				return a.getIdJP() - b.getIdJP();
+			}
+		};
+		Collections.sort(groups, comparator);
 	}
 
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
