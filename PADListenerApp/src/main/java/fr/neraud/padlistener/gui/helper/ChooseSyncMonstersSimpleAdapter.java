@@ -25,6 +25,7 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
+import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
@@ -44,7 +45,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 		final Comparator<ChooseSyncModelContainer<SyncedMonsterModel>> comparator = new Comparator<ChooseSyncModelContainer<SyncedMonsterModel>>() {
 			@Override
 			public int compare(ChooseSyncModelContainer<SyncedMonsterModel> a, ChooseSyncModelContainer<SyncedMonsterModel> b) {
-				return a.getSyncedModel().getMonsterInfo().getIdJP() - b.getSyncedModel().getMonsterInfo().getIdJP();
+				return a.getSyncedModel().getDisplayedMonsterInfo().getIdJP() - b.getSyncedModel().getDisplayedMonsterInfo().getIdJP();
 			}
 		};
 		Collections.sort(syncedMonstersToUpdate, comparator);
@@ -83,7 +84,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_monsters_item_image);
 		try {
 			final InputStream is = getContext().getContentResolver().openInputStream(
-					MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getMonsterInfo().getIdJP()));
+					MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getDisplayedMonsterInfo().getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			image.setImageDrawable(bm);
@@ -93,11 +94,24 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(getContext().getString(R.string.choose_sync_monsters_item_name_simple,
-				item.getSyncedModel().getMonsterInfo().getId(prefHelper.getPlayerRegion()),
-				item.getSyncedModel().getMonsterInfo().getName()));
+				item.getSyncedModel().getDisplayedMonsterInfo().getIdJP(),
+				item.getSyncedModel().getDisplayedMonsterInfo().getName()));
 
 		final BaseMonsterModel padherder = item.getSyncedModel().getPadherderInfo();
 		final BaseMonsterModel captured = item.getSyncedModel().getCapturedInfo();
+
+		final TextView evoText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_evo);
+		if (padherder != null && captured != null && padherder.getIdJp() != captured.getIdJp()) {
+			evoText.setVisibility(View.VISIBLE);
+			final MonsterInfoModel evolvedFrom = item.getSyncedModel().getPadherderMonsterInfo();
+
+			evoText.setText(getContext().getString(R.string.choose_sync_monsters_item_evo,
+					evolvedFrom.getIdJP(),
+					evolvedFrom.getName()));
+			evoText.setTextColor(padherder.getIdJp() < captured.getIdJp() ? Color.GREEN : Color.RED);
+		} else {
+			evoText.setVisibility(View.GONE);
+		}
 
 		fillTable(view, padherder, captured);
 
@@ -106,7 +120,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 		final String priorityLabel = getContext().getString(modelToUse.getPriority().getLabelResId());
 		priorityText.setText(getContext().getString(R.string.choose_sync_monsters_item_priority, priorityLabel));
 		final TextView noteText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_note);
-		if(StringUtils.isNotBlank(modelToUse.getNote())) {
+		if (StringUtils.isNotBlank(modelToUse.getNote())) {
 			noteText.setVisibility(View.VISIBLE);
 			noteText.setText(getContext().getString(R.string.choose_sync_monsters_item_note, modelToUse.getNote()));
 		} else {

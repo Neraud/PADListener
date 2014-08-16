@@ -65,7 +65,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_materials_item_image);
 		try {
 			final InputStream is = getContext().getContentResolver().openInputStream(
-					MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getMonsterInfo().getIdJP()));
+					MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getDisplayedMonsterInfo().getIdJP()));
 			final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 			image.setImageDrawable(bm);
@@ -84,8 +84,8 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_materials_item_name);
 		nameText.setText(getContext().getString(R.string.choose_sync_materials_item_name,
-				item.getSyncedModel().getMonsterInfo().getId(prefHelper.getPlayerRegion()),
-				item.getSyncedModel().getMonsterInfo().getName()));
+				item.getSyncedModel().getDisplayedMonsterInfo().getIdJP(),
+				item.getSyncedModel().getDisplayedMonsterInfo().getName()));
 
 		final TextView quantitiesText = (TextView) view.findViewById(R.id.choose_sync_materials_item_quantities);
 		quantitiesText.setText(getContext().getString(R.string.choose_sync_materials_item_quantities,

@@ -66,7 +66,7 @@ public class PushSyncHelper {
 		}
 		*/
 		final JSONObject json = new JSONObject();
-		json.put("monster", model.getMonsterInfo().getIdJP());
+		json.put("monster", model.getDisplayedMonsterInfo().getIdJP());
 		if (model.getCapturedInfo().getExp() != model.getPadherderInfo().getExp()) {
 			json.put("current_xp", model.getCapturedInfo().getExp());
 		}
@@ -108,7 +108,7 @@ public class PushSyncHelper {
 		}
 		*/
 		final JSONObject json = new JSONObject();
-		json.put("monster", model.getMonsterInfo().getIdJP());
+		json.put("monster", model.getDisplayedMonsterInfo().getIdJP());
 		json.put("current_xp", model.getCapturedInfo().getExp());
 		json.put("current_skill", model.getCapturedInfo().getSkillLevel());
 		json.put("current_awakening", model.getCapturedInfo().getAwakenings());

@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 import fr.neraud.padlistener.model.PADHerderAccountModel;
@@ -125,11 +124,6 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 
 	public boolean isChooseSyncGroupMonstersDeleted() {
 		return getBooleanPreference("choose_sync_group_monsters_deleted", false);
-	}
-
-	public PADRegion getPlayerRegion() {
-		// TODO use a proper settings if JP is an option ?
-		return PADRegion.US;
 	}
 
 	public MonsterPriority getDefaultMonsterCreatePriority() {

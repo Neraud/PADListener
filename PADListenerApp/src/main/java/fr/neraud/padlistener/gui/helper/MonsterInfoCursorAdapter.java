@@ -36,7 +36,7 @@ public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 		final MonsterInfoModel model = MonsterInfoHelper.cursorToModel(cursor);
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 
-		final String lineName = context.getString(R.string.view_monster_info_name, model.getId(prefHelper.getPlayerRegion()),
+		final String lineName = context.getString(R.string.view_monster_info_name, model.getIdJP(),
 				model.getName());
 		((TextView) view.findViewById(R.id.view_monster_info_item_name)).setText(lineName);
 

@@ -44,8 +44,7 @@ public class ViewCapturedDataMonstersFragment extends ListFragment implements Lo
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(getClass().getName(), "onCreateLoader");
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
-		return new CursorLoader(getActivity(), CapturedPlayerMonsterDescriptor.UriHelper.uriForAllWithInfo(prefHelper
-				.getPlayerRegion()), null, null, null, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP.getColName());
+		return new CursorLoader(getActivity(), CapturedPlayerMonsterDescriptor.UriHelper.uriForAllWithInfo(), null, null, null, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP.getColName());
 	}
 
 	@Override

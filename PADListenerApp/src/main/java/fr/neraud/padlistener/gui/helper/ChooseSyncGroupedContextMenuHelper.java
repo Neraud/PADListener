@@ -81,7 +81,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 		Log.d(getClass().getName(), "createContextMenuForChild : " + menuInfo);
 
 		final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = getChildMonsterItem(menuInfo);
-		menu.setHeaderTitle(getContext().getString(R.string.choose_sync_context_menu_one_title, monsterItem.getSyncedModel().getMonsterInfo().getName()));
+		menu.setHeaderTitle(getContext().getString(R.string.choose_sync_context_menu_one_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName()));
 		if (monsterItem.isChosen()) {
 			menu.add(getGroupId(), MENU_ID_DESELECT, 0, R.string.choose_sync_context_menu_one_deselect);
 		} else {
@@ -182,7 +182,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				break;
 			case MENU_ID_CHANGE_PRIORITY:
 				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-				final String dialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_priority_dialog_title, monsterItem.getSyncedModel().getMonsterInfo().getName());
+				final String dialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_priority_dialog_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName());
 				builder.setTitle(dialogTitle);
 				final CharSequence[] priorities = new CharSequence[MonsterPriority.values().length];
 				int selected = monsterItem.getSyncedModel().getCapturedInfo().getPriority().ordinal();
@@ -206,7 +206,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				break;
 			case MENU_ID_CHANGE_NOTE:
 				AlertDialog.Builder noteDialogBuilder = new AlertDialog.Builder(getContext());
-				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterItem.getSyncedModel().getMonsterInfo().getName());
+				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName());
 				noteDialogBuilder.setTitle(noteDialogTitle);
 
 				final EditText input = new EditText(getContext());

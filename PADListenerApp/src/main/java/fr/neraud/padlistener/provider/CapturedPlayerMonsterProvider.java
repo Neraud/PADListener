@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
@@ -85,23 +84,13 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 				builder.setTables(CapturedPlayerMonsterDescriptor.TABLE_NAME);
 				break;
 			case ALL_WITH_INFO:
-				final PADRegion region = PADRegion.valueOf(uri.getLastPathSegment());
 				final StringBuilder tableBuilder = new StringBuilder(CapturedPlayerMonsterDescriptor.TABLE_NAME);
 				tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME);
 				tableBuilder.append(" ON (");
 				tableBuilder.append(CapturedPlayerMonsterDescriptor.TABLE_NAME).append(".")
 						.append(CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP.getColName());
 				tableBuilder.append(" = ");
-				MonsterInfoDescriptor.Fields idField;
-				switch (region) {
-					case US:
-						idField = MonsterInfoDescriptor.Fields.ID_US;
-						break;
-					case JP:
-					default:
-						idField = MonsterInfoDescriptor.Fields.ID_JP;
-				}
-				tableBuilder.append(MonsterInfoDescriptor.TABLE_NAME).append(".").append(idField.getColName());
+				tableBuilder.append(MonsterInfoDescriptor.TABLE_NAME).append(".").append(MonsterInfoDescriptor.Fields.ID_JP.getColName());
 				tableBuilder.append(")");
 
 				builder.setTables(tableBuilder.toString());

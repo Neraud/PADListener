@@ -1,8 +1,10 @@
 package fr.neraud.padlistener.helper;
 
 import java.util.Comparator;
+import java.util.Map;
 
 import fr.neraud.padlistener.model.BaseMonsterModel;
+import fr.neraud.padlistener.model.MonsterInfoModel;
 
 /**
  * BaseMonsterModel comparator.<br/>
@@ -20,9 +22,23 @@ import fr.neraud.padlistener.model.BaseMonsterModel;
  */
 public class MonsterComparator implements Comparator<BaseMonsterModel> {
 
+	private final Map<Integer, MonsterInfoModel> monsterInfoById;
+
+	public MonsterComparator(Map<Integer, MonsterInfoModel> monsterInfoById) {
+		this.monsterInfoById = monsterInfoById;
+	}
+
 	@Override
 	public int compare(BaseMonsterModel a, BaseMonsterModel b) {
-		int result = compareLong(a.getExp(), b.getExp());
+		final MonsterInfoModel aInfo = monsterInfoById.get(a.getIdJp());
+		final MonsterInfoModel bInfo = monsterInfoById.get(b.getIdJp());
+
+		int result = compareLong(aInfo.getEvolutionStage(), bInfo.getEvolutionStage());
+		if (result != 0) {
+			return result;
+		}
+
+		result = compareLong(a.getExp(), b.getExp());
 		if (result != 0) {
 			return result;
 		}

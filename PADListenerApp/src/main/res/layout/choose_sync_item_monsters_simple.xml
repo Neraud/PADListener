@@ -35,6 +35,19 @@
 			android:text="@string/choose_sync_monsters_item_name_simple"
 			android:textSize="14sp"/>
 
+		<TextView
+			android:id="@+id/choose_sync_monsters_item_evo"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+			android:layout_marginTop="1dp"
+			android:ellipsize="end"
+			android:gravity="center_vertical"
+			android:lines="1"
+			android:text="@string/choose_sync_monsters_item_evo"
+			android:textSize="10sp"/>
+
 		<TableLayout
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
 

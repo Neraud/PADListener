@@ -5,8 +5,6 @@ import android.content.UriMatcher;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import fr.neraud.padlistener.constant.PADRegion;
-
 /**
  * Descriptor for the PlayerMonsterProvider
  *
@@ -28,7 +26,7 @@ public class CapturedPlayerMonsterDescriptor {
 	public enum Paths {
 
 		ALL(1, BASE_PATH, ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_monster"),
-		ALL_WITH_INFO(2, BASE_PATH + "/withInfo/*", ContentResolver.CURSOR_DIR_BASE_TYPE
+		ALL_WITH_INFO(2, BASE_PATH + "/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE
 				+ "/vnd.fr.neraud.padlistener.player_monster_with_info");
 
 		private final int id;
@@ -94,10 +92,9 @@ public class CapturedPlayerMonsterDescriptor {
 		/**
 		 * @return the Uri to access all the PlayerMonster with info
 		 */
-		public static Uri uriForAllWithInfo(PADRegion region) {
+		public static Uri uriForAllWithInfo() {
 			final Uri.Builder uriBuilder = CONTENT_URI.buildUpon();
 			uriBuilder.appendPath("withInfo");
-			uriBuilder.appendPath(region.name());
 
 			return uriBuilder.build();
 		}

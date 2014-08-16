@@ -66,7 +66,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		final Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> syncedMonsters = new HashMap<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>>();
 
 		for (final ChooseSyncModelContainer<SyncedMonsterModel> container : syncedMonstersToUpdate) {
-			final MonsterInfoModel monster = container.getSyncedModel().getMonsterInfo();
+			final MonsterInfoModel monster = container.getSyncedModel().getDisplayedMonsterInfo();
 			if (!syncedMonsters.containsKey(monster)) {
 				syncedMonsters.put(monster, new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>());
 			}
@@ -134,7 +134,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(context.getString(R.string.choose_sync_monsters_item_name_group, syncedMonsters.get(monsterInfo).size(),
-				monsterInfo.getId(prefHelper.getPlayerRegion()), monsterInfo.getName()));
+				monsterInfo.getIdJP(), monsterInfo.getName()));
 
 		return view;
 	}
@@ -169,6 +169,18 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		final BaseMonsterModel padherder = item.getSyncedModel().getPadherderInfo();
 		final BaseMonsterModel captured = item.getSyncedModel().getCapturedInfo();
 
+		final TextView evoText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_evo);
+		if (padherder != null && captured != null && padherder.getIdJp() != captured.getIdJp()) {
+			evoText.setVisibility(View.VISIBLE);
+			final MonsterInfoModel evolvedFrom = item.getSyncedModel().getPadherderMonsterInfo();
+
+			evoText.setText(context.getString(R.string.choose_sync_monsters_item_evo,
+					evolvedFrom.getIdJP(),
+					evolvedFrom.getName()));
+			evoText.setTextColor(padherder.getIdJp() < captured.getIdJp() ? Color.GREEN : Color.RED);
+		} else {
+			evoText.setVisibility(View.GONE);
+		}
 		fillTable(view, padherder, captured);
 
 		final BaseMonsterModel modelToUse = captured != null ? captured : padherder;

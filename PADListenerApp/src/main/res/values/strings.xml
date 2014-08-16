@@ -221,6 +221,7 @@
 	<string name="choose_sync_materials_item_quantities">%1$d -> %2$d</string>
 
 	<string name="choose_sync_monsters_item_name_simple">(%1$d) %2$s</string>
+	<string name="choose_sync_monsters_item_evo">EVOd from (%1$d) %2$s</string>
 	<string name="choose_sync_monsters_item_name_group">%1$d x (%2$d) %3$s</string>
 	<string name="choose_sync_monsters_item_label_exp">Exp</string>
 	<string name="choose_sync_monsters_item_label_skill">Sk</string>
