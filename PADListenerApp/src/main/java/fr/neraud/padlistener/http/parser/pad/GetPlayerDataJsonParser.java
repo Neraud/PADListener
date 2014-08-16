@@ -1,5 +1,6 @@
 package fr.neraud.padlistener.http.parser.pad;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -10,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.neraud.padlistener.constant.PADRegion;
+import fr.neraud.padlistener.exception.UnknownMonsterException;
+import fr.neraud.padlistener.helper.MonsterIdConverterHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
@@ -22,6 +26,14 @@ import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
  * @author Neraud
  */
 public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApiCallResult> {
+
+	private final PADRegion region;
+	private final MonsterIdConverterHelper idConverter;
+
+	public GetPlayerDataJsonParser(Context context, PADRegion region) {
+		this.region = region;
+		this.idConverter = new MonsterIdConverterHelper(context, region);
+	}
 
 	@Override
 	protected GetPlayerDataApiCallResult parseJsonObject(JSONObject json) throws JSONException, ParsingException {
@@ -46,6 +58,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 			playerInfo.setCoins(json.getLong("coin"));
 			playerInfo.setCurrentLevelExp(json.getLong("curLvExp"));
 			playerInfo.setNextLevelExp(json.getLong("nextLvExp"));
+			playerInfo.setRegion(region);
 
 			model.setPlayerInfo(playerInfo);
 
@@ -70,7 +83,14 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		monster.setExp(cardResult.getLong("exp"));
 		monster.setLevel(cardResult.getInt("lv"));
 		monster.setSkillLevel(cardResult.getInt("slv"));
-		monster.setId(cardResult.getInt("no"));
+		final int origId = cardResult.getInt("no");
+		int idJp = -1;
+		try {
+			idJp = idConverter.getMonsterRefIdByCapturedId(origId);
+		} catch (UnknownMonsterException e) {
+			Log.w(getClass().getName(), "parseMonster : " + e.getMessage());
+		}
+		monster.setIdJp(idJp);
 		final JSONArray plusResults = cardResult.getJSONArray("plus");
 		monster.setPlusHp(plusResults.getInt(0));
 		monster.setPlusAtk(plusResults.getInt(1));

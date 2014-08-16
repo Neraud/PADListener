@@ -2,6 +2,8 @@ package fr.neraud.padlistener.model;
 
 import java.util.Date;
 
+import fr.neraud.padlistener.constant.PADRegion;
+
 /**
  * PlayerInfoModel for captured data
  *
@@ -22,6 +24,7 @@ public class CapturedPlayerInfoModel {
 	private int staminaMax;
 	private int stones;
 	private long coins;
+	private PADRegion region;
 
 	public Date getLastUpdate() {
 		return lastUpdate;
@@ -127,4 +130,11 @@ public class CapturedPlayerInfoModel {
 		this.coins = coins;
 	}
 
+	public PADRegion getRegion() {
+		return region;
+	}
+
+	public void setRegion(PADRegion region) {
+		this.region = region;
+	}
 }

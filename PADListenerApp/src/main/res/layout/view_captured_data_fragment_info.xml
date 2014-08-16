@@ -15,6 +15,17 @@
 		android:textSize="20sp"/>
 
 	<TextView
+		android:id="@+id/view_captured_data_info_item_region"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/view_captured_info_item_region"
+		android:textSize="20sp"/>
+
+	<TextView
 		android:id="@+id/view_captured_data_info_item_rank"
 		android:layout_width="fill_parent"
 		android:layout_height="50dp"

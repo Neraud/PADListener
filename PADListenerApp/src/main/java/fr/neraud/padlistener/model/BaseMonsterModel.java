@@ -12,7 +12,7 @@ import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 public abstract class BaseMonsterModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private int idJp;
 	private long exp;
 	private int skillLevel;
 	private int plusHp;
@@ -22,12 +22,12 @@ public abstract class BaseMonsterModel implements Serializable {
 	private MonsterPriority priority;
 	private String note;
 
-	public int getId() {
-		return id;
+	public int getIdJp() {
+		return idJp;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdJp(int idJp) {
+		this.idJp = idJp;
 	}
 
 	public long getExp() {
@@ -97,7 +97,7 @@ public abstract class BaseMonsterModel implements Serializable {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("(").append(id).append(") ");
+		builder.append("(").append(idJp).append(") ");
 		builder.append(exp).append(" xp, ");
 		builder.append(skillLevel).append(" skill, ");
 		builder.append("+").append(plusHp);

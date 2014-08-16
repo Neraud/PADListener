@@ -31,10 +31,11 @@ public class CapturedPlayerInfoCursorAdapter extends SimpleCursorAdapter {
 		Log.d(getClass().getName(), "bindView");
 		final CapturedPlayerInfoModel model = CapturedPlayerInfoHelper.cursorToModel(cursor);
 
-		((TextView) view.findViewById(R.id.view_captured_data_info_item_name)).setText(model.getName());
-
 		final String lineName = context.getString(R.string.view_captured_info_item_name, model.getName(), model.getLastUpdate());
 		((TextView) view.findViewById(R.id.view_captured_data_info_item_name)).setText(lineName);
+
+		final String lineRegion = context.getString(R.string.view_captured_info_item_region, model.getRegion().name());
+		((TextView) view.findViewById(R.id.view_captured_data_info_item_region)).setText(lineRegion);
 
 		final String lineRank = context.getString(R.string.view_captured_info_item_rank, model.getRank(), model.getExp());
 		((TextView) view.findViewById(R.id.view_captured_data_info_item_rank)).setText(lineRank);

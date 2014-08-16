@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
-import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.helper.MonsterComparatorHelper.MonsterComparisonResult;
 import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
@@ -39,8 +38,6 @@ public class SyncHelper {
 
 	// MonsterId (JP) -> Monster Info
 	private final Map<Integer, MonsterInfoModel> monsterInfoById;
-	// MonsterId (in the player region) -> MonsterId (JP)
-	private final Map<Integer, Integer> monsterIdInCapturedRegionToRef;
 
 	private final DefaultSharedPreferencesHelper helper;
 
@@ -50,7 +47,6 @@ public class SyncHelper {
 		super();
 		this.helper = new DefaultSharedPreferencesHelper(context);
 		this.monsterInfoById = reorgMonsterInfoRef(monsterInfos);
-		this.monsterIdInCapturedRegionToRef = initMonsterIdInCapturedRegionToRef(monsterInfos);
 	}
 
 	public ComputeSyncResultModel sync(List<CapturedMonsterCardModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo,
@@ -92,20 +88,6 @@ public class SyncHelper {
 		return monsterInfoById;
 	}
 
-	@SuppressLint("UseSparseArrays")
-	private Map<Integer, Integer> initMonsterIdInCapturedRegionToRef(List<MonsterInfoModel> monsterInfos) {
-		Log.d(getClass().getName(), "initMonsterIdInCapturedRegionToRef");
-
-		final Map<Integer, Integer> monsterIdInCapturedRegionToRef = new HashMap<Integer, Integer>();
-
-		for (final MonsterInfoModel monsterInfo : monsterInfos) {
-			if (monsterInfo.getId(helper.getPlayerRegion()) != null) {
-				monsterIdInCapturedRegionToRef.put(monsterInfo.getId(helper.getPlayerRegion()), monsterInfo.getIdJP());
-			}
-		}
-
-		return monsterIdInCapturedRegionToRef;
-	}
 
 	@SuppressLint("UseSparseArrays")
 	private Map<Integer, List<CapturedMonsterCardModel>> reorgCapturedMonster(List<CapturedMonsterCardModel> capturedMonsters) {
@@ -113,19 +95,16 @@ public class SyncHelper {
 		final Map<Integer, List<CapturedMonsterCardModel>> capturedMonstersById = new HashMap<Integer, List<CapturedMonsterCardModel>>();
 
 		for (final CapturedMonsterCardModel capturedMonster : capturedMonsters) {
-			try {
-				final int capturedId = capturedMonster.getId();
-				final int refId = getMonsterRefIdByCapturedId(capturedId);
-
-				if (!capturedMonstersById.containsKey(refId)) {
-					capturedMonstersById.put(refId, new ArrayList<CapturedMonsterCardModel>());
+			final int capturedId = capturedMonster.getIdJp();
+			Log.d(getClass().getName(), "reorgCapturedMonster : capturedId = " + capturedId);
+			if(capturedId > 0) {
+				if (!capturedMonstersById.containsKey(capturedId)) {
+					capturedMonstersById.put(capturedId, new ArrayList<CapturedMonsterCardModel>());
 				}
 
-				capMonsterData(getMonsterInfoByRefId(refId), capturedMonster);
-
-				capturedMonstersById.get(refId).add(capturedMonster);
-			} catch (final UnknownMonsterException e) {
-				Log.w(getClass().getName(), "reorgCapturedMonster", e);
+				capMonsterData(monsterInfoById.get(capturedId), capturedMonster);
+				capturedMonstersById.get(capturedId).add(capturedMonster);
+			} else {
 				hasEncounteredUnknownMonster = true;
 			}
 		}
@@ -164,17 +143,14 @@ public class SyncHelper {
 		final Map<Integer, Integer> capturedMaterialsById = new HashMap<Integer, Integer>();
 
 		for (final CapturedMonsterCardModel capturedMonster : capturedMonsters) {
-			try {
-				final int capturedId = capturedMonster.getId();
-				final int refId = getMonsterRefIdByCapturedId(capturedId);
-
-				Integer count = capturedMaterialsById.get(refId);
+			final Integer capturedId = capturedMonster.getIdJp();
+			if(capturedId != null) {
+				Integer count = capturedMaterialsById.get(capturedId);
 				if (count == null) {
 					count = 0;
 				}
-				capturedMaterialsById.put(refId, ++count);
-			} catch (final UnknownMonsterException e) {
-				Log.w(getClass().getName(), "capturedMaterialsById", e);
+				capturedMaterialsById.put(capturedId, ++count);
+			} else {
 				hasEncounteredUnknownMonster = true;
 			}
 		}
@@ -189,10 +165,10 @@ public class SyncHelper {
 		final Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById = new HashMap<Integer, List<UserInfoMonsterModel>>();
 
 		for (final UserInfoMonsterModel monster : monsters) {
-			if (!padherderMonstersById.containsKey(monster.getId())) {
-				padherderMonstersById.put(monster.getId(), new ArrayList<UserInfoMonsterModel>());
+			if (!padherderMonstersById.containsKey(monster.getIdJp())) {
+				padherderMonstersById.put(monster.getIdJp(), new ArrayList<UserInfoMonsterModel>());
 			}
-			padherderMonstersById.get(monster.getId()).add(monster);
+			padherderMonstersById.get(monster.getIdJp()).add(monster);
 		}
 
 		// Sort monsters DESC
@@ -294,23 +270,18 @@ public class SyncHelper {
 		//materialIds.addAll(capturedMaterialsById.keySet());
 
 		for (final Integer materialId : materialIds) {
-			try {
-				final UserInfoMaterialModel padherderMaterial = padherderMaterialsById.get(materialId);
+			final UserInfoMaterialModel padherderMaterial = padherderMaterialsById.get(materialId);
 
-				final SyncedMaterialModel syncedMaterial = new SyncedMaterialModel();
-				final MonsterInfoModel monsterInfo = getMonsterInfoByRefId(materialId);
-				syncedMaterial.setMonsterInfo(monsterInfo);
-				syncedMaterial.setPadherderId(padherderMaterial.getPadherderId());
-				syncedMaterial.setCapturedInfo(capturedMaterialsById.containsKey(materialId) ? capturedMaterialsById
-						.get(materialId) : 0);
-				syncedMaterial.setPadherderInfo(padherderMaterial.getQuantity());
+			final SyncedMaterialModel syncedMaterial = new SyncedMaterialModel();
+			final MonsterInfoModel monsterInfo = monsterInfoById.get(materialId);
+			syncedMaterial.setMonsterInfo(monsterInfo);
+			syncedMaterial.setPadherderId(padherderMaterial.getPadherderId());
+			syncedMaterial.setCapturedInfo(capturedMaterialsById.containsKey(materialId) ? capturedMaterialsById
+					.get(materialId) : 0);
+			syncedMaterial.setPadherderInfo(padherderMaterial.getQuantity());
 
-				Log.d(getClass().getName(), "syncedMaterial : - " + syncedMaterial);
-				syncedMaterials.add(syncedMaterial);
-			} catch (final UnknownMonsterException e) {
-				Log.w(getClass().getName(), "syncMaterials", e);
-				hasEncounteredUnknownMonster = true;
-			}
+			Log.d(getClass().getName(), "syncedMaterial : - " + syncedMaterial);
+			syncedMaterials.add(syncedMaterial);
 		}
 
 		return syncedMaterials;
@@ -377,66 +348,44 @@ public class SyncHelper {
 		final int nbPadherder = padherderMonstersWork.size();
 
 		for (int i = 0; i < Math.max(nbCaptured, nbPadherder); i++) {
-			try {
-				final SyncedMonsterModel model = new SyncedMonsterModel();
-				model.setMonsterInfo(getMonsterInfoByRefId(monsterId));
+			final SyncedMonsterModel model = new SyncedMonsterModel();
+			model.setMonsterInfo(monsterInfoById.get(monsterId));
 
-				if (i < nbCaptured && i < nbPadherder) {
-					// Update while we have enough monsters in each list
-					model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
+			if (i < nbCaptured && i < nbPadherder) {
+				// Update while we have enough monsters in each list
+				model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
 
-					final UserInfoMonsterModel padherder = padherderMonstersWork.get(i);
-					final CapturedMonsterCardModel captured = capturedMonstersWork.get(i);
+				final UserInfoMonsterModel padherder = padherderMonstersWork.get(i);
+				final CapturedMonsterCardModel captured = capturedMonstersWork.get(i);
 
-					// Keep priority and note
-					captured.setPriority(padherder.getPriority());
-					captured.setNote(padherder.getNote());
+				// Keep priority and note
+				captured.setPriority(padherder.getPriority());
+				captured.setNote(padherder.getNote());
 
-					model.setCapturedInfo(captured);
-					model.setPadherderInfo(padherder);
-					Log.d(getClass().getName(), "syncMonstersForOneId : updated : " + model);
-				} else if (i < nbCaptured) {
-					// more captured -> creating
+				model.setCapturedInfo(captured);
+				model.setPadherderInfo(padherder);
+				Log.d(getClass().getName(), "syncMonstersForOneId : updated : " + model);
+			} else if (i < nbCaptured) {
+				// more captured -> creating
 
-					final CapturedMonsterCardModel captured = capturedMonstersWork.get(i);
-					// default create priority
-					captured.setPriority(helper.getDefaultMonsterCreatePriority());
-					model.setCapturedInfo(capturedMonstersWork.get(i));
+				final CapturedMonsterCardModel captured = capturedMonstersWork.get(i);
+				// default create priority
+				captured.setPriority(helper.getDefaultMonsterCreatePriority());
+				model.setCapturedInfo(capturedMonstersWork.get(i));
 
-					model.setPadherderInfo(null);
-					Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
-				} else {
-					// not enough captured -> deleting
-					model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
-					model.setCapturedInfo(null);
-					model.setPadherderInfo(padherderMonstersWork.get(i));
-					Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);
+				model.setPadherderInfo(null);
+				Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
+			} else {
+				// not enough captured -> deleting
+				model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
+				model.setCapturedInfo(null);
+				model.setPadherderInfo(padherderMonstersWork.get(i));
+				Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);
 
-				}
-				syncedMonsters.add(model);
-			} catch (final UnknownMonsterException e) {
-				Log.w(getClass().getName(), "syncMonstersForOneId", e);
-				hasEncounteredUnknownMonster = true;
 			}
+			syncedMonsters.add(model);
 		}
 
 		return syncedMonsters;
 	}
-
-	private MonsterInfoModel getMonsterInfoByRefId(int refId) throws UnknownMonsterException {
-		if (monsterInfoById.containsKey(refId)) {
-			return monsterInfoById.get(refId);
-		} else {
-			throw new UnknownMonsterException("Unknown monster with refId = " + refId);
-		}
-	}
-
-	private int getMonsterRefIdByCapturedId(int capturedId) throws UnknownMonsterException {
-		if (monsterIdInCapturedRegionToRef.containsKey(capturedId)) {
-			return monsterIdInCapturedRegionToRef.get(capturedId);
-		} else {
-			throw new UnknownMonsterException("Unknown monster with capturedId = " + capturedId);
-		}
-	}
-
 }

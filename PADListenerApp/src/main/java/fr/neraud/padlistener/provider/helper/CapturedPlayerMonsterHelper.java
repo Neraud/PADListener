@@ -22,7 +22,7 @@ public class CapturedPlayerMonsterHelper extends BaseProviderHelper {
 	public static CapturedMonsterCardModel cursorToModel(Cursor cursor) {
 		final CapturedMonsterCardModel model = new CapturedMonsterCardModel();
 
-		model.setId(getInt(cursor, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID));
+		model.setIdJp(getInt(cursor, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP));
 		model.setExp(getInt(cursor, CapturedPlayerMonsterDescriptor.Fields.EXP));
 		model.setLevel(getInt(cursor, CapturedPlayerMonsterDescriptor.Fields.LEVEL));
 		model.setSkillLevel(getInt(cursor, CapturedPlayerMonsterDescriptor.Fields.SKILL_LEVEL));
@@ -56,7 +56,7 @@ public class CapturedPlayerMonsterHelper extends BaseProviderHelper {
 	public static ContentValues modelToValues(CapturedMonsterCardModel model) {
 		final ContentValues values = new ContentValues();
 
-		putValue(values, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID, model.getId());
+		putValue(values, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP, model.getIdJp());
 		putValue(values, CapturedPlayerMonsterDescriptor.Fields.EXP, model.getExp());
 		putValue(values, CapturedPlayerMonsterDescriptor.Fields.LEVEL, model.getLevel());
 		putValue(values, CapturedPlayerMonsterDescriptor.Fields.SKILL_LEVEL, model.getSkillLevel());

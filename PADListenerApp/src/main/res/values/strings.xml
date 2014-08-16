@@ -170,6 +170,7 @@
 	<string name="view_captured_data_tab_monsters">Monsters</string>
 	<string name="view_captured_no_data">No data captured</string>
 	<string name="view_captured_info_item_name"><b>%1$s</b> (updated at %2$s)</string>
+	<string name="view_captured_info_item_region">Region %1$s</string>
 	<string name="view_captured_info_item_rank">Rank %1$d (%2$d xp)</string>
 	<string name="view_captured_info_item_maxrank">%1$d stam, %2$d cost</string>
 	<string name="view_captured_info_item_maxstats">%1$d max box, %2$d max friends</string>

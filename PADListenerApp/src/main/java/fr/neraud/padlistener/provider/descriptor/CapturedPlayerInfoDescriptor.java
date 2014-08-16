@@ -62,7 +62,8 @@ public class CapturedPlayerInfoDescriptor {
 		STAMINA("stamina"),
 		STAMINA_MAX("staminaMax"),
 		STONES("stones"),
-		COINS("coins");
+		COINS("coins"),
+		REGION("region");
 
 		private final String colName;
 

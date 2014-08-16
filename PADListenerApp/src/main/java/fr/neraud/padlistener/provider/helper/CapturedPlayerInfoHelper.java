@@ -3,6 +3,7 @@ package fr.neraud.padlistener.provider.helper;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
@@ -33,6 +34,7 @@ public class CapturedPlayerInfoHelper extends BaseProviderHelper {
 		model.setStaminaMax(getInt(cursor, CapturedPlayerInfoDescriptor.Fields.STAMINA_MAX));
 		model.setStones(getInt(cursor, CapturedPlayerInfoDescriptor.Fields.STONES));
 		model.setCoins(getLong(cursor, CapturedPlayerInfoDescriptor.Fields.COINS));
+		model.setRegion(PADRegion.valueOf(getString(cursor, CapturedPlayerInfoDescriptor.Fields.REGION)));
 
 		return model;
 	}
@@ -57,6 +59,7 @@ public class CapturedPlayerInfoHelper extends BaseProviderHelper {
 		putValue(values, CapturedPlayerInfoDescriptor.Fields.STAMINA_MAX, model.getStaminaMax());
 		putValue(values, CapturedPlayerInfoDescriptor.Fields.STONES, model.getStones());
 		putValue(values, CapturedPlayerInfoDescriptor.Fields.COINS, model.getCoins());
+		putValue(values, CapturedPlayerInfoDescriptor.Fields.REGION, model.getRegion().name());
 
 		return values;
 	}

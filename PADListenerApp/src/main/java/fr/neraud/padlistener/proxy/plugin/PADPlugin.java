@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
@@ -52,6 +54,7 @@ public class PADPlugin extends ProxyPlugin {
 					final byte[] requestContentByte = request.getContent();
 					final String requestContentString = new String(requestContentByte);
 					final Map<String, String> requestParams = extractParams(reqUrl);
+					final PADRegion region = extractRegion(reqHost);
 					final String actionString = requestParams.get("action");
 					final ApiAction action = ApiAction.fromString(actionString);
 
@@ -60,6 +63,7 @@ public class PADPlugin extends ProxyPlugin {
 
 					final ApiCallModel model = new ApiCallModel();
 					model.setAction(action);
+					model.setRegion(region);
 					model.setRequestParams(requestParams);
 					model.setRequestContent(requestContentString);
 					model.setResponseContent(responseContentString);
@@ -86,6 +90,20 @@ public class PADPlugin extends ProxyPlugin {
 				}
 			}
 			return params;
+		}
+
+		private PADRegion extractRegion(String reqHost) {
+			String[] targetHostNames = context.getResources().getStringArray(R.array.settings_listener_target_hostname_entryValues);
+			String[] regionNames = context.getResources().getStringArray(R.array.settings_listener_target_hostname_region);
+
+			for(int i = 0 ; i < targetHostNames.length ; i++) {
+				if(reqHost.equals(targetHostNames[i])) {
+					return PADRegion.valueOf(regionNames[i]);
+				}
+			}
+
+			Log.w(getClass().getName(), "extractRegion : host is not in the standard one, return US by default");
+			return PADRegion.US;
 		}
 	}
 

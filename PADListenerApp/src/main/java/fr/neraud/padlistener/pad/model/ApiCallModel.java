@@ -2,6 +2,7 @@ package fr.neraud.padlistener.pad.model;
 
 import java.util.Map;
 
+import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 
 /**
@@ -12,6 +13,7 @@ import fr.neraud.padlistener.pad.constant.ApiAction;
 public class ApiCallModel {
 
 	private ApiAction action;
+	private PADRegion region;
 	private Map<String, String> requestParams;
 	private String requestContent;
 	private String responseContent;
@@ -22,6 +24,14 @@ public class ApiCallModel {
 
 	public void setAction(ApiAction action) {
 		this.action = action;
+	}
+
+	public PADRegion getRegion() {
+		return region;
+	}
+
+	public void setRegion(PADRegion region) {
+		this.region = region;
 	}
 
 	public Map<String, String> getRequestParams() {

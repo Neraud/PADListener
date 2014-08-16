@@ -81,7 +81,7 @@ public class ApiCallHandlerThread extends Thread {
 
 	private GetPlayerDataApiCallResult parsePlayerData(ApiCallModel callModel) throws ParsingException {
 		Log.d(getClass().getName(), "parsePlayerData");
-		final GetPlayerDataJsonParser parser = new GetPlayerDataJsonParser();
+		final GetPlayerDataJsonParser parser = new GetPlayerDataJsonParser(context, callModel.getRegion());
 		return parser.parse(callModel.getResponseContent());
 	}
 

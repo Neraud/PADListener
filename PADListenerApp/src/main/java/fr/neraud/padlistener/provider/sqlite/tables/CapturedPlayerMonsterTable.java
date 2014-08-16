@@ -19,7 +19,7 @@ public class CapturedPlayerMonsterTable implements ITable {
 	public String createTable() {
 		return "CREATE TABLE " + CapturedPlayerMonsterDescriptor.TABLE_NAME + " (" +
 		/* */CapturedPlayerMonsterDescriptor.Fields.FAKE_ID.getColName() + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		/* */CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID.getColName() + " INTEGER NOT NULL," +
+		/* */CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP.getColName() + " INTEGER," +
 		/* */CapturedPlayerMonsterDescriptor.Fields.EXP.getColName() + " INTEGER NOT NULL," +
 		/* */CapturedPlayerMonsterDescriptor.Fields.LEVEL.getColName() + " INTEGER NOT NULL," +
 		/* */CapturedPlayerMonsterDescriptor.Fields.SKILL_LEVEL.getColName() + " INTEGER NOT NULL," +
@@ -37,7 +37,7 @@ public class CapturedPlayerMonsterTable implements ITable {
 
 	@Override
 	public int getVersion() {
-		return 3;
+		return 9;
 	}
 
 	@Override

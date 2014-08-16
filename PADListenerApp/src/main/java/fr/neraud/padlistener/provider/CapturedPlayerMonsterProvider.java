@@ -90,7 +90,7 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 				tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME);
 				tableBuilder.append(" ON (");
 				tableBuilder.append(CapturedPlayerMonsterDescriptor.TABLE_NAME).append(".")
-						.append(CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID.getColName());
+						.append(CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP.getColName());
 				tableBuilder.append(" = ");
 				MonsterInfoDescriptor.Fields idField;
 				switch (region) {

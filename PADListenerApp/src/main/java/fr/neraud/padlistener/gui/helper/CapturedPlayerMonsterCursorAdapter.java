@@ -51,7 +51,7 @@ public class CapturedPlayerMonsterCursorAdapter extends SimpleCursorAdapter {
 		}
 
 		//(%1$d) %2$s
-		final String lineName = context.getString(R.string.view_captured_monster_item_name, capturedMonster.getId(),
+		final String lineName = context.getString(R.string.view_captured_monster_item_name, capturedMonster.getIdJp(),
 				monsterInfo.getName());
 		((TextView) view.findViewById(R.id.view_captured_data_monster_item_name)).setText(lineName);
 

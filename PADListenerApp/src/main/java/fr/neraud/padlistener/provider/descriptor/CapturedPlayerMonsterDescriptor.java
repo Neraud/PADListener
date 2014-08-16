@@ -54,7 +54,7 @@ public class CapturedPlayerMonsterDescriptor {
 	public enum Fields implements IField {
 
 		FAKE_ID(BaseColumns._ID),
-		MONSTER_ID("monster_id"),
+		MONSTER_ID_JP("monster_id_jp"),
 		EXP("exp"),
 		LEVEL("level"),
 		SKILL_LEVEL("skillLevel"),

@@ -121,7 +121,7 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		final UserInfoMonsterModel monster = new UserInfoMonsterModel();
 
 		monster.setPadherderId(monsterJson.getLong("id"));
-		monster.setId(monsterJson.getInt("monster"));
+		monster.setIdJp(monsterJson.getInt("monster"));
 		monster.setNote(monsterJson.getString("note"));
 		monster.setPriority(MonsterPriority.findByValue(monsterJson.getInt("priority")));
 		monster.setExp(monsterJson.getInt("current_xp"));

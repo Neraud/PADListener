@@ -31,7 +31,8 @@ public class CapturedPlayerInfoTable implements ITable {
 		/* */CapturedPlayerInfoDescriptor.Fields.STAMINA.getColName() + " INTEGER NOT NULL," +
 		/* */CapturedPlayerInfoDescriptor.Fields.STAMINA_MAX.getColName() + " INTEGER NOT NULL," +
 		/* */CapturedPlayerInfoDescriptor.Fields.STONES.getColName() + " INTEGER NOT NULL," +
-		/* */CapturedPlayerInfoDescriptor.Fields.COINS.getColName() + " INTEGER NOT NULL" +
+		/* */CapturedPlayerInfoDescriptor.Fields.COINS.getColName() + " INTEGER NOT NULL," +
+		/* */CapturedPlayerInfoDescriptor.Fields.REGION.getColName() + " TEXT NOT NULL" +
 		/* */");";
 	}
 
@@ -42,7 +43,7 @@ public class CapturedPlayerInfoTable implements ITable {
 
 	@Override
 	public int getVersion() {
-		return 2;
+		return 9;
 	}
 
 	@Override
