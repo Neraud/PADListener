@@ -53,6 +53,7 @@ public class MonsterInfoDescriptor {
 
 		ID_JP(BaseColumns._ID),
 		ID_US("id_us"),
+		BASE_ID_JP("base_id_us"),
 		NAME("name"),
 		RARITY("rarity"),
 		ELEMENT_1("element_1"),
@@ -65,6 +66,7 @@ public class MonsterInfoDescriptor {
 		MAX_LEVEL("max_level"),
 		XP_CURVE("xp_curve"),
 		FEED_XP("feed_xp"),
+		EVOLUTION_STAGE("evolution_stage"),
 		TEAM_COST("team_cost"),
 		JP_ONLY("jp_only"),
 		HP_MIN("hp_min"),

@@ -47,6 +47,9 @@ public class MonsterInfoModel implements Serializable {
 	private String image40Url;
 	private String image60Url;
 
+	private int baseMonsterId;
+	private int evolutionStage;
+
 	public int getIdJP() {
 		return idJP;
 	}
@@ -271,6 +274,22 @@ public class MonsterInfoModel implements Serializable {
 
 	public void setImage60Url(String image60Url) {
 		this.image60Url = image60Url;
+	}
+
+	public int getBaseMonsterId() {
+		return baseMonsterId;
+	}
+
+	public void setBaseMonsterId(int baseMonsterId) {
+		this.baseMonsterId = baseMonsterId;
+	}
+
+	public int getEvolutionStage() {
+		return evolutionStage;
+	}
+
+	public void setEvolutionStage(int evolutionStage) {
+		this.evolutionStage = evolutionStage;
 	}
 
 	@Override

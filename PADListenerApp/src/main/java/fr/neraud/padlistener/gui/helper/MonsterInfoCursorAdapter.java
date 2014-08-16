@@ -40,6 +40,15 @@ public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 				model.getName());
 		((TextView) view.findViewById(R.id.view_monster_info_item_name)).setText(lineName);
 
+		final TextView evoTextView = (TextView) view.findViewById(R.id.view_monster_info_item_evo);
+		if (model.getBaseMonsterId() == model.getIdJP()) {
+			evoTextView.setVisibility(View.GONE);
+		} else {
+			final String lineEvo = context.getString(R.string.view_monster_info_evo, model.getBaseMonsterId(), model.getEvolutionStage());
+			evoTextView.setText(lineEvo);
+			evoTextView.setVisibility(View.VISIBLE);
+		}
+
 		try {
 			final InputStream is = context.getContentResolver().openInputStream(
 					MonsterInfoDescriptor.UriHelper.uriForImage(model.getIdJP()));

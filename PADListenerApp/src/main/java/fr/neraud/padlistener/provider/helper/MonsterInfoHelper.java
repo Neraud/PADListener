@@ -28,6 +28,7 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 
 		model.setIdJP(getInt(cursor, MonsterInfoDescriptor.Fields.ID_JP));
 		model.setIdUS(getInt(cursor, MonsterInfoDescriptor.Fields.ID_US));
+		model.setBaseMonsterId(getInt(cursor, MonsterInfoDescriptor.Fields.BASE_ID_JP));
 		model.setName(getString(cursor, MonsterInfoDescriptor.Fields.NAME));
 		model.setRarity(getInt(cursor, MonsterInfoDescriptor.Fields.RARITY));
 		model.setElement1(MonsterElement.findById(getInt(cursor, MonsterInfoDescriptor.Fields.ELEMENT_1)));
@@ -47,6 +48,7 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 		model.setMaxLevel(getInt(cursor, MonsterInfoDescriptor.Fields.MAX_LEVEL));
 		model.setExpCurve(getInt(cursor, MonsterInfoDescriptor.Fields.XP_CURVE));
 		model.setFeedXp(getInt(cursor, MonsterInfoDescriptor.Fields.FEED_XP));
+		model.setEvolutionStage(getInt(cursor, Fields.EVOLUTION_STAGE));
 		model.setTeamCost(getInt(cursor, MonsterInfoDescriptor.Fields.TEAM_COST));
 		model.setJpOnly(getBoolean(cursor, MonsterInfoDescriptor.Fields.JP_ONLY));
 		model.setHpMin(getInt(cursor, MonsterInfoDescriptor.Fields.HP_MIN));
@@ -73,6 +75,7 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 
 		putValue(values, MonsterInfoDescriptor.Fields.ID_JP, model.getIdJP());
 		putValue(values, MonsterInfoDescriptor.Fields.ID_US, model.getIdUS());
+		putValue(values, MonsterInfoDescriptor.Fields.BASE_ID_JP, model.getBaseMonsterId());
 		putValue(values, MonsterInfoDescriptor.Fields.NAME, model.getName());
 		putValue(values, MonsterInfoDescriptor.Fields.RARITY, model.getRarity());
 		putValue(values, MonsterInfoDescriptor.Fields.ELEMENT_1, model.getElement1());
@@ -92,6 +95,7 @@ public class MonsterInfoHelper extends BaseProviderHelper {
 		putValue(values, MonsterInfoDescriptor.Fields.MAX_LEVEL, model.getMaxLevel());
 		putValue(values, MonsterInfoDescriptor.Fields.XP_CURVE, model.getExpCurve());
 		putValue(values, MonsterInfoDescriptor.Fields.FEED_XP, model.getFeedXp());
+		putValue(values, MonsterInfoDescriptor.Fields.EVOLUTION_STAGE, model.getEvolutionStage());
 		putValue(values, MonsterInfoDescriptor.Fields.TEAM_COST, model.getTeamCost());
 		putValue(values, MonsterInfoDescriptor.Fields.JP_ONLY, model.isJpOnly());
 		putValue(values, MonsterInfoDescriptor.Fields.HP_MIN, model.getHpMin());

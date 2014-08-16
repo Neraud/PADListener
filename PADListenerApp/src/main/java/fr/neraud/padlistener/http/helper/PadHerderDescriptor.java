@@ -27,6 +27,7 @@ public class PadHerderDescriptor {
 	private enum Services {
 
 		GET_MONSTER_INFO("/api/monsters/", HttpMethod.GET, false),
+		GET_MONSTER_EVOLUTION("/api/evolutions/", HttpMethod.GET, false),
 		GET_USER_INFO("/user-api/user/[userName]/", HttpMethod.GET, true),
 		PATCH_USER_INFO("/user-api/profile/[id]/", HttpMethod.PATCH, true),
 		PATCH_MATERIAL("/user-api/material/[id]/", HttpMethod.PATCH, true),
@@ -55,6 +56,10 @@ public class PadHerderDescriptor {
 
 		public static MyHttpRequest initRequestForGetMonsterInfo() {
 			return initRequest(Services.GET_MONSTER_INFO);
+		}
+
+		public static MyHttpRequest initRequestForGetMonsterEvolution() {
+			return initRequest(Services.GET_MONSTER_EVOLUTION);
 		}
 
 		public static MyHttpRequest initRequestForGetUserInfo(Context context, int accountId) {

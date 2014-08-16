@@ -80,6 +80,7 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 	protected abstract List<RestTask<?>> createRestTasks();
 
 	private List<RestResponse> callRestApi(List<RestTask<?>> tasks) throws HttpCallException {
+		Log.d(getClass().getName(), "callRestApi");
 		final List<RestResponse> responses = new ArrayList<RestResponse>();
 
 		for (final RestTask<?> task : tasks) {
@@ -92,6 +93,7 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 	}
 
 	private List<?> extractResults(List<RestTask<?>> tasks, List<RestResponse> responses) throws ParsingException, HttpResponseException {
+		Log.d(getClass().getName(), "extractResults");
 		final List<Object> results = new ArrayList();
 
 		for (int i = 0; i < tasks.size(); i++) {

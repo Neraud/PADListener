@@ -1,13 +1,11 @@
 package fr.neraud.padlistener.service;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.net.Uri;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.client.RestClient;
@@ -15,10 +13,10 @@ import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.exception.ProcessException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
+import fr.neraud.padlistener.http.parser.padherder.MonsterEvolutionJsonParser;
 import fr.neraud.padlistener.http.parser.padherder.MonsterInfoJsonParser;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
+import fr.neraud.padlistener.service.helper.UpdateMonsterInfoHelper;
 
 /**
  * Service used to refresh MonsterInfo from PADherder
@@ -47,6 +45,26 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 		}
 	}
 
+	private class FetchEvolutionsTask extends RestTask<Map<Integer, Integer>> {
+
+		@Override
+		protected RestClient createRestClient() {
+			return new RestClient(getApplicationContext(), PadHerderDescriptor.serverUrl);
+		}
+
+		@Override
+		protected MyHttpRequest createMyHttpRequest() {
+			return PadHerderDescriptor.RequestHelper.initRequestForGetMonsterEvolution();
+		}
+
+		@Override
+		protected Map<Integer, Integer> parseResult(String responseContent) throws ParsingException {
+			Log.w(getClass().getName(), "parseResult");
+			final MonsterEvolutionJsonParser parser = new MonsterEvolutionJsonParser();
+			return parser.parse(responseContent);
+		}
+	}
+
 	public FetchPadHerderMonsterInfoService() {
 		super("FetchPadHerderMonsterInfoService");
 	}
@@ -54,6 +72,7 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 	protected List<RestTask<?>> createRestTasks() {
 		final List<RestTask<?>> tasks = new ArrayList<RestTask<?>>();
 		tasks.add(new FetchInfoTask());
+		tasks.add(new FetchEvolutionsTask());
 		return tasks;
 	}
 
@@ -61,20 +80,15 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 	protected Integer processResult(List results) throws ProcessException {
 		Log.d(getClass().getName(), "processResult");
 		final List<MonsterInfoModel> monsters = (List<MonsterInfoModel>) results.get(0);
-		final ContentResolver cr = getContentResolver();
-		final Uri uri = MonsterInfoDescriptor.UriHelper.uriForAll();
+		final Map<Integer, Integer> evolutions = (Map<Integer, Integer>) results.get(1);
 
-		cr.delete(uri, null, null);
-		final ContentValues[] values = new ContentValues[monsters.size()];
-		int i = 0;
-		for (final MonsterInfoModel monster : monsters) {
-			values[i] = MonsterInfoHelper.modelToValues(monster);
-			i++;
-		}
-		final int count = cr.bulkInsert(uri, values);
+		final UpdateMonsterInfoHelper updateHelper = new UpdateMonsterInfoHelper(getApplicationContext());
+		int count = updateHelper.mergeAndSaveMonsterInfo(monsters, evolutions);
 
 		new TechnicalSharedPreferencesHelper(getApplicationContext()).setMonsterInfoRefreshDate(new Date());
 		return count;
 	}
+
+
 
 }

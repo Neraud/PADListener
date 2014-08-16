@@ -21,6 +21,7 @@ public class MonsterInfoTable implements ITable {
 		return "CREATE TABLE " + MonsterInfoDescriptor.TABLE_NAME + " (" +
 		/* */MonsterInfoDescriptor.Fields.ID_JP.getColName() + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		/* */MonsterInfoDescriptor.Fields.ID_US.getColName() + " INTEGER, " +
+		/* */MonsterInfoDescriptor.Fields.BASE_ID_JP.getColName() + " INTEGER, " +
 		/* */MonsterInfoDescriptor.Fields.NAME.getColName() + " TEXT NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.RARITY.getColName() + " INTEGER NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.ELEMENT_1.getColName() + " INTEGER NOT NULL," +
@@ -33,6 +34,7 @@ public class MonsterInfoTable implements ITable {
 		/* */MonsterInfoDescriptor.Fields.MAX_LEVEL.getColName() + " INTEGER NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.XP_CURVE.getColName() + " INTEGER NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.FEED_XP.getColName() + " INTEGER NOT NULL," +
+		/* */MonsterInfoDescriptor.Fields.EVOLUTION_STAGE.getColName() + " INTEGER, " +
 		/* */MonsterInfoDescriptor.Fields.TEAM_COST.getColName() + " INTEGER NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.JP_ONLY.getColName() + " INTEGER NOT NULL," +
 		/* */MonsterInfoDescriptor.Fields.HP_MIN.getColName() + " INTEGER NOT NULL," +
@@ -56,7 +58,7 @@ public class MonsterInfoTable implements ITable {
 
 	@Override
 	public int getVersion() {
-		return 6;
+		return 8;
 	}
 
 	@Override

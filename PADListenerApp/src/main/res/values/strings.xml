@@ -145,6 +145,7 @@
 	<string name="view_monster_info_tab_refresh_info">Refresh info</string>
 	<string name="view_monster_info_tab_refresh_images">Refresh images</string>
 	<string name="view_monster_info_name">(%1$d) %2$s</string>
+	<string name="view_monster_info_evo">Evo from base id %1$d (stage %2$d)</string>
 
 	<string name="monster_info_fetch_info_explain">This application uses monster information exposed by PADherder. This information is stored on the device. You can refresh this data if some inforations are not up to date (new awakenings for example)</string>
 	<string name="monster_info_fetch_info_current">The monster information has been refreshed at : %1$s</string>
