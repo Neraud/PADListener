@@ -34,7 +34,7 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 
 	public ManageIgnoreListQuickActionsAdapter(Context context, List<IgnoreMonsterQuickActionModel> ignoreMonsterQuickActionModels, ManageIgnoreListTaskFragment mTaskFragment) {
 		super(context, R.layout.manage_ignore_list_quick_action_item, ignoreMonsterQuickActionModels);
-		this.mTaskFragment=mTaskFragment;
+		this.mTaskFragment = mTaskFragment;
 	}
 
 	@Override
@@ -52,47 +52,69 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 		final TextView nameText = (TextView) view.findViewById(R.id.manage_ignore_list_quick_action_item_name);
 		nameText.setText(getContext().getString(R.string.manage_ignore_list_quick_action_name, item.getQuickActionName()));
 
-		bindOneImage(view, item.getMonsterIds(), 0, R.id.manage_ignore_list_quick_action_item_image_1);
-		bindOneImage(view, item.getMonsterIds(), 1, R.id.manage_ignore_list_quick_action_item_image_2);
-		bindOneImage(view, item.getMonsterIds(), 2, R.id.manage_ignore_list_quick_action_item_image_3);
-		bindOneImage(view, item.getMonsterIds(), 3, R.id.manage_ignore_list_quick_action_item_image_4);
-		bindOneImage(view, item.getMonsterIds(), 4, R.id.manage_ignore_list_quick_action_item_image_5);
+		final Integer[] imageIds = {R.id.manage_ignore_list_quick_action_item_image_1, R.id.manage_ignore_list_quick_action_item_image_2, R.id.manage_ignore_list_quick_action_item_image_3, R.id.manage_ignore_list_quick_action_item_image_4, R.id.manage_ignore_list_quick_action_item_image_5};
+
+		boolean hasAll = true;
+		boolean hasNone = true;
+		for (int i = 0; i <= 4; i++) {
+			Integer monsterId = null;
+			if (i < item.getMonsterIds().size()) {
+				monsterId = item.getMonsterIds().get(i);
+			}
+
+			final boolean alreadyIgnored = mTaskFragment.getIgnoredIds().contains(monsterId);
+			if (alreadyIgnored) {
+				hasNone = false;
+			} else {
+				hasAll = false;
+			}
+
+			bindOneImage(view, i, monsterId, alreadyIgnored, imageIds[i]);
+		}
 
 		final Button removeButton = (Button) view.findViewById(R.id.manage_ignore_list_quick_action_item_remove_button);
-		removeButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Log.d(getClass().getName(), "removeButton.onClick");
-				mTaskFragment.removeIgnoredIds(item.getMonsterIds().toArray(new Integer[0]));
-			}
-		});
+		if (hasNone) {
+			removeButton.setVisibility(View.INVISIBLE);
+		} else {
+			removeButton.setVisibility(View.VISIBLE);
+			removeButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "removeButton.onClick");
+					mTaskFragment.removeIgnoredIds(item.getMonsterIds().toArray(new Integer[0]));
+				}
+			});
+		}
 
 		final Button addButton = (Button) view.findViewById(R.id.manage_ignore_list_quick_action_item_add_button);
-		addButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Log.d(getClass().getName(), "addButton.onClick");
-				mTaskFragment.addIgnoredIds(item.getMonsterIds().toArray(new Integer[0]));
-			}
-		});
-
+		if (hasAll) {
+			addButton.setVisibility(View.INVISIBLE);
+		} else {
+			addButton.setVisibility(View.VISIBLE);
+			addButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "addButton.onClick");
+					mTaskFragment.addIgnoredIds(item.getMonsterIds().toArray(new Integer[0]));
+				}
+			});
+		}
 
 		return view;
 	}
 
-	private void bindOneImage(View view, List<Integer> monsterIds, int position, int imageId) {
-		Log.d(getClass().getName(), "bindOneImage : " + position);
+	private void bindOneImage(View view, int position, Integer monsterId, boolean alreadyIgnored, int imageId) {
+		Log.d(getClass().getName(), "bindOneImage" + position);
 		final ImageView image = (ImageView) view.findViewById(imageId);
 
-		if (position < monsterIds.size()) {
-			final Integer monsterId = monsterIds.get(position);
+		if (monsterId != null) {
 			image.setVisibility(View.VISIBLE);
 			try {
 				final InputStream is = getContext().getContentResolver().openInputStream(
 						MonsterInfoDescriptor.UriHelper.uriForImage(monsterId));
 				final BitmapDrawable bm = new BitmapDrawable(null, is);
 
-				if (mTaskFragment.getIgnoredIds().contains(monsterId)) {
+				if (alreadyIgnored) {
 					Log.d(getClass().getName(), "bindOneImage : monster at " + position + " : " + monsterId + " already in list");
 					image.setImageDrawable(bm);
 				} else {
