@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="1.4.0" versioncode="22">
 		<change>Added support for PADherder's custom authentication to support non-ASCII characters in username or password (issue #29)</change>
 		<change>Fixed misc syncing issues (issues #33, #34)</change>
 		<change>Added a settings to automatically shut down the Listener when the capture is done (issue #35)</change>
