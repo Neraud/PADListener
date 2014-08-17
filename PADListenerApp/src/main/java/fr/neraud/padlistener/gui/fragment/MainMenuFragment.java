@@ -57,6 +57,16 @@ public class MainMenuFragment extends Fragment {
 			}
 		});
 
+		final TextView manageIgnoreList = (TextView) mainView.findViewById(R.id.manageIgnoreList);
+		manageIgnoreList.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.d(getClass().getName(), "manageIgnoreList.onClick");
+				((AbstractPADListenerActivity) getActivity()).goToScreen(GuiScreen.MANAGE_IGNORE_LIST);
+			}
+		});
+
 		final TextView computeSync = (TextView) mainView.findViewById(R.id.computeSync);
 		computeSync.setOnClickListener(new OnClickListener() {
 

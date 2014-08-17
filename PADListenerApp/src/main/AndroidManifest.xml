@@ -48,6 +48,9 @@
 			android:name=".gui.ViewCapturedDataActivity"
 			android:label="@string/label_viewCapturedData" />
 		<activity
+			android:name=".gui.ManageIgnoreListActivity"
+			android:label="@string/label_manageIgnoreList" />
+		<activity
 			android:name=".gui.ComputeSyncActivity"
 			android:label="@string/label_computeSync" />
 		<activity

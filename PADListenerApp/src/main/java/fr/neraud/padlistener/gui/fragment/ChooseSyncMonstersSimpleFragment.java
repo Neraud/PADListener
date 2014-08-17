@@ -52,7 +52,7 @@ public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 		}
 
 		final ChooseSyncMonstersSimpleAdapter adapter = new ChooseSyncMonstersSimpleAdapter(getActivity().getApplicationContext(), monsters);
-		menuHelper = new ChooseSyncSimpleContextMenuHelper(getActivity(), mode, adapter);
+		menuHelper = new ChooseSyncSimpleContextMenuHelper(getActivity(), mode, adapter, result);
 		setListAdapter(adapter);
 	}
 

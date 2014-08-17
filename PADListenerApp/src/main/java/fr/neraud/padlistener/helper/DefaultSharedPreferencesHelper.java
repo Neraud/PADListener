@@ -126,7 +126,36 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return getBooleanPreference("choose_sync_group_monsters_deleted", false);
 	}
 
+	public boolean isChooseSyncUseIgnoreListForMonstersUpdated() {
+		return getBooleanPreference("choose_sync_use_ignore_monsters_updated", false);
+	}
+
+	public boolean isChooseSyncUseIgnoreListForMonstersCreated() {
+		return getBooleanPreference("choose_sync_use_ignore_monsters_created", true);
+	}
+
+	public boolean isChooseSyncUseIgnoreListForMonstersDeleted() {
+		return getBooleanPreference("choose_sync_use_ignore_monsters_deleted", false);
+	}
+
 	public MonsterPriority getDefaultMonsterCreatePriority() {
 		return MonsterPriority.valueOf(getStringPreference("default_monster_create_priority", MonsterPriority.MED.name()));
+	}
+
+	public Set<Integer> getMonsterIgnoreList() {
+		final Set<Integer> monsterIds = new HashSet<Integer>();
+
+		final String ignoreListString = getStringPreference("monster_ignore_list", null);
+		if (StringUtils.isNotBlank(ignoreListString)) {
+			for (final String idString : ignoreListString.split(",")) {
+				monsterIds.add(Integer.parseInt(idString));
+			}
+		}
+
+		return monsterIds;
+	}
+
+	public void setMonsterIgnoreList(Set<Integer> monsterIds) {
+		setStringPreference("monster_ignore_list", StringUtils.join(monsterIds, ","));
 	}
 }

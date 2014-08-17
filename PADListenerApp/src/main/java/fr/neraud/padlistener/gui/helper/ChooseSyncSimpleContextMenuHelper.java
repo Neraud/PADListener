@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
@@ -24,11 +25,12 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 	private static final int MENU_ID_DESELECT = 2;
 	private static final int MENU_ID_CHANGE_PRIORITY = 3;
 	private static final int MENU_ID_CHANGE_NOTE = 4;
+	private static final int MENU_ID_ADD_TO_IGNORE_LIST = 5;
 
 	private final ChooseSyncMonstersSimpleAdapter adapter;
 
-	public ChooseSyncSimpleContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, ChooseSyncMonstersSimpleAdapter adapter) {
-		super(context, mode);
+	public ChooseSyncSimpleContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, ChooseSyncMonstersSimpleAdapter adapter, ChooseSyncModel result) {
+		super(context, mode, result);
 		this.adapter = adapter;
 	}
 
@@ -47,6 +49,10 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 			menu.add(getGroupId(), MENU_ID_CHANGE_PRIORITY, 0, R.string.choose_sync_context_menu_one_change_priority);
 			menu.add(getGroupId(), MENU_ID_CHANGE_NOTE, 0, R.string.choose_sync_context_menu_one_change_note);
 		}
+
+		//if (getMode() == ChooseSyncDataPagerHelper.Mode.CREATED) {
+		menu.add(getGroupId(), MENU_ID_ADD_TO_IGNORE_LIST, 0, R.string.choose_sync_context_menu_one_add_to_ignore_list);
+		//}
 	}
 
 	public boolean doContextItemSelected(MenuItem menuItem) {
@@ -108,12 +114,15 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 				noteDialogBuilder.create().show();
 
 				break;
+			case MENU_ID_ADD_TO_IGNORE_LIST:
+				addMonsterToIgnoreList(monsterItem.getSyncedModel().getDisplayedMonsterInfo().getIdJP());
+				notifyDataSetChanged();
+				break;
 			default:
 		}
 
 		return true;
 	}
-
 
 	private ChooseSyncModelContainer<SyncedMonsterModel> getMonsterItem(ContextMenu.ContextMenuInfo menuInfo) {
 		Log.d(getClass().getName(), "getMonsterItem : " + menuInfo);

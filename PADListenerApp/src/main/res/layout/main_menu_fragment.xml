@@ -49,6 +49,17 @@
 	-->
 
 	<TextView
+		android:id="@+id/manageIgnoreList"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/manageIgnoreList"
+		android:textSize="20sp" />
+
+	<TextView
 		android:id="@+id/computeSync"
 		android:layout_width="fill_parent"
 		android:layout_height="50dp"

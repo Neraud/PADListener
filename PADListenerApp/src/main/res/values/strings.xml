@@ -70,13 +70,21 @@
 	<string name="settings_choose_sync_preselect_deleted_monsters_title">Deleted monsters</string>
 	<string name="settings_choose_sync_preselect_deleted_monsters_summary" />
 
-	<string name="settings_sync_preselect_group">Group</string>
+	<string name="settings_sync_group_category">Group</string>
 	<string name="settings_choose_sync_group_monsters_updated_title">Updated monsters</string>
 	<string name="settings_choose_sync_group_monsters_updated_summary" />
 	<string name="settings_choose_sync_group_monsters_created_title">Created monsters</string>
 	<string name="settings_choose_sync_group_monsters_created_summary" />
 	<string name="settings_choose_sync_group_monsters_deleted_title">Deleted monsters</string>
 	<string name="settings_choose_sync_group_monsters_deleted_summary" />
+
+	<string name="settings_sync_use_ignore_category">Use ignore list</string>
+	<string name="settings_choose_sync_use_ignore_monsters_updated_title">Updated monsters</string>
+	<string name="settings_choose_sync_use_ignore_monsters_updated_summary" />
+	<string name="settings_choose_sync_use_ignore_monsters_created_title">Created monsters</string>
+	<string name="settings_choose_sync_use_ignore_monsters_created_summary" />
+	<string name="settings_choose_sync_use_ignore_monsters_deleted_title">Deleted monsters</string>
+	<string name="settings_choose_sync_use_ignore_monsters_deleted_summary" />
 
 
 	<!-- Proxy Modes -->
@@ -114,6 +122,7 @@
 	<string name="switchListener">Switch listener</string>
 	<string name="viewMonsterInfo">View monster info</string>
 	<string name="viewCapturedData">View captured data</string>
+	<string name="manageIgnoreList">Manage ignore list</string>
 	<string name="computeSync">Compute sync</string>
 
 
@@ -178,10 +187,20 @@
 	<string name="view_captured_info_item_share_button">Share captured data</string>
 	<string name="view_captured_info_item_share_dialog_label">Share JSON to</string>
 
-
 	<string name="view_captured_monster_item_name">(%1$d) %2$s</string>
 	<string name="view_captured_monster_item_level">lv %1$d (%2$d xp)</string>
 	<string name="view_captured_monster_item_plus">+%1$d +%2$d +%3$d %4$d</string>
+
+
+	<!-- ManageIgnoreList activity -->
+	<string name="label_manageIgnoreList">Manage ignore list</string>
+	<string name="manage_ignore_list_tab_list">List</string>
+	<string name="manage_ignore_list_tab_quick_actions">Actions</string>
+	<string name="manage_ignore_list_view_list_remove">X</string>
+	<string name="manage_ignore_list_view_list_name">(%1$d) %2$s</string>
+	<string name="manage_ignore_list_quick_action_name">%1$s</string>
+	<string name="manage_ignore_list_quick_action_add">Add all</string>
+	<string name="manage_ignore_list_quick_action_remove">Remove all</string>
 
 
 	<!-- Compute Sync -->
@@ -240,6 +259,7 @@
 	<string name="choose_sync_context_menu_one_change_priority_dialog_title">Priority for %1$s</string>
 	<string name="choose_sync_context_menu_one_change_note">Change note</string>
 	<string name="choose_sync_context_menu_one_change_note_dialog_title">Note for %1$s</string>
+	<string name="choose_sync_context_menu_one_add_to_ignore_list">Add to ignore list</string>
 
 	<string name="choose_sync_context_menu_all_title">%1$s</string>
 	<string name="choose_sync_context_menu_all_select">Select all</string>
@@ -248,6 +268,7 @@
 	<string name="choose_sync_context_menu_all_change_priority_dialog_title">Priority for all %1$s</string>
 	<string name="choose_sync_context_menu_all_change_note">Change note for all</string>
 	<string name="choose_sync_context_menu_all_change_note_dialog_title">Note for all %1$s</string>
+	<string name="choose_sync_context_menu_all_add_to_ignore_list">Add to ignore list</string>
 
 	<string name="choose_sync_context_menu_change_note_dialog_ok">OK</string>
 	<string name="choose_sync_context_menu_change_note_dialog_cancel">Cancel</string>

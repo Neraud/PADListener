@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
@@ -35,11 +36,12 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	private static final int MENU_ID_DESELECT_ALL = 12;
 	private static final int MENU_ID_CHANGE_PRIORITY_ALL = 13;
 	private static final int MENU_ID_CHANGE_NOTE_ALL = 14;
+	private static final int MENU_ID_ADD_TO_IGNORE_LIST = 15;
 
 	private final BaseExpandableListAdapter adapter;
 
-	public ChooseSyncGroupedContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, BaseExpandableListAdapter adapter) {
-		super(context, mode);
+	public ChooseSyncGroupedContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, BaseExpandableListAdapter adapter, ChooseSyncModel result) {
+		super(context, mode, result);
 		this.adapter = adapter;
 	}
 
@@ -51,7 +53,6 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 			createContextMenuForChild(menu, menuInfo);
 		}
 	}
-
 
 	public boolean doContextItemSelected(MenuItem menuItem) {
 		Log.d(getClass().getName(), "doContextItemSelected : menuItem = " + menuItem);
@@ -75,6 +76,10 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 			menu.add(getGroupId(), MENU_ID_CHANGE_PRIORITY_ALL, 0, R.string.choose_sync_context_menu_all_change_priority);
 			menu.add(getGroupId(), MENU_ID_CHANGE_NOTE_ALL, 0, R.string.choose_sync_context_menu_all_change_note);
 		}
+
+		//if(getMode() == ChooseSyncDataPagerHelper.Mode.CREATED) {
+		menu.add(getGroupId(), MENU_ID_ADD_TO_IGNORE_LIST, 0, R.string.choose_sync_context_menu_all_add_to_ignore_list);
+		//}
 	}
 
 	private void createContextMenuForChild(ContextMenu menu, ContextMenu.ContextMenuInfo menuInfo) {
@@ -159,6 +164,10 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				});
 				noteDialogBuilder.create().show();
 
+				break;
+			case MENU_ID_ADD_TO_IGNORE_LIST:
+				addMonsterToIgnoreList(getGroupMonsterItem(menuItem.getMenuInfo()).getIdJP());
+				notifyDataSetChanged();
 				break;
 			default:
 		}

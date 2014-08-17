@@ -53,7 +53,7 @@
 			android:title="@string/settings_choose_sync_preselect_deleted_monsters_title"/>
 	</PreferenceCategory>
 
-	<PreferenceCategory android:title="@string/settings_sync_preselect_group">
+	<PreferenceCategory android:title="@string/settings_sync_group_category">
 		<CheckBoxPreference
 			android:defaultValue="false"
 			android:key="choose_sync_group_monsters_updated"
@@ -69,5 +69,23 @@
 			android:key="choose_sync_group_monsters_deleted"
 			android:summary="@string/settings_choose_sync_group_monsters_deleted_summary"
 			android:title="@string/settings_choose_sync_group_monsters_deleted_title"/>
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/settings_sync_use_ignore_category">
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="choose_sync_use_ignore_monsters_updated"
+			android:summary="@string/settings_choose_sync_use_ignore_monsters_updated_summary"
+			android:title="@string/settings_choose_sync_use_ignore_monsters_updated_title"/>
+		<CheckBoxPreference
+			android:defaultValue="true"
+			android:key="choose_sync_use_ignore_monsters_created"
+			android:summary="@string/settings_choose_sync_use_ignore_monsters_created_summary"
+			android:title="@string/settings_choose_sync_use_ignore_monsters_created_title"/>
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="choose_sync_use_ignore_monsters_deleted"
+			android:summary="@string/settings_choose_sync_use_ignore_monsters_deleted_summary"
+			android:title="@string/settings_choose_sync_use_ignore_monsters_deleted_title"/>
 	</PreferenceCategory>
 </PreferenceScreen>

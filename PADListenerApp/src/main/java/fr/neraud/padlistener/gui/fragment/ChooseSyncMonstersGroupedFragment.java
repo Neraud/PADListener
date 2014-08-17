@@ -39,8 +39,7 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 		final ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.choose_sync_monsters_list);
 		registerForContextMenu(listView);
 
-		final ChooseSyncModel result = (ChooseSyncModel) getArguments().getSerializable(
-				ChooseSyncDataPagerHelper.ARGUMENT_SYNC_RESULT_NAME);
+		final ChooseSyncModel result = (ChooseSyncModel) getArguments().getSerializable(ChooseSyncDataPagerHelper.ARGUMENT_SYNC_RESULT_NAME);
 		final String modeName = getArguments().getString(ChooseSyncDataPagerHelper.ARGUMENT_SYNC_MODE_NAME);
 		final Mode mode = Mode.valueOf(modeName);
 
@@ -60,7 +59,7 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 		}
 
 		final BaseExpandableListAdapter adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
-		menuHelper = new ChooseSyncGroupedContextMenuHelper(getActivity(), mode, adapter);
+		menuHelper = new ChooseSyncGroupedContextMenuHelper(getActivity(), mode, adapter, result);
 
 		listView.setAdapter(adapter);
 

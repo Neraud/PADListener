@@ -5,6 +5,7 @@ import android.app.Activity;
 import fr.neraud.padlistener.gui.ChooseSyncActivity;
 import fr.neraud.padlistener.gui.ComputeSyncActivity;
 import fr.neraud.padlistener.gui.MainActivity;
+import fr.neraud.padlistener.gui.ManageIgnoreListActivity;
 import fr.neraud.padlistener.gui.PushSyncActivity;
 import fr.neraud.padlistener.gui.SwitchListenerActivity;
 import fr.neraud.padlistener.gui.ViewCapturedDataActivity;
@@ -21,6 +22,7 @@ public enum GuiScreen {
 	SWITCH_LISTENER(SwitchListenerActivity.class),
 	VIEW_MONSTER_INFO(ViewMonsterInfoActivity.class),
 	VIEW_CAPTURED_DATA(ViewCapturedDataActivity.class),
+	MANAGE_IGNORE_LIST(ManageIgnoreListActivity.class),
 	COMPUTE_SYNC(ComputeSyncActivity.class, true),
 	CHOOSE_SYNC(ChooseSyncActivity.class, true),
 	PUSH_SYNC(PushSyncActivity.class, true);
