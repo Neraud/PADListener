@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -87,7 +88,7 @@ public class MonsterInfoTable implements ITable {
 			// Start the install again to restore monsterInfo data
 			final TechnicalSharedPreferencesHelper helper = new TechnicalSharedPreferencesHelper(context);
 			helper.setHasBeenInstalled(false);
-			helper.setMonsterInfoRefreshDate(null);
+			helper.setMonsterInfoRefreshDate(new Date(0L));
 		}
 	}
 }
