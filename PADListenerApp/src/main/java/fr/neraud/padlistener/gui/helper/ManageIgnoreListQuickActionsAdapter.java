@@ -62,11 +62,14 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 				monsterId = item.getMonsterIds().get(i);
 			}
 
-			final boolean alreadyIgnored = mTaskFragment.getIgnoredIds().contains(monsterId);
-			if (alreadyIgnored) {
-				hasNone = false;
-			} else {
-				hasAll = false;
+			boolean alreadyIgnored = false;
+			if(monsterId != null) {
+				alreadyIgnored = mTaskFragment.getIgnoredIds().contains(monsterId);
+				if (alreadyIgnored) {
+					hasNone = false;
+				} else {
+					hasAll = false;
+				}
 			}
 
 			bindOneImage(view, i, monsterId, alreadyIgnored, imageIds[i]);
