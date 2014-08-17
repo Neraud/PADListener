@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 
@@ -28,7 +27,6 @@ import fr.neraud.padlistener.padherder.constant.MonsterPriority;
  */
 public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMenuHelper {
 
-
 	private static final int MENU_ID_SELECT = 1;
 	private static final int MENU_ID_DESELECT = 2;
 	private static final int MENU_ID_CHANGE_PRIORITY = 3;
@@ -40,9 +38,9 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	private static final int MENU_ID_CHANGE_NOTE_ALL = 14;
 	private static final int MENU_ID_ADD_TO_IGNORE_LIST = 15;
 
-	private final BaseExpandableListAdapter adapter;
+	private final ChooseSyncMonstersGroupedAdapter adapter;
 
-	public ChooseSyncGroupedContextMenuHelper(Context context, SyncMode mode, BaseExpandableListAdapter adapter, ChooseSyncModel result) {
+	public ChooseSyncGroupedContextMenuHelper(Context context, SyncMode mode, ChooseSyncMonstersGroupedAdapter adapter, ChooseSyncModel result) {
 		super(context, mode, result);
 		this.adapter = adapter;
 	}
@@ -291,6 +289,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	}
 
 	protected void notifyDataSetChanged() {
+		adapter.refreshData();
 		adapter.notifyDataSetChanged();
 	}
 }

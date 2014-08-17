@@ -41,23 +41,15 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter {
 
 	private final Context context;
-	private final List<MonsterInfoModel> groups;
-	private final Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> syncedMonsters;
+	private final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters;
+	private List<MonsterInfoModel> groups;
+	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> sortedSyncedMonsters;
 	private Integer defaultTextColor = null;
 
-	public ChooseSyncMonstersGroupedAdapter(Context context,
-			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
+	public ChooseSyncMonstersGroupedAdapter(Context context, List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters) {
 		this.context = context;
-		syncedMonsters = reorgMonsters(syncedMonstersToUpdate);
-		groups = new ArrayList<MonsterInfoModel>(syncedMonsters.keySet());
-
-		final Comparator<MonsterInfoModel> comparator = new Comparator<MonsterInfoModel>() {
-			@Override
-			public int compare(MonsterInfoModel a, MonsterInfoModel b) {
-				return a.getIdJP() - b.getIdJP();
-			}
-		};
-		Collections.sort(groups, comparator);
+		this.syncedMonsters = syncedMonsters;
+		refreshData();
 	}
 
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
@@ -83,7 +75,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return syncedMonsters.get(groups.get(groupPosition)).size();
+		return sortedSyncedMonsters.get(groups.get(groupPosition)).size();
 	}
 
 	@Override
@@ -93,7 +85,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 	@Override
 	public ChooseSyncModelContainer<SyncedMonsterModel> getChild(int groupPosition, int childPosition) {
-		return syncedMonsters.get(groups.get(groupPosition)).get(childPosition);
+		return sortedSyncedMonsters.get(groups.get(groupPosition)).get(childPosition);
 	}
 
 	@Override
@@ -133,7 +125,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		}
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
-		nameText.setText(context.getString(R.string.choose_sync_monsters_item_name_group, syncedMonsters.get(monsterInfo).size(),
+		nameText.setText(context.getString(R.string.choose_sync_monsters_item_name_group, sortedSyncedMonsters.get(monsterInfo).size(),
 				monsterInfo.getIdJP(), monsterInfo.getName()));
 
 		return view;
@@ -269,5 +261,19 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	private void fillOneText(View view, int textViewResId, String value) {
 		((TextView) view.findViewById(textViewResId)).setText(value);
 		((TextView) view.findViewById(textViewResId)).setTextColor(defaultTextColor);
+	}
+
+	public void refreshData() {
+		Log.d(getClass().getName(), "refreshData");
+		sortedSyncedMonsters = reorgMonsters(syncedMonsters);
+		groups = new ArrayList<MonsterInfoModel>(sortedSyncedMonsters.keySet());
+
+		final Comparator<MonsterInfoModel> comparator = new Comparator<MonsterInfoModel>() {
+			@Override
+			public int compare(MonsterInfoModel a, MonsterInfoModel b) {
+				return a.getIdJP() - b.getIdJP();
+			}
+		};
+		Collections.sort(groups, comparator);
 	}
 }

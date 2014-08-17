@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 
 		final List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters = result.getSyncedMonsters(mode);
 
-		final BaseExpandableListAdapter adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
+		final ChooseSyncMonstersGroupedAdapter adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
 		menuHelper = new ChooseSyncGroupedContextMenuHelper(getActivity(), mode, adapter, result);
 
 		listView.setAdapter(adapter);
