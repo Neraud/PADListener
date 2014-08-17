@@ -151,7 +151,7 @@ public class ComputeSyncFragment extends Fragment {
 		final AccountSpinnerAdapter adapter = new AccountSpinnerAdapter(getActivity(), accounts);
 		chooseAccountSpinner.setAdapter(adapter);
 
-		final String lastCaptureAccountName = new TechnicalSharedPreferencesHelper(getActivity()).getLastCaptureName();
+		final String lastCaptureAccountName = techPrefHelper.getLastCaptureName();
 		if(StringUtils.isNotBlank(lastCaptureAccountName)) {
 			for (final PADHerderAccountModel account : accounts) {
 				if (lastCaptureAccountName.equals(account.getName())) {
