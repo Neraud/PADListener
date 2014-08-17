@@ -20,39 +20,57 @@ import fr.neraud.padlistener.model.SyncedUserInfoModel;
  */
 public class ChooseSyncInitHelper {
 
-	private final Context context;
+	private final DefaultSharedPreferencesHelper prefHelper;
 	private final ComputeSyncResultModel syncResult;
+	private ChooseSyncModel chooseSync = null;
 
 	public ChooseSyncInitHelper(Context context, ComputeSyncResultModel syncResult) {
 		super();
-		this.context = context;
+		prefHelper = new DefaultSharedPreferencesHelper(context);
 		this.syncResult = syncResult;
 	}
 
 	public ChooseSyncModel filterSyncResult() {
 		Log.d(getClass().getName(), "filterSyncResult");
-		final ChooseSyncModel chooseSync = new ChooseSyncModel();
+		chooseSync = new ChooseSyncModel();
+		chooseSync.setHasEncounteredUnknownMonster(syncResult.isHasEncounteredUnknownMonster());
 
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
+		fillUserInfo();
+		fillMaterials();
+		fillMonsters();
 
+		return chooseSync;
+	}
+
+	private void fillUserInfo() {
+		Log.d(getClass().getName(), "fillUserInfo");
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseSyncModelContainer<SyncedUserInfoModel>();
 		syncedUserInfoToUpdate.setChosen(prefHelper.isChooseSyncPreselectUserInfoToUpdate());
 		syncedUserInfoToUpdate.setSyncedModel(syncResult.getSyncedUserInfo());
 
+		chooseSync.setSyncedUserInfoToUpdate(syncedUserInfoToUpdate);
+	}
+
+	private void fillMaterials() {
+		Log.d(getClass().getName(), "fillMaterials");
 		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();
 
 		for (final SyncedMaterialModel material : syncResult.getSyncedMaterials()) {
 			if (material.getCapturedInfo().equals(material.getPadherderInfo())) {
-				Log.d(getClass().getName(), "filterSyncResult : ignoring material : " + material);
+				Log.d(getClass().getName(), "fillMaterials : ignoring material : " + material);
 			} else {
 				final ChooseSyncModelContainer<SyncedMaterialModel> container = new ChooseSyncModelContainer<SyncedMaterialModel>();
 				container.setChosen(prefHelper.isChooseSyncPreselectMaterialsUpdated());
 				container.setSyncedModel(material);
-				Log.d(getClass().getName(), "filterSyncResult : keeping material : " + material);
+				Log.d(getClass().getName(), "fillMaterials : keeping material : " + material);
 				syncedMaterialsToUpdate.add(container);
 			}
 		}
+		chooseSync.setSyncedMaterialsToUpdate(syncedMaterialsToUpdate);
+	}
 
+	private void fillMonsters() {
+		Log.d(getClass().getName(), "fillMonsters");
 		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
 		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
 		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
@@ -62,27 +80,21 @@ public class ChooseSyncInitHelper {
 			container.setSyncedModel(monster);
 
 			if (monster.getCapturedInfo() == null) {
-				Log.d(getClass().getName(), "filterSyncResult : deleting monster : " + monster);
+				Log.d(getClass().getName(), "fillMonsters : deleting monster : " + monster);
 				container.setChosen(prefHelper.isChooseSyncPreselectMonstersDeleted());
 				syncedMonstersToDelete.add(container);
 			} else if (monster.getPadherderInfo() == null) {
-				Log.d(getClass().getName(), "filterSyncResult : creating monster : " + monster);
+				Log.d(getClass().getName(), "fillMonsters : creating monster : " + monster);
 				container.setChosen(prefHelper.isChooseSyncPreselectMonstersCreated());
 				syncedMonstersToCreate.add(container);
 			} else {
-				Log.d(getClass().getName(), "filterSyncResult : updating monster : " + monster);
+				Log.d(getClass().getName(), "fillMonsters : updating monster : " + monster);
 				container.setChosen(prefHelper.isChooseSyncPreselectMonstersUpdated());
 				syncedMonstersToUpdate.add(container);
 			}
 		}
-
-		chooseSync.setHasEncounteredUnknownMonster(syncResult.isHasEncounteredUnknownMonster());
-		chooseSync.setSyncedUserInfoToUpdate(syncedUserInfoToUpdate);
-		chooseSync.setSyncedMaterialsToUpdate(syncedMaterialsToUpdate);
 		chooseSync.setSyncedMonstersToUpdate(syncedMonstersToUpdate);
 		chooseSync.setSyncedMonstersToCreate(syncedMonstersToCreate);
 		chooseSync.setSyncedMonstersToDelete(syncedMonstersToDelete);
-
-		return chooseSync;
 	}
 }
