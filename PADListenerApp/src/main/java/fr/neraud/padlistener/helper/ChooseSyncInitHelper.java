@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
@@ -83,36 +84,36 @@ public class ChooseSyncInitHelper {
 			container.setSyncedModel(monster);
 
 			if (monster.getCapturedInfo() == null) {
-				boolean ignored = prefHelper.isChooseSyncUseIgnoreListForMonstersDeleted() && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
+				boolean ignored = prefHelper.isChooseSyncUseIgnoreListForMonsters(SyncMode.DELETED) && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
 				if (ignored) {
 					Log.d(getClass().getName(), "fillMonsters : ignoring deleted monster : " + monster);
 				} else {
 					Log.d(getClass().getName(), "fillMonsters : adding deleted monster : " + monster);
-					container.setChosen(prefHelper.isChooseSyncPreselectMonstersDeleted());
+					container.setChosen(prefHelper.isChooseSyncPreselectMonsters(SyncMode.DELETED));
 					syncedMonstersToDelete.add(container);
 				}
 			} else if (monster.getPadherderInfo() == null) {
-				boolean ignored = prefHelper.isChooseSyncUseIgnoreListForMonstersCreated() && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
+				boolean ignored = prefHelper.isChooseSyncUseIgnoreListForMonsters(SyncMode.CREATED) && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
 				if (ignored) {
 					Log.d(getClass().getName(), "fillMonsters : ignoring created monster : " + monster);
 				} else {
 					Log.d(getClass().getName(), "fillMonsters : adding created monster : " + monster);
-					container.setChosen(prefHelper.isChooseSyncPreselectMonstersCreated());
+					container.setChosen(prefHelper.isChooseSyncPreselectMonsters(SyncMode.CREATED));
 					syncedMonstersToCreate.add(container);
 				}
 			} else {
-				boolean ignored = prefHelper.isChooseSyncUseIgnoreListForMonstersUpdated() && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
+				boolean ignored = prefHelper.isChooseSyncUseIgnoreListForMonsters(SyncMode.UPDATED) && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
 				if (ignored) {
 					Log.d(getClass().getName(), "fillMonsters : ignoring updated monster : " + monster);
 				} else {
 					Log.d(getClass().getName(), "fillMonsters : adding updated monster : " + monster);
-					container.setChosen(prefHelper.isChooseSyncPreselectMonstersUpdated());
+					container.setChosen(prefHelper.isChooseSyncPreselectMonsters(SyncMode.UPDATED));
 					syncedMonstersToUpdate.add(container);
 				}
 			}
 		}
-		chooseSync.setSyncedMonstersToUpdate(syncedMonstersToUpdate);
-		chooseSync.setSyncedMonstersToCreate(syncedMonstersToCreate);
-		chooseSync.setSyncedMonstersToDelete(syncedMonstersToDelete);
+		chooseSync.setSyncedMonsters(SyncMode.UPDATED, syncedMonstersToUpdate);
+		chooseSync.setSyncedMonsters(SyncMode.CREATED, syncedMonstersToCreate);
+		chooseSync.setSyncedMonsters(SyncMode.DELETED, syncedMonstersToDelete);
 	}
 }

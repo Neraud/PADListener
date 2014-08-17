@@ -7,6 +7,7 @@ import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.PushSyncStatModel;
@@ -116,7 +117,7 @@ public class PushSyncTaskFragment extends Fragment {
 		pushModel.initElementsToPush(ElementToPush.MATERIAL_TO_UPDATE, count);
 
 		count = 0;
-		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonstersToUpdate()) {
+		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonsters(SyncMode.UPDATED)) {
 			if (element.isChosen()) {
 				count++;
 			}
@@ -124,7 +125,7 @@ public class PushSyncTaskFragment extends Fragment {
 		pushModel.initElementsToPush(ElementToPush.MONSTER_TO_UPDATE, count);
 
 		count = 0;
-		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonstersToCreate()) {
+		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonsters(SyncMode.CREATED)) {
 			if (element.isChosen()) {
 				count++;
 			}
@@ -132,7 +133,7 @@ public class PushSyncTaskFragment extends Fragment {
 		pushModel.initElementsToPush(ElementToPush.MONSTER_TO_CREATE, count);
 
 		count = 0;
-		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonstersToDelete()) {
+		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonsters(SyncMode.DELETED)) {
 			if (element.isChosen()) {
 				count++;
 			}

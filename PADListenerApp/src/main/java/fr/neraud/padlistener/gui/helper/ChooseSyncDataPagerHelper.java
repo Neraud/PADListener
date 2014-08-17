@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.gui.fragment.ChooseSyncInfoFragment;
 import fr.neraud.padlistener.gui.fragment.ChooseSyncMaterialsFragment;
 import fr.neraud.padlistener.gui.fragment.ChooseSyncMonstersGroupedFragment;
@@ -36,15 +37,6 @@ public class ChooseSyncDataPagerHelper {
 	private int infoFragmentPosition = -1;
 	private ChooseSyncInfoFragment infoFragment;
 
-	public static enum Mode {
-		UPDATED,
-		CREATED,
-		DELETED;
-
-		private Mode() {
-		}
-	}
-
 	@SuppressLint("UseSparseArrays")
 	public ChooseSyncDataPagerHelper(Context context, int accountId, ChooseSyncModel result) {
 		this.result = result;
@@ -60,9 +52,9 @@ public class ChooseSyncDataPagerHelper {
 		Log.d(getClass().getName(), "populate");
 		populateInfoFragment();
 		populateInfoMaterialsUpdated();
-		populateInfoMonstersUpdated();
-		populateInfoMonstersCreated();
-		populateInfoMonstersDeleted();
+		populateMonsterFragment(SyncMode.UPDATED, R.string.choose_sync_monstersUpdated_label);
+		populateMonsterFragment(SyncMode.CREATED, R.string.choose_sync_monstersCreated_label);
+		populateMonsterFragment(SyncMode.DELETED, R.string.choose_sync_monstersDeleted_label);
 	}
 
 	private void populateInfoFragment() {
@@ -87,38 +79,13 @@ public class ChooseSyncDataPagerHelper {
 		}
 	}
 
-	private void populateInfoMonstersUpdated() {
-		Log.d(getClass().getName(), "populateInfoMonstersUpdated");
-		if (result.getSyncedMonstersToUpdate().size() > 0) {
-			final Fragment fragment = createChoiceFragment(prefHelper.isChooseSyncGroupMonstersUpdated());
+	private void populateMonsterFragment(SyncMode mode, int titleId) {
+		if (result.getSyncedMonsters(mode).size() > 0) {
+			final Fragment fragment = createChoiceFragment(prefHelper.isChooseSyncGroupMonsters(mode));
 			addResultToFragmentArguments(fragment);
-			addModeToFragmentArguments(fragment, Mode.UPDATED);
+			addModeToFragmentArguments(fragment, mode);
 			fragmentsByPosition.put(count, fragment);
-			titlesByPosition.put(count, R.string.choose_sync_monstersUpdated_label);
-			count++;
-		}
-	}
-
-	private void populateInfoMonstersCreated() {
-		Log.d(getClass().getName(), "populateInfoMonstersCreated");
-		if (result.getSyncedMonstersToCreate().size() > 0) {
-			final Fragment fragment = createChoiceFragment(prefHelper.isChooseSyncGroupMonstersCreated());
-			addResultToFragmentArguments(fragment);
-			addModeToFragmentArguments(fragment, Mode.CREATED);
-			fragmentsByPosition.put(count, fragment);
-			titlesByPosition.put(count, R.string.choose_sync_monstersCreated_label);
-			count++;
-		}
-	}
-
-	private void populateInfoMonstersDeleted() {
-		Log.d(getClass().getName(), "populateInfoMonstersDeleted");
-		if (result.getSyncedMonstersToDelete().size() > 0) {
-			final Fragment fragment = createChoiceFragment(prefHelper.isChooseSyncGroupMonstersDeleted());
-			addResultToFragmentArguments(fragment);
-			addModeToFragmentArguments(fragment, Mode.DELETED);
-			fragmentsByPosition.put(count, fragment);
-			titlesByPosition.put(count, R.string.choose_sync_monstersDeleted_label);
+			titlesByPosition.put(count, titleId);
 			count++;
 		}
 	}
@@ -138,7 +105,7 @@ public class ChooseSyncDataPagerHelper {
 		fragment.getArguments().putSerializable(ARGUMENT_SYNC_RESULT_NAME, result);
 	}
 
-	private void addModeToFragmentArguments(Fragment fragment, Mode mode) {
+	private void addModeToFragmentArguments(Fragment fragment, SyncMode mode) {
 		if (fragment.getArguments() == null) {
 			fragment.setArguments(new Bundle());
 		}

@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.gui.AbstractPADListenerActivity;
 import fr.neraud.padlistener.gui.constant.GuiScreen;
 import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
@@ -97,12 +98,12 @@ public class ChooseSyncInfoFragment extends Fragment {
 		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && result.getSyncedUserInfoToUpdate().isChosen();
 		final int materialToUpdateCount = result.getSyncedMaterialsToUpdate().size();
 		final int materialToUpdateChosenCount = countChosenItems(result.getSyncedMaterialsToUpdate());
-		final int monsterToUpdateCount = result.getSyncedMonstersToUpdate().size();
-		final int monsterToUpdateChosenCount = countChosenItems(result.getSyncedMonstersToUpdate());
-		final int monsterToCreateCount = result.getSyncedMonstersToCreate().size();
-		final int monsterToCreateChosenCount = countChosenItems(result.getSyncedMonstersToCreate());
-		final int monsterToDeleteCount = result.getSyncedMonstersToDelete().size();
-		final int monsterToDeleteChosenCount = countChosenItems(result.getSyncedMonstersToDelete());
+		final int monsterToUpdateCount = result.getSyncedMonsters(SyncMode.UPDATED).size();
+		final int monsterToUpdateChosenCount = countChosenItems(result.getSyncedMonsters(SyncMode.UPDATED));
+		final int monsterToCreateCount = result.getSyncedMonsters(SyncMode.CREATED).size();
+		final int monsterToCreateChosenCount = countChosenItems(result.getSyncedMonsters(SyncMode.CREATED));
+		final int monsterToDeleteCount = result.getSyncedMonsters(SyncMode.DELETED).size();
+		final int monsterToDeleteChosenCount = countChosenItems(result.getSyncedMonsters(SyncMode.DELETED));
 
 		summaryText.setText(getString(R.string.choose_sync_info_summary, materialToUpdateChosenCount, materialToUpdateCount,
 				monsterToUpdateChosenCount, monsterToUpdateCount, monsterToCreateChosenCount, monsterToCreateCount,

@@ -9,8 +9,8 @@ import android.view.View;
 
 import java.util.List;
 
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper;
-import fr.neraud.padlistener.gui.helper.ChooseSyncDataPagerHelper.Mode;
 import fr.neraud.padlistener.gui.helper.ChooseSyncMonstersSimpleAdapter;
 import fr.neraud.padlistener.gui.helper.ChooseSyncSimpleContextMenuHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
@@ -34,22 +34,9 @@ public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 		final ChooseSyncModel result = (ChooseSyncModel) getArguments().getSerializable(
 				ChooseSyncDataPagerHelper.ARGUMENT_SYNC_RESULT_NAME);
 		final String modeName = getArguments().getString(ChooseSyncDataPagerHelper.ARGUMENT_SYNC_MODE_NAME);
-		final Mode mode = Mode.valueOf(modeName);
+		final SyncMode mode = SyncMode.valueOf(modeName);
 
-		List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters = null;
-		switch (mode) {
-			case UPDATED:
-				monsters = result.getSyncedMonstersToUpdate();
-				break;
-			case CREATED:
-				monsters = result.getSyncedMonstersToCreate();
-				break;
-			case DELETED:
-				monsters = result.getSyncedMonstersToDelete();
-				break;
-			default:
-				break;
-		}
+		final List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters = result.getSyncedMonsters(mode);
 
 		final ChooseSyncMonstersSimpleAdapter adapter = new ChooseSyncMonstersSimpleAdapter(getActivity().getApplicationContext(), monsters);
 		menuHelper = new ChooseSyncSimpleContextMenuHelper(getActivity(), mode, adapter, result);

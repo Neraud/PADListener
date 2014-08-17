@@ -3,6 +3,8 @@ package fr.neraud.padlistener.model;
 import java.io.Serializable;
 import java.util.List;
 
+import fr.neraud.padlistener.constant.SyncMode;
+
 /**
  * ChooseSync model
  *
@@ -42,28 +44,31 @@ public class ChooseSyncModel implements Serializable {
 		this.syncedMaterialsToUpdate = syncedMaterialsToUpdate;
 	}
 
-	public List<ChooseSyncModelContainer<SyncedMonsterModel>> getSyncedMonstersToUpdate() {
-		return syncedMonstersToUpdate;
+	public List<ChooseSyncModelContainer<SyncedMonsterModel>> getSyncedMonsters(SyncMode mode) {
+		switch (mode) {
+			case UPDATED:
+				return syncedMonstersToUpdate;
+			case CREATED:
+				return syncedMonstersToCreate;
+			case DELETED:
+				return syncedMonstersToDelete;
+			default:
+				return null;
+		}
 	}
 
-	public void setSyncedMonstersToUpdate(List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
-		this.syncedMonstersToUpdate = syncedMonstersToUpdate;
-	}
-
-	public List<ChooseSyncModelContainer<SyncedMonsterModel>> getSyncedMonstersToCreate() {
-		return syncedMonstersToCreate;
-	}
-
-	public void setSyncedMonstersToCreate(List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate) {
-		this.syncedMonstersToCreate = syncedMonstersToCreate;
-	}
-
-	public List<ChooseSyncModelContainer<SyncedMonsterModel>> getSyncedMonstersToDelete() {
-		return syncedMonstersToDelete;
-	}
-
-	public void setSyncedMonstersToDelete(List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete) {
-		this.syncedMonstersToDelete = syncedMonstersToDelete;
+	public void setSyncedMonsters(SyncMode mode, List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters) {
+		switch (mode) {
+			case UPDATED:
+				syncedMonstersToUpdate = syncedMonsters;
+				break;
+			case CREATED:
+				syncedMonstersToCreate = syncedMonsters;
+				break;
+			case DELETED:
+				syncedMonstersToDelete = syncedMonsters;
+				break;
+		}
 	}
 
 }

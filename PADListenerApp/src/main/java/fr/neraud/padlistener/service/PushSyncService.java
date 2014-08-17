@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.PushSyncHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
@@ -46,9 +47,9 @@ public class PushSyncService extends IntentService {
 
 		pushUserInfoToUpdate(helper, receiver, result);
 		pushMaterialsToUpdate(helper, receiver, result);
-		pushMonstersToUpdate(helper, receiver, result);
-		pushMonstersToCreate(helper, receiver, result);
-		pushMonstersToDelete(helper, receiver, result);
+		pushMonsters(SyncMode.UPDATED, helper, receiver, result);
+		pushMonsters(SyncMode.CREATED, helper, receiver, result);
+		pushMonsters(SyncMode.DELETED, helper, receiver, result);
 	}
 
 	private void pushUserInfoToUpdate(PushSyncHelper helper, ResultReceiver receiver, ChooseSyncModel result) {
@@ -85,57 +86,30 @@ public class PushSyncService extends IntentService {
 		}
 	}
 
-	private void pushMonstersToUpdate(PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
-		Log.d(getClass().getName(), "pushMonstersToUpdate");
-		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonstersToUpdate()) {
+	private void pushMonsters(SyncMode mode, PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
+		Log.d(getClass().getName(), "pushMonsters");
+		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonsters(mode)) {
 			final SyncedMonsterModel model = syncModel.getSyncedModel();
 			if (syncModel.isChosen()) {
 				try {
-					helper.pushMonsterToUpdate(model);
-					notifyMonsterUpdated(receiver);
+					helper.pushMonster(mode, model);
+					notifyMonsterPushed(mode, receiver);
 				} catch (final Exception e) {
-					Log.e(getClass().getName(), "pushMonstersToUpdate : error syncing", e);
-					notifyMonsterUpdatedFailed(receiver, e.getMessage());
+					Log.e(getClass().getName(), "pushMonsters : error syncing", e);
+					notifyMonsterPushedFailed(mode, receiver, e.getMessage());
 				}
 			} else {
-				Log.d(getClass().getName(), "pushMonstersToUpdate : ignoring : " + model);
+				Log.d(getClass().getName(), "pushMonsters : ignoring : " + model);
 			}
 		}
 	}
 
-	private void pushMonstersToCreate(PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
-		Log.d(getClass().getName(), "pushMonstersToCreate");
-		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonstersToCreate()) {
-			final SyncedMonsterModel model = syncModel.getSyncedModel();
-			if (syncModel.isChosen()) {
-				try {
-					helper.pushMonsterToCreate(model);
-					notifyMonsterCreated(receiver);
-				} catch (final Exception e) {
-					Log.e(getClass().getName(), "pushMonstersToCreate : error syncing", e);
-					notifyMonsterCreatedFailed(receiver, e.getMessage());
-				}
-			} else {
-				Log.d(getClass().getName(), "pushMonstersToCreate : ignoring : " + model);
-			}
-		}
-	}
-
-	private void pushMonstersToDelete(PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
-		Log.d(getClass().getName(), "pushMonstersToDelete");
-		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonstersToDelete()) {
-			final SyncedMonsterModel model = syncModel.getSyncedModel();
-			if (syncModel.isChosen()) {
-				try {
-					helper.pushMonsterToDelete(model);
-					notifyMonsterDeleted(receiver);
-				} catch (final Exception e) {
-					Log.e(getClass().getName(), "pushMonstersToDelete : error syncing", e);
-					notifyMonsterDeletedFailed(receiver, e.getMessage());
-				}
-			} else {
-				Log.d(getClass().getName(), "pushMonstersToDelete : ignoring : " + model);
-			}
+	private ElementToPush extractMonsterElementToPushFromSyncMode(SyncMode mode) {
+		switch(mode) {
+			case CREATED: return ElementToPush.MONSTER_TO_CREATE;
+			case UPDATED: return ElementToPush.MONSTER_TO_UPDATE;
+			case DELETED: return ElementToPush.MONSTER_TO_DELETE;
+			default : return null;
 		}
 	}
 
@@ -155,28 +129,12 @@ public class PushSyncService extends IntentService {
 		notifyUpdate(receiver, ElementToPush.MATERIAL_TO_UPDATE, false, message);
 	}
 
-	private void notifyMonsterUpdated(ResultReceiver receiver) {
-		notifyUpdate(receiver, ElementToPush.MONSTER_TO_UPDATE, true, null);
+	private void notifyMonsterPushed(SyncMode mode, ResultReceiver receiver) {
+		notifyUpdate(receiver, extractMonsterElementToPushFromSyncMode(mode), true, null);
 	}
 
-	private void notifyMonsterUpdatedFailed(ResultReceiver receiver, String message) {
-		notifyUpdate(receiver, ElementToPush.MONSTER_TO_UPDATE, false, message);
-	}
-
-	private void notifyMonsterCreated(ResultReceiver receiver) {
-		notifyUpdate(receiver, ElementToPush.MONSTER_TO_CREATE, true, null);
-	}
-
-	private void notifyMonsterCreatedFailed(ResultReceiver receiver, String message) {
-		notifyUpdate(receiver, ElementToPush.MONSTER_TO_CREATE, false, message);
-	}
-
-	private void notifyMonsterDeleted(ResultReceiver receiver) {
-		notifyUpdate(receiver, ElementToPush.MONSTER_TO_DELETE, true, null);
-	}
-
-	private void notifyMonsterDeletedFailed(ResultReceiver receiver, String message) {
-		notifyUpdate(receiver, ElementToPush.MONSTER_TO_DELETE, false, message);
+	private void notifyMonsterPushedFailed(SyncMode mode, ResultReceiver receiver, String message) {
+		notifyUpdate(receiver, extractMonsterElementToPushFromSyncMode(mode), false, message);
 	}
 
 	private void notifyUpdate(ResultReceiver receiver, ElementToPush element, boolean isSuccess, String message) {

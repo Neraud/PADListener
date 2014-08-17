@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.SyncMode;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
@@ -29,7 +31,7 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 
 	private final ChooseSyncMonstersSimpleAdapter adapter;
 
-	public ChooseSyncSimpleContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, ChooseSyncMonstersSimpleAdapter adapter, ChooseSyncModel result) {
+	public ChooseSyncSimpleContextMenuHelper(Context context, SyncMode mode, ChooseSyncMonstersSimpleAdapter adapter, ChooseSyncModel result) {
 		super(context, mode, result);
 		this.adapter = adapter;
 	}
@@ -45,14 +47,14 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 			menu.add(getGroupId(), MENU_ID_SELECT, 0, R.string.choose_sync_context_menu_one_select);
 		}
 
-		if (getMode() != ChooseSyncDataPagerHelper.Mode.DELETED) {
+		if (getMode() != SyncMode.DELETED) {
 			menu.add(getGroupId(), MENU_ID_CHANGE_PRIORITY, 0, R.string.choose_sync_context_menu_one_change_priority);
 			menu.add(getGroupId(), MENU_ID_CHANGE_NOTE, 0, R.string.choose_sync_context_menu_one_change_note);
 		}
 
-		//if (getMode() == ChooseSyncDataPagerHelper.Mode.CREATED) {
-		menu.add(getGroupId(), MENU_ID_ADD_TO_IGNORE_LIST, 0, R.string.choose_sync_context_menu_one_add_to_ignore_list);
-		//}
+		if (new DefaultSharedPreferencesHelper(getContext()).isChooseSyncUseIgnoreListForMonsters(getMode())) {
+			menu.add(getGroupId(), MENU_ID_ADD_TO_IGNORE_LIST, 0, R.string.choose_sync_context_menu_one_add_to_ignore_list);
+		}
 	}
 
 	public boolean doContextItemSelected(MenuItem menuItem) {

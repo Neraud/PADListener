@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
@@ -53,7 +54,21 @@ public class PushSyncHelper {
 		client.call(httpRequest);
 	}
 
-	public void pushMonsterToUpdate(SyncedMonsterModel model) throws JSONException, HttpCallException {
+	public void pushMonster(SyncMode mode, SyncedMonsterModel model) throws JSONException, HttpCallException {
+		switch (mode) {
+			case UPDATED:
+				pushMonsterToUpdate(model);
+				break;
+			case CREATED:
+				pushMonsterToCreate(model);
+				break;
+			case DELETED:
+				pushMonsterToDelete(model);
+				break;
+		}
+	}
+
+	private void pushMonsterToUpdate(SyncedMonsterModel model) throws JSONException, HttpCallException {
 		Log.d(getClass().getName(), "pushMonsterToUpdate : " + model);
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMonster(context, accountId,
@@ -88,7 +103,7 @@ public class PushSyncHelper {
 		if (model.getCapturedInfo().getPriority() != model.getPadherderInfo().getPriority()) {
 			json.put("priority", model.getCapturedInfo().getPriority().getValue());
 		}
-		if(!StringUtils.equals(model.getCapturedInfo().getNote(), model.getPadherderInfo().getNote())) {
+		if (!StringUtils.equals(model.getCapturedInfo().getNote(), model.getPadherderInfo().getNote())) {
 			json.put("note", model.getCapturedInfo().getNote());
 		}
 
@@ -97,7 +112,7 @@ public class PushSyncHelper {
 		client.call(httpRequest);
 	}
 
-	public void pushMonsterToCreate(SyncedMonsterModel model) throws JSONException, HttpCallException {
+	private void pushMonsterToCreate(SyncedMonsterModel model) throws JSONException, HttpCallException {
 		Log.d(getClass().getName(), "pushMonsterToCreate : " + model);
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPostMonster(context, accountId);
 
@@ -123,7 +138,7 @@ public class PushSyncHelper {
 		client.call(httpRequest);
 	}
 
-	public void pushMonsterToDelete(SyncedMonsterModel model) throws HttpCallException {
+	private void pushMonsterToDelete(SyncedMonsterModel model) throws HttpCallException {
 		Log.d(getClass().getName(), "pushMonsterToDelete : " + model);
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForDeleteMonster(context, accountId,
 				model.getPadherderId());

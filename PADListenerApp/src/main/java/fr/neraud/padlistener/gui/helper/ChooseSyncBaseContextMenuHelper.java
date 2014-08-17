@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
@@ -30,11 +31,11 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 	private static final AtomicInteger GROUP_ID_GENERATOR = new AtomicInteger();
 
 	private final Context context;
-	private final ChooseSyncDataPagerHelper.Mode mode;
+	private final SyncMode mode;
 	private final ChooseSyncModel result;
 	private final int groupId;
 
-	public ChooseSyncBaseContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, ChooseSyncModel result) {
+	public ChooseSyncBaseContextMenuHelper(Context context, SyncMode mode, ChooseSyncModel result) {
 		this.context = context;
 		this.mode = mode;
 		this.result = result;
@@ -55,7 +56,7 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 
 	protected abstract void notifyDataSetChanged();
 
-	protected ChooseSyncDataPagerHelper.Mode getMode() {
+	protected SyncMode getMode() {
 		return mode;
 	}
 
@@ -84,22 +85,20 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 		ignoredIds.add(monsterId);
 		helper.setMonsterIgnoreList(ignoredIds);
 
-		if(helper.isChooseSyncUseIgnoreListForMonstersCreated()) {
-			filterMonsterList(result.getSyncedMonstersToCreate(), monsterId);
-		}
-		if(helper.isChooseSyncUseIgnoreListForMonstersUpdated()) {
-			filterMonsterList(result.getSyncedMonstersToUpdate(), monsterId);
-		}
-		if(helper.isChooseSyncUseIgnoreListForMonstersDeleted()) {
-			filterMonsterList(result.getSyncedMonstersToDelete(), monsterId);
+		for(final SyncMode mode : SyncMode.values()) {
+			if(helper.isChooseSyncUseIgnoreListForMonsters(mode)) {
+				filterMonsterList(mode, result.getSyncedMonsters(mode), monsterId);
+			}
 		}
 	}
 
-	private void filterMonsterList(List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters, int monsterId) {
+	private void filterMonsterList(SyncMode mode, List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters, int monsterId) {
+		Log.d(getClass().getName(), "filterMonsterList : " + mode);
 		final Iterator<ChooseSyncModelContainer<SyncedMonsterModel>> iter = monsters.iterator();
 		while(iter.hasNext()) {
 			final ChooseSyncModelContainer<SyncedMonsterModel> item = iter.next();
 			if(item.getSyncedModel().getDisplayedMonsterInfo().getIdJP() == monsterId)  {
+				Log.d(getClass().getName(), "filterMonsterList : - removing " + item);
 				iter.remove();
 			}
 		}

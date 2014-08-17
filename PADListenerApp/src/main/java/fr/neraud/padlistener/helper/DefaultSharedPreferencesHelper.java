@@ -13,6 +13,7 @@ import java.util.Set;
 
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
+import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.model.PADHerderAccountModel;
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
@@ -102,40 +103,43 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		return getBooleanPreference("choose_sync_preselect_updated_materials", true);
 	}
 
-	public boolean isChooseSyncPreselectMonstersUpdated() {
-		return getBooleanPreference("choose_sync_preselect_updated_monsters", true);
+	public boolean isChooseSyncPreselectMonsters(SyncMode mode) {
+		switch (mode) {
+			case CREATED:
+				return getBooleanPreference("choose_sync_preselect_created_monsters", false);
+			case DELETED:
+				return getBooleanPreference("choose_sync_preselect_deleted_monsters", false);
+			case UPDATED:
+				return getBooleanPreference("choose_sync_preselect_updated_monsters", true);
+			default:
+				return false;
+		}
 	}
 
-	public boolean isChooseSyncPreselectMonstersCreated() {
-		return getBooleanPreference("choose_sync_preselect_created_monsters", false);
+	public boolean isChooseSyncGroupMonsters(SyncMode mode) {
+		switch (mode) {
+			case CREATED:
+				return getBooleanPreference("choose_sync_group_monsters_created", false);
+			case DELETED:
+				return getBooleanPreference("choose_sync_group_monsters_deleted", false);
+			case UPDATED:
+				return getBooleanPreference("choose_sync_group_monsters_updated", true);
+			default:
+				return false;
+		}
 	}
 
-	public boolean isChooseSyncPreselectMonstersDeleted() {
-		return getBooleanPreference("choose_sync_preselect_deleted_monsters", false);
-	}
-
-	public boolean isChooseSyncGroupMonstersUpdated() {
-		return getBooleanPreference("choose_sync_group_monsters_updated", false);
-	}
-
-	public boolean isChooseSyncGroupMonstersCreated() {
-		return getBooleanPreference("choose_sync_group_monsters_created", true);
-	}
-
-	public boolean isChooseSyncGroupMonstersDeleted() {
-		return getBooleanPreference("choose_sync_group_monsters_deleted", false);
-	}
-
-	public boolean isChooseSyncUseIgnoreListForMonstersUpdated() {
-		return getBooleanPreference("choose_sync_use_ignore_monsters_updated", false);
-	}
-
-	public boolean isChooseSyncUseIgnoreListForMonstersCreated() {
-		return getBooleanPreference("choose_sync_use_ignore_monsters_created", true);
-	}
-
-	public boolean isChooseSyncUseIgnoreListForMonstersDeleted() {
-		return getBooleanPreference("choose_sync_use_ignore_monsters_deleted", false);
+	public boolean isChooseSyncUseIgnoreListForMonsters(SyncMode mode) {
+		switch (mode) {
+			case CREATED:
+				return getBooleanPreference("choose_sync_use_ignore_monsters_created", false);
+			case DELETED:
+				return getBooleanPreference("choose_sync_use_ignore_monsters_deleted", false);
+			case UPDATED:
+				return getBooleanPreference("choose_sync_use_ignore_monsters_updated", true);
+			default:
+				return false;
+		}
 	}
 
 	public MonsterPriority getDefaultMonsterCreatePriority() {

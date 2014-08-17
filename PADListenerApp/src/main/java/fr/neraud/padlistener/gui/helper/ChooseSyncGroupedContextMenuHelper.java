@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.SyncMode;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -40,7 +42,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 
 	private final BaseExpandableListAdapter adapter;
 
-	public ChooseSyncGroupedContextMenuHelper(Context context, ChooseSyncDataPagerHelper.Mode mode, BaseExpandableListAdapter adapter, ChooseSyncModel result) {
+	public ChooseSyncGroupedContextMenuHelper(Context context, SyncMode mode, BaseExpandableListAdapter adapter, ChooseSyncModel result) {
 		super(context, mode, result);
 		this.adapter = adapter;
 	}
@@ -72,14 +74,14 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 		menu.add(getGroupId(), MENU_ID_DESELECT_ALL, 0, R.string.choose_sync_context_menu_all_deselect);
 		menu.add(getGroupId(), MENU_ID_SELECT_ALL, 0, R.string.choose_sync_context_menu_all_select);
 
-		if (getMode() != ChooseSyncDataPagerHelper.Mode.DELETED) {
+		if (getMode() != SyncMode.DELETED) {
 			menu.add(getGroupId(), MENU_ID_CHANGE_PRIORITY_ALL, 0, R.string.choose_sync_context_menu_all_change_priority);
 			menu.add(getGroupId(), MENU_ID_CHANGE_NOTE_ALL, 0, R.string.choose_sync_context_menu_all_change_note);
 		}
 
-		//if(getMode() == ChooseSyncDataPagerHelper.Mode.CREATED) {
-		menu.add(getGroupId(), MENU_ID_ADD_TO_IGNORE_LIST, 0, R.string.choose_sync_context_menu_all_add_to_ignore_list);
-		//}
+		if (new DefaultSharedPreferencesHelper(getContext()).isChooseSyncUseIgnoreListForMonsters(getMode())) {
+			menu.add(getGroupId(), MENU_ID_ADD_TO_IGNORE_LIST, 0, R.string.choose_sync_context_menu_all_add_to_ignore_list);
+		}
 	}
 
 	private void createContextMenuForChild(ContextMenu menu, ContextMenu.ContextMenuInfo menuInfo) {
@@ -93,7 +95,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 			menu.add(getGroupId(), MENU_ID_SELECT, 0, R.string.choose_sync_context_menu_one_select);
 		}
 
-		if (getMode() != ChooseSyncDataPagerHelper.Mode.DELETED) {
+		if (getMode() != SyncMode.DELETED) {
 			menu.add(getGroupId(), MENU_ID_CHANGE_PRIORITY, 0, R.string.choose_sync_context_menu_one_change_priority);
 			menu.add(getGroupId(), MENU_ID_CHANGE_NOTE, 0, R.string.choose_sync_context_menu_one_change_note);
 		}
