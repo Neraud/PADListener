@@ -85,7 +85,9 @@ public class MonsterInfoTable implements ITable {
 	public void postUpgrade(Context context, int oldVersion, int newVersion) {
 		if (oldVersion < getVersion()) {
 			// Start the install again to restore monsterInfo data
-			new TechnicalSharedPreferencesHelper(context).setHasBeenInstalled(false);
+			final TechnicalSharedPreferencesHelper helper = new TechnicalSharedPreferencesHelper(context);
+			helper.setHasBeenInstalled(false);
+			helper.setMonsterInfoRefreshDate(null);
 		}
 	}
 }

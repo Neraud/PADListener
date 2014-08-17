@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
 /**
@@ -69,6 +71,11 @@ public class CapturedPlayerInfoTable implements ITable {
 
 	@Override
 	public void postUpgrade(Context context, int oldVersion, int newVersion) {
-
+		if (oldVersion < getVersion()) {
+			// Clear data from the technical preferences
+			final TechnicalSharedPreferencesHelper helper = new TechnicalSharedPreferencesHelper(context);
+			helper.setLastCaptureName(null);
+			helper.setLastCaptureDate(new Date(0L));
+		}
 	}
 }

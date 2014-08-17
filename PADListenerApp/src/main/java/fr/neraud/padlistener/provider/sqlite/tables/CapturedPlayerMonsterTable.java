@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 
 /**
@@ -48,6 +50,7 @@ public class CapturedPlayerMonsterTable implements ITable {
 			Log.w(getClass().getName(), "Table " + CapturedPlayerMonsterDescriptor.TABLE_NAME + " has changed, destroying table !");
 			queries.add(dropTable());
 			queries.add(createTable());
+
 		} else {
 			Log.i(getClass().getName(), "Table " + CapturedPlayerMonsterDescriptor.TABLE_NAME
 					+ " is already up to date (hasn't changed since version " + getVersion() + ")");
@@ -63,6 +66,11 @@ public class CapturedPlayerMonsterTable implements ITable {
 
 	@Override
 	public void postUpgrade(Context context, int oldVersion, int newVersion) {
-
+		if (oldVersion < getVersion()) {
+			// Clear data from the technical preferences
+			final TechnicalSharedPreferencesHelper helper = new TechnicalSharedPreferencesHelper(context);
+			helper.setLastCaptureName(null);
+			helper.setLastCaptureDate(new Date(0L));
+		}
 	}
 }
