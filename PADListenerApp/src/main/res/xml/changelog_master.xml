@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="1.4.5" versioncode="27">
 		<change>Fixed crashes on sync or ignore list due to missing monster information</change>
 	</release>
 	<release
