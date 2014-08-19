@@ -63,7 +63,7 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 			}
 
 			boolean alreadyIgnored = false;
-			if(monsterId != null) {
+			if (monsterId != null) {
 				alreadyIgnored = mTaskFragment.getIgnoredIds().contains(monsterId);
 				if (alreadyIgnored) {
 					hasNone = false;
@@ -113,8 +113,7 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 		if (monsterId != null) {
 			image.setVisibility(View.VISIBLE);
 			try {
-				final InputStream is = getContext().getContentResolver().openInputStream(
-						MonsterInfoDescriptor.UriHelper.uriForImage(monsterId));
+				final InputStream is = getContext().getContentResolver().openInputStream(MonsterInfoDescriptor.UriHelper.uriForImage(monsterId));
 				final BitmapDrawable bm = new BitmapDrawable(null, is);
 
 				if (alreadyIgnored) {
