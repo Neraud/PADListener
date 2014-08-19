@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed crashes on sync or ignore list due to missing monster information</change>
+	</release>
+	<release
 		version="1.4.0" versioncode="22">
 		<change>Added support for PADherder's custom authentication to support non-ASCII characters in username or password (issue #29)</change>
 		<change>Fixed misc syncing issues (issues #33, #34)</change>

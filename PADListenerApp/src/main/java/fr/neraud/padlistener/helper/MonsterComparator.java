@@ -1,8 +1,10 @@
 package fr.neraud.padlistener.helper;
 
-import java.util.Comparator;
-import java.util.Map;
+import android.util.Log;
 
+import java.util.Comparator;
+
+import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 
@@ -22,20 +24,26 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
  */
 public class MonsterComparator implements Comparator<BaseMonsterModel> {
 
-	private final Map<Integer, MonsterInfoModel> monsterInfoById;
+	private final MonsterInfoHelper monsterInfoHelper;
 
-	public MonsterComparator(Map<Integer, MonsterInfoModel> monsterInfoById) {
-		this.monsterInfoById = monsterInfoById;
+	public MonsterComparator(MonsterInfoHelper monsterInfoHelper) {
+		this.monsterInfoHelper = monsterInfoHelper;
 	}
 
 	@Override
 	public int compare(BaseMonsterModel a, BaseMonsterModel b) {
-		final MonsterInfoModel aInfo = monsterInfoById.get(a.getIdJp());
-		final MonsterInfoModel bInfo = monsterInfoById.get(b.getIdJp());
+		int result;
 
-		int result = compareLong(aInfo.getEvolutionStage(), bInfo.getEvolutionStage());
-		if (result != 0) {
-			return result;
+		try {
+			final MonsterInfoModel aInfo = monsterInfoHelper.getMonsterInfo(a.getIdJp());
+			final MonsterInfoModel bInfo = monsterInfoHelper.getMonsterInfo(b.getIdJp());
+
+			result = compareLong(aInfo.getEvolutionStage(), bInfo.getEvolutionStage());
+			if (result != 0) {
+				return result;
+			}
+		} catch(UnknownMonsterException e) {
+			Log.w(getClass().getName(), "compare : missing monster for id = " + e.getMonsterId());
 		}
 
 		result = compareLong(a.getExp(), b.getExp());

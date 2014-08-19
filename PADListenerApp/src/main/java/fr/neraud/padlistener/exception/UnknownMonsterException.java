@@ -8,8 +8,14 @@ package fr.neraud.padlistener.exception;
 public class UnknownMonsterException extends Exception {
 
 	private static final long serialVersionUID = 1L;
+	private final Integer monsterId;
 
-	public UnknownMonsterException(String message) {
-		super(message);
+	public UnknownMonsterException(Integer monsterId) {
+		super("Unknown monster with capturedId = " + monsterId);
+		this.monsterId = monsterId;
+	}
+
+	public Integer getMonsterId() {
+		return monsterId;
 	}
 }

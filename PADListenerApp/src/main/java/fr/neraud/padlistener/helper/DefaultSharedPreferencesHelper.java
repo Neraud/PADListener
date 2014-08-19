@@ -3,6 +3,7 @@ package fr.neraud.padlistener.helper;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -152,7 +153,12 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		final String ignoreListString = getStringPreference("monster_ignore_list", null);
 		if (StringUtils.isNotBlank(ignoreListString)) {
 			for (final String idString : ignoreListString.split(",")) {
-				monsterIds.add(Integer.parseInt(idString));
+				try {
+					monsterIds.add(Integer.parseInt(idString));
+				} catch(NumberFormatException e) {
+					// Should not happen as the list is only set from setMonsterIgnoreList(Set<Integer>)
+					Log.w(getClass().getName(), "getMonsterIgnoreList : ignoring invalid number", e);
+				}
 			}
 		}
 

@@ -6,12 +6,11 @@ import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 
-import java.util.Map;
 import java.util.Set;
 
 import fr.neraud.padlistener.gui.helper.ManageIgnoreListQuickActionsAdapter;
 import fr.neraud.padlistener.helper.IgnoreMonsterQuickActionsHelper;
-import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.helper.MonsterInfoHelper;
 
 /**
  * ViewCapturedData fragment for the Information tab
@@ -50,7 +49,7 @@ public class ManageIgnoreListQuickActionsFragment extends ListFragment {
 		mTaskFragment.registerListFragment(null);
 	}
 
-	public void refreshAdapter(Map<Integer, MonsterInfoModel> monsterInfoById, Set<Integer> ignoredIds) {
+	public void refreshAdapter(MonsterInfoHelper monsterInfoHelper, Set<Integer> ignoredIds) {
 		Log.d(getClass().getName(), "refreshAdapter");
 		adapter.notifyDataSetChanged();
 	}

@@ -16,7 +16,7 @@ import java.util.Set;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
+import fr.neraud.padlistener.helper.MonsterInfoHelper;
 
 /**
  * Created by Neraud on 17/08/2014.
@@ -24,7 +24,7 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
 public class ManageIgnoreListTaskFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static final String TAG_TASK_FRAGMENT = "manage_ignore_list_task_fragment";
-	private Map<Integer, MonsterInfoModel> monsterInfoById = null;
+	private MonsterInfoHelper monsterInfoHelper = null;
 	private Set<Integer> ignoredIds = null;
 
 	private ManageIgnoreListViewListFragment listFragment;
@@ -63,12 +63,14 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(getClass().getName(), "onLoadFinished");
-		monsterInfoById = new HashMap<Integer, MonsterInfoModel>();
+		final Map<Integer, MonsterInfoModel> monsterInfoById = new HashMap<Integer, MonsterInfoModel>();
 
 		while (data.moveToNext()) {
-			final MonsterInfoModel model = MonsterInfoHelper.cursorToModel(data);
+			final MonsterInfoModel model = fr.neraud.padlistener.provider.helper.MonsterInfoHelper.cursorToModel(data);
 			monsterInfoById.put(model.getIdJP(), model);
 		}
+
+		monsterInfoHelper = new MonsterInfoHelper(monsterInfoById);
 
 		refreshAdapters();
 	}
@@ -76,10 +78,6 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		Log.d(getClass().getName(), "onLoaderReset");
-	}
-
-	public Map<Integer, MonsterInfoModel> getMonsterInfoById() {
-		return monsterInfoById;
 	}
 
 	public Set<Integer> getIgnoredIds() {
@@ -90,8 +88,8 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 		Log.d(getClass().getName(), "registerListFragment : " + listFragment);
 		this.listFragment = listFragment;
 
-		if (listFragment != null && monsterInfoById != null) {
-			listFragment.refreshAdapter(monsterInfoById, ignoredIds);
+		if (listFragment != null && monsterInfoHelper != null) {
+			listFragment.refreshAdapter(monsterInfoHelper, ignoredIds);
 		}
 	}
 
@@ -123,12 +121,12 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 	public void refreshAdapters() {
 		Log.d(getClass().getName(), "refreshAdapters : " + ignoredIds);
 
-		if(monsterInfoById != null) {
+		if(monsterInfoHelper != null) {
 			if (listFragment != null) {
-				listFragment.refreshAdapter(monsterInfoById, ignoredIds);
+				listFragment.refreshAdapter(monsterInfoHelper, ignoredIds);
 			}
 			if (quickActionsFragment != null) {
-				quickActionsFragment.refreshAdapter(monsterInfoById, ignoredIds);
+				quickActionsFragment.refreshAdapter(monsterInfoHelper, ignoredIds);
 			}
 		}
 	}

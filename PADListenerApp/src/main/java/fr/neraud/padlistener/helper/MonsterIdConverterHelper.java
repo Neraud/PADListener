@@ -30,7 +30,7 @@ public class MonsterIdConverterHelper {
 	public MonsterIdConverterHelper(Context context, PADRegion region) {
 		this.context = context;
 		this.region = region;
-		monsterIdInCapturedRegionToRef=initMonsterIdInCapturedRegionToRef();
+		monsterIdInCapturedRegionToRef = initMonsterIdInCapturedRegionToRef();
 	}
 
 	@SuppressLint("UseSparseArrays")
@@ -71,7 +71,7 @@ public class MonsterIdConverterHelper {
 		if (monsterIdInCapturedRegionToRef.containsKey(capturedId)) {
 			return monsterIdInCapturedRegionToRef.get(capturedId);
 		} else {
-			throw new UnknownMonsterException("Unknown monster with capturedId = " + capturedId);
+			throw new UnknownMonsterException(capturedId);
 		}
 	}
 }

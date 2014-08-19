@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.gui.helper.ManageIgnoreListViewListAdapter;
+import fr.neraud.padlistener.helper.MonsterInfoHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 
 /**
@@ -55,11 +56,15 @@ public class ManageIgnoreListViewListFragment extends ListFragment {
 		mTaskFragment.registerListFragment(null);
 	}
 
-	public void refreshAdapter(Map<Integer, MonsterInfoModel> monsterInfoById, Set<Integer> ignoredIds) {
+	public void refreshAdapter(MonsterInfoHelper monsterInfoHelper, Set<Integer> ignoredIds) {
 		Log.d(getClass().getName(), "refreshAdapter");
 		final List<MonsterInfoModel> monsters = new ArrayList<MonsterInfoModel>();
 		for (final Integer ignoredId : ignoredIds) {
-			monsters.add(monsterInfoById.get(ignoredId));
+			try {
+				monsters.add(monsterInfoHelper.getMonsterInfo(ignoredId));
+			} catch(UnknownMonsterException e) {
+				Log.w(getClass().getName(), "refreshAdapter : missing monster info for id = " + e.getMonsterId());
+			}
 		}
 
 		Collections.sort(monsters, new Comparator<MonsterInfoModel>() {
