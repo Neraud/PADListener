@@ -24,9 +24,9 @@ import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
-import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
-import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoProviderHelper;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterProviderHelper;
+import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 
 /**
  * Service used to compute sync
@@ -100,7 +100,7 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 
 		if (cursor.moveToFirst()) {
 			do {
-				final CapturedMonsterCardModel model = CapturedPlayerMonsterHelper.cursorToModel(cursor);
+				final CapturedMonsterCardModel model = CapturedPlayerMonsterProviderHelper.cursorToModel(cursor);
 				capturedMonsters.add(model);
 			} while (cursor.moveToNext());
 		}
@@ -114,7 +114,7 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 		final Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 		CapturedPlayerInfoModel model = null;
 		if (cursor.moveToFirst()) {
-			model = CapturedPlayerInfoHelper.cursorToModel(cursor);
+			model = CapturedPlayerInfoProviderHelper.cursorToModel(cursor);
 		}
 		cursor.close();
 		return model;
@@ -129,7 +129,7 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 
 		if (cursor.moveToFirst()) {
 			do {
-				final MonsterInfoModel model = MonsterInfoHelper.cursorToModel(cursor);
+				final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(cursor);
 				monsterInfos.add(model);
 			} while (cursor.moveToNext());
 		}

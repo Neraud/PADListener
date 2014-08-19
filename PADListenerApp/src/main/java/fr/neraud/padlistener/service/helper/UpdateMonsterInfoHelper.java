@@ -12,7 +12,7 @@ import java.util.Map;
 
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
+import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 
 /**
  * Created by Neraud on 15/08/2014.
@@ -58,7 +58,7 @@ public class UpdateMonsterInfoHelper {
 		final ContentValues[] values = new ContentValues[monsters.size()];
 		int i = 0;
 		for (final MonsterInfoModel monster : monsters) {
-			values[i] = MonsterInfoHelper.modelToValues(monster);
+			values[i] = MonsterInfoProviderHelper.modelToValues(monster);
 			i++;
 		}
 		return cr.bulkInsert(uri, values);

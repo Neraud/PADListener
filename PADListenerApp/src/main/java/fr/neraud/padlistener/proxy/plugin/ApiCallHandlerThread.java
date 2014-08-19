@@ -23,8 +23,8 @@ import fr.neraud.padlistener.pad.model.ApiCallModel;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
-import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
-import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoProviderHelper;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterProviderHelper;
 import fr.neraud.padlistener.service.ListenerService;
 
 /**
@@ -102,7 +102,7 @@ public class ApiCallHandlerThread extends Thread {
 			cursor.close();
 		}
 
-		final ContentValues values = CapturedPlayerInfoHelper.modelToValues(playerInfoModel);
+		final ContentValues values = CapturedPlayerInfoProviderHelper.modelToValues(playerInfoModel);
 
 		if (fake_id == null) {
 			Log.d(getClass().getName(), "savePlayerData : Insert new data");
@@ -124,7 +124,7 @@ public class ApiCallHandlerThread extends Thread {
 		final ContentValues[] values = new ContentValues[monsters.size()];
 		int i = 0;
 		for (final CapturedMonsterCardModel monster : monsters) {
-			values[i] = CapturedPlayerMonsterHelper.modelToValues(monster);
+			values[i] = CapturedPlayerMonsterProviderHelper.modelToValues(monster);
 			i++;
 		}
 		cr.bulkInsert(uri, values);

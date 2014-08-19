@@ -16,7 +16,7 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
+import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 
 /**
  * Adapter to display the ViewMonsterInfo fragment for the Info tab
@@ -33,7 +33,7 @@ public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		Log.d(getClass().getName(), "bindView");
 
-		final MonsterInfoModel model = MonsterInfoHelper.cursorToModel(cursor);
+		final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(cursor);
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 
 		final String lineName = context.getString(R.string.view_monster_info_name, model.getIdJP(),

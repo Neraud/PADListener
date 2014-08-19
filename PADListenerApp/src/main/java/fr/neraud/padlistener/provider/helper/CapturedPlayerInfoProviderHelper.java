@@ -12,7 +12,7 @@ import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
  *
  * @author Neraud
  */
-public class CapturedPlayerInfoHelper extends BaseProviderHelper {
+public class CapturedPlayerInfoProviderHelper extends BaseProviderHelper {
 
 	/**
 	 * @param cursor the query result

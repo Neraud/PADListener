@@ -17,7 +17,7 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor.Fields;
  *
  * @author Neraud
  */
-public class MonsterInfoHelper extends BaseProviderHelper {
+public class MonsterInfoProviderHelper extends BaseProviderHelper {
 
 	/**
 	 * @param cursor the query result

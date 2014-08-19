@@ -13,7 +13,7 @@ import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor
  *
  * @author Neraud
  */
-public class CapturedPlayerMonsterHelper extends BaseProviderHelper {
+public class CapturedPlayerMonsterProviderHelper extends BaseProviderHelper {
 
 	/**
 	 * @param cursor the query result
@@ -40,7 +40,7 @@ public class CapturedPlayerMonsterHelper extends BaseProviderHelper {
 	 */
 	public static CapturedMonsterFullInfoModel cursorWithInfoToModel(Cursor cursor) {
 		final CapturedMonsterCardModel capturedMonster = cursorToModel(cursor);
-		final MonsterInfoModel monsterInfo = MonsterInfoHelper.cursorToModel(cursor);
+		final MonsterInfoModel monsterInfo = MonsterInfoProviderHelper.cursorToModel(cursor);
 
 		final CapturedMonsterFullInfoModel model = new CapturedMonsterFullInfoModel();
 		model.setCapturedMonster(capturedMonster);

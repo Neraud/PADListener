@@ -15,7 +15,7 @@ import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.provider.helper.MonsterInfoHelper;
+import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 
 /**
  * Helper to convert the monster ids from the player region to JP ids
@@ -58,7 +58,7 @@ public class MonsterIdConverterHelper {
 
 		if (cursor.moveToFirst()) {
 			do {
-				final MonsterInfoModel model = MonsterInfoHelper.cursorToModel(cursor);
+				final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(cursor);
 				monsterInfos.add(model);
 			} while (cursor.moveToNext());
 		}

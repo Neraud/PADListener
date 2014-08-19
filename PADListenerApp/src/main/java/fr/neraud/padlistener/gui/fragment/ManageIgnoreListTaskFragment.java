@@ -17,6 +17,7 @@ import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.helper.MonsterInfoHelper;
+import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 
 /**
  * Created by Neraud on 17/08/2014.
@@ -66,7 +67,7 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 		final Map<Integer, MonsterInfoModel> monsterInfoById = new HashMap<Integer, MonsterInfoModel>();
 
 		while (data.moveToNext()) {
-			final MonsterInfoModel model = fr.neraud.padlistener.provider.helper.MonsterInfoHelper.cursorToModel(data);
+			final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(data);
 			monsterInfoById.put(model.getIdJP(), model);
 		}
 

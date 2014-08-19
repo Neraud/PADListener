@@ -17,7 +17,7 @@ import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedMonsterFullInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterHelper;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterProviderHelper;
 
 /**
  * Adaptor to display the captured player monsters
@@ -34,7 +34,7 @@ public class CapturedPlayerMonsterCursorAdapter extends SimpleCursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		Log.d(getClass().getName(), "bindView");
 
-		final CapturedMonsterFullInfoModel model = CapturedPlayerMonsterHelper.cursorWithInfoToModel(cursor);
+		final CapturedMonsterFullInfoModel model = CapturedPlayerMonsterProviderHelper.cursorWithInfoToModel(cursor);
 
 		final CapturedMonsterCardModel capturedMonster = model.getCapturedMonster();
 		final MonsterInfoModel monsterInfo = model.getMonsterInfo();

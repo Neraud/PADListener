@@ -13,7 +13,7 @@ import android.widget.TextView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
-import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoHelper;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoProviderHelper;
 
 /**
  * Adaptor to display the captured player information
@@ -29,7 +29,7 @@ public class CapturedPlayerInfoCursorAdapter extends SimpleCursorAdapter {
 	@Override
 	public void bindView(View view, final Context context, Cursor cursor) {
 		Log.d(getClass().getName(), "bindView");
-		final CapturedPlayerInfoModel model = CapturedPlayerInfoHelper.cursorToModel(cursor);
+		final CapturedPlayerInfoModel model = CapturedPlayerInfoProviderHelper.cursorToModel(cursor);
 
 		final String lineName = context.getString(R.string.view_captured_info_item_name, model.getName(), model.getLastUpdate());
 		((TextView) view.findViewById(R.id.view_captured_data_info_item_name)).setText(lineName);
