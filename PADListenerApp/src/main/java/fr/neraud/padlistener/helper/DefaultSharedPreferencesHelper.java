@@ -77,11 +77,11 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 	}
 
 	public String getPadHerderName(int accountId) {
-		return getStringPreference("padherder_name_" + accountId, null);
+		return StringUtils.trim(getStringPreference("padherder_name_" + accountId, null));
 	}
 
 	public String getPadHerderUserName(int accountId) {
-		return getStringPreference("padherder_login_" + accountId, null);
+		return StringUtils.trim(getStringPreference("padherder_login_" + accountId, null));
 	}
 
 	public String getPadHerderUserPassword(int accountId) {
