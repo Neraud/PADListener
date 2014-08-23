@@ -217,9 +217,10 @@ public class SyncHelper {
 						Log.d(getClass().getName(), "filterMaterials : removing all from captured monsters");
 						capturedMonstersById.remove(materialId);
 					} else if (syncMaterialInMonster == SyncMaterialInMonster.ONLY_IF_ALREADY_IN_PADHERDER) {
-						if (padherderMaterialsById.containsKey(materialId)) {
-							final int numberToRemove = padherderMaterialsById.get(materialId).getQuantity();
-							Log.d(getClass().getName(), "filterMaterials : in padherder's materials, removing " + numberToRemove + " from captured monsters");
+						if (padherderMonstersById.containsKey(materialId)) {
+							final int numberToKeep = padherderMonstersById.get(materialId).size();
+							final int numberToRemove = capturedMonstersById.get(materialId).size() - numberToKeep;
+							Log.d(getClass().getName(), "filterMaterials : in padherder's monsters, removing " + numberToRemove + " from captured monsters");
 
 							final List<CapturedMonsterCardModel> capturedMonsterList = capturedMonstersById.get(materialId);
 							// Start an iterator at the end of the list, to remove the lowest monsters first
@@ -231,7 +232,8 @@ public class SyncHelper {
 								i++;
 							}
 						} else {
-							Log.d(getClass().getName(), "filterMaterials : not in padherder's materials, nothing to do");
+							Log.d(getClass().getName(), "filterMaterials : not in padherder's monsters, removing all from captured monsters");
+							capturedMonstersById.remove(materialId);
 						}
 					} else {
 						Log.d(getClass().getName(), "filterMaterials : not removing from monsters");
