@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 import fr.neraud.padlistener.proxy.plugin.ApiCallHandlerThread;
@@ -35,6 +36,7 @@ public class MockCaptureHelper {
 			model.setAction(ApiAction.GET_PLAYER_DATA);
 			//model.setRequestParams(requestParams);
 			//model.setRequestContent(requestContentString);
+			model.setRegion(PADRegion.US);
 			model.setResponseContent(extractResponseContent());
 			new ApiCallHandlerThread(context, model).start();
 		} catch (final IOException e) {
