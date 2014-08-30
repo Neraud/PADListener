@@ -46,7 +46,7 @@ public class ComputeSyncFragment extends Fragment {
 	private Button startButton;
 	private ProgressBar progress;
 	private TextView status;
-	private TextView checkLogin;
+	private TextView errorExplain;
 	private int accountId = -1;
 	private final ComputeSyncTaskFragment.CallBacks callbacks = new ComputeSyncTaskFragment.CallBacks() {
 
@@ -58,7 +58,7 @@ public class ComputeSyncFragment extends Fragment {
 				startButton.setEnabled(false);
 				progress.setVisibility(View.VISIBLE);
 				status.setVisibility(View.VISIBLE);
-				checkLogin.setVisibility(View.GONE);
+				errorExplain.setVisibility(View.GONE);
 				progress.setMax(4);
 
 				switch (state) {
@@ -108,14 +108,16 @@ public class ComputeSyncFragment extends Fragment {
 							if (code == 403) {
 								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
 										.getPadHerderUserName(accountId);
-								checkLogin.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
-								checkLogin.setVisibility(View.VISIBLE);
+								errorExplain.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
+								errorExplain.setVisibility(View.VISIBLE);
 							} else if (code == 404) {
 								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
 										.getPadHerderUserName(accountId);
-								checkLogin.setText(getString(R.string.compute_sync_check_login_case, accountLogin));
-								checkLogin.setVisibility(View.VISIBLE);
-
+								errorExplain.setText(getString(R.string.compute_sync_check_login_case, accountLogin));
+								errorExplain.setVisibility(View.VISIBLE);
+							} else if (code == 500) {
+								errorExplain.setText(R.string.compute_sync_check_padherder_status);
+								errorExplain.setVisibility(View.VISIBLE);
 							}
 						}
 					default:
@@ -144,7 +146,7 @@ public class ComputeSyncFragment extends Fragment {
 		startButton = (Button) view.findViewById(R.id.compute_sync_button);
 		progress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		status = (TextView) view.findViewById(R.id.compute_sync_status);
-		checkLogin = (TextView) view.findViewById(R.id.compute_sync_check_credentials);
+		errorExplain = (TextView) view.findViewById(R.id.compute_sync_error_explain);
 
 		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(getActivity()).getPadHerderAccounts();
 
