@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="1.4.7" versioncode="29">
+		<change>Fixed #44 : added a dedicated message when computing sync while PADherder is down.</change>
 		<change>Stored the friends' list from the captured data and added a "Friends" tab in "View Captured Data"</change>
-		<change>Fixed #45 : evolving a monster keeps the old level target"</change>
+		<change>Fixed #45 : evolving a monster keeps the old level target</change>
 	</release>
 	<release
 		version="1.4.6" versioncode="28">
