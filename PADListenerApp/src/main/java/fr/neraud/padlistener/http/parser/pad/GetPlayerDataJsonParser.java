@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
@@ -128,8 +127,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		final String lastActivityDateString = friendResult.getString(5);
 		try {
 			final DateFormat parseFormat = new SimpleDateFormat("yyMMddHHmmss");
-			// TODO externalize the TimeZone
-			parseFormat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+			parseFormat.setTimeZone(region.getTimeZone());
 			final Date lastActivityDate = parseFormat.parse(lastActivityDateString);
 			friend.setLastActivityDate(lastActivityDate);
 		} catch (ParseException e) {
