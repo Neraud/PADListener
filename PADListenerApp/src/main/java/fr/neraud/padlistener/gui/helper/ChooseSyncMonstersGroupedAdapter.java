@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -106,7 +105,6 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
 		Log.d(getClass().getName(), "getGroupView");
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 		final MonsterInfoModel monsterInfo = getGroup(groupPosition);
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

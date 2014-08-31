@@ -14,7 +14,7 @@ import java.util.List;
  * Helper to access hidden WiFi settings.
  *
  * @author Neraud
- * @see http://stackoverflow.com/questions/12486441/how-can-i-set-proxysettings-and-proxyproperties-on-android-wi-fi-connection-usin
+ * @see "http://stackoverflow.com/questions/12486441/how-can-i-set-proxysettings-and-proxyproperties-on-android-wi-fi-connection-usin"
  */
 @SuppressWarnings({"unchecked", "rawtypes", "unused"})
 public class WifiConfigHelper {

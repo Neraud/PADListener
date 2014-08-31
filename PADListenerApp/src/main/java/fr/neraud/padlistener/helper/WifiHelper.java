@@ -35,7 +35,7 @@ public class WifiHelper {
 
 	/**
 	 * @return the Wifi IP address
-	 * @see http://stackoverflow.com/questions/16730711/get-my-wifi-ip-address-android
+	 * @see "http://stackoverflow.com/questions/16730711/get-my-wifi-ip-address-android"
 	 */
 	public String getWifiIpAddress() {
 		final WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);

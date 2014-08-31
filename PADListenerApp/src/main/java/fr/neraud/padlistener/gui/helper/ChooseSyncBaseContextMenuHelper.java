@@ -26,7 +26,7 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 	 * All fragments from an Activity receive the onContextItemSelected callback.<br/>
 	 * We use a generated unique ID to only use the correct helper to handle a callback
 	 *
-	 * @see http://adanware.blogspot.fr/2012/05/android-oncreatecontextmenu-in-multiple.html
+	 * @see "http://adanware.blogspot.fr/2012/05/android-oncreatecontextmenu-in-multiple.html"
 	 */
 	private static final AtomicInteger GROUP_ID_GENERATOR = new AtomicInteger();
 
@@ -45,11 +45,7 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 	public boolean contextItemSelected(MenuItem item) {
 		Log.d(getClass().getName(), "contextItemSelected : item = " + item);
 
-		if (item.getGroupId() != groupId) {
-			return false;
-		} else {
-			return doContextItemSelected(item);
-		}
+		return item.getGroupId() == groupId && doContextItemSelected(item);
 	}
 
 	protected abstract boolean doContextItemSelected(MenuItem item);

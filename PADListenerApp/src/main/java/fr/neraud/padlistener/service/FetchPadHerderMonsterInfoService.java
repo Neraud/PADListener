@@ -76,6 +76,7 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 		return tasks;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Integer processResult(List results) throws ProcessException {
 		Log.d(getClass().getName(), "processResult");

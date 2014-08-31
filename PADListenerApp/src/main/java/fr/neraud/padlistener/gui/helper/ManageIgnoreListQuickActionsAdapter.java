@@ -30,7 +30,7 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
  */
 public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMonsterQuickActionModel> {
 
-	private ManageIgnoreListTaskFragment mTaskFragment;
+	private final ManageIgnoreListTaskFragment mTaskFragment;
 
 	public ManageIgnoreListQuickActionsAdapter(Context context, List<IgnoreMonsterQuickActionModel> ignoreMonsterQuickActionModels, ManageIgnoreListTaskFragment mTaskFragment) {
 		super(context, R.layout.manage_ignore_list_quick_action_item, ignoreMonsterQuickActionModels);
@@ -84,7 +84,8 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 				@Override
 				public void onClick(View view) {
 					Log.d(getClass().getName(), "removeButton.onClick");
-					mTaskFragment.removeIgnoredIds(item.getMonsterIds().toArray(new Integer[0]));
+					List<Integer> var = item.getMonsterIds();
+					mTaskFragment.removeIgnoredIds(var.toArray(new Integer[var.size()]));
 				}
 			});
 		}
@@ -98,7 +99,8 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 				@Override
 				public void onClick(View view) {
 					Log.d(getClass().getName(), "addButton.onClick");
-					mTaskFragment.addIgnoredIds(item.getMonsterIds().toArray(new Integer[0]));
+					final List<Integer> monsterIds = item.getMonsterIds();
+					mTaskFragment.addIgnoredIds(monsterIds.toArray(new Integer[monsterIds.size()]));
 				}
 			});
 		}

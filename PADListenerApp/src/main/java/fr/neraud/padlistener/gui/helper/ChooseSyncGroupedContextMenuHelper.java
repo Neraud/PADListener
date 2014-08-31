@@ -256,7 +256,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 
 		int groupPosition = ExpandableListView.getPackedPositionGroup(listItem.packedPosition);
 
-		return (MonsterInfoModel) adapter.getGroup(groupPosition);
+		return adapter.getGroup(groupPosition);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -270,7 +270,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 		final int childCount = adapter.getChildrenCount(groupPosition);
 
 		for (int i = 0; i < childCount; i++) {
-			final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = (ChooseSyncModelContainer<SyncedMonsterModel>) adapter.getChild(groupPosition, i);
+			final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = adapter.getChild(groupPosition, i);
 			monsterItems.add(monsterItem);
 		}
 
@@ -285,7 +285,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 		int groupPosition = ExpandableListView.getPackedPositionGroup(listItem.packedPosition);
 		int childPosition = ExpandableListView.getPackedPositionChild(listItem.packedPosition);
 
-		return (ChooseSyncModelContainer<SyncedMonsterModel>) adapter.getChild(groupPosition, childPosition);
+		return adapter.getChild(groupPosition, childPosition);
 	}
 
 	protected void notifyDataSetChanged() {

@@ -75,7 +75,7 @@ public class ListenerService extends Service {
 				scriptAssetHelper.copyScriptsFromAssets();
 
 				final ExecutableAssetHelper executableAssetHelper = new ExecutableAssetHelper(getApplicationContext());
-				executableAssetHelper.copyExecutablessFromAssets();
+				executableAssetHelper.copyExecutablesFromAssets();
 			} catch (final IOException e) {
 				Log.e(getClass().getName(), "Asset install failed  : " + e.getMessage(), e);
 			}

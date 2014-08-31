@@ -8,6 +8,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -57,7 +59,6 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(getClass().getName(), "onCreateLoader");
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		return new CursorLoader(getActivity(), MonsterInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
 	}
 
@@ -100,7 +101,7 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 	}
 
 	public void removeIgnoredIds(Integer... ids) {
-		Log.d(getClass().getName(), "removeIgnoredIds : " + ids);
+		Log.d(getClass().getName(), "removeIgnoredIds : " + Arrays.toString(ids));
 		for (final Integer id : ids) {
 			ignoredIds.remove(id);
 		}
@@ -110,10 +111,8 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 	}
 
 	public void addIgnoredIds(Integer... ids) {
-		Log.d(getClass().getName(), "addIgnoredIds : " + ids);
-		for (final Integer id : ids) {
-			ignoredIds.add(id);
-		}
+		Log.d(getClass().getName(), "addIgnoredIds : " + Arrays.toString(ids));
+		Collections.addAll(ignoredIds, ids);
 
 		new DefaultSharedPreferencesHelper(getActivity()).setMonsterIgnoreList(ignoredIds);
 		refreshAdapters();

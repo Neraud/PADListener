@@ -11,7 +11,6 @@ import android.util.Log;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.helper.CapturedPlayerMonsterCursorAdapter;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 
 /**
@@ -43,7 +42,6 @@ public class ViewCapturedDataMonstersFragment extends ListFragment implements Lo
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(getClass().getName(), "onCreateLoader");
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		return new CursorLoader(getActivity(), CapturedPlayerMonsterDescriptor.UriHelper.uriForAllWithInfo(), null, null, null, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP.getColName());
 	}
 

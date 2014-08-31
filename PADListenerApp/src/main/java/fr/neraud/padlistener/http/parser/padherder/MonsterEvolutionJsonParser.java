@@ -20,6 +20,7 @@ import fr.neraud.padlistener.http.parser.AbstractJsonParser;
  */
 public class MonsterEvolutionJsonParser extends AbstractJsonParser<Map<Integer, Integer>> {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Map<Integer, Integer> parseJsonObject(JSONObject json) throws JSONException, ParsingException {
 		Log.d(getClass().getName(), "parseJsonObject");
@@ -40,7 +41,7 @@ public class MonsterEvolutionJsonParser extends AbstractJsonParser<Map<Integer, 
 				final Integer childId = Integer.parseInt(childIdString);
 				// FIXME : to prevent loop with UEVO, only store EVO with child < target
 				if(childId < targetId) {
-					Log.d(getClass().getName(), "parseJsonObject : addind " + childId + " -> " + targetId);
+					Log.d(getClass().getName(), "parseJsonObject : adding " + childId + " -> " + targetId);
 					evolutions.put(targetId, childId);
 				} else {
 					Log.d(getClass().getName(), "parseJsonObject : ignoring reverse UEVO : " + childId + " -> " + targetId);

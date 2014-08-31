@@ -128,6 +128,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		final String lastActivityDateString = friendResult.getString(5);
 		try {
 			final DateFormat parseFormat = new SimpleDateFormat("yyMMddHHmmss");
+			// TODO externalize the TimeZone
 			parseFormat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
 			final Date lastActivityDate = parseFormat.parse(lastActivityDateString);
 			friend.setLastActivityDate(lastActivityDate);

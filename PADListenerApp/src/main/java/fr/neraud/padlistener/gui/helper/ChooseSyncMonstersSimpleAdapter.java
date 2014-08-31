@@ -22,7 +22,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -54,7 +53,6 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		Log.d(getClass().getName(), "getView");
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getContext());
 
 		final ChooseSyncModelContainer<SyncedMonsterModel> item = super.getItem(position);
 		if (view == null) {

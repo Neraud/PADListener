@@ -92,6 +92,7 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 		return responses;
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<?> extractResults(List<RestTask<?>> tasks, List<RestResponse> responses) throws ParsingException, HttpResponseException {
 		Log.d(getClass().getName(), "extractResults");
 		final List<Object> results = new ArrayList();

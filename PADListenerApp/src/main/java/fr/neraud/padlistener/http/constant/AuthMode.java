@@ -1,7 +1,7 @@
 package fr.neraud.padlistener.http.constant;
 
 /**
- * Authentification modes supported
+ * Authentication modes supported
  *
  * @author Neraud
  */

@@ -22,7 +22,7 @@ public class MonsterExpHelper {
 	 * @param expCurve the expCurve
 	 * @param level the level
 	 * @return the exp for a given exp curve and level
-	 * @see http://pad.wikia.com/wiki/Monster_EXP_Curves
+	 * @see "http://pad.wikia.com/wiki/Monster_EXP_Curves"
 	 */
 	public static int computeExp(int expCurve, int level) {
 		return (int) Math.round(expCurve * Math.pow((float) (level - 1) / 98, 2.5));

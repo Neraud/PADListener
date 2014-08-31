@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
@@ -34,7 +33,6 @@ public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 		Log.d(getClass().getName(), "bindView");
 
 		final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(cursor);
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
 
 		final String lineName = context.getString(R.string.view_monster_info_name, model.getIdJP(),
 				model.getName());

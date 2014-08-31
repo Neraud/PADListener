@@ -19,7 +19,7 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
  */
 public class UpdateMonsterInfoHelper {
 
-	private Context context;
+	private final Context context;
 
 	public UpdateMonsterInfoHelper(Context context) {
 		this.context = context;

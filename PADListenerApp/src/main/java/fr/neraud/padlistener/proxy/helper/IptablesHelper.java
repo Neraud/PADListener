@@ -60,7 +60,7 @@ public class IptablesHelper {
 		executeCommand(targetCommand);
 	}
 
-	private void checkRoot() throws MissingRequirementException, CommandExecutionException {
+	private void checkRoot() throws MissingRequirementException {
 		if (!Shell.SU.available()) {
 			Log.d(getClass().getName(), "checkRoot : SU not available");
 			throw new MissingRequirementException(MissingRequirementException.Requirement.ROOT);

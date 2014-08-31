@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
@@ -42,7 +41,6 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		Log.d(getClass().getName(), "getView");
-		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getContext());
 		final ChooseSyncModelContainer<SyncedMaterialModel> item = super.getItem(position);
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
