@@ -13,7 +13,7 @@ public class ViewCapturedDataFragment extends AbstractViewPagerFragment {
 
 	@Override
 	protected int getPageCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -23,6 +23,8 @@ public class ViewCapturedDataFragment extends AbstractViewPagerFragment {
 				return new ViewCapturedDataInfoFragment();
 			case 1:
 				return new ViewCapturedDataMonstersFragment();
+			case 2:
+				return new ViewCapturedDataFriendsFragment();
 			default:
 				return null;
 		}
@@ -35,6 +37,8 @@ public class ViewCapturedDataFragment extends AbstractViewPagerFragment {
 				return R.string.view_captured_data_tab_info_player;
 			case 1:
 				return R.string.view_captured_data_tab_monsters;
+			case 2:
+				return R.string.view_captured_data_tab_friends;
 			default:
 				return null;
 		}

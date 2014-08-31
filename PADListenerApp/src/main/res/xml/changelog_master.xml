@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Stored the friends' list from the captured data and added a "Friends" tab in "View Captured Data"</change>
+	</release>
+	<release
 		version="1.4.6" versioncode="28">
 		<change>Fixed how sync handled monsters that are both material and monster</change>
 	</release>

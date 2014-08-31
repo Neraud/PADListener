@@ -3,6 +3,9 @@ package fr.neraud.padlistener.provider;
 import android.content.ContentProvider;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.Map;
+
+import fr.neraud.padlistener.provider.descriptor.IField;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
 
 /**
@@ -19,5 +22,11 @@ public abstract class AbstractPADListenerDbContentProvider extends ContentProvid
 	 */
 	protected SQLiteOpenHelper getDbHelper() {
 		return PADListenerSQLiteOpenHelper.getInstance(getContext());
+	}
+
+	protected void fillColumnMapWithPrefix(Map<String, String> columnMap, String table, String prefix, IField... fields) {
+		for (final IField field : fields) {
+			columnMap.put(table + "." + field.getColName(), table + "." + field.getColName() + " AS " + prefix + field.getColName());
+		}
 	}
 }

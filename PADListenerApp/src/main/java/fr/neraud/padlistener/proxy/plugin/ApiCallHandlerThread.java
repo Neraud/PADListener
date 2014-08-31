@@ -17,12 +17,15 @@ import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.pad.GetPlayerDataJsonParser;
+import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
+import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerFriendProviderHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoProviderHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterProviderHelper;
 import fr.neraud.padlistener.service.ListenerService;
@@ -57,6 +60,7 @@ public class ApiCallHandlerThread extends Thread {
 					final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
 					savePlayerInfo(result.getPlayerInfo());
 					saveMonsters(result.getMonsterCards());
+					saveFriends(result.getFriends());
 
 					final JsonCaptureHelper saveHelper = new JsonCaptureHelper(context);
 					saveHelper.savePadCapturedData(callModel.getResponseContent());
@@ -125,6 +129,22 @@ public class ApiCallHandlerThread extends Thread {
 		int i = 0;
 		for (final CapturedMonsterCardModel monster : monsters) {
 			values[i] = CapturedPlayerMonsterProviderHelper.modelToValues(monster);
+			i++;
+		}
+		cr.bulkInsert(uri, values);
+	}
+
+	private void saveFriends(List<CapturedFriendModel> friends) {
+		Log.d(getClass().getName(), "saveFriends");
+
+		final ContentResolver cr = context.getContentResolver();
+		final Uri uri = CapturedPlayerFriendDescriptor.UriHelper.uriForAll();
+
+		cr.delete(uri, null, null);
+		final ContentValues[] values = new ContentValues[friends.size()];
+		int i = 0;
+		for (final CapturedFriendModel friend : friends) {
+			values[i] = CapturedPlayerFriendProviderHelper.modelToValues(friend);
 			i++;
 		}
 		cr.bulkInsert(uri, values);

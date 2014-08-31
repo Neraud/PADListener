@@ -24,47 +24,57 @@ public class MonsterInfoProviderHelper extends BaseProviderHelper {
 	 * @return the MonsterInfoModel
 	 */
 	public static MonsterInfoModel cursorToModel(Cursor cursor) {
+		return cursorToModelWithPrefix(cursor, null);
+	}
+
+	/**
+	 * @param cursor the query result
+	 * @param prefix the prefix used for col names
+	 * @return the MonsterInfoModel
+	 */
+	public static MonsterInfoModel cursorToModelWithPrefix(Cursor cursor, String prefix) {
 		final MonsterInfoModel model = new MonsterInfoModel();
 
-		model.setIdJP(getInt(cursor, MonsterInfoDescriptor.Fields.ID_JP));
-		model.setIdUS(getInt(cursor, MonsterInfoDescriptor.Fields.ID_US));
-		model.setBaseMonsterId(getInt(cursor, MonsterInfoDescriptor.Fields.BASE_ID_JP));
-		model.setName(getString(cursor, MonsterInfoDescriptor.Fields.NAME));
-		model.setRarity(getInt(cursor, MonsterInfoDescriptor.Fields.RARITY));
-		model.setElement1(MonsterElement.findById(getInt(cursor, MonsterInfoDescriptor.Fields.ELEMENT_1)));
-		model.setElement2(MonsterElement.findById(getInt(cursor, MonsterInfoDescriptor.Fields.ELEMENT_2)));
-		model.setType1(MonsterType.findById(getInt(cursor, MonsterInfoDescriptor.Fields.TYPE_1)));
-		model.setType2(MonsterType.findById(getInt(cursor, MonsterInfoDescriptor.Fields.TYPE_2)));
-		model.setActiveSkillName(getString(cursor, MonsterInfoDescriptor.Fields.ACTIVE_SKILL_NAME));
-		model.setLeaderSkillName(getString(cursor, MonsterInfoDescriptor.Fields.LEADER_SKILL_NAME));
+		model.setIdJP(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.ID_JP));
+		model.setIdUS(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.ID_US));
+		model.setBaseMonsterId(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.BASE_ID_JP));
+		model.setName(getString(cursor, prefix, MonsterInfoDescriptor.Fields.NAME));
+		model.setRarity(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.RARITY));
+		model.setElement1(MonsterElement.findById(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.ELEMENT_1)));
+		model.setElement2(MonsterElement.findById(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.ELEMENT_2)));
+		model.setType1(MonsterType.findById(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.TYPE_1)));
+		model.setType2(MonsterType.findById(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.TYPE_2)));
+		model.setActiveSkillName(getString(cursor, prefix, MonsterInfoDescriptor.Fields.ACTIVE_SKILL_NAME));
+		model.setLeaderSkillName(getString(cursor, prefix, MonsterInfoDescriptor.Fields.LEADER_SKILL_NAME));
 		final List<Integer> awokenSkillIds = new ArrayList<Integer>();
-		final String awokenSkillsString = getString(cursor, MonsterInfoDescriptor.Fields.AWOKEN_SKILL_IDS);
+		final String awokenSkillsString = getString(cursor, prefix, MonsterInfoDescriptor.Fields.AWOKEN_SKILL_IDS);
 		if (awokenSkillsString != null) {
 			for (final String id : awokenSkillsString.split(",")) {
 				awokenSkillIds.add(Integer.parseInt(id));
 			}
 		}
 		model.setAwokenSkillIds(awokenSkillIds);
-		model.setMaxLevel(getInt(cursor, MonsterInfoDescriptor.Fields.MAX_LEVEL));
-		model.setExpCurve(getInt(cursor, MonsterInfoDescriptor.Fields.XP_CURVE));
-		model.setFeedXp(getInt(cursor, MonsterInfoDescriptor.Fields.FEED_XP));
-		model.setEvolutionStage(getInt(cursor, Fields.EVOLUTION_STAGE));
-		model.setTeamCost(getInt(cursor, MonsterInfoDescriptor.Fields.TEAM_COST));
-		model.setJpOnly(getBoolean(cursor, MonsterInfoDescriptor.Fields.JP_ONLY));
-		model.setHpMin(getInt(cursor, MonsterInfoDescriptor.Fields.HP_MIN));
-		model.setHpMax(getInt(cursor, MonsterInfoDescriptor.Fields.HP_MAX));
-		model.setHpScale(getInt(cursor, MonsterInfoDescriptor.Fields.HP_SCALE));
-		model.setAtkMin(getInt(cursor, MonsterInfoDescriptor.Fields.ATK_MIN));
-		model.setAtkMax(getInt(cursor, MonsterInfoDescriptor.Fields.ATK_MAX));
-		model.setAtkScale(getInt(cursor, MonsterInfoDescriptor.Fields.ATK_SCALE));
-		model.setRcvMin(getInt(cursor, MonsterInfoDescriptor.Fields.RCV_MIN));
-		model.setRcvMax(getInt(cursor, MonsterInfoDescriptor.Fields.RCV_MAX));
-		model.setRcvScale(getInt(cursor, MonsterInfoDescriptor.Fields.RCV_SCALE));
-		model.setImage40Url(getString(cursor, MonsterInfoDescriptor.Fields.IMAGE_40_URL));
-		model.setImage60Url(getString(cursor, MonsterInfoDescriptor.Fields.IMAGE_60_URL));
+		model.setMaxLevel(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.MAX_LEVEL));
+		model.setExpCurve(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.XP_CURVE));
+		model.setFeedXp(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.FEED_XP));
+		model.setEvolutionStage(getInt(cursor, prefix, Fields.EVOLUTION_STAGE));
+		model.setTeamCost(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.TEAM_COST));
+		model.setJpOnly(getBoolean(cursor, prefix, MonsterInfoDescriptor.Fields.JP_ONLY));
+		model.setHpMin(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.HP_MIN));
+		model.setHpMax(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.HP_MAX));
+		model.setHpScale(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.HP_SCALE));
+		model.setAtkMin(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.ATK_MIN));
+		model.setAtkMax(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.ATK_MAX));
+		model.setAtkScale(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.ATK_SCALE));
+		model.setRcvMin(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.RCV_MIN));
+		model.setRcvMax(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.RCV_MAX));
+		model.setRcvScale(getInt(cursor, prefix, MonsterInfoDescriptor.Fields.RCV_SCALE));
+		model.setImage40Url(getString(cursor, prefix, MonsterInfoDescriptor.Fields.IMAGE_40_URL));
+		model.setImage60Url(getString(cursor, prefix, MonsterInfoDescriptor.Fields.IMAGE_60_URL));
 
 		return model;
 	}
+
 
 	/**
 	 * @param model the MonsterInfoModel

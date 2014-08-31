@@ -177,6 +177,7 @@
 	<string name="label_viewCapturedData">View captured data</string>
 	<string name="view_captured_data_tab_info_player">Player</string>
 	<string name="view_captured_data_tab_monsters">Monsters</string>
+	<string name="view_captured_data_tab_friends">Friends</string>
 	<string name="view_captured_no_data">No data captured</string>
 	<string name="view_captured_info_item_name"><b>%1$s</b> (updated at %2$s)</string>
 	<string name="view_captured_info_item_region">Region %1$s</string>
@@ -190,6 +191,10 @@
 	<string name="view_captured_monster_item_name">(%1$d) %2$s</string>
 	<string name="view_captured_monster_item_level">lv %1$d (%2$d xp)</string>
 	<string name="view_captured_monster_item_plus">+%1$d +%2$d +%3$d %4$d</string>
+
+	<string name="view_captured_data_friend_name">(%1$d) %2$s</string>
+	<string name="view_captured_friend_item_leader_name">(%1$d) %2$s</string>
+	<string name="view_captured_friend_item_leader_stats">lv %1$d, +%2$d +%3$d +%4$d, %5$d / %6$d awakenings</string>
 
 
 	<!-- ManageIgnoreList activity -->

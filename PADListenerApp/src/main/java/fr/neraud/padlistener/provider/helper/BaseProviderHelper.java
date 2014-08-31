@@ -3,6 +3,8 @@ package fr.neraud.padlistener.provider.helper;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Date;
 
 import fr.neraud.padlistener.provider.descriptor.IField;
@@ -17,6 +19,10 @@ public class BaseProviderHelper {
 
 	private static final int BOOLEAN_FALSE = 0;
 	private static final int BOOLEAN_TRUE = 1;
+
+	private static int getColIndex(Cursor cursor, String prefix, IField field) {
+		return cursor.getColumnIndex(StringUtils.isNotBlank(prefix) ? prefix + field.getColName() : field.getColName());
+	}
 
 	/**
 	 * @param field the field to sum
@@ -90,7 +96,17 @@ public class BaseProviderHelper {
 	 * @return the requested int value
 	 */
 	public static int getInt(Cursor cursor, IField field) {
-		return cursor.getInt(cursor.getColumnIndex(field.getColName()));
+		return getInt(cursor, null, field);
+	}
+
+	/**
+	 * @param cursor the Cursor
+	 * @param prefix the prefix used
+	 * @param field the int field to get
+	 * @return the requested int value
+	 */
+	public static int getInt(Cursor cursor, String prefix, IField field) {
+		return cursor.getInt(getColIndex(cursor, prefix, field));
 	}
 
 	/**
@@ -99,7 +115,17 @@ public class BaseProviderHelper {
 	 * @return the requested long value
 	 */
 	public static long getLong(Cursor cursor, IField field) {
-		return cursor.getLong(cursor.getColumnIndex(field.getColName()));
+		return getLong(cursor, null, field);
+	}
+
+	/**
+	 * @param cursor the Cursor
+	 * @param prefix the prefix used
+	 * @param field the long field to get
+	 * @return the requested long value
+	 */
+	public static long getLong(Cursor cursor, String prefix, IField field) {
+		return cursor.getLong(getColIndex(cursor, prefix, field));
 	}
 
 	/**
@@ -108,7 +134,17 @@ public class BaseProviderHelper {
 	 * @return the requested String value
 	 */
 	public static String getString(Cursor cursor, IField field) {
-		return cursor.getString(cursor.getColumnIndex(field.getColName()));
+		return getString(cursor, null, field);
+	}
+
+	/**
+	 * @param cursor the Cursor
+	 * @param prefix the prefix used
+	 * @param field the String field to get
+	 * @return the requested String value
+	 */
+	public static String getString(Cursor cursor, String prefix, IField field) {
+		return cursor.getString(getColIndex(cursor, prefix, field));
 	}
 
 	/**
@@ -117,7 +153,17 @@ public class BaseProviderHelper {
 	 * @return the requested boolean value
 	 */
 	public static boolean getBoolean(Cursor cursor, IField field) {
-		return cursor.getInt(cursor.getColumnIndex(field.getColName())) == BOOLEAN_TRUE;
+		return getBoolean(cursor, null, field);
+	}
+
+	/**
+	 * @param cursor the Cursor
+	 * @param prefix the prefix used
+	 * @param field the boolean field to get
+	 * @return the requested boolean value
+	 */
+	public static boolean getBoolean(Cursor cursor, String prefix, IField field) {
+		return cursor.getInt(getColIndex(cursor, prefix, field)) == BOOLEAN_TRUE;
 	}
 
 	/**
@@ -126,7 +172,17 @@ public class BaseProviderHelper {
 	 * @return the requested date value
 	 */
 	public static Date getDate(Cursor cursor, IField field) {
-		final long time = cursor.getLong(cursor.getColumnIndex(field.getColName()));
+		return getDate(cursor, null, field);
+	}
+
+	/**
+	 * @param cursor the Cursor
+	 * @param prefix the prefix used
+	 * @param field the date field to get
+	 * @return the requested date value
+	 */
+	public static Date getDate(Cursor cursor, String prefix, IField field) {
+		final long time = cursor.getLong(getColIndex(cursor, prefix, field));
 		return new Date(time * 1000);
 	}
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerFriendTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerInfoTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerMonsterTable;
 import fr.neraud.padlistener.provider.sqlite.tables.ITable;
@@ -20,7 +21,7 @@ import fr.neraud.padlistener.provider.sqlite.tables.MonsterInfoTable;
  */
 public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 
-	private static final int DB_VERSION = 9;
+	private static final int DB_VERSION = 10;
 	private static final String DATABASE_NAME = "padlistener.db";
 
 	private static final List<ITable> TABLES = new ArrayList<ITable>();
@@ -30,6 +31,7 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 		addTable(new CapturedPlayerInfoTable());
 		addTable(new CapturedPlayerMonsterTable());
 		addTable(new MonsterInfoTable());
+		addTable(new CapturedPlayerFriendTable());
 	}
 
 	private final Context context;
@@ -38,6 +40,7 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, DB_VERSION);
 		this.context = context;
 	}
+
 	/**
 	 * Initializes the SQLiteOpenHelper if necessary, and returns the instance
 	 *
@@ -45,7 +48,7 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 	 * @return the SQLiteOpenHelper
 	 */
 	public static synchronized PADListenerSQLiteOpenHelper getInstance(Context context) {
-		if(INSTANCE == null) {
+		if (INSTANCE == null) {
 			INSTANCE = new PADListenerSQLiteOpenHelper(context);
 		}
 		return INSTANCE;

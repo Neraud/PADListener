@@ -95,6 +95,11 @@
 			android:exported="true"
 			tools:ignore="ExportedContentProvider" />
 		<provider
+			android:name=".provider.CapturedPlayerFriendProvider"
+			android:authorities="fr.neraud.padlistener.provider.player_friend"
+			android:exported="true"
+			tools:ignore="ExportedContentProvider" />
+		<provider
 			android:name=".provider.MonsterInfoProvider"
 			android:authorities="fr.neraud.padlistener.provider.monster_info"
 			android:exported="true"
