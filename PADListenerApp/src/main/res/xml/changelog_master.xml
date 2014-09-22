@@ -3,6 +3,7 @@
 	<release
 		version="" versioncode="">
 		<change>Fixed #48 : added support for HK/TW region.</change>
+		<change>Fixed #49 : unknown friend leader crashes.</change>
 	</release>
 	<release
 		version="1.4.7" versioncode="29">

@@ -2,7 +2,6 @@ package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,7 +23,6 @@ import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * Adaptor to display Monsters set up as simple
@@ -36,6 +32,7 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMonsterModel>> {
 
 	private Integer defaultTextColor = null;
+	private final MonsterImageHelper imageHelper;
 
 	public ChooseSyncMonstersSimpleAdapter(Context context,
 			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
@@ -48,6 +45,8 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 			}
 		};
 		Collections.sort(syncedMonstersToUpdate, comparator);
+
+		imageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override
@@ -79,16 +78,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 			}
 		});
 
-		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_monsters_item_image);
-		try {
-			final InputStream is = getContext().getContentResolver().openInputStream(
-					MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getDisplayedMonsterInfo().getIdJP()));
-			final BitmapDrawable bm = new BitmapDrawable(null, is);
-
-			image.setImageDrawable(bm);
-		} catch (final FileNotFoundException e) {
-			image.setImageResource(R.drawable.no_monster_image);
-		}
+		imageHelper.fillMonsterImage((ImageView) view.findViewById(R.id.choose_sync_monsters_item_image), item.getSyncedModel().getDisplayedMonsterInfo().getIdJP());
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(getContext().getString(R.string.choose_sync_monsters_item_name_simple,

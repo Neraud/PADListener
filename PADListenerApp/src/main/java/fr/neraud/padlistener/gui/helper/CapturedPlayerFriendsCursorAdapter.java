@@ -2,22 +2,17 @@ package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.CapturedFriendFullInfoModel;
 import fr.neraud.padlistener.model.CapturedFriendLeaderModel;
 import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerFriendProviderHelper;
 
 /**
@@ -27,8 +22,11 @@ import fr.neraud.padlistener.provider.helper.CapturedPlayerFriendProviderHelper;
  */
 public class CapturedPlayerFriendsCursorAdapter extends SimpleCursorAdapter {
 
+	private final MonsterImageHelper imageHelper;
+
 	public CapturedPlayerFriendsCursorAdapter(Context context, int layout) {
 		super(context, layout, null, new String[0], new int[0], 0);
+		imageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override
@@ -52,14 +50,7 @@ public class CapturedPlayerFriendsCursorAdapter extends SimpleCursorAdapter {
 	}
 
 	private void fillLeader(Context context, View view, CapturedFriendLeaderModel leader, MonsterInfoModel leaderInfo, int imageResId, int nameResId, int statsResId) {
-		try {
-			final InputStream is = context.getContentResolver().openInputStream(MonsterInfoDescriptor.UriHelper.uriForImage(leader.getIdJp()));
-			final BitmapDrawable bm = new BitmapDrawable(null, is);
-
-			((ImageView) view.findViewById(imageResId)).setImageDrawable(bm);
-		} catch (final FileNotFoundException e) {
-			((ImageView) view.findViewById(imageResId)).setImageResource(R.drawable.no_monster_image);
-		}
+		imageHelper.fillMonsterImage((ImageView)view.findViewById(imageResId), leader.getIdJp());
 
 		final String leader1Name = context.getString(R.string.view_captured_friend_item_leader_name, leader.getIdJp(), leaderInfo.getName());
 		((TextView) view.findViewById(nameResId)).setText(leader1Name);

@@ -2,7 +2,6 @@ package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +27,6 @@ import fr.neraud.padlistener.model.BaseMonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * Adaptor to display Monsters set up as grouped
@@ -44,11 +40,13 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	private List<MonsterInfoModel> groups;
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> sortedSyncedMonsters;
 	private Integer defaultTextColor = null;
+	private MonsterImageHelper imageHelper;
 
 	public ChooseSyncMonstersGroupedAdapter(Context context, List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters) {
 		this.context = context;
 		this.syncedMonsters = syncedMonsters;
 		refreshData();
+		imageHelper = new MonsterImageHelper(context);
 	}
 
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
@@ -111,16 +109,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			view = inflater.inflate(R.layout.choose_sync_item_monsters_group, parent, false);
 		}
 
-		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_monsters_item_image);
-		try {
-			final InputStream is = context.getContentResolver().openInputStream(
-					MonsterInfoDescriptor.UriHelper.uriForImage(monsterInfo.getIdJP()));
-			final BitmapDrawable bm = new BitmapDrawable(null, is);
-
-			image.setImageDrawable(bm);
-		} catch (final FileNotFoundException e) {
-			image.setImageResource(R.drawable.no_monster_image);
-		}
+		imageHelper.fillMonsterImage((ImageView) view.findViewById(R.id.choose_sync_monsters_item_image), monsterInfo.getIdJP());
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(context.getString(R.string.choose_sync_monsters_item_name_group, sortedSyncedMonsters.get(monsterInfo).size(),
@@ -178,7 +167,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		final String priorityLabel = context.getString(modelToUse.getPriority().getLabelResId());
 		priorityText.setText(context.getString(R.string.choose_sync_monsters_item_priority, priorityLabel));
 		final TextView noteText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_note);
-		if(StringUtils.isNotBlank(modelToUse.getNote())) {
+		if (StringUtils.isNotBlank(modelToUse.getNote())) {
 			noteText.setVisibility(View.VISIBLE);
 			noteText.setText(context.getString(R.string.choose_sync_monsters_item_note, modelToUse.getNote()));
 		} else {

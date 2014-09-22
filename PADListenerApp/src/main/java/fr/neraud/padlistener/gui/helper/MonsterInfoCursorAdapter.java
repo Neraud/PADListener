@@ -2,19 +2,14 @@ package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 
 /**
@@ -24,8 +19,11 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
  */
 public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 
+	private final MonsterImageHelper imageHelper;
+
 	public MonsterInfoCursorAdapter(Context context, int layout) {
 		super(context, layout, null, new String[0], new int[0], 0);
+		imageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override
@@ -47,14 +45,6 @@ public class MonsterInfoCursorAdapter extends SimpleCursorAdapter {
 			evoTextView.setVisibility(View.VISIBLE);
 		}
 
-		try {
-			final InputStream is = context.getContentResolver().openInputStream(
-					MonsterInfoDescriptor.UriHelper.uriForImage(model.getIdJP()));
-			final BitmapDrawable bm = new BitmapDrawable(null, is);
-
-			((ImageView) view.findViewById(R.id.view_monster_info_item_image)).setImageDrawable(bm);
-		} catch (final FileNotFoundException e) {
-			((ImageView) view.findViewById(R.id.view_monster_info_item_image)).setImageResource(R.drawable.no_monster_image);
-		}
+		imageHelper.fillMonsterImage((ImageView) view.findViewById(R.id.view_monster_info_item_image), model.getIdJP());
 	}
 }

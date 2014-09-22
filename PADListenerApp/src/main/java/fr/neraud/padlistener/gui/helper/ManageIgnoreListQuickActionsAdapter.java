@@ -1,12 +1,6 @@
 package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +10,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.fragment.ManageIgnoreListTaskFragment;
 import fr.neraud.padlistener.model.IgnoreMonsterQuickActionModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * Created by Neraud on 16/08/2014.
@@ -31,10 +22,12 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMonsterQuickActionModel> {
 
 	private final ManageIgnoreListTaskFragment mTaskFragment;
+	private final MonsterImageHelper imageHelper;
 
 	public ManageIgnoreListQuickActionsAdapter(Context context, List<IgnoreMonsterQuickActionModel> ignoreMonsterQuickActionModels, ManageIgnoreListTaskFragment mTaskFragment) {
 		super(context, R.layout.manage_ignore_list_quick_action_item, ignoreMonsterQuickActionModels);
 		this.mTaskFragment = mTaskFragment;
+		imageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override
@@ -114,42 +107,11 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 
 		if (monsterId != null) {
 			image.setVisibility(View.VISIBLE);
-			try {
-				final InputStream is = getContext().getContentResolver().openInputStream(MonsterInfoDescriptor.UriHelper.uriForImage(monsterId));
-				final BitmapDrawable bm = new BitmapDrawable(null, is);
-
-				if (alreadyIgnored) {
-					Log.d(getClass().getName(), "bindOneImage : monster at " + position + " : " + monsterId + " already in list");
-					image.setImageDrawable(bm);
-				} else {
-					Log.d(getClass().getName(), "bindOneImage : monster at " + position + " : " + monsterId + " not yet in list");
-					image.setImageBitmap(convertColorIntoBlackAndWhiteImage(bm.getBitmap()));
-				}
-			} catch (final FileNotFoundException e) {
-				image.setImageResource(R.drawable.no_monster_image);
-			}
+			imageHelper.fillMonsterImage(image, monsterId, !alreadyIgnored);
 		} else {
 			Log.d(getClass().getName(), "bindOneImage : no monster at " + position + ", ignored");
 			image.setVisibility(View.INVISIBLE);
 		}
-	}
-
-	private Bitmap convertColorIntoBlackAndWhiteImage(Bitmap orginalBitmap) {
-		ColorMatrix colorMatrix = new ColorMatrix();
-		colorMatrix.setSaturation(0);
-
-		ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(
-				colorMatrix);
-
-		Bitmap blackAndWhiteBitmap = orginalBitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-		Paint paint = new Paint();
-		paint.setColorFilter(colorMatrixFilter);
-
-		Canvas canvas = new Canvas(blackAndWhiteBitmap);
-		canvas.drawBitmap(blackAndWhiteBitmap, 0, 0, paint);
-
-		return blackAndWhiteBitmap;
 	}
 
 }

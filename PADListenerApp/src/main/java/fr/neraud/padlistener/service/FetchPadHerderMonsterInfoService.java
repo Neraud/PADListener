@@ -89,7 +89,4 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 		new TechnicalSharedPreferencesHelper(getApplicationContext()).setMonsterInfoRefreshDate(new Date());
 		return count;
 	}
-
-
-
 }

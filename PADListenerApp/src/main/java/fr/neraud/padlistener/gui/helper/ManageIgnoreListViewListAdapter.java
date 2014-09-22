@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.gui.fragment.ManageIgnoreListTaskFragment;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * Created by Neraud on 16/08/2014.
@@ -25,10 +20,12 @@ import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 public class ManageIgnoreListViewListAdapter extends ArrayAdapter<MonsterInfoModel> {
 
 	private final ManageIgnoreListTaskFragment taskFragment;
+	private final MonsterImageHelper imageHelper;
 
 	public ManageIgnoreListViewListAdapter(Context context, ManageIgnoreListTaskFragment taskFragment) {
 		super(context, R.layout.manage_ignore_list_view_list_item);
 		this.taskFragment = taskFragment;
+		imageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override
@@ -42,16 +39,7 @@ public class ManageIgnoreListViewListAdapter extends ArrayAdapter<MonsterInfoMod
 
 		final MonsterInfoModel item = super.getItem(position);
 
-		final ImageView image = (ImageView) view.findViewById(R.id.manage_ignore_list_view_list_item_image);
-		try {
-			final InputStream is = getContext().getContentResolver().openInputStream(
-					MonsterInfoDescriptor.UriHelper.uriForImage(item.getIdJP()));
-			final BitmapDrawable bm = new BitmapDrawable(null, is);
-
-			image.setImageDrawable(bm);
-		} catch (final FileNotFoundException e) {
-			image.setImageResource(R.drawable.no_monster_image);
-		}
+		imageHelper.fillMonsterImage((ImageView) view.findViewById(R.id.manage_ignore_list_view_list_item_image), item.getIdJP());
 
 		final Button removeButton = (Button) view.findViewById(R.id.manage_ignore_list_view_list_item_remove_button);
 		removeButton.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +49,6 @@ public class ManageIgnoreListViewListAdapter extends ArrayAdapter<MonsterInfoMod
 				taskFragment.removeIgnoredIds(item.getIdJP());
 			}
 		});
-
 
 		final TextView nameText = (TextView) view.findViewById(R.id.manage_ignore_list_view_list_item_name);
 		nameText.setText(getContext().getString(R.string.manage_ignore_list_view_list_name,

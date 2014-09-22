@@ -2,7 +2,6 @@ package fr.neraud.padlistener.gui.helper;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
  * Adaptor to display the choose sync materials
@@ -31,11 +27,13 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 	private final int layout;
 	private Integer defaultTextColor = null;
+	private MonsterImageHelper imageHelper;
 
 	public ChooseSyncMaterialsAdapter(Context context, int layout,
 			List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
 		super(context, layout, 0, syncedMaterialsToUpdate);
 		this.layout = layout;
+		imageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override
@@ -61,15 +59,8 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		});
 
 		final ImageView image = (ImageView) view.findViewById(R.id.choose_sync_materials_item_image);
-		try {
-			final InputStream is = getContext().getContentResolver().openInputStream(
-					MonsterInfoDescriptor.UriHelper.uriForImage(item.getSyncedModel().getDisplayedMonsterInfo().getIdJP()));
-			final BitmapDrawable bm = new BitmapDrawable(null, is);
+		imageHelper.fillMonsterImage(image, item.getSyncedModel().getDisplayedMonsterInfo().getIdJP());
 
-			image.setImageDrawable(bm);
-		} catch (final FileNotFoundException e) {
-			image.setImageResource(R.drawable.no_monster_image);
-		}
 		image.setOnClickListener(new OnClickListener() {
 
 			@Override
