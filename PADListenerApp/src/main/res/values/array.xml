@@ -15,16 +15,19 @@
 	<string-array name="settings_listener_target_hostname_entries">
 		<item>US</item>
 		<item>JP</item>
+		<item>HK/TW</item>
 		<item>Amazon US</item>
 	</string-array>
 	<string-array name="settings_listener_target_hostname_entryValues">
 		<item>api-na-adr-pad.gungho.jp</item>
 		<item>api-adr-pad.gungho.jp</item>
+		<item>api-ht-adr-pad.gungho.jp</item>
 		<item>api-na-amz-pad.gungho.jp</item>
 	</string-array>
 	<string-array name="settings_listener_target_hostname_region">
 		<item>US</item>
 		<item>JP</item>
+		<item>HK_TW</item>
 		<item>US</item>
 	</string-array>
 

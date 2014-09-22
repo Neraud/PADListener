@@ -5,6 +5,7 @@ import java.util.TimeZone;
 public enum PADRegion {
 
 	JP(TimeZone.getTimeZone("Japan")),
+	HK_TW(TimeZone.getTimeZone("Asia/Hong_Kong")),
 	US(TimeZone.getTimeZone("America/Los_Angeles"));
 
 	private final TimeZone timeZone;

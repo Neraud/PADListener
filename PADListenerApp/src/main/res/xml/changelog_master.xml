@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #48 : added support for HK/TW region.</change>
+	</release>
+	<release
 		version="1.4.7" versioncode="29">
 		<change>Fixed #44 : added a dedicated message when computing sync while PADherder is down.</change>
 		<change>Stored the friends' list from the captured data and added a "Friends" tab in "View Captured Data"</change>
