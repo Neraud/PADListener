@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/switch_listener_fragment"
-	android:name="fr.neraud.padlistener.gui.fragment.SwitchListenerFragment"
+
+<android.support.v4.widget.DrawerLayout
+	android:id="@+id/drawer_layout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" />
+	android:layout_height="match_parent">
+
+	<!-- The main content view -->
+	<FrameLayout
+		android:id="@+id/main_content"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1">
+
+		<fragment
+			android:id="@+id/switch_listener_fragment"
+			android:name="fr.neraud.padlistener.ui.fragment.SwitchListenerFragment"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+
+	</FrameLayout>
+
+	<!-- Nav drawer -->
+	<include layout="@layout/navdrawer"/>
+
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,57 @@
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_gravity="start">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<it.gmariotti.cardslib.library.view.CardView
+			android:id="@+id/home_card_capture"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
+			android:layout_marginTop="12dp"/>
+
+		<!--
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<it.gmariotti.cardslib.library.view.CardView
+				android:id="@+id/home_card_monster_info"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="12dp"
+				android:layout_marginRight="12dp"
+				android:layout_marginTop="12dp"
+				android:layout_weight="1"/>
+
+
+			<it.gmariotti.cardslib.library.view.CardView
+				android:id="@+id/home_card_captured_data"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="12dp"
+				android:layout_marginRight="12dp"
+				android:layout_marginTop="12dp"
+				android:layout_weight="1"/>
+
+		</LinearLayout>
+		-->
+
+		<it.gmariotti.cardslib.library.view.CardView
+			android:id="@+id/home_card_sync"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
+			android:layout_marginTop="12dp"
+			android:layout_weight="1"/>
+	</LinearLayout>
+</ScrollView>

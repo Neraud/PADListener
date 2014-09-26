@@ -12,13 +12,13 @@ import java.io.IOException;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
-import fr.neraud.padlistener.gui.MainActivity;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.WifiHelper;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
 import fr.neraud.padlistener.service.task.StartListenerAsyncTask;
 import fr.neraud.padlistener.service.task.StopListenerAsyncTask;
 import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
+import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.util.ExecutableAssetHelper;
 import fr.neraud.padlistener.util.ScriptAssetHelper;
 
@@ -159,7 +159,7 @@ public class ListenerService extends Service {
 
 		final String notifContent = getString(R.string.notification_listener_content, proxyUrl);
 
-		final Intent notificationIntent = new Intent(this, MainActivity.class);
+		final Intent notificationIntent = new Intent(this, HomeActivity.class);
 		final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 

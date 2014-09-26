@@ -1,5 +1,65 @@
 <resources>
 
-	<style name="AppTheme" parent="android:Theme.Holo" />
+	<style name="AppTheme" parent="Theme.PADListener" />
+
+	<style name="FrameworkRoot.Theme" parent="android:Theme.Holo.Light.DarkActionBar" />
+	<style name="FrameworkRoot.ActionBar" parent="android:Widget.Holo.ActionBar" />
+	<style name="FrameworkRoot.ActionBar.TitleText" parent="android:TextAppearance.Holo.Widget.ActionBar.Title" />
+	<style name="FrameworkRoot.ActionBar.TabBar" parent="android:Widget.Holo.ActionBar.TabBar" />
+	<style name="FrameworkRoot.Widget" parent="android:Theme.Holo" />
+	<style name="FrameworkRoot.Widget.ActionButton.Overflow" parent="android:Widget.Holo.ActionButton.Overflow" />
+	<style name="FrameworkRoot.Widget.Spinner" parent="android:Widget.Holo.Light.Spinner" />
+	<style name="FrameworkRoot.Widget.ListView.DropDown" parent="android:Widget.Holo.Light.ListView.DropDown" />
+	<style name="FrameworkRoot.Widget.PopupMenu" parent="android:Widget.Holo.Light.PopupMenu" />
+	<style name="FrameworkRoot.TextAppearance.Widget.PopupMenu.Large" parent="android:TextAppearance.Holo.Widget.PopupMenu.Large" />
+	<style name="FrameworkRoot.TextAppearance.Widget.TextView.SpinnerItem" parent="android:TextAppearance.Holo.Widget.TextView.SpinnerItem" />
+
+	<style name="Theme.PADListener" parent="FrameworkRoot.Theme">
+		<item name="android:actionOverflowButtonStyle">@style/ActionButton.Overflow</item>
+		<item name="android:actionBarWidgetTheme">@style/Theme.PADListener.Widget</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowBackground">@android:color/white</item>
+		<item name="android:actionBarStyle">@style/ActionBar</item>
+		<item name="android:homeAsUpIndicator">@drawable/ic_up</item>
+
+		<item name="android:dropDownListViewStyle">@style/Widget.PADListener.ListView.DropDown</item>
+		<item name="android:textAppearanceLargePopupMenu">@style/TextAppearance.LargePopupMenu</item>
+		<item name="android:spinnerItemStyle">@style/TextAppearance.SpinnerItem</item>
+	</style>
+
+	<style name="Theme.PADListener.Widget" parent="FrameworkRoot.Widget">
+		<item name="android:dropDownListViewStyle">@style/Widget.PADListener.ListView.DropDown</item>
+		<item name="android:textAppearanceLargePopupMenu">@style/TextAppearance.LargePopupMenu</item>
+	</style>
+
+	<style name="ActionButton.Overflow" parent="FrameworkRoot.Widget.ActionButton.Overflow">
+		<item name="android:src">@drawable/ic_action_overflow</item>
+	</style>
+
+	<style name="Widget.PADListener.ListView.DropDown" parent="FrameworkRoot.Widget.ListView.DropDown">
+		<item name="android:divider">@null</item>
+		<item name="android:dividerHeight">0dp</item>
+	</style>
+
+	<style name="TextAppearance.LargePopupMenu" parent="FrameworkRoot.TextAppearance.Widget.PopupMenu.Large">
+		<item name="android:textColor">@color/body_text_1</item>
+	</style>
+
+	<style name="ActionBar" parent="FrameworkRoot.ActionBar">
+		<item name="android:background">@drawable/actionbar_background</item>
+		<!--<item name="android:icon">@drawable/actionbar_icon</item>-->
+		<item name="android:displayOptions">showHome|showTitle</item>
+		<item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
+		<!--<item name="android:logo">@drawable/actionbar_logo</item>-->
+	</style>
+
+	<style name="ActionBar.TitleText" parent="FrameworkRoot.ActionBar.TitleText">
+		<item name="android:textColor">#fff</item>
+		<item name="android:textSize">18sp</item>
+	</style>
+
+	<style name="TextAppearance.SpinnerItem" parent="FrameworkRoot.TextAppearance.Widget.TextView.SpinnerItem">
+		<item name="android:textColor">@color/list_dropdown</item>
+	</style>
 
 </resources>

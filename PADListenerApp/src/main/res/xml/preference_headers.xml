@@ -3,20 +3,20 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<header
-		android:fragment="fr.neraud.padlistener.gui.fragment.GenericPreferenceFragment"
+		android:fragment="fr.neraud.padlistener.ui.fragment.GenericPreferenceFragment"
 		android:title="@string/settings_listener_page">
 		<extra
-			android:name="settings" android:value="prefs_listener"></extra>
+			android:name="settings" android:value="prefs_listener"/>
 	</header>
 	<header
-		android:fragment="fr.neraud.padlistener.gui.fragment.PADherderAccountsPreferenceFragment"
+		android:fragment="fr.neraud.padlistener.ui.fragment.PADherderAccountsPreferenceFragment"
 		android:title="@string/settings_padherder_page">
 	</header>
 	<header
-		android:fragment="fr.neraud.padlistener.gui.fragment.GenericPreferenceFragment"
+		android:fragment="fr.neraud.padlistener.ui.fragment.GenericPreferenceFragment"
 		android:title="@string/settings_sync_page">
 		<extra
-			android:name="settings" android:value="prefs_sync"></extra>
+			android:name="settings" android:value="prefs_sync"/>
 	</header>
 
 </preference-headers>

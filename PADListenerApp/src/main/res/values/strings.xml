@@ -3,10 +3,21 @@
 
 	<string name="app_name">PADListener</string>
 
-	<!-- Menu -->
-	<string name="menu_settings">Settings</string>
-	<string name="menu_changelog">Changelog</string>
-	<string name="menu_about">About</string>
+	<!-- Navigation Drawer -->
+	<string name="drawer_home_title">Home</string>
+	<string name="drawer_view_monster_info_title">View monster info</string>
+	<string name="drawer_view_captured_data_title">View captured data</string>
+	<string name="drawer_manage_ignore_list_title">Manage ignore list</string>
+	<string name="drawer_settings_title">Settings</string>
+	<string name="drawer_changelog_title">Changelog</string>
+	<string name="drawer_about_title">About</string>
+	<string name="drawer_help_title">Help</string>
+
+	<!-- Accessibility description saying that the app's navigation drawer has been closed -->
+	<string name="drawer_close">Close navigation drawer</string>
+
+	<!-- Accessibility description saying that the app's navigation drawer has been opened -->
+	<string name="drawer_open">Open navigation drawer</string>
 
 
 	<!-- Notification -->
@@ -117,16 +128,18 @@
 	<string name="about_dialog_button">OK</string>
 
 
-	<!-- Main activity -->
-	<string name="label_main_activity">PADListener</string>
-	<string name="switchListener">Switch listener</string>
-	<string name="viewMonsterInfo">View monster info</string>
-	<string name="viewCapturedData">View captured data</string>
-	<string name="manageIgnoreList">Manage ignore list</string>
-	<string name="computeSync">Compute sync</string>
+	<!-- Home activity -->
+	<string name="label_home">Home</string>
+	<string name="home_capture_content">Capture from PAD</string>
+	<string name="home_capture_button_manual">Manual</string>
+	<string name="home_capture_button_auto">Auto</string>
+	<string name="home_sync_content">Sync with PADherder</string>
+	<string name="home_sync_button_manual">Manual</string>
+	<string name="home_sync_button_auto">Auto</string>
 
 
 	<!-- Switch listener -->
+	<string name="label_switch_listener">Switch listener</string>
 	<string name="switch_listener_switchLabel">Switch listener</string>
     <string name="switch_listener_force_stop">Force stop</string>
 
