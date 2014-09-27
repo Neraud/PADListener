@@ -22,10 +22,10 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 	private final ServiceConnection mConnection;
 	private boolean mIsBound = false;
-	private ListenerServiceBinder listenerServiceBinder;
-	private CallBacks callbacks = null;
-	private ListenerState state = null;
-	private SwitchListenerResult result = null;
+	private ListenerServiceBinder mListenerServiceBinder;
+	private CallBacks mCallbacks = null;
+	private ListenerState mListenerState = null;
+	private SwitchListenerResult mResult = null;
 
 	public enum ListenerState {
 		STARTING,
@@ -50,11 +50,11 @@ public class SwitchListenerTaskFragment extends Fragment {
 			@Override
 			public void onServiceConnected(ComponentName className, IBinder service) {
 				Log.d(getClass().getName(), "onServiceConnected");
-				listenerServiceBinder = (ListenerServiceBinder) service;
+				mListenerServiceBinder = (ListenerServiceBinder) service;
 
-				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarted());
+				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + mListenerServiceBinder.isListenerStarted());
 
-				if (listenerServiceBinder.isListenerStarted()) {
+				if (mListenerServiceBinder.isListenerStarted()) {
 					updateState(ListenerState.STARTED);
 				} else {
 					updateState(ListenerState.STOPPED);
@@ -66,7 +66,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 			@Override
 			public void onServiceDisconnected(ComponentName className) {
 				Log.d(getClass().getName(), "onServiceDisconnected");
-				listenerServiceBinder = null;
+				mListenerServiceBinder = null;
 				mIsBound = false;
 			}
 		};
@@ -118,17 +118,17 @@ public class SwitchListenerTaskFragment extends Fragment {
 	public void onDetach() {
 		Log.d(getClass().getName(), "onDetach");
 		super.onDetach();
-		callbacks = null;
+		mCallbacks = null;
 	}
 
 	public void registerCallbacks(CallBacks callbacks) {
-		this.callbacks = callbacks;
+		this.mCallbacks = callbacks;
 		notifyCallBacks();
 	}
 
 	private void notifyCallBacks() {
-		if (callbacks != null) {
-			callbacks.updateState(state, result);
+		if (mCallbacks != null) {
+			mCallbacks.updateState(mListenerState, mResult);
 		}
 	}
 
@@ -143,19 +143,19 @@ public class SwitchListenerTaskFragment extends Fragment {
 				@Override
 				public void notifyActionSuccess(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionSuccess");
-					result = newResult;
+					mResult = newResult;
 					updateState(ListenerState.STARTED);
 				}
 
 				@Override
 				public void notifyActionFailed(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionFailed");
-					result = newResult;
+					mResult = newResult;
 					updateState(ListenerState.START_FAILED);
 				}
 
 			};
-			listenerServiceBinder.startListener(startListener);
+			mListenerServiceBinder.startListener(startListener);
 		} else {
 			notifyCallBacks();
 		}
@@ -173,30 +173,30 @@ public class SwitchListenerTaskFragment extends Fragment {
 				@Override
 				public void notifyActionSuccess(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionSuccess");
-					result = newResult;
+					mResult = newResult;
 					updateState(ListenerState.STOPPED);
 				}
 
 				@Override
 				public void notifyActionFailed(SwitchListenerResult newResult) {
 					Log.d(getClass().getName(), "notifyActionFailed");
-					result = newResult;
+					mResult = newResult;
 					updateState(ListenerState.STOP_FAILED);
 				}
 
 			};
 
-			listenerServiceBinder.stopListener(stopListener);
+			mListenerServiceBinder.stopListener(stopListener);
 		} else if (forced) {
-			listenerServiceBinder.stopListener(null);
+			mListenerServiceBinder.stopListener(null);
 		} else {
 			notifyCallBacks();
 		}
 	}
 
 	private boolean canStart() {
-		if (state != null) {
-			switch (state) {
+		if (mListenerState != null) {
+			switch (mListenerState) {
 				case STARTING:
 					return false;
 				case STARTED:
@@ -218,8 +218,8 @@ public class SwitchListenerTaskFragment extends Fragment {
 	}
 
 	private boolean canStop() {
-		if (state != null) {
-			switch (state) {
+		if (mListenerState != null) {
+			switch (mListenerState) {
 				case STARTING:
 					return false;
 				case STARTED:
@@ -241,7 +241,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 	}
 
 	private void updateState(ListenerState status) {
-		this.state = status;
+		this.mListenerState = status;
 		notifyCallBacks();
 	}
 
