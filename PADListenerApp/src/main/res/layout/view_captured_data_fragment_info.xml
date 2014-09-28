@@ -69,11 +69,4 @@
 		android:text="@string/view_captured_info_item_currency"
 		android:textSize="16sp"/>
 
-	<Button
-		android:id="@+id/view_captured_data_info_item_share"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:text="@string/view_captured_info_item_share_button" />
-
 </LinearLayout>
