@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+	android:id="@+id/card_monster_info_monster_container"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="112dp"
+	android:layout_height="112dp">
+
+	<ImageView
+		android:id="@+id/card_monster_image"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_margin="8dp"
+		android:src="@drawable/no_monster_image"/>
+
+</RelativeLayout>

@@ -9,22 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import it.gmariotti.cardslib.library.internal.Card;
 
 /**
  * Created by Neraud on 27/09/2014.
  */
-public class MonsterInfoCard extends Card {
+public class MonsterInfoCard extends AbstractMonsterCard {
 
 	private MonsterInfoModel mModel;
 
 	public MonsterInfoCard(Context context, MonsterInfoModel model) {
-		super(context, R.layout.card_monster_info);
+		super(context, model, R.layout.card_monster_info);
 		mModel = model;
 	}
 
@@ -32,14 +28,8 @@ public class MonsterInfoCard extends Card {
 	public void setupInnerViewElements(ViewGroup parent, View view) {
 		if (view == null) return;
 
-		final ImageView monsterImageView = (ImageView) view.findViewById(R.id.card_monster_info_monster_image);
+		final ImageView monsterImageView = fillImage(view);
 		monsterImageView.clearColorFilter();
-		final String imageUrl = PadHerderDescriptor.serverUrl + mModel.getImage60Url();
-
-		Picasso.with(getContext())
-				.load(imageUrl)
-				.error(R.drawable.no_monster_image)
-				.into(monsterImageView);
 
 		final ViewGroup monsterTextBlock = (ViewGroup) view.findViewById(R.id.card_monster_info_monster_text_block);
 		monsterTextBlock.setVisibility(View.INVISIBLE);

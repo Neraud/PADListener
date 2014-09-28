@@ -130,4 +130,8 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 			}
 		}
 	}
+
+	public MonsterInfoHelper getMonsterInfoHelper() {
+		return monsterInfoHelper;
+	}
 }

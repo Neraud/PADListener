@@ -7,7 +7,7 @@
 	android:layout_height="112dp">
 
 	<ImageView
-		android:id="@+id/card_monster_info_monster_image"
+		android:id="@+id/card_monster_image"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_margin="8dp"
@@ -17,10 +17,10 @@
 		android:id="@+id/card_monster_info_monster_text_block"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_alignBottom="@+id/card_monster_info_monster_image"
-		android:layout_alignLeft="@+id/card_monster_info_monster_image"
-		android:layout_alignRight="@+id/card_monster_info_monster_image"
-		android:layout_alignTop="@+id/card_monster_info_monster_image"
+		android:layout_alignBottom="@+id/card_monster_image"
+		android:layout_alignLeft="@+id/card_monster_image"
+		android:layout_alignRight="@+id/card_monster_image"
+		android:layout_alignTop="@+id/card_monster_image"
 		android:orientation="vertical">
 
 		<TextView

@@ -4,13 +4,9 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.model.BaseMonsterStatsModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.ui.fragment.ViewCapturedDataMonsterDetailDialogFragment;
@@ -19,22 +15,19 @@ import it.gmariotti.cardslib.library.internal.Card;
 /**
  * Created by Neraud on 27/09/2014.
  */
-public class MonsterCard extends Card {
+public class MonsterWithStatsCard extends AbstractMonsterCard {
 
 	private FragmentActivity mActivity;
-	private MonsterInfoModel mMonsterInfoModel;
 	private BaseMonsterStatsModel mMonsterStatsModel;
 
-	public MonsterCard(FragmentActivity activity, MonsterInfoModel monsterInfoModel, BaseMonsterStatsModel monsterStatsModel) {
-		super(activity, R.layout.card_monster);
-		mActivity = activity;
-		mMonsterInfoModel = monsterInfoModel;
+	public MonsterWithStatsCard(FragmentActivity activity, MonsterInfoModel monsterInfoModel, BaseMonsterStatsModel monsterStatsModel) {
+		super(activity, monsterInfoModel, R.layout.card_monster_with_stats);
 		mMonsterStatsModel = monsterStatsModel;
-		init();
+		mActivity = activity;
 	}
 
-	private void init() {
-		setShadow(false);
+	protected void init() {
+		super.init();
 		setOnClickListener(new OnCardClickListener() {
 			@Override
 			public void onClick(Card card, View view) {
@@ -50,15 +43,9 @@ public class MonsterCard extends Card {
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View view) {
 		if (view == null) return;
+		super.setupInnerViewElements(parent, view);
 
-		final ImageView monsterImageView = (ImageView) view.findViewById(R.id.card_monster_image);
-		monsterImageView.clearColorFilter();
-		final String imageUrl = PadHerderDescriptor.serverUrl + mMonsterInfoModel.getImage60Url();
-
-		Picasso.with(getContext())
-				.load(imageUrl)
-				.error(R.drawable.no_monster_image)
-				.into(monsterImageView);
+		fillImage(view);
 
 		fillTextView(view, R.id.card_monster_awakenings, mMonsterStatsModel.getAwakenings(), mMonsterInfoModel.getAwokenSkillIds().size());
 		fillTextView(view, R.id.card_monster_level, mMonsterStatsModel.getLevel(), mMonsterInfoModel.getMaxLevel());
@@ -67,8 +54,8 @@ public class MonsterCard extends Card {
 		fillTextView(view, R.id.card_monster_pluses, totalPluses, 3 * 99);
 	}
 
-	private void fillTextView(View view, int textViewResId, int value, int maxValue) {
-		final TextView text = (TextView) view.findViewById(textViewResId);
+	private void fillTextView(View view, int textViewId, int value, int maxValue) {
+		final TextView text = (TextView) view.findViewById(R.id.card_monster_awakenings);
 		text.setText(value >= maxValue ? "*" : "" + value);
 	}
 }

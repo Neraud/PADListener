@@ -43,11 +43,11 @@ public class CapturedFriendCard extends Card {
 		friendRankTextView.setText(getContext().getString(R.string.view_captured_data_friend_rank, mModel.getFriendModel().getRank()));
 
 		final CardView leader1CardView = (CardView) view.findViewById(R.id.card_friend_leader_1);
-		final MonsterCard leader1Card = new MonsterCard(mActivity, mModel.getLeader1Info(), mModel.getFriendModel().getLeader1());
+		final MonsterWithStatsCard leader1Card = new MonsterWithStatsCard(mActivity, mModel.getLeader1Info(), mModel.getFriendModel().getLeader1());
 		leader1CardView.setCard(leader1Card);
 
 		final CardView leader2CardView = (CardView) view.findViewById(R.id.card_friend_leader_2);
-		final MonsterCard leader2Card = new MonsterCard(mActivity, mModel.getLeader2Info(), mModel.getFriendModel().getLeader2());
+		final MonsterWithStatsCard leader2Card = new MonsterWithStatsCard(mActivity, mModel.getLeader2Info(), mModel.getFriendModel().getLeader2());
 		leader2CardView.setCard(leader2Card);
 	}
 
