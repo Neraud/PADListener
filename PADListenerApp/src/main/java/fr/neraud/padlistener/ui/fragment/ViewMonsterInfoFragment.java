@@ -1,43 +1,79 @@
 package fr.neraud.padlistener.ui.fragment;
 
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
+import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
+import fr.neraud.padlistener.ui.adapter.MonsterInfoCursorAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * Main fragment for ViewMonsterInfo
  *
  * @author Neraud
  */
-public class ViewMonsterInfoFragment extends AbstractViewPagerFragment {
+public class ViewMonsterInfoFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+	private MonsterInfoCursorAdapter mAdapter;
+	private TextView mCurrentTextView;
 
 	@Override
-	protected int getPageCount() {
-		return 2;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.d(getClass().getName(), "onCreate");
+
+		final View view = inflater.inflate(R.layout.view_monster_info_fragment_monsters, container, false);
+
+		mCurrentTextView = (TextView) view.findViewById(R.id.monster_info_fetch_info_current);
+		refreshLastUpdate();
+
+		mAdapter = new MonsterInfoCursorAdapter(getActivity());
+
+		final CardGridView mGridView = (CardGridView) view.findViewById(R.id.view_monster_info_monster_grid);
+		mGridView.setAdapter(mAdapter);
+
+		getLoaderManager().initLoader(0, null, this);
+
+		return view;
+	}
+
+
+	private void refreshLastUpdate() {
+		final Date lastRefreshDate = new TechnicalSharedPreferencesHelper(getActivity()).getMonsterInfoRefreshDate();
+		final String lastRefreshDateFormatted = SimpleDateFormat.getDateInstance().format(lastRefreshDate);
+		mCurrentTextView.setText(getString(R.string.monster_info_last_refresh, lastRefreshDateFormatted));
 	}
 
 	@Override
-	protected Fragment getPageFragment(int position) {
-		switch (position) {
-			case 0:
-				return new ViewMonsterInfoMonstersFragment();
-			case 1:
-				return new ViewMonsterInfoRefreshInfoFragment();
-			default:
-				return null;
-		}
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		Log.d(getClass().getName(), "onCreateLoader");
+		return new CursorLoader(getActivity(), MonsterInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
 	}
 
 	@Override
-	protected Integer getTabTitle(int position) {
-		switch (position) {
-			case 0:
-				return R.string.view_monster_info_tab_monsters;
-			case 1:
-				return R.string.view_monster_info_tab_refresh_info;
-			default:
-				return null;
-		}
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		Log.d(getClass().getName(), "onLoadFinished");
+		mAdapter.swapCursor(data);
+		refreshLastUpdate();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		Log.d(getClass().getName(), "onLoaderReset");
+		mAdapter.swapCursor(null);
 	}
 
 }

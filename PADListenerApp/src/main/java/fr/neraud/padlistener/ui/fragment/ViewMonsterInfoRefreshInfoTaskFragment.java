@@ -1,5 +1,6 @@
 package fr.neraud.padlistener.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,15 +20,15 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
  */
 public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 
-	private RestCallState state = null;
-	private RestCallRunningStep runningStep = null;
-	private Throwable errorCause = null;
+	private boolean mAutoStart = false;
+	private RestCallState mCallState = null;
+	private RestCallRunningStep mCallRunningStep = null;
+	private Throwable mCallErrorCause = null;
+	private ProgressCallBacks mProgressCallbacks = null;
 
-	private CallBacks callbacks = null;
+	public static interface ProgressCallBacks {
 
-	public static interface CallBacks {
-
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, Throwable errorCause);
+		public void updateCallState(RestCallState callState, RestCallRunningStep callRunningStep, Throwable callErrorCause);
 	}
 
 	private class MyResultReceiver extends AbstractRestResultReceiver<Integer> {
@@ -39,26 +40,25 @@ public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 		@Override
 		protected void onReceiveProgress(RestCallRunningStep step) {
 			Log.d(getClass().getName(), "onReceiveProgress : " + step);
-			state = RestCallState.RUNNING;
-			runningStep = step;
-			notifyCallBacks();
+			mCallState = RestCallState.RUNNING;
+			mCallRunningStep = step;
+			notifyProgressCallBacks();
 		}
 
 		@Override
 		protected void onReceiveSuccess(Integer result) {
 			Log.d(getClass().getName(), "onReceiveSuccess");
-			state = RestCallState.SUCCEEDED;
-			notifyCallBacks();
+			mCallState = RestCallState.SUCCEEDED;
+			notifyProgressCallBacks();
 		}
 
 		@Override
 		protected void onReceiveError(RestCallError error, Throwable cause) {
 			Log.d(getClass().getName(), "onReceiveError : " + error);
-			state = RestCallState.FAILED;
-			errorCause = cause;
-			notifyCallBacks();
+			mCallState = RestCallState.FAILED;
+			mCallErrorCause = cause;
+			notifyProgressCallBacks();
 		}
-
 	}
 
 	@Override
@@ -70,32 +70,50 @@ public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		Log.d(getClass().getName(), "onAttach");
+
+		if(mAutoStart && mCallState == null) {
+			startFetchInfoService();
+		}
+	}
+
+	@Override
 	public void onDetach() {
 		Log.d(getClass().getName(), "onDetach");
 		super.onDetach();
-		callbacks = null;
+		mProgressCallbacks = null;
 	}
 
-	public void registerCallbacks(CallBacks callbacks) {
-		this.callbacks = callbacks;
-		notifyCallBacks();
+	public void registerCallbacks(ProgressCallBacks callbacks) {
+		this.mProgressCallbacks = callbacks;
+		notifyProgressCallBacks();
 	}
 
-	private void notifyCallBacks() {
-		if (callbacks != null) {
-			callbacks.updateState(state, runningStep, errorCause);
+	private void notifyProgressCallBacks() {
+		if (mProgressCallbacks != null) {
+			mProgressCallbacks.updateCallState(mCallState, mCallRunningStep, mCallErrorCause);
 		}
 	}
 
 	public void startFetchInfoService() {
 		Log.d(getClass().getName(), "startFetchInfoService");
-		state = RestCallState.RUNNING;
-		runningStep = null;
-		errorCause = null;
-		notifyCallBacks();
+		mCallState = RestCallState.RUNNING;
+		mCallRunningStep = null;
+		mCallErrorCause = null;
+		notifyProgressCallBacks();
 
 		final Intent startIntent = new Intent(getActivity(), FetchPadHerderMonsterInfoService.class);
 		startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyResultReceiver(new Handler()));
 		getActivity().startService(startIntent);
+	}
+
+	public boolean isAutoStart() {
+		return mAutoStart;
+	}
+
+	public void setAutoStart(boolean autoStart) {
+		mAutoStart = autoStart;
 	}
 }

@@ -164,19 +164,17 @@
 
 	<!-- View monster info -->
 	<string name="label_view_monster_info_activity">View monster info</string>
-	<string name="view_monster_info_tab_monsters">Monsters</string>
-	<string name="view_monster_info_tab_refresh_info">Refresh info</string>
-	<string name="view_monster_info_evo">Evo from %1$d (stage\u00A0%2$d)</string>
+	<string name="view_monster_info_action_refresh">Refresh</string>
+	<string name="monster_info_last_refresh">The monster information has been refreshed at : %1$s</string>
 
-	<string name="monster_info_fetch_info_explain">This application uses monster information exposed by PADherder. This information is stored on the device. You can refresh this data if some inforations are not up to date (new awakenings for example)</string>
-	<string name="monster_info_fetch_info_current">The monster information has been refreshed at : %1$s</string>
-	<string name="monster_info_fetch_info_start">Refresh monster info</string>
-	<string name="monster_info_fetch_info_fetching">Fetching PadHerder information</string>
-	<string name="monster_info_fetch_info_calling">Calling PadHerder API</string>
-	<string name="monster_info_fetch_info_parsing">Parsing PadHerder API result</string>
-	<string name="monster_info_fetch_info_saving">Saving data</string>
-	<string name="monster_info_fetch_info_fetching_done">Fetching done</string>
-	<string name="monster_info_fetch_info_fetching_failed">Fetching failed : %1$s</string>
+	<string name="monster_info_refresh_title">Refresh monster information</string>
+	<string name="monster_info_refresh_info_start">Refresh monster info</string>
+	<string name="monster_info_refresh_info_fetching">Fetching PadHerder information</string>
+	<string name="monster_info_refresh_info_calling">Calling PadHerder API</string>
+	<string name="monster_info_refresh_info_parsing">Parsing PadHerder API result</string>
+	<string name="monster_info_refresh_info_saving">Saving data</string>
+	<string name="monster_info_refresh_info_fetching_done">Fetching done</string>
+	<string name="monster_info_refresh_info_fetching_failed">Fetching failed : %1$s</string>
 
 
 	<!-- ViewCapturedData activity -->

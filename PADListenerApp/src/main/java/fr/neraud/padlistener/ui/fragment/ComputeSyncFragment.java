@@ -65,7 +65,6 @@ public class ComputeSyncFragment extends Fragment {
 					case RUNNING:
 						if (runningStep == null) {
 							progress.setIndeterminate(true);
-							status.setText(R.string.monster_info_fetch_info_fetching);
 						} else {
 							progress.setIndeterminate(false);
 							switch (runningStep) {
