@@ -1,0 +1,13 @@
+<it.gmariotti.cardslib.library.view.CardGridView
+	android:id="@+id/view_monster_info_monster_grid"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:columnWidth="112dp"
+	android:gravity="center"
+	android:horizontalSpacing="2dp"
+	android:numColumns="auto_fit"
+	android:stretchMode="columnWidth"
+	android:verticalSpacing="3dp"
+	/>
+

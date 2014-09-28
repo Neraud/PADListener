@@ -2,7 +2,7 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -10,30 +10,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorAdapter;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.ui.adapter.MonsterInfoCursorAdapter;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
+import fr.neraud.padlistener.ui.adapter.MonsterInfoCursorAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * ViewMonsterInfo fragment for the Info tab
  *
  * @author Neraud
  */
-public class ViewMonsterInfoListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
+public class ViewMonsterInfoMonstersFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
-	private SimpleCursorAdapter adapter;
+	private MonsterInfoCursorAdapter mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 
-		adapter = new MonsterInfoCursorAdapter(getActivity(), R.layout.view_monster_info_item);
-		setListAdapter(adapter);
+		final View view = inflater.inflate(R.layout.view_monster_info_fragment_monsters, container, false);
+		mAdapter = new MonsterInfoCursorAdapter(getActivity());
+
+		final CardGridView mGridView = (CardGridView) view.findViewById(R.id.view_monster_info_monster_grid);
+		mGridView.setAdapter(mAdapter);
 
 		getLoaderManager().initLoader(0, null, this);
-		return super.onCreateView(inflater, container, savedInstanceState);
+
+		return view;
 	}
 
 	@Override
@@ -45,12 +49,12 @@ public class ViewMonsterInfoListFragment extends ListFragment implements LoaderC
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(getClass().getName(), "onLoadFinished");
-		adapter.swapCursor(data);
+		mAdapter.swapCursor(data);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		Log.d(getClass().getName(), "onLoaderReset");
-		adapter.swapCursor(null);
+		mAdapter.swapCursor(null);
 	}
 }

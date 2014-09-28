@@ -68,13 +68,7 @@
 			android:name=".service.InstallMonsterInfoService"
 			android:exported="false" />
 		<service
-			android:name=".service.InstallMonsterImagesService"
-			android:exported="false" />
-		<service
 			android:name=".service.FetchPadHerderMonsterInfoService"
-			android:exported="false" />
-		<service
-			android:name=".service.FetchPadHerderMonsterImageService"
 			android:exported="false" />
 		<service
 			android:name=".service.ComputeSyncService"
