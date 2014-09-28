@@ -17,8 +17,8 @@ public class CapturedFriendModel implements Serializable {
 	private int rank;
 	private StartingColor startingColor;
 	private Date lastActivityDate;
-	private CapturedFriendLeaderModel leader1;
-	private CapturedFriendLeaderModel leader2;
+	private BaseMonsterStatsModel leader1;
+	private BaseMonsterStatsModel leader2;
 
 	public long getId() {
 		return id;
@@ -60,19 +60,19 @@ public class CapturedFriendModel implements Serializable {
 		this.lastActivityDate = lastActivityDate;
 	}
 
-	public CapturedFriendLeaderModel getLeader1() {
+	public BaseMonsterStatsModel getLeader1() {
 		return leader1;
 	}
 
-	public void setLeader1(CapturedFriendLeaderModel leader1) {
+	public void setLeader1(BaseMonsterStatsModel leader1) {
 		this.leader1 = leader1;
 	}
 
-	public CapturedFriendLeaderModel getLeader2() {
+	public BaseMonsterStatsModel getLeader2() {
 		return leader2;
 	}
 
-	public void setLeader2(CapturedFriendLeaderModel leader2) {
+	public void setLeader2(BaseMonsterStatsModel leader2) {
 		this.leader2 = leader2;
 	}
 

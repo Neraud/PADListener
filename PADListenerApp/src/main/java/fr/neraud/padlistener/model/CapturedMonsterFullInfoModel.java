@@ -8,14 +8,14 @@ package fr.neraud.padlistener.model;
  */
 public class CapturedMonsterFullInfoModel {
 
-	private CapturedMonsterCardModel capturedMonster;
+	private MonsterModel capturedMonster;
 	private MonsterInfoModel monsterInfo;
 
-	public CapturedMonsterCardModel getCapturedMonster() {
+	public MonsterModel getCapturedMonster() {
 		return capturedMonster;
 	}
 
-	public void setCapturedMonster(CapturedMonsterCardModel capturedMonster) {
+	public void setCapturedMonster(MonsterModel capturedMonster) {
 		this.capturedMonster = capturedMonster;
 	}
 

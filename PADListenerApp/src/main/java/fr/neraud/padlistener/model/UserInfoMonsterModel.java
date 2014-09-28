@@ -7,7 +7,7 @@ import fr.neraud.padlistener.padherder.constant.MonsterPriority;
  *
  * @author Neraud
  */
-public class UserInfoMonsterModel extends BaseMonsterModel {
+public class UserInfoMonsterModel extends MonsterModel {
 
 	private static final long serialVersionUID = 1L;
 	private long padherderId;

@@ -2,40 +2,43 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.ui.adapter.CapturedPlayerFriendsCursorAdapter;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
+import fr.neraud.padlistener.ui.adapter.CapturedFriendCursorAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * ViewCapturedData fragment for the Friends tabs
  *
  * @author Neraud
  */
-public class ViewCapturedDataFriendsFragment extends ListFragment implements LoaderCallbacks<Cursor> {
+public class ViewCapturedDataFriendsFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
-	private SimpleCursorAdapter adapter;
+	private CapturedFriendCursorAdapter mAdapter;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
-		super.onCreate(savedInstanceState);
 
-		adapter = new CapturedPlayerFriendsCursorAdapter(getActivity().getApplicationContext(), R.layout.view_captured_data_item_friends);
-		setListAdapter(adapter);
-	}
+		final View view = inflater.inflate(R.layout.view_captured_data_fragment_friends, container, false);
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onActivityCreated");
-		super.onActivityCreated(savedInstanceState);
+		mAdapter = new CapturedFriendCursorAdapter(getActivity());
+
+		final CardGridView mGridView = (CardGridView) view.findViewById(R.id.view_captured_data_friends_grid);
+		mGridView.setAdapter(mAdapter);
+
 		getLoaderManager().initLoader(0, null, this);
+
+		return view;
 	}
 
 	@Override
@@ -47,13 +50,13 @@ public class ViewCapturedDataFriendsFragment extends ListFragment implements Loa
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		Log.d(getClass().getName(), "onLoadFinished");
-		adapter.swapCursor(data);
+		mAdapter.swapCursor(data);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		Log.d(getClass().getName(), "onLoaderReset");
-		adapter.swapCursor(null);
+		mAdapter.swapCursor(null);
 	}
 
 }

@@ -202,9 +202,8 @@
 	<string name="view_captured_monster_detail_skill_level_label">Skill :</string>
 	<string name="view_captured_monster_detail_skill_level_value">%1$d</string>
 
-	<string name="view_captured_data_friend_name">(%1$d) %2$s</string>
-	<string name="view_captured_friend_item_leader_name">(%1$d) %2$s</string>
-	<string name="view_captured_friend_item_leader_stats">lv %1$d, +%2$d +%3$d +%4$d, %5$d / %6$d awakenings</string>
+	<string name="view_captured_data_friend_id">Id : %1$d</string>
+	<string name="view_captured_data_friend_rank">Rank : %1$d</string>
 
 
 	<!-- ManageIgnoreList activity -->

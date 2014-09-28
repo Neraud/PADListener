@@ -5,10 +5,10 @@
     android:orientation="vertical"
 	>
 	<it.gmariotti.cardslib.library.view.CardGridView
-		android:id="@+id/view_captured_data_monsters_grid"
+		android:id="@+id/view_captured_data_friends_grid"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:columnWidth="120dp"
+		android:columnWidth="200dp"
 		android:gravity="center"
 		android:horizontalSpacing="2dp"
 		android:numColumns="auto_fit"

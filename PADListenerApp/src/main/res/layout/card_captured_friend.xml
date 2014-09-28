@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+	<TextView
+		android:id="@+id/card_friend_id"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:text="@string/view_captured_data_friend_id"
+		/>
+
+	<TextView
+		android:id="@+id/card_friend_rank"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:text="@string/view_captured_data_friend_rank"
+		/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="horizontal">
+
+		<it.gmariotti.cardslib.library.view.CardView
+			android:id="@+id/card_friend_leader_1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+		</it.gmariotti.cardslib.library.view.CardView>
+
+		<it.gmariotti.cardslib.library.view.CardView
+			android:id="@+id/card_friend_leader_2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+		</it.gmariotti.cardslib.library.view.CardView>
+	</LinearLayout>
+</LinearLayout>

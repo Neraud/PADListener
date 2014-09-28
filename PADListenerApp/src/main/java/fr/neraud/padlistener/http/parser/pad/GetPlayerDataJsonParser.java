@@ -19,9 +19,9 @@ import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.helper.MonsterIdConverterHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
-import fr.neraud.padlistener.model.CapturedFriendLeaderModel;
+import fr.neraud.padlistener.model.BaseMonsterStatsModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedFriendModel;
-import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.pad.constant.StartingColor;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
@@ -69,11 +69,11 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 			model.setPlayerInfo(playerInfo);
 
 			// "card"
-			final List<CapturedMonsterCardModel> monsters = new ArrayList<CapturedMonsterCardModel>();
+			final List<MonsterModel> monsters = new ArrayList<MonsterModel>();
 			final JSONArray cardResults = json.getJSONArray("card");
 			for (int i = 0; i < cardResults.length(); i++) {
 				final JSONObject cardResult = (JSONObject) cardResults.get(i);
-				final CapturedMonsterCardModel monster = parseMonster(cardResult);
+				final MonsterModel monster = parseMonster(cardResult);
 
 				monsters.add(monster);
 			}
@@ -94,9 +94,9 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		return model;
 	}
 
-	private CapturedMonsterCardModel parseMonster(final JSONObject cardResult) throws JSONException {
+	private MonsterModel parseMonster(final JSONObject cardResult) throws JSONException {
 		//"cuid": 1, "exp": 15939, "lv": 16, "slv": 1, "mcnt": 11, "no": 3, "plus": [0, 0, 0, 0]
-		final CapturedMonsterCardModel monster = new CapturedMonsterCardModel();
+		final MonsterModel monster = new MonsterModel();
 		monster.setExp(cardResult.getLong("exp"));
 		monster.setLevel(cardResult.getInt("lv"));
 		monster.setSkillLevel(cardResult.getInt("slv"));
@@ -134,7 +134,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 			Log.w(getClass().getName(), "parseFriend : error parsing lastActivityDate : " + e.getMessage());
 		}
 
-		final CapturedFriendLeaderModel leader1 = new CapturedFriendLeaderModel();
+		final BaseMonsterStatsModel leader1 = new BaseMonsterStatsModel();
 
 		final int origId1 = friendResult.getInt(14);
 		int idJp1 = -1;
@@ -153,7 +153,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		leader1.setAwakenings(friendResult.getInt(20));
 		friend.setLeader1(leader1);
 
-		final CapturedFriendLeaderModel leader2 = new CapturedFriendLeaderModel();
+		final BaseMonsterStatsModel leader2 = new BaseMonsterStatsModel();
 
 		final int origId2 = friendResult.getInt(21);
 		int idJp2 = -1;

@@ -11,32 +11,37 @@ import com.squareup.picasso.Picasso;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
-import fr.neraud.padlistener.model.CapturedMonsterFullInfoModel;
+import fr.neraud.padlistener.model.BaseMonsterStatsModel;
+import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.ui.fragment.ViewCapturedDataMonsterDetailDialogFragment;
 import it.gmariotti.cardslib.library.internal.Card;
 
 /**
  * Created by Neraud on 27/09/2014.
  */
-public class CapturedMonsterCard extends Card {
+public class MonsterCard extends Card {
 
 	private FragmentActivity mActivity;
-	private CapturedMonsterFullInfoModel mModel;
+	private MonsterInfoModel mMonsterInfoModel;
+	private BaseMonsterStatsModel mMonsterStatsModel;
 
-	public CapturedMonsterCard(FragmentActivity activity, CapturedMonsterFullInfoModel model) {
-		super(activity, R.layout.card_monster_captured);
+	public MonsterCard(FragmentActivity activity, MonsterInfoModel monsterInfoModel, BaseMonsterStatsModel monsterStatsModel) {
+		super(activity, R.layout.card_monster);
 		mActivity = activity;
-		mModel = model;
+		mMonsterInfoModel = monsterInfoModel;
+		mMonsterStatsModel = monsterStatsModel;
 		init();
 	}
 
 	private void init() {
+		setShadow(false);
 		setOnClickListener(new OnCardClickListener() {
 			@Override
 			public void onClick(Card card, View view) {
 				Log.d(getClass().getName(), "onClick");
 				final ViewCapturedDataMonsterDetailDialogFragment fragment = new ViewCapturedDataMonsterDetailDialogFragment();
-				fragment.setModel(mModel);
+				fragment.setMonsterInfoModel(mMonsterInfoModel);
+				fragment.setMonsterStatsModel(mMonsterStatsModel);
 				fragment.show(mActivity.getSupportFragmentManager(), "view_captured_data_monster_detail");
 			}
 		});
@@ -46,20 +51,20 @@ public class CapturedMonsterCard extends Card {
 	public void setupInnerViewElements(ViewGroup parent, View view) {
 		if (view == null) return;
 
-		final ImageView monsterImageView = (ImageView) view.findViewById(R.id.card_monster_captured_image);
+		final ImageView monsterImageView = (ImageView) view.findViewById(R.id.card_monster_image);
 		monsterImageView.clearColorFilter();
-		final String imageUrl = PadHerderDescriptor.serverUrl + mModel.getMonsterInfo().getImage60Url();
+		final String imageUrl = PadHerderDescriptor.serverUrl + mMonsterInfoModel.getImage60Url();
 
 		Picasso.with(getContext())
 				.load(imageUrl)
 				.error(R.drawable.no_monster_image)
 				.into(monsterImageView);
 
-		fillTextView(view, R.id.card_monster_captured_awakenings, mModel.getCapturedMonster().getAwakenings(), mModel.getMonsterInfo().getAwokenSkillIds().size());
-		fillTextView(view, R.id.card_monster_captured_level, mModel.getCapturedMonster().getLevel(), mModel.getMonsterInfo().getMaxLevel());
-		fillTextView(view, R.id.card_monster_captured_skill_level, mModel.getCapturedMonster().getSkillLevel(), 999); // TODO
-		final int totalPluses = mModel.getCapturedMonster().getPlusHp() + mModel.getCapturedMonster().getPlusAtk() + mModel.getCapturedMonster().getPlusRcv();
-		fillTextView(view, R.id.card_monster_captured_pluses, totalPluses, 3*99);
+		fillTextView(view, R.id.card_monster_awakenings, mMonsterStatsModel.getAwakenings(), mMonsterInfoModel.getAwokenSkillIds().size());
+		fillTextView(view, R.id.card_monster_level, mMonsterStatsModel.getLevel(), mMonsterInfoModel.getMaxLevel());
+		fillTextView(view, R.id.card_monster_skill_level, mMonsterStatsModel.getSkillLevel(), 999); // TODO
+		final int totalPluses = mMonsterStatsModel.getPlusHp() + mMonsterStatsModel.getPlusAtk() + mMonsterStatsModel.getPlusRcv();
+		fillTextView(view, R.id.card_monster_pluses, totalPluses, 3 * 99);
 	}
 
 	private void fillTextView(View view, int textViewResId, int value, int maxValue) {

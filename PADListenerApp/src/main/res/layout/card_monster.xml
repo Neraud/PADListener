@@ -7,7 +7,7 @@
 	android:layout_height="112dp">
 
 	<ImageView
-		android:id="@+id/card_monster_captured_image"
+		android:id="@+id/card_monster_image"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_margin="8dp"
@@ -15,11 +15,11 @@
 		/>
 
 	<TextView
-		android:id="@+id/card_monster_captured_awakenings"
+		android:id="@+id/card_monster_awakenings"
 		android:layout_width="wrap_content"
 		android:layout_height="24dp"
-		android:layout_alignLeft="@+id/card_monster_captured_image"
-		android:layout_alignTop="@+id/card_monster_captured_image"
+		android:layout_alignLeft="@+id/card_monster_image"
+		android:layout_alignTop="@+id/card_monster_image"
 		android:background="@drawable/layer_monster_awakenings"
 		android:gravity="center"
 		android:minWidth="24dp"
@@ -28,11 +28,11 @@
 		/>
 
 	<TextView
-		android:id="@+id/card_monster_captured_level"
+		android:id="@+id/card_monster_level"
 		android:layout_width="wrap_content"
 		android:layout_height="24dp"
-		android:layout_alignRight="@+id/card_monster_captured_image"
-		android:layout_alignTop="@+id/card_monster_captured_image"
+		android:layout_alignRight="@+id/card_monster_image"
+		android:layout_alignTop="@+id/card_monster_image"
 		android:background="@drawable/layer_monster_level"
 		android:gravity="center"
 		android:minWidth="24dp"
@@ -41,11 +41,11 @@
 		/>
 
 	<TextView
-		android:id="@+id/card_monster_captured_skill_level"
+		android:id="@+id/card_monster_skill_level"
 		android:layout_width="wrap_content"
 		android:layout_height="24dp"
-		android:layout_alignBottom="@+id/card_monster_captured_image"
-		android:layout_alignRight="@+id/card_monster_captured_image"
+		android:layout_alignBottom="@+id/card_monster_image"
+		android:layout_alignRight="@+id/card_monster_image"
 		android:background="@drawable/layer_monster_skill_level"
 		android:gravity="center"
 		android:minWidth="24dp"
@@ -54,11 +54,11 @@
 		/>
 
 	<TextView
-		android:id="@+id/card_monster_captured_pluses"
+		android:id="@+id/card_monster_pluses"
 		android:layout_width="wrap_content"
 		android:layout_height="24dp"
-		android:layout_alignBottom="@+id/card_monster_captured_image"
-		android:layout_alignLeft="@+id/card_monster_captured_image"
+		android:layout_alignBottom="@+id/card_monster_image"
+		android:layout_alignLeft="@+id/card_monster_image"
 		android:background="@drawable/layer_monster_pluses"
 		android:gravity="center"
 		android:minWidth="24dp"

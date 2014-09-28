@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentActivity;
 
 import fr.neraud.padlistener.model.CapturedMonsterFullInfoModel;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterProviderHelper;
-import fr.neraud.padlistener.ui.model.CapturedMonsterCard;
+import fr.neraud.padlistener.ui.model.MonsterCard;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardGridCursorAdapter;
 
@@ -26,7 +26,7 @@ public class CapturedMonsterCursorAdapter extends CardGridCursorAdapter {
 	@Override
 	protected Card getCardFromCursor(Cursor cursor) {
 		final CapturedMonsterFullInfoModel model = CapturedPlayerMonsterProviderHelper.cursorWithInfoToModel(cursor);
-		final CapturedMonsterCard card = new CapturedMonsterCard(mActivity, model);
+		final MonsterCard card = new MonsterCard(mActivity, model.getMonsterInfo(), model.getCapturedMonster());
 
 		return card;
 	}

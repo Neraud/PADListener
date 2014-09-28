@@ -3,8 +3,8 @@ package fr.neraud.padlistener.provider.helper;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import fr.neraud.padlistener.model.BaseMonsterStatsModel;
 import fr.neraud.padlistener.model.CapturedFriendFullInfoModel;
-import fr.neraud.padlistener.model.CapturedFriendLeaderModel;
 import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.pad.constant.StartingColor;
@@ -30,7 +30,7 @@ public class CapturedPlayerFriendProviderHelper extends BaseProviderHelper {
 		model.setStartingColor(StartingColor.valueByCode(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.STARTING_COLOR)));
 		model.setLastActivityDate(getDate(cursor, CapturedPlayerFriendDescriptor.Fields.LAST_ACTIVITY));
 
-		final CapturedFriendLeaderModel leader1Model = new CapturedFriendLeaderModel();
+		final BaseMonsterStatsModel leader1Model = new BaseMonsterStatsModel();
 		leader1Model.setIdJp(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.LEADER1_ID_JP));
 		leader1Model.setLevel(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.LEADER1_LEVEL));
 		leader1Model.setSkillLevel(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.LEADER1_SKILL_LEVEL));
@@ -40,7 +40,7 @@ public class CapturedPlayerFriendProviderHelper extends BaseProviderHelper {
 		leader1Model.setAwakenings(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.LEADER1_AWAKENINGS));
 		model.setLeader1(leader1Model);
 
-		final CapturedFriendLeaderModel leader2Model = new CapturedFriendLeaderModel();
+		final BaseMonsterStatsModel leader2Model = new BaseMonsterStatsModel();
 		leader2Model.setIdJp(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.LEADER2_ID_JP));
 		leader2Model.setLevel(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.LEADER2_LEVEL));
 		leader2Model.setSkillLevel(getInt(cursor, CapturedPlayerFriendDescriptor.Fields.LEADER2_SKILL_LEVEL));

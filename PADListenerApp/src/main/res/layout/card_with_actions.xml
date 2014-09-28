@@ -3,8 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="#ddd">
+              android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/card_with_actions_content_text"

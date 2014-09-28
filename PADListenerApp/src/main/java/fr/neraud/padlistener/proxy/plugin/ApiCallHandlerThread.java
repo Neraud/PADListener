@@ -17,8 +17,8 @@ import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.pad.GetPlayerDataJsonParser;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedFriendModel;
-import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
@@ -118,7 +118,7 @@ public class ApiCallHandlerThread extends Thread {
 		}
 	}
 
-	private void saveMonsters(List<CapturedMonsterCardModel> monsters) {
+	private void saveMonsters(List<MonsterModel> monsters) {
 		Log.d(getClass().getName(), "saveMonsters");
 
 		final ContentResolver cr = context.getContentResolver();
@@ -127,7 +127,7 @@ public class ApiCallHandlerThread extends Thread {
 		cr.delete(uri, null, null);
 		final ContentValues[] values = new ContentValues[monsters.size()];
 		int i = 0;
-		for (final CapturedMonsterCardModel monster : monsters) {
+		for (final MonsterModel monster : monsters) {
 			values[i] = CapturedPlayerMonsterProviderHelper.modelToValues(monster);
 			i++;
 		}

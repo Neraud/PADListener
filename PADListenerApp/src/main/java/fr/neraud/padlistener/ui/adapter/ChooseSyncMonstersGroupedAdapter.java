@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.model.BaseMonsterModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
@@ -146,8 +146,8 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			}
 		});
 
-		final BaseMonsterModel padherder = item.getSyncedModel().getPadherderInfo();
-		final BaseMonsterModel captured = item.getSyncedModel().getCapturedInfo();
+		final MonsterModel padherder = item.getSyncedModel().getPadherderInfo();
+		final MonsterModel captured = item.getSyncedModel().getCapturedInfo();
 
 		final TextView evoText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_evo);
 		if (padherder != null && captured != null && padherder.getIdJp() != captured.getIdJp()) {
@@ -163,7 +163,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		}
 		fillTable(view, padherder, captured);
 
-		final BaseMonsterModel modelToUse = captured != null ? captured : padherder;
+		final MonsterModel modelToUse = captured != null ? captured : padherder;
 		final TextView priorityText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_priority);
 		final String priorityLabel = context.getString(modelToUse.getPriority().getLabelResId());
 		priorityText.setText(context.getString(R.string.choose_sync_monsters_item_priority, priorityLabel));
@@ -178,7 +178,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		return view;
 	}
 
-	private void fillTable(View view, BaseMonsterModel padherder, BaseMonsterModel captured) {
+	private void fillTable(View view, MonsterModel padherder, MonsterModel captured) {
 		if (padherder != null && captured != null) {
 			fillBothText(view, R.id.choose_sync_monsters_item_padherder_exp, padherder.getExp(),
 					R.id.choose_sync_monsters_item_captured_exp, captured.getExp());

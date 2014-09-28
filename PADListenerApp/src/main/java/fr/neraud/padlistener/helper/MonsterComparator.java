@@ -5,7 +5,7 @@ import android.util.Log;
 import java.util.Comparator;
 
 import fr.neraud.padlistener.exception.UnknownMonsterException;
-import fr.neraud.padlistener.model.BaseMonsterModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 
 /**
@@ -22,7 +22,7 @@ import fr.neraud.padlistener.model.MonsterInfoModel;
  *
  * @author Neraud
  */
-public class MonsterComparator implements Comparator<BaseMonsterModel> {
+public class MonsterComparator implements Comparator<MonsterModel> {
 
 	private final MonsterInfoHelper monsterInfoHelper;
 
@@ -31,7 +31,7 @@ public class MonsterComparator implements Comparator<BaseMonsterModel> {
 	}
 
 	@Override
-	public int compare(BaseMonsterModel a, BaseMonsterModel b) {
+	public int compare(MonsterModel a, MonsterModel b) {
 		int result;
 
 		try {

@@ -16,7 +16,7 @@ import fr.neraud.padlistener.http.exception.ProcessException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.parser.padherder.UserInfoJsonParser;
-import fr.neraud.padlistener.model.CapturedMonsterCardModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -82,7 +82,7 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 		Log.d(getClass().getName(), "processResult");
 		final UserInfoModel padInfo = (UserInfoModel) results.get(0);
 
-		final List<CapturedMonsterCardModel> capturedMonsters = extractCapturedPlayerMonster();
+		final List<MonsterModel> capturedMonsters = extractCapturedPlayerMonster();
 		final CapturedPlayerInfoModel capturedInfo = extractCapturedPlayerInfo();
 		final List<MonsterInfoModel> monsterInfos = extractMonsterInfo();
 
@@ -91,16 +91,16 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 		return helper.sync(capturedMonsters, capturedInfo, padInfo);
 	}
 
-	private List<CapturedMonsterCardModel> extractCapturedPlayerMonster() {
+	private List<MonsterModel> extractCapturedPlayerMonster() {
 		Log.d(getClass().getName(), "extractCapturedPlayerMonster");
 		final Uri uri = CapturedPlayerMonsterDescriptor.UriHelper.uriForAll();
 		final Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
-		final List<CapturedMonsterCardModel> capturedMonsters = new ArrayList<CapturedMonsterCardModel>();
+		final List<MonsterModel> capturedMonsters = new ArrayList<MonsterModel>();
 
 		if (cursor.moveToFirst()) {
 			do {
-				final CapturedMonsterCardModel model = CapturedPlayerMonsterProviderHelper.cursorToModel(cursor);
+				final MonsterModel model = CapturedPlayerMonsterProviderHelper.cursorToModel(cursor);
 				capturedMonsters.add(model);
 			} while (cursor.moveToNext());
 		}

@@ -2,25 +2,19 @@ package fr.neraud.padlistener.model;
 
 import java.io.Serializable;
 
-import fr.neraud.padlistener.padherder.constant.MonsterPriority;
-
 /**
- * Base MonsterModel
- *
- * @author Neraud
+ * Created by Neraud on 28/09/2014.
  */
-public abstract class BaseMonsterModel implements Serializable {
+public class BaseMonsterStatsModel implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	private int idJp;
 	private long exp;
+	private int level;
 	private int skillLevel;
 	private int plusHp;
 	private int plusAtk;
 	private int plusRcv;
 	private int awakenings;
-	private MonsterPriority priority;
-	private String note;
 
 	public int getIdJp() {
 		return idJp;
@@ -36,6 +30,14 @@ public abstract class BaseMonsterModel implements Serializable {
 
 	public void setExp(long exp) {
 		this.exp = exp;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public int getSkillLevel() {
@@ -78,30 +80,13 @@ public abstract class BaseMonsterModel implements Serializable {
 		this.awakenings = awakenings;
 	}
 
-	public MonsterPriority getPriority() {
-		return priority;
-	}
-
-	public void setPriority(MonsterPriority priority) {
-		this.priority = priority;
-	}
-
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
 
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("(").append(idJp).append(") ");
-		builder.append(exp).append(" xp, ");
 		builder.append(skillLevel).append(" skill, ");
 		builder.append("+").append(plusHp);
-		builder.append(" ").append(priority);
 		builder.append(" +").append(plusAtk);
 		builder.append(" +").append(plusRcv);
 		builder.append(" ").append(awakenings);

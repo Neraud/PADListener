@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="body_background">#ddd</color>
+	<color name="card_background">@color/body_background</color>
+
 	<color name="body_text_1">#de000000</color>
 	<color name="body_text_2">#8a000000</color>
 	<color name="body_text_3">#60000000</color>

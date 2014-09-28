@@ -1,6 +1,6 @@
 package fr.neraud.padlistener.helper;
 
-import fr.neraud.padlistener.model.BaseMonsterModel;
+import fr.neraud.padlistener.model.MonsterModel;
 
 /**
  * Helper to determine if monsters are equals
@@ -9,7 +9,7 @@ import fr.neraud.padlistener.model.BaseMonsterModel;
  */
 public class MonsterComparatorHelper {
 
-	public static boolean areMonstersEqual(BaseMonsterModel a, BaseMonsterModel b) {
+	public static boolean areMonstersEqual(MonsterModel a, MonsterModel b) {
 		return a.getIdJp() == b.getIdJp() &&
 				a.getExp() == b.getExp() &&
 				a.getSkillLevel() == b.getSkillLevel() &&

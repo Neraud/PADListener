@@ -2,8 +2,8 @@ package fr.neraud.padlistener.pad.model;
 
 import java.util.List;
 
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedFriendModel;
-import fr.neraud.padlistener.model.CapturedMonsterCardModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 
 /**
@@ -14,7 +14,7 @@ import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 public class GetPlayerDataApiCallResult extends BaseApiCallResult {
 
 	private CapturedPlayerInfoModel playerInfo;
-	private List<CapturedMonsterCardModel> monsterCards;
+	private List<MonsterModel> monsterCards;
 	private List<CapturedFriendModel> friends;
 
 	public CapturedPlayerInfoModel getPlayerInfo() {
@@ -25,11 +25,11 @@ public class GetPlayerDataApiCallResult extends BaseApiCallResult {
 		this.playerInfo = playerInfo;
 	}
 
-	public List<CapturedMonsterCardModel> getMonsterCards() {
+	public List<MonsterModel> getMonsterCards() {
 		return monsterCards;
 	}
 
-	public void setMonsterCards(List<CapturedMonsterCardModel> monsterCards) {
+	public void setMonsterCards(List<MonsterModel> monsterCards) {
 		this.monsterCards = monsterCards;
 	}
 
