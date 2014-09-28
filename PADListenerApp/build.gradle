@@ -16,6 +16,8 @@ dependencies {
 	compile 'commons-io:commons-io:2.4'
 	compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
 	compile 'com.github.gabrielemariotti.cards:library:1.9.1'
+	compile 'com.github.gabrielemariotti.cards:library:1.9.1'
+	compile 'com.squareup.picasso:picasso:2.3.4'
     compile project(':SandroProxyLib')
     compile project(':SuperUserLib')
 }

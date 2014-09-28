@@ -19,6 +19,8 @@ I use the following libraries :
 * [SandroProxyLib](http://code.google.com/p/sandrop/) : local proxy on an Android device
 * [ckChangeLog](https://github.com/cketti/ckChangeLog) : changelog library
 * [libsuperuser](https://github.com/Chainfire/libsuperuser)
+* [Card Library](https://github.com/gabrielemariotti/cardslib)
+* [Picasso](https://github.com/square/picasso)
 
 
 Warning
