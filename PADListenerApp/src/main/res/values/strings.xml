@@ -219,7 +219,7 @@
 
 	<!-- Compute Sync -->
 	<string name="label_computeSync">Compute Sync</string>
-	<string name="compute_sync_explain">The sync process will first fetch data from your PADHerder account.\nIt will then use the data captured from PAD (at %1$s) and compute the differences.\nIt will finally list the differences so you can choose which ones you wish to push to your PADHerder account. Some differences will be preselected based on the sync settings.</string>
+	<string name="compute_sync_content">Sync data captured from PAD at %1$s</string>
 	<string name="compute_sync_start">Start</string>
 	<string name="compute_sync_status">Sync status : %1$s</string>
 

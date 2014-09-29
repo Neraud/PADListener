@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
 	<TextView
-		android:id="@+id/compute_sync_explain"
+		android:id="@+id/compute_sync_content"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="10dp"
@@ -12,7 +12,7 @@
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
 		android:gravity="center_vertical"
-		android:text="@string/compute_sync_explain" />
+		android:text="@string/compute_sync_content"/>
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -25,14 +25,21 @@
 			android:id="@+id/compute_sync_choose_account_spinner"
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
-			android:layout_weight="2" />
+			android:layout_marginRight="8dp"
+			android:layout_weight="2"/>
 
 		<Button
 			android:id="@+id/compute_sync_button"
 			android:layout_width="wrap_content"
 			android:layout_height="50dp"
 			android:layout_weight="1"
-			android:text="@string/compute_sync_start" />
+			android:background="@drawable/button_primary"
+			android:minWidth="96dp"
+			android:text="@string/compute_sync_start"
+			android:textAllCaps="true"
+			android:textColor="#fff"
+			android:textSize="@dimen/text_size_medium"
+			android:textStyle="bold"/>
 	</LinearLayout>
 
 	<ProgressBar
@@ -45,7 +52,7 @@
 		android:layout_marginRight="40dp"
 		android:layout_marginTop="10dp"
 		android:gravity="center_vertical"
-		android:indeterminate="true" />
+		android:indeterminate="true"/>
 
 	<TextView
 		android:id="@+id/compute_sync_status"
@@ -54,7 +61,7 @@
 		android:layout_marginLeft="10dp"
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
-		android:text="@string/compute_sync_status" />
+		android:text="@string/compute_sync_status"/>
 
 	<TextView
 		android:id="@+id/compute_sync_error_explain"
@@ -63,7 +70,7 @@
 		android:layout_marginBottom="10dp"
 		android:layout_marginLeft="10dp"
 		android:layout_marginRight="10dp"
-		android:gravity="center_vertical" />
+		android:gravity="center_vertical"/>
 
 	<TextView
 		android:id="@+id/compute_sync_missing_credentials_text"
@@ -74,7 +81,7 @@
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
 		android:text="@string/compute_sync_missing_credentials"
-		android:textSize="20sp" />
+		android:textSize="20sp"/>
 
 	<TextView
 		android:id="@+id/compute_sync_missing_capture_text"
@@ -85,6 +92,6 @@
 		android:layout_marginRight="10dp"
 		android:gravity="center_vertical"
 		android:text="@string/compute_sync_missing_capture"
-		android:textSize="20sp" />
+		android:textSize="20sp"/>
 
 </LinearLayout>

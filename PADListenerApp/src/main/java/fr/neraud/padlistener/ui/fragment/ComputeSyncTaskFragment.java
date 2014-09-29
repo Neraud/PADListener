@@ -20,12 +20,12 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
  */
 public class ComputeSyncTaskFragment extends Fragment {
 
-	private int accountId;
-	private RestCallState state = null;
-	private RestCallRunningStep runningStep = null;
-	private ComputeSyncResultModel syncResult = null;
-	private Throwable errorCause = null;
-	private CallBacks callbacks = null;
+	private int mAccountId;
+	private RestCallState mCallState = null;
+	private RestCallRunningStep mCallRunningStep = null;
+	private ComputeSyncResultModel mSyncResult = null;
+	private Throwable mCallErrorCause = null;
+	private CallBacks mCallbacks = null;
 
 	/**
 	 * Interface to implement to be notified when the sync computation progresses
@@ -34,8 +34,8 @@ public class ComputeSyncTaskFragment extends Fragment {
 	 */
 	public static interface CallBacks {
 
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
-				Throwable errorCause);
+		public void updateState(RestCallState callState, RestCallRunningStep callEunningStep, ComputeSyncResultModel syncResult,
+				Throwable callErrorCause);
 	}
 
 	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<ComputeSyncResultModel> {
@@ -47,24 +47,24 @@ public class ComputeSyncTaskFragment extends Fragment {
 		@Override
 		protected void onReceiveProgress(RestCallRunningStep progress) {
 			Log.d(getClass().getName(), "onReceiveProgress : " + progress);
-			state = RestCallState.RUNNING;
-			runningStep = progress;
+			mCallState = RestCallState.RUNNING;
+			mCallRunningStep = progress;
 			notifyCallBacks();
 		}
 
 		@Override
 		protected void onReceiveSuccess(ComputeSyncResultModel result) {
 			Log.d(getClass().getName(), "onReceiveSuccess");
-			state = RestCallState.SUCCEEDED;
-			syncResult = result;
+			mCallState = RestCallState.SUCCEEDED;
+			mSyncResult = result;
 			notifyCallBacks();
 		}
 
 		@Override
 		protected void onReceiveError(RestCallError error, Throwable cause) {
 			Log.d(getClass().getName(), "onReceiveError : " + error);
-			state = RestCallState.FAILED;
-			errorCause = cause;
+			mCallState = RestCallState.FAILED;
+			mCallErrorCause = cause;
 			notifyCallBacks();
 		}
 
@@ -82,46 +82,46 @@ public class ComputeSyncTaskFragment extends Fragment {
 	public void onDetach() {
 		Log.d(getClass().getName(), "onDetach");
 		super.onDetach();
-		callbacks = null;
+		mCallbacks = null;
 	}
 
 	public void registerCallbacks(CallBacks callbacks) {
-		this.callbacks = callbacks;
+		this.mCallbacks = callbacks;
 		notifyCallBacks();
 	}
 
 	private void notifyCallBacks() {
-		if (callbacks != null) {
-			callbacks.updateState(state, runningStep, syncResult, errorCause);
+		if (mCallbacks != null) {
+			mCallbacks.updateState(mCallState, mCallRunningStep, mSyncResult, mCallErrorCause);
 		}
 	}
 
 	/**
 	 * Starts the ComputeSyncService
 	 *
-	 * @param accountId the accountId
+	 * @param mAccountId the mAccountId
 	 */
-	public void startComputeSyncService(int accountId) {
+	public void startComputeSyncService(int mAccountId) {
 		Log.d(getClass().getName(), "startComputeSyncService");
-		state = RestCallState.RUNNING;
-		runningStep = null;
-		syncResult = null;
-		errorCause = null;
+		mCallState = RestCallState.RUNNING;
+		mCallRunningStep = null;
+		mSyncResult = null;
+		mCallErrorCause = null;
 		notifyCallBacks();
 
 		final Intent startIntent = new Intent(getActivity(), ComputeSyncService.class);
 		startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyComputeSyncReceiver(new Handler()));
-		startIntent.putExtra(ComputeSyncService.EXTRA_ACCOUNT_ID_NAME, accountId);
+		startIntent.putExtra(ComputeSyncService.EXTRA_ACCOUNT_ID_NAME, mAccountId);
 
 		getActivity().startService(startIntent);
 	}
 
 	public int getAccountId() {
-		return accountId;
+		return mAccountId;
 	}
 
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public void setAccountId(int mAccountId) {
+		this.mAccountId = mAccountId;
 	}
 
 }

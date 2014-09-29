@@ -43,43 +43,43 @@ public class ComputeSyncFragment extends Fragment {
 	private static final String TAG_TASK_FRAGMENT = "compute_sync_task_fragment";
 	private ComputeSyncTaskFragment mTaskFragment;
 
-	private Button startButton;
-	private ProgressBar progress;
-	private TextView status;
-	private TextView errorExplain;
-	private int accountId = -1;
-	private final ComputeSyncTaskFragment.CallBacks callbacks = new ComputeSyncTaskFragment.CallBacks() {
+	private Button mStartButton;
+	private ProgressBar mProgress;
+	private TextView mStatus;
+	private TextView mErrorExplain;
+	private int mAccountId = -1;
+	private final ComputeSyncTaskFragment.CallBacks mCallBacks = new ComputeSyncTaskFragment.CallBacks() {
 
 		@Override
 		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
 				Throwable errorCause) {
 			Log.d(getClass().getName(), "updateState");
 			if (state != null) {
-				startButton.setEnabled(false);
-				progress.setVisibility(View.VISIBLE);
-				status.setVisibility(View.VISIBLE);
-				errorExplain.setVisibility(View.GONE);
-				progress.setMax(4);
+				mStartButton.setEnabled(false);
+				mProgress.setVisibility(View.VISIBLE);
+				mStatus.setVisibility(View.VISIBLE);
+				mErrorExplain.setVisibility(View.GONE);
+				mProgress.setMax(4);
 
 				switch (state) {
 					case RUNNING:
 						if (runningStep == null) {
-							progress.setIndeterminate(true);
+							mProgress.setIndeterminate(true);
 						} else {
-							progress.setIndeterminate(false);
+							mProgress.setIndeterminate(false);
 							switch (runningStep) {
 								case STARTED:
-									status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_calling)));
-									progress.setProgress(1);
+									mStatus.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_calling)));
+									mProgress.setProgress(1);
 									break;
 								case RESPONSE_RECEIVED:
-									status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_parsing)));
-									progress.setProgress(2);
+									mStatus.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_parsing)));
+									mProgress.setProgress(2);
 									break;
 								case RESPONSE_PARSED:
-									status.setText(getString(R.string.compute_sync_status,
+									mStatus.setText(getString(R.string.compute_sync_status,
 											getString(R.string.compute_sync_status_computing)));
-									progress.setProgress(3);
+									mProgress.setProgress(3);
 									break;
 								default:
 									break;
@@ -87,44 +87,44 @@ public class ComputeSyncFragment extends Fragment {
 						}
 						break;
 					case SUCCEEDED:
-						progress.setIndeterminate(false);
-						status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
-						progress.setProgress(4);
+						mProgress.setIndeterminate(false);
+						mStatus.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
+						mProgress.setProgress(4);
 
 						final Bundle extras = new Bundle();
 						extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, syncResult);
-						extras.putInt(ChooseSyncFragment.EXTRA_ACCOUNT_ID_NAME, accountId);
+						extras.putInt(ChooseSyncFragment.EXTRA_ACCOUNT_ID_NAME, mAccountId);
 						((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.CHOOSE_SYNC, extras);
 
 						break;
 					case FAILED:
-						progress.setIndeterminate(false);
+						mProgress.setIndeterminate(false);
 
 						final String message = errorCause != null ? errorCause.getMessage() : "?";
-						status.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, message)));
+						mStatus.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_failed, message)));
 						if (errorCause instanceof HttpResponseException) {
 							final int code = ((HttpResponseException) errorCause).getCode();
 							if (code == 403) {
 								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
-										.getPadHerderUserName(accountId);
-								errorExplain.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
-								errorExplain.setVisibility(View.VISIBLE);
+										.getPadHerderUserName(mAccountId);
+								mErrorExplain.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
+								mErrorExplain.setVisibility(View.VISIBLE);
 							} else if (code == 404) {
 								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
-										.getPadHerderUserName(accountId);
-								errorExplain.setText(getString(R.string.compute_sync_check_login_case, accountLogin));
-								errorExplain.setVisibility(View.VISIBLE);
+										.getPadHerderUserName(mAccountId);
+								mErrorExplain.setText(getString(R.string.compute_sync_check_login_case, accountLogin));
+								mErrorExplain.setVisibility(View.VISIBLE);
 							} else if (code == 500) {
-								errorExplain.setText(R.string.compute_sync_check_padherder_status);
-								errorExplain.setVisibility(View.VISIBLE);
+								mErrorExplain.setText(R.string.compute_sync_check_padherder_status);
+								mErrorExplain.setVisibility(View.VISIBLE);
 							}
 						}
 					default:
 						break;
 				}
 			} else {
-				progress.setVisibility(View.GONE);
-				status.setVisibility(View.GONE);
+				mProgress.setVisibility(View.GONE);
+				mStatus.setVisibility(View.GONE);
 			}
 		}
 
@@ -138,14 +138,14 @@ public class ComputeSyncFragment extends Fragment {
 
 		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getActivity());
 
-		final TextView explain = (TextView) view.findViewById(R.id.compute_sync_explain);
+		final TextView content = (TextView) view.findViewById(R.id.compute_sync_content);
 		final String refreshDate = DateFormat.getDateTimeInstance().format(techPrefHelper.getLastCaptureDate());
-		explain.setText(getString(R.string.compute_sync_explain, refreshDate));
+		content.setText(getString(R.string.compute_sync_content, refreshDate));
 		final Spinner chooseAccountSpinner = (Spinner) view.findViewById(R.id.compute_sync_choose_account_spinner);
-		startButton = (Button) view.findViewById(R.id.compute_sync_button);
-		progress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
-		status = (TextView) view.findViewById(R.id.compute_sync_status);
-		errorExplain = (TextView) view.findViewById(R.id.compute_sync_error_explain);
+		mStartButton = (Button) view.findViewById(R.id.compute_sync_button);
+		mProgress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
+		mStatus = (TextView) view.findViewById(R.id.compute_sync_status);
+		mErrorExplain = (TextView) view.findViewById(R.id.compute_sync_error_explain);
 
 		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(getActivity()).getPadHerderAccounts();
 
@@ -169,19 +169,19 @@ public class ComputeSyncFragment extends Fragment {
 			mTaskFragment = new ComputeSyncTaskFragment();
 			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
 		} else {
-			accountId = mTaskFragment.getAccountId();
-			final int position = adapter.getPositionById(accountId);
+			mAccountId = mTaskFragment.getAccountId();
+			final int position = adapter.getPositionById(mAccountId);
 			chooseAccountSpinner.setSelection(position);
 		}
-		mTaskFragment.registerCallbacks(callbacks);
+		mTaskFragment.registerCallbacks(mCallBacks);
 
 		chooseAccountSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				Log.d(getClass().getName(), "onItemSelected : " + id);
-				accountId = (int) id;
-				mTaskFragment.setAccountId(accountId);
+				mAccountId = (int) id;
+				mTaskFragment.setAccountId(mAccountId);
 			}
 
 			@Override
@@ -191,12 +191,12 @@ public class ComputeSyncFragment extends Fragment {
 			}
 		});
 
-		startButton.setOnClickListener(new OnClickListener() {
+		mStartButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				mTaskFragment.startComputeSyncService(accountId);
+				mTaskFragment.startComputeSyncService(mAccountId);
 			}
 		});
 
@@ -204,7 +204,7 @@ public class ComputeSyncFragment extends Fragment {
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		if (prefHelper.getPadHerderAccounts().isEmpty()) {
 			missingCredentials.setTextColor(Color.RED);
-			startButton.setEnabled(false);
+			mStartButton.setEnabled(false);
 		} else {
 			missingCredentials.setVisibility(View.GONE);
 		}
@@ -213,7 +213,7 @@ public class ComputeSyncFragment extends Fragment {
 		final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
 		if (techHelper.getLastCaptureDate().getTime() == 0) {
 			missingCapture.setTextColor(Color.RED);
-			startButton.setEnabled(false);
+			mStartButton.setEnabled(false);
 		} else {
 			missingCapture.setVisibility(View.GONE);
 		}
