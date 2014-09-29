@@ -203,6 +203,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 	}
 
 	private void setSelectedNavDrawerItem(NavigationDrawerItem selectedItem) {
+		Log.d(getClass().getName(), "setSelectedNavDrawerItem : " + selectedItem);
 		for (final NavigationDrawerItem item : navDrawerItems.keySet()) {
 			final View view = navDrawerItems.get(item);
 			formatNavDrawerItem(view, item == selectedItem);
@@ -213,7 +214,11 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		Log.d(getClass().getName(), "onNavDrawerItemClicked : " + item);
 
 		if (item != getSelfNavDrawerItem()) {
-			setSelectedNavDrawerItem(item);
+			// if it is a new screen, highlight the item in the drawer
+			if(item.getUiScreen() != null) {
+				setSelectedNavDrawerItem(item);
+			}
+			// else it's a dialog, so keep the previous highlighted item
 
 			// launch the target Activity after a short delay, to allow the close animation to play
 			handler.postDelayed(new Runnable() {

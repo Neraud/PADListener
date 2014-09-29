@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
 import fr.neraud.padlistener.ui.fragment.ViewMonsterInfoRefreshDialogFragment;
 
 /**
@@ -20,6 +21,11 @@ public class ViewMonsterInfoActivity extends AbstractPADListenerActivity {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_monster_info_activity);
+	}
+
+	@Override
+	protected NavigationDrawerItem getSelfNavDrawerItem() {
+		return NavigationDrawerItem.VIEW_MONSTER_INFO;
 	}
 
 	@Override
