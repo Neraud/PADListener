@@ -13,4 +13,12 @@
 		android:layout_margin="8dp"
 		android:src="@drawable/no_monster_image"/>
 
+	<ImageView
+		android:id="@+id/card_monster_ignored_remove_image"
+		android:layout_width="32dp"
+		android:layout_height="32dp"
+		android:layout_alignRight="@+id/card_monster_image"
+		android:layout_alignTop="@+id/card_monster_image"
+		android:layout_margin="1dp"		android:src="@drawable/ic_action_remove"/>
+
 </RelativeLayout>
