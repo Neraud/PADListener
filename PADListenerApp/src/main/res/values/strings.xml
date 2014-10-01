@@ -138,6 +138,36 @@
 
 	<!-- Home activity -->
 	<string name="label_home">Home</string>
+	<string name="home_help_welcome_title">Welcome !</string>
+	<string name="home_help_welcome_content">Welcome to PADListener !
+\n\nHelp pages are automatically displayed the first time you access a new screen of the app.
+	</string>
+	<string name="home_help_help_title">Help</string>
+	<string name="home_help_help_content">The help pages are different for each screen.
+\n\nYou can show them again by using the icon in the top action bar.
+	</string>
+	<string name="home_help_main_title">Main functions</string>
+	<string name="home_help_main_content">You can access the main functions from this home screen :
+\n\n - capturing data from your PAD game
+\n\n - syncing the captured data with your PADherder accounts
+	</string>
+	<string name="home_help_capture_title">Capture</string>
+	<string name="home_help_capture_content">You can capture data from PAD.
+\n\nThis will save your monster box and your friends.
+\n\nManual sync will require you to follow a few steps.
+\nOnce set up, the Auto mode will speed the process.
+	</string>
+	<string name="home_help_drawer_title">Secondary functions</string>
+	<string name="home_help_drawer_content">The left navigation drawer contains the secondary functions.
+\n\nYou can open it by clicking on the top left icon, or by swiping right from the left edge of the screen.
+	</string>
+	<string name="home_help_settings_title">Settings</string>
+	<string name="home_help_settings_content">Many parameters will allow you to customize how PADListener works.
+\n\nIf you need explanations about those settings, you can look at the dedicated page on github\'s wiki (https://github.com/Neraud/PADListener/wiki/Settings)
+\n\nThe default values should work, but 2 main settings should be looked at :
+\n - the listener mode (how can PADListener capture data from PAD)
+\n - your PADherder account(s)
+	</string>
 	<string name="home_capture_content">Capture from PAD</string>
 	<string name="home_capture_button_manual">Manual</string>
 	<string name="home_capture_button_auto">Auto</string>

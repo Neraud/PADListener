@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+	<!-- This layout is never inflated. It's only used to generate IDs for the navigation drawer items -->
+
+	<View
+		android:id="@+id/drawer_home"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
+		android:id="@+id/drawer_view_monster_info"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
+		android:id="@+id/drawer_view_captured_data"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
+		android:id="@+id/drawer_manage_ignore_list"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
+		android:id="@+id/drawer_settings"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
+		android:id="@+id/drawer_changelog"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
+		android:id="@+id/drawer_about"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+</LinearLayout>
