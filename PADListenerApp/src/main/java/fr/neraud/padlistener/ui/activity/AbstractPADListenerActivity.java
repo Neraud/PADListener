@@ -14,6 +14,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import fr.neraud.padlistener.service.InstallMonsterInfoService;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 import fr.neraud.padlistener.ui.helper.ChangeLogHelper;
+import fr.neraud.padlistener.ui.helper.ShowcaseViewHelper;
 import fr.neraud.padlistener.util.VersionUtil;
 
 /**
@@ -149,7 +151,6 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.SETTINGS);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.CHANGELOG);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.ABOUT);
-		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.HELP);
 
 		drawerToggle.syncState();
 	}
@@ -163,6 +164,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 	private void addNavDrawerItem(ViewGroup container, final NavigationDrawerItem item) {
 		Log.d(getClass().getName(), "addNavDrawerItem : " + item);
 		final View view = getLayoutInflater().inflate(R.layout.navdrawer_item, container, false);
+		view.setId(item.getItemViewId());
 		container.addView(view);
 
 		navDrawerItems.put(item, view);
@@ -215,7 +217,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		if (item != getSelfNavDrawerItem()) {
 			// if it is a new screen, highlight the item in the drawer
-			if(item.getUiScreen() != null) {
+			if (item.getUiScreen() != null) {
 				setSelectedNavDrawerItem(item);
 			}
 			// else it's a dialog, so keep the previous highlighted item
@@ -252,14 +254,16 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 					case ABOUT:
 						openAboutDialog();
 						break;
-					case HELP:
-						// TODO
-						break;
 				}
 			}
 		}
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.common, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -270,7 +274,13 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 			return true;
 		}
 
-		return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+			case R.id.menu_common_help:
+				showHelp();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void openAboutDialog() {
@@ -289,6 +299,18 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		aboutDialog.show();
 
 		((TextView) aboutDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+	}
+
+	private void showHelp() {
+		Log.d(getClass().getName(), "showHelp");
+		final ShowcaseViewHelper showcaseViewHelper = new ShowcaseViewHelper(this);
+		buildHelpPages(showcaseViewHelper.getBuilder());
+
+		showcaseViewHelper.showHelp();
+	}
+
+	protected void buildHelpPages(ShowcaseViewHelper.PageBuilder showcaseViewBuilder) {
+		// override to add help pages using showcaseViewBuilder.addHelpPage()
 	}
 
 	public void goToScreen(UiScreen screen) {
@@ -311,5 +333,9 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 	protected NavigationDrawerItem getSelfNavDrawerItem() {
 		return null;
+	}
+
+	protected DrawerLayout getDrawerLayout() {
+		return drawerLayout;
 	}
 }

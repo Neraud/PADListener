@@ -25,6 +25,8 @@
 		<item name="android:dropDownListViewStyle">@style/Widget.PADListener.ListView.DropDown</item>
 		<item name="android:textAppearanceLargePopupMenu">@style/TextAppearance.LargePopupMenu</item>
 		<item name="android:spinnerItemStyle">@style/TextAppearance.SpinnerItem</item>
+
+		<item name="showcaseViewStyle">@style/ShowcaseTheme</item>
 	</style>
 
 	<style name="Theme.PADListener.Widget" parent="FrameworkRoot.Widget">
@@ -60,6 +62,20 @@
 
 	<style name="TextAppearance.SpinnerItem" parent="FrameworkRoot.TextAppearance.Widget.TextView.SpinnerItem">
 		<item name="android:textColor">@color/list_dropdown</item>
+	</style>
+
+	<style name="ShowcaseTheme" parent="ShowcaseView.Light">
+		<item name="sv_titleTextAppearance">@style/ShowcaseTitle</item>
+		<item name="sv_detailTextAppearance">@style/ShowcaseDetail</item>
+		<item name="sv_backgroundColor">#B000</item>
+		<item name="sv_showcaseColor">@color/theme_primary</item>
+	</style>
+
+	<style name="ShowcaseTitle" parent="TextAppearance.ShowcaseView.Title">
+		<item name="android:textColor">@color/theme_accent_1</item>
+	</style>
+	<style name="ShowcaseDetail" parent="@style/TextAppearance.ShowcaseView.Detail.Light">
+		<item name="android:textColor">@color/body_text_1_inverse</item>
 	</style>
 
 </resources>

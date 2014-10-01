@@ -11,13 +11,15 @@
 	<string name="drawer_settings_title">Settings</string>
 	<string name="drawer_changelog_title">Changelog</string>
 	<string name="drawer_about_title">About</string>
-	<string name="drawer_help_title">Help</string>
 
 	<!-- Accessibility description saying that the app's navigation drawer has been closed -->
 	<string name="drawer_close">Close navigation drawer</string>
 
 	<!-- Accessibility description saying that the app's navigation drawer has been opened -->
 	<string name="drawer_open">Open navigation drawer</string>
+
+	<!-- Common menu -->
+	<string name="menu_common_help">Help</string>
 
 
 	<!-- Notification -->
@@ -28,8 +30,14 @@
 	<string name="notification_data_capture_started">PAD data being captured ...</string>
 	<string name="notification_data_capture_finished">PAD data captured for %1$s</string>
 
+
 	<!-- Toasts -->
 	<string name="toast_data_capture_finished">PAD data captured for %1$s</string>
+
+
+	<!-- Help -->
+	<string name="help_button_next">Next</string>
+	<string name="help_button_close">Close</string>
 
 
 	<!-- Settings -->
