@@ -21,6 +21,7 @@ I use the following libraries :
 * [libsuperuser](https://github.com/Chainfire/libsuperuser)
 * [Card Library](https://github.com/gabrielemariotti/cardslib)
 * [Picasso](https://github.com/square/picasso)
+* [Showcaseview](https://github.com/amlcurran/ShowcaseView)
 
 
 Warning
