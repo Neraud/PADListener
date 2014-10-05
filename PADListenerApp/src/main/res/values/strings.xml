@@ -229,6 +229,20 @@
 
 	<!-- ViewCapturedData activity -->
 	<string name="label_viewCapturedData">View captured data</string>
+	<string name="view_captured_data_help_captured_data_title">Captured data</string>
+	<string name="view_captured_data_help_captured_data_content">This page shows the last data captured by PADListener</string>
+	<string name="view_captured_data_help_player_title">Player information</string>
+	<string name="view_captured_data_help_player_content">The "Player" tab shows basic data about your account</string>
+	<string name="view_captured_data_help_monsters_title">Monsters</string>
+	<string name="view_captured_data_help_monsters_content">The "Monsters" tab lists your own monsters
+\n\nYou can tap a monster to view additional information.
+	</string>
+	<string name="view_captured_data_help_friends_title">Friends</string>
+	<string name="view_captured_data_help_friends_content">The "Friends" tab lists your friends and their leaders
+\n\nYou can tap a monster to view additional information.
+	</string>
+	<string name="view_captured_data_help_share_title">Share</string>
+	<string name="view_captured_data_help_share_content">You can share the JSON file captured from PAD with the share icon in the top menu</string>
 	<string name="view_captured_data_action_share">Share</string>
 	<string name="view_captured_data_tab_info_player">Player</string>
 	<string name="view_captured_data_tab_monsters">Monsters</string>
