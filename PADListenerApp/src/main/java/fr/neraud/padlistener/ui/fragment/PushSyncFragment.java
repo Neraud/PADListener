@@ -22,8 +22,8 @@ import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
  */
 public class PushSyncFragment extends Fragment {
 
-	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
-	protected static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
+	public static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
+	public static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
 
 	private TextView head;

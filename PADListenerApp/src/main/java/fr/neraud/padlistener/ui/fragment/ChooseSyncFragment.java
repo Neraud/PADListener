@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
-import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ComputeSyncResultModel;
-import fr.neraud.padlistener.ui.fragment.AbstractViewPagerFragment;
+import fr.neraud.padlistener.ui.activity.ChooseSyncActivity;
+import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
 
 /**
  * Main fragment for ChooseSync
@@ -20,43 +18,39 @@ import fr.neraud.padlistener.ui.fragment.AbstractViewPagerFragment;
  */
 public class ChooseSyncFragment extends AbstractViewPagerFragment {
 
-	public static final String EXTRA_SYNC_RESULT_NAME = "sync_result";
-	public static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
-	private ChooseSyncDataPagerHelper helper;
+	private ChooseSyncDataPagerHelper mHelper;
+	private ChooseSyncModel mChooseResult;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
 		final Bundle extras = getActivity().getIntent().getExtras();
-		final ComputeSyncResultModel result = (ComputeSyncResultModel) extras.getSerializable(EXTRA_SYNC_RESULT_NAME);
-		final int accountId = extras.getInt(EXTRA_ACCOUNT_ID_NAME);
 
-		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(getActivity(), result);
-		final ChooseSyncModel syncModel = initHelper.filterSyncResult();
-
-		helper = new ChooseSyncDataPagerHelper(getActivity(), accountId, syncModel);
+		mChooseResult = (ChooseSyncModel) extras.getSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME);
+		Log.d(getClass().getName(), "onCreate : getting mChooseResult in extras (" + ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME + ") : " + mChooseResult);
+		mHelper = new ChooseSyncDataPagerHelper(getActivity(), mChooseResult);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	protected int getPageCount() {
-		return helper.getCount();
+		return mHelper.getCount();
 	}
 
 	@Override
 	protected Fragment getPageFragment(int position) {
-		return helper.createFragment(position);
+		return mHelper.createFragment(position);
 	}
 
 	@Override
 	protected Integer getTabTitle(int position) {
-		return helper.getTitle(position);
+		return mHelper.getTitle(position);
 	}
 
 	@Override
 	protected void notifyFragmentSelected(int position) {
-		helper.notifyFragmentSelected(position);
 	}
+
 }

@@ -325,15 +325,20 @@
 
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
+	<string name="choose_sync_action_sync">Sync</string>
 	<string name="choose_sync_info_label">Summary</string>
-	<string name="choose_sync_unknown_monster_encountered">The sync process encountered unknown monsters, they have been ignored. You should refresh the monster informations (from the main screen, go into View monster info, the second tab will let you refresh the info)</string>
+	<string name="choose_sync_alert_unknown_monster_encountered_title">Unknown monsters</string>
+	<string name="choose_sync_alert_unknown_monster_encountered_content">The sync process encountered unknown monsters, they have been ignored. You should refresh the monster information (from the "View monster info" screen)</string>
 	<string name="choose_sync_materialsUpdated_label">^ Materials</string>
 	<string name="choose_sync_monstersUpdated_label">^ Monsters</string>
 	<string name="choose_sync_monstersCreated_label">+ Monsters</string>
 	<string name="choose_sync_monstersDeleted_label">- Monsters</string>
 
 	<string name="choose_sync_info_head">Sync computation is finished</string>
-	<string name="choose_sync_info_summary">- %1$d/%2$d materials updated\n- %3$d/%4$d monsters updated\n- %5$d/%6$d monsters created\n- %7$d/%8$d monsters deleted</string>
+	<string name="choose_sync_alert_push_title">Push sync</string>
+	<string name="choose_sync_alert_push_content">You have selected the following items : \n\n- %1$d/%2$d materials updated\n- %3$d/%4$d monsters updated\n- %5$d/%6$d monsters created\n- %7$d/%8$d monsters deleted</string>
+	<string name="choose_sync_alert_push_button_ok">Push</string>
+	<string name="choose_sync_alert_push_button_cancel">Cancel</string>
 	<string name="choose_sync_info_explain">In the following tabs, you can choose which element you want to sync or ignore. Your PADherder account will be updated with the chosen elements when you tap the button</string>
 	<string name="choose_sync_info_button_enabled">Sync !</string>
 	<string name="choose_sync_info_button_disabled">Nothing to sync</string>

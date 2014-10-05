@@ -22,9 +22,6 @@ import java.text.DateFormat;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.ui.activity.AbstractPADListenerActivity;
-import fr.neraud.padlistener.ui.constant.UiScreen;
-import fr.neraud.padlistener.ui.adapter.AccountSpinnerAdapter;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.HttpResponseException;
@@ -32,6 +29,10 @@ import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.PADHerderAccountModel;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
+import fr.neraud.padlistener.ui.activity.AbstractPADListenerActivity;
+import fr.neraud.padlistener.ui.activity.ChooseSyncActivity;
+import fr.neraud.padlistener.ui.adapter.AccountSpinnerAdapter;
+import fr.neraud.padlistener.ui.constant.UiScreen;
 
 /**
  * ComputeSync fragment
@@ -92,8 +93,8 @@ public class ComputeSyncFragment extends Fragment {
 						mProgress.setProgress(4);
 
 						final Bundle extras = new Bundle();
-						extras.putSerializable(ChooseSyncFragment.EXTRA_SYNC_RESULT_NAME, syncResult);
-						extras.putInt(ChooseSyncFragment.EXTRA_ACCOUNT_ID_NAME, mAccountId);
+						extras.putSerializable(ChooseSyncActivity.EXTRA_SYNC_RESULT_NAME, syncResult);
+						extras.putInt(ChooseSyncActivity.EXTRA_ACCOUNT_ID_NAME, mAccountId);
 						((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.CHOOSE_SYNC, extras);
 
 						break;

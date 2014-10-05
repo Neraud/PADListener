@@ -11,12 +11,11 @@ import java.util.Map;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
-import fr.neraud.padlistener.ui.fragment.ChooseSyncInfoFragment;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.ui.fragment.ChooseSyncMaterialsFragment;
 import fr.neraud.padlistener.ui.fragment.ChooseSyncMonstersGroupedFragment;
 import fr.neraud.padlistener.ui.fragment.ChooseSyncMonstersSimpleFragment;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
-import fr.neraud.padlistener.model.ChooseSyncModel;
 
 /**
  * Helper for the ChooseSync
@@ -27,66 +26,49 @@ public class ChooseSyncDataPagerHelper {
 
 	public static final String ARGUMENT_SYNC_RESULT_NAME = "result";
 	public static final String ARGUMENT_SYNC_MODE_NAME = "mode";
-	public static final String ARGUMENT_ACCOUNT_ID_NAME = "accountId";
-	private final ChooseSyncModel result;
-	private final int accountId;
-	private final Map<Integer, Fragment> fragmentsByPosition;
-	private final Map<Integer, Integer> titlesByPosition;
-	private final DefaultSharedPreferencesHelper prefHelper;
-	private int count = 0;
-	private int infoFragmentPosition = -1;
-	private ChooseSyncInfoFragment infoFragment;
+	private final ChooseSyncModel mResult;
+	private final Map<Integer, Fragment> mFragmentsByPosition;
+	private final Map<Integer, Integer> mTitlesByPosition;
+	private final DefaultSharedPreferencesHelper mPrefHelper;
+	private int mCount = 0;
 
 	@SuppressLint("UseSparseArrays")
-	public ChooseSyncDataPagerHelper(Context context, int accountId, ChooseSyncModel result) {
-		this.result = result;
-		this.accountId = accountId;
-		fragmentsByPosition = new HashMap<Integer, Fragment>();
-		titlesByPosition = new HashMap<Integer, Integer>();
-		prefHelper = new DefaultSharedPreferencesHelper(context);
+	public ChooseSyncDataPagerHelper(Context context, ChooseSyncModel result) {
+		this.mResult = result;
+		mFragmentsByPosition = new HashMap<Integer, Fragment>();
+		mTitlesByPosition = new HashMap<Integer, Integer>();
+		mPrefHelper = new DefaultSharedPreferencesHelper(context);
 
 		populate();
 	}
 
 	private void populate() {
 		Log.d(getClass().getName(), "populate");
-		populateInfoFragment();
 		populateInfoMaterialsUpdated();
 		populateMonsterFragment(SyncMode.UPDATED, R.string.choose_sync_monstersUpdated_label);
 		populateMonsterFragment(SyncMode.CREATED, R.string.choose_sync_monstersCreated_label);
 		populateMonsterFragment(SyncMode.DELETED, R.string.choose_sync_monstersDeleted_label);
 	}
 
-	private void populateInfoFragment() {
-		Log.d(getClass().getName(), "populateInfoFragment");
-		infoFragmentPosition = count;
-		infoFragment = new ChooseSyncInfoFragment();
-		addResultToFragmentArguments(infoFragment);
-		infoFragment.getArguments().putInt(ARGUMENT_ACCOUNT_ID_NAME, accountId);
-		fragmentsByPosition.put(count, infoFragment);
-		titlesByPosition.put(count, R.string.choose_sync_info_label);
-		count++;
-	}
-
 	private void populateInfoMaterialsUpdated() {
 		Log.d(getClass().getName(), "populateInfoMaterialsUpdated");
-		if (result.getSyncedMaterialsToUpdate().size() > 0) {
+		if (mResult.getSyncedMaterialsToUpdate().size() > 0) {
 			final Fragment fragment = new ChooseSyncMaterialsFragment();
 			addResultToFragmentArguments(fragment);
-			fragmentsByPosition.put(count, fragment);
-			titlesByPosition.put(count, R.string.choose_sync_materialsUpdated_label);
-			count++;
+			mFragmentsByPosition.put(mCount, fragment);
+			mTitlesByPosition.put(mCount, R.string.choose_sync_materialsUpdated_label);
+			mCount++;
 		}
 	}
 
 	private void populateMonsterFragment(SyncMode mode, int titleId) {
-		if (result.getSyncedMonsters(mode).size() > 0) {
-			final Fragment fragment = createChoiceFragment(prefHelper.isChooseSyncGroupMonsters(mode));
+		if (mResult.getSyncedMonsters(mode).size() > 0) {
+			final Fragment fragment = createChoiceFragment(mPrefHelper.isChooseSyncGroupMonsters(mode));
 			addResultToFragmentArguments(fragment);
 			addModeToFragmentArguments(fragment, mode);
-			fragmentsByPosition.put(count, fragment);
-			titlesByPosition.put(count, titleId);
-			count++;
+			mFragmentsByPosition.put(mCount, fragment);
+			mTitlesByPosition.put(mCount, titleId);
+			mCount++;
 		}
 	}
 
@@ -102,7 +84,7 @@ public class ChooseSyncDataPagerHelper {
 		if (fragment.getArguments() == null) {
 			fragment.setArguments(new Bundle());
 		}
-		fragment.getArguments().putSerializable(ARGUMENT_SYNC_RESULT_NAME, result);
+		fragment.getArguments().putSerializable(ARGUMENT_SYNC_RESULT_NAME, mResult);
 	}
 
 	private void addModeToFragmentArguments(Fragment fragment, SyncMode mode) {
@@ -113,22 +95,15 @@ public class ChooseSyncDataPagerHelper {
 	}
 
 	public int getCount() {
-		return count;
+		return mCount;
 	}
 
 	public Fragment createFragment(int position) {
-		return fragmentsByPosition.get(position);
+		return mFragmentsByPosition.get(position);
 	}
 
 	public Integer getTitle(int position) {
-		return titlesByPosition.get(position);
-	}
-
-	public void notifyFragmentSelected(int position) {
-		Log.d(getClass().getName(), "notifyFragmentSelected : " + position);
-		if (position == infoFragmentPosition) {
-			infoFragment.notifySelected();
-		}
+		return mTitlesByPosition.get(position);
 	}
 
 }
