@@ -202,6 +202,18 @@
 
 	<!-- View monster info -->
 	<string name="label_view_monster_info_activity">View monster info</string>
+	<string name="view_monster_info_help_monster_info_title">Monster information</string>
+	<string name="view_monster_info_help_monster_info_content">This app uses monster information and images exposed by PADherder APIs.
+\n\nOn this page, you can see all the monsters known by PADListener
+	</string>
+	<string name="view_monster_info_help_data_title">Data</string>
+	<string name="view_monster_info_help_data_content">The data is fetched from PADherder and stored in the app.
+\n\nYou can manually refresh this data using the button in the top menu.
+	</string>
+	<string name="view_monster_info_help_images_title">Images</string>
+	<string name="view_monster_info_help_images_content">The images are also fetched from PADherder.
+\n\nThey are dynamically fetched when needed and cached on your device.
+	</string>
 	<string name="view_monster_info_action_refresh">Refresh</string>
 	<string name="monster_info_last_refresh">The monster information has been refreshed at : %1$s</string>
 

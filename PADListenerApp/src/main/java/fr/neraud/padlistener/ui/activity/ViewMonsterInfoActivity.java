@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
 import fr.neraud.padlistener.ui.fragment.ViewMonsterInfoRefreshDialogFragment;
+import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 
 /**
  * Activity to view monster information fetched from PADherder
@@ -37,12 +38,30 @@ public class ViewMonsterInfoActivity extends AbstractPADListenerActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.view_monster_info_action_refresh:
+			case R.id.menu_view_monster_info_action_refresh:
 				final ViewMonsterInfoRefreshDialogFragment fragment = new ViewMonsterInfoRefreshDialogFragment();
 				fragment.show(getSupportFragmentManager(), "view_monster_info_refresh");
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	protected BaseHelpManager getHelpManager() {
+		return new BaseHelpManager(this, "view_monster_info", 1) {
+			@Override
+			public void buildHelpPages(PageBuilder builder) {
+				builder.addHelpPage(R.string.view_monster_info_help_monster_info_title, R.string.view_monster_info_help_monster_info_content);
+				builder.addHelpPage(R.string.view_monster_info_help_data_title, R.string.view_monster_info_help_data_content, R.id.menu_view_monster_info_action_refresh, null);
+				builder.addHelpPage(R.string.view_monster_info_help_images_title, R.string.view_monster_info_help_images_content);
+			}
+
+			@Override
+			public void buildDeltaHelpPages(PageBuilder builder, int lastDisplayedVersion) {
+				switch (lastDisplayedVersion) {
+					default: buildHelpPages(builder);
+				}
+			}
+		};
 	}
 }
