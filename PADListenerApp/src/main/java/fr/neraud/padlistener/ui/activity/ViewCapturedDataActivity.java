@@ -66,7 +66,6 @@ public class ViewCapturedDataActivity extends AbstractPADListenerActivity {
 			@Override
 			public void buildHelpPages(PageBuilder builder) {
 				final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-				Log.d(getClass().getName(), "buildHelpPages : viewPager = " + viewPager);
 				final int previousSelected = viewPager.getCurrentItem();
 
 				builder.addHelpPage(R.string.view_captured_data_help_captured_data_title, R.string.view_captured_data_help_captured_data_content);

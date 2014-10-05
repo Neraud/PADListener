@@ -272,6 +272,16 @@
 
 	<!-- ManageIgnoreList activity -->
 	<string name="label_manageIgnoreList">Manage ignore list</string>
+	<string name="manage_ignore_list_help_ignore_list_title">Monster ignore list</string>
+	<string name="manage_ignore_list_help_ignore_list_content">You can put some monsters in an ignore list so that you\'re not bothered by random fodder when you sync.</string>
+	<string name="manage_ignore_list_help_manual_add_title">Add a monster</string>
+	<string name="manage_ignore_list_help_manual_add_content">You can manually add a monster to the ignore list during the syncing process</string>
+	<string name="manage_ignore_list_help_manual_remove_title">Remove a monster</string>
+	<string name="manage_ignore_list_help_manual_remove_content">You can manually remove a monster from the "List" tab by tapping on an image and tapping on the X that appears</string>
+	<string name="manage_ignore_list_help_quick_actions_title">Quick actions</string>
+	<string name="manage_ignore_list_help_quick_actions_content">You can easily add or remove groups of monsters from the "Action" tab</string>
+	<string name="manage_ignore_list_help_clear_title">Clear the list</string>
+	<string name="manage_ignore_list_help_clear_content">You can clear the ignore list by using the "Clear" action in the top menu</string>
 	<string name="manage_ignore_list_action_clear">Clear</string>
 	<string name="manage_ignore_list_clear_dialog_title">Clear</string>
 	<string name="manage_ignore_list_clear_dialog_content">Clear ignored monsters ?</string>
