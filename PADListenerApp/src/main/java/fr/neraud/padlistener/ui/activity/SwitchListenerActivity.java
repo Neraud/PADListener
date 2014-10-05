@@ -5,6 +5,7 @@ import android.util.Log;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
+import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 
 /**
  * Activity to enable/disable the PAD listener
@@ -23,5 +24,26 @@ public class SwitchListenerActivity extends AbstractPADListenerActivity {
 	@Override
 	protected NavigationDrawerItem getSelfNavDrawerItem() {
 		return null;
+	}
+
+
+	protected BaseHelpManager getHelpManager() {
+		return new BaseHelpManager(this, "switch_listener", 1) {
+
+			@Override
+			public void buildHelpPages(PageBuilder builder) {
+				builder.addHelpPage(R.string.switch_listener_help_listener_title, R.string.switch_listener_help_listener_content);
+				builder.addHelpPage(R.string.switch_listener_help_start_title, R.string.switch_listener_help_start_content, R.id.switch_listener_switch, null);
+				builder.addHelpPage(R.string.switch_listener_help_button_title, R.string.switch_listener_help_button_content, R.id.switch_listener_secondary_action_button, null);
+			}
+
+			@Override
+			public void buildDeltaHelpPages(PageBuilder builder, int lastDisplayedVersion) {
+				switch (lastDisplayedVersion) {
+					default:
+						buildHelpPages(builder);
+				}
+			}
+		};
 	}
 }

@@ -178,6 +178,15 @@
 
 	<!-- Switch listener -->
 	<string name="label_switch_listener">Switch listener</string>
+	<string name="switch_listener_help_listener_title">Listener</string>
+	<string name="switch_listener_help_listener_content">The listener is the component that captures data between PAD and GunHo\'s server</string>
+	<string name="switch_listener_help_start_title">Start</string>
+	<string name="switch_listener_help_start_content">You can start the listener using this switch. While the listener is active, a notification is displayed.</string>
+	<string name="switch_listener_help_button_title">Secondary button</string>
+	<string name="switch_listener_help_button_content">A secondary button is displayed.
+\n\nWhen using the Manual or Auto-Wifi modes, it goes to the Wifi settings
+\n\nWhen using the Auto-iptables mode, it forces the listener to stop and properly clean iptables. It can help if something went wrong last time you started the listener.</string>
+
 	<string name="switch_listener_switchLabel">Switch listener</string>
     <string name="switch_listener_force_stop">Force stop</string>
 
