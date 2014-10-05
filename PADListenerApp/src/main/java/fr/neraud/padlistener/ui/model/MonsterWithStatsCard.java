@@ -55,7 +55,12 @@ public class MonsterWithStatsCard extends AbstractMonsterCard {
 	}
 
 	private void fillTextView(View view, int textViewId, int value, int maxValue) {
-		final TextView text = (TextView) view.findViewById(R.id.card_monster_awakenings);
-		text.setText(value >= maxValue ? "*" : "" + value);
+		final TextView text = (TextView) view.findViewById(textViewId);
+		if(value > 0) {
+			text.setVisibility(View.VISIBLE);
+			text.setText(value >= maxValue ? "*" : "" + value);
+		}else {
+			text.setVisibility(View.INVISIBLE);
+		}
 	}
 }
