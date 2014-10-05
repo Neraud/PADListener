@@ -32,8 +32,8 @@ import fr.neraud.padlistener.service.InstallMonsterImagesService;
 import fr.neraud.padlistener.service.InstallMonsterInfoService;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
 import fr.neraud.padlistener.ui.constant.UiScreen;
+import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 import fr.neraud.padlistener.ui.helper.ChangeLogHelper;
-import fr.neraud.padlistener.ui.helper.ShowcaseViewHelper;
 import fr.neraud.padlistener.util.VersionUtil;
 
 /**
@@ -55,12 +55,15 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 	private Map<NavigationDrawerItem, View> navDrawerItems = new HashMap<NavigationDrawerItem, View>();
 
+	private BaseHelpManager mHelpManager;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
 
 		handler = new Handler();
+		mHelpManager = getHelpManager();
 
 		// Init DB so it upgrades if necessary
 		PADListenerSQLiteOpenHelper.getInstance(getApplicationContext()).getReadableDatabase();
@@ -76,6 +79,10 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		super.onPostCreate(savedInstanceState);
 
 		initNavDrawer();
+
+		if(mHelpManager != null) {
+			mHelpManager.showHelpFirstTime();
+		}
 	}
 
 	@Override
@@ -261,7 +268,10 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.common, menu);
+		Log.d(getClass().getName(), "onCreateOptionsMenu");
+		if(mHelpManager != null) {
+			getMenuInflater().inflate(R.menu.help, menu);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -276,7 +286,9 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		switch (item.getItemId()) {
 			case R.id.menu_common_help:
-				showHelp();
+				if(mHelpManager != null) {
+					mHelpManager.showHelp();
+				}
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -301,16 +313,9 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		((TextView) aboutDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
-	private void showHelp() {
-		Log.d(getClass().getName(), "showHelp");
-		final ShowcaseViewHelper showcaseViewHelper = new ShowcaseViewHelper(this);
-		buildHelpPages(showcaseViewHelper.getBuilder());
-
-		showcaseViewHelper.showHelp();
-	}
-
-	protected void buildHelpPages(ShowcaseViewHelper.PageBuilder showcaseViewBuilder) {
-		// override to add help pages using showcaseViewBuilder.addHelpPage()
+	protected BaseHelpManager getHelpManager() {
+		// override to add help pages
+		return null;
 	}
 
 	public void goToScreen(UiScreen screen) {

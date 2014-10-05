@@ -2,24 +2,37 @@ package fr.neraud.padlistener.ui.model;
 
 import com.github.amlcurran.showcaseview.targets.Target;
 
-import fr.neraud.padlistener.ui.helper.ShowcaseViewHelper;
-
 /**
  * Created by Neraud on 29/09/2014.
  */
 public class ShowcaseHelpPageModel {
 
-	private Target target;
-	private String title;
-	private String content;
-	private ShowcaseViewHelper.HelpPageListener pageListener;
+	public interface HelpPageListener {
 
-	public Target getTarget() {
-		return target;
+		public void onPreDisplay();
+
+		public void onPostDisplay();
 	}
 
-	public void setTarget(Target target) {
-		this.target = target;
+	public interface TargetWrapper {
+		public Target getTarget();
+	}
+
+	private TargetWrapper targetWrapper;
+	private String title;
+	private String content;
+	private HelpPageListener pageListener;
+
+	public Target getTarget() {
+		return targetWrapper != null ? targetWrapper.getTarget() : Target.NONE;
+	}
+
+	public TargetWrapper getTargetWrapper() {
+		return targetWrapper;
+	}
+
+	public void setTargetWrapper(TargetWrapper targetWrapper) {
+		this.targetWrapper = targetWrapper;
 	}
 
 	public String getTitle() {
@@ -38,11 +51,11 @@ public class ShowcaseHelpPageModel {
 		this.content = content;
 	}
 
-	public ShowcaseViewHelper.HelpPageListener getPageListener() {
+	public HelpPageListener getPageListener() {
 		return pageListener;
 	}
 
-	public void setPageListener(ShowcaseViewHelper.HelpPageListener pageListener) {
+	public void setPageListener(HelpPageListener pageListener) {
 		this.pageListener = pageListener;
 	}
 }

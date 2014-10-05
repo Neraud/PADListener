@@ -35,6 +35,14 @@ public abstract class AbstractSharedPreferencesHelper {
 		sharedPreferences.edit().putString(name, value).commit();
 	}
 
+	protected int getIntPreference(String name, int defaultValue) {
+		return sharedPreferences.getInt(name, defaultValue);
+	}
+
+	protected void setIntPreference(String name, int value) {
+		sharedPreferences.edit().putInt(name, value).commit();
+	}
+
 	protected Long getLongPreference(String name, Long defaultValue) {
 		return sharedPreferences.getLong(name, defaultValue);
 	}
