@@ -100,6 +100,14 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 		this.quickActionsFragment = quickActionsFragment;
 	}
 
+	public void clearIgnoredIds() {
+		Log.d(getClass().getName(), "clearIgnoredIds");
+		ignoredIds.clear();
+
+		new DefaultSharedPreferencesHelper(getActivity()).setMonsterIgnoreList(ignoredIds);
+		refreshAdapters();
+	}
+
 	public void removeIgnoredIds(Integer... ids) {
 		Log.d(getClass().getName(), "removeIgnoredIds : " + Arrays.toString(ids));
 		for (final Integer id : ids) {

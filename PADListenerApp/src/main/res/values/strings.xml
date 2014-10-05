@@ -272,6 +272,11 @@
 
 	<!-- ManageIgnoreList activity -->
 	<string name="label_manageIgnoreList">Manage ignore list</string>
+	<string name="manage_ignore_list_action_clear">Clear</string>
+	<string name="manage_ignore_list_clear_dialog_title">Clear</string>
+	<string name="manage_ignore_list_clear_dialog_content">Clear ignored monsters ?</string>
+	<string name="manage_ignore_list_clear_dialog_cancel_button">Cancel</string>
+	<string name="manage_ignore_list_clear_dialog_clear_button">Clear</string>
 	<string name="manage_ignore_list_tab_list">List</string>
 	<string name="manage_ignore_list_tab_quick_actions">Actions</string>
 	<string name="manage_ignore_list_view_list_remove">X</string>
