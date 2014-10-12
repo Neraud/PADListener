@@ -1,0 +1,5 @@
+<it.gmariotti.cardslib.library.view.CardListView
+	android:id="@+id/choose_sync_materials_list"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"/>

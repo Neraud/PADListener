@@ -344,8 +344,8 @@
 	<string name="choose_sync_info_button_disabled">Nothing to sync</string>
 	<string name="choose_sync_userInfo_text">Rank %1$d -> %2$d</string>
 
-	<string name="choose_sync_materials_item_name">(%1$d) %2$s</string>
-	<string name="choose_sync_materials_item_quantities">%1$d -> %2$d</string>
+	<string name="choose_sync_materials_name">(%1$d) %2$s</string>
+	<string name="choose_sync_materials_quantities">%1$d -> %2$d</string>
 
 	<string name="choose_sync_monsters_item_name_simple">(%1$d) %2$s</string>
 	<string name="choose_sync_monsters_item_evo">EVOd from (%1$d) %2$s</string>
