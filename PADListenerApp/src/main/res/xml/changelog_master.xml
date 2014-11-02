@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #52 : updated NA hostname introduced in 7.2.1</change>
+	</release>
+	<release
 		version="1.4.8" versioncode="30">
 		<change>Fixed #48 : added support for HK/TW region.</change>
 		<change>Fixed #49 : unknown friend leader crashes.</change>

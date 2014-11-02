@@ -2,7 +2,7 @@ package fr.neraud.padlistener.constant;
 
 public enum PADServer {
 
-	US(PADRegion.US, "api-na-adr-pad.gungho.jp"),
+	US(PADRegion.US, "api-na-adr.padsv.gungho.jp"),
 	JP(PADRegion.JP, "api-adr-pad.gungho.jp"),
 	HK_TW(PADRegion.HK_TW, "api-ht-adr-pad.gungho.jp"),
 	AMAZON_US(PADRegion.US, "api-na-amz-pad.gungho.jp");
@@ -24,8 +24,8 @@ public enum PADServer {
 	}
 
 	public static PADServer fromName(String name) {
-		for (final PADServer server : values()) {
-			if (server.name().equals(name)) {
+		for(final PADServer server : values()) {
+			if(server.name().equals(name)) {
 				return server;
 			}
 		}
@@ -33,8 +33,8 @@ public enum PADServer {
 	}
 
 	public static PADServer fromHostName(String hostName) {
-		for (final PADServer server : values()) {
-			if (server.getHostName().equals(hostName)) {
+		for(final PADServer server : values()) {
+			if(server.getHostName().equals(hostName)) {
 				return server;
 			}
 		}
