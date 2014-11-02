@@ -26,8 +26,8 @@
 
 	<string name="settings_listener_page">Listener</string>
 	<string name="settings_listener_category">Listener</string>
-	<string name="settings_listener_target_hostnames_title">Target hostnames</string>
-	<string name="settings_listener_target_hostnames_summary">Hostnames for PAD calls.</string>
+	<string name="settings_listener_target_servers_title">Target servers</string>
+	<string name="settings_listener_target_servers_summary">Servers for PAD calls.</string>
 	<string name="settings_listener_custom_target_hostname_title">Custom target hostname</string>
 	<string name="settings_listener_custom_target_hostname_summary">Custom hostname added to the list of intercepted hostname for PAD calls.</string>
 	<string name="settings_proxy_mode_title">Proxy settings mode</string>

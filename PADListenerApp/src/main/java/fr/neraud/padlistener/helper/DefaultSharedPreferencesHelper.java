@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import fr.neraud.padlistener.constant.PADServer;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 import fr.neraud.padlistener.constant.SyncMode;
@@ -32,10 +33,18 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 	public Set<String> getAllListenerTargetHostnames() {
 		final Set<String> targetHostNames = new HashSet<String>();
 
-		final Set<String> selectedTargetHostNames = getStringSetPreference("listener_target_hostnames", new HashSet<String>());
+		final Set<String> selectedTargetServers = getStringSetPreference("listener_target_servers", new HashSet<String>());
 		final String customTargetHostName = getStringPreference("listener_custom_target_hostname", null);
 
-		targetHostNames.addAll(selectedTargetHostNames);
+		for (final String selectedTargetServer : selectedTargetServers) {
+			final PADServer server = PADServer.fromName(selectedTargetServer);
+			if (server != null) {
+				targetHostNames.add(server.getHostName());
+			} else {
+				Log.w(getClass().getName(), "getAllListenerTargetHostnames : ignoring unknown server : " + selectedTargetServer);
+			}
+		}
+
 		if (StringUtils.isNotBlank(customTargetHostName)) {
 			targetHostNames.add(customTargetHostName);
 		}
@@ -155,7 +164,7 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 			for (final String idString : ignoreListString.split(",")) {
 				try {
 					monsterIds.add(Integer.parseInt(idString));
-				} catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					// Should not happen as the list is only set from setMonsterIgnoreList(Set<Integer>)
 					Log.w(getClass().getName(), "getMonsterIgnoreList : ignoring invalid number", e);
 				}

@@ -3,12 +3,12 @@
                   android:title="@string/settings_listener_page">
 	<PreferenceCategory android:title="@string/settings_listener_category">
 		<MultiSelectListPreference
-			android:defaultValue="@array/settings_listener_target_hostname_entryValues"
-			android:entries="@array/settings_listener_target_hostname_entries"
-			android:entryValues="@array/settings_listener_target_hostname_entryValues"
-			android:key="listener_target_hostnames"
-			android:summary="@string/settings_listener_target_hostnames_summary"
-			android:title="@string/settings_listener_target_hostnames_title"/>
+			android:defaultValue="@array/settings_listener_target_server_entryValues"
+			android:entries="@array/settings_listener_target_server_entries"
+			android:entryValues="@array/settings_listener_target_server_entryValues"
+			android:key="listener_target_servers"
+			android:summary="@string/settings_listener_target_servers_summary"
+			android:title="@string/settings_listener_target_servers_title"/>
 		<EditTextPreference
 			android:defaultValue=""
 			android:key="listener_custom_target_hostname"

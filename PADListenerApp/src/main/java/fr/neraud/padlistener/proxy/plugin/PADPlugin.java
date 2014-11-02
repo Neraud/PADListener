@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADRegion;
+import fr.neraud.padlistener.constant.PADServer;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
@@ -93,13 +93,10 @@ public class PADPlugin extends ProxyPlugin {
 		}
 
 		private PADRegion extractRegion(String reqHost) {
-			String[] targetHostNames = context.getResources().getStringArray(R.array.settings_listener_target_hostname_entryValues);
-			String[] regionNames = context.getResources().getStringArray(R.array.settings_listener_target_hostname_region);
+			final PADServer server = PADServer.fromHostName(reqHost);
 
-			for(int i = 0 ; i < targetHostNames.length ; i++) {
-				if(reqHost.equals(targetHostNames[i])) {
-					return PADRegion.valueOf(regionNames[i]);
-				}
+			if(server != null) {
+				return server.getRegion();
 			}
 
 			Log.w(getClass().getName(), "extractRegion : host is not in the standard one, return US by default");
