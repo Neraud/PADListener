@@ -1,7 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="90dp"
-	android:orientation="horizontal">
+	android:orientation="horizontal"
+	tools:context=".ui.activity.ChooseSyncActivity">
 
 	<ImageView
 		android:id="@+id/choose_sync_monsters_item_image"
@@ -10,7 +13,7 @@
 		android:layout_gravity="center_vertical"
 		android:layout_marginLeft="40dp"
 		android:layout_marginRight="5dp"
-		android:src="@drawable/no_monster_image" />
+		android:src="@drawable/no_monster_image"/>
 
 	<TextView
 		android:id="@+id/choose_sync_monsters_item_name"
@@ -23,6 +26,6 @@
 		android:gravity="center_vertical"
 		android:lines="1"
 		android:text="@string/choose_sync_monsters_item_name_group"
-		android:textSize="16sp" />
+		android:textSize="16sp"/>
 
 </LinearLayout>

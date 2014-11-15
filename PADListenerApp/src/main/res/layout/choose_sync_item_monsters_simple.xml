@@ -1,7 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:orientation="horizontal">
+	android:orientation="horizontal"
+	tools:context=".ui.activity.ChooseSyncActivity">
 
 	<CheckBox
 		android:id="@+id/choose_sync_monsters_item_checkbox"
