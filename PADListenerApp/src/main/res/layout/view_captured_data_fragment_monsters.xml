@@ -6,7 +6,7 @@
 	android:orientation="vertical"
 	tools:context=".ui.activity.ViewCapturedDataActivity">
 
-	<it.gmariotti.cardslib.library.view.CardGridView
+	<GridView
 		android:id="@+id/view_captured_data_monsters_grid"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -16,7 +16,8 @@
 		android:numColumns="auto_fit"
 		android:stretchMode="columnWidth"
 		android:verticalSpacing="3dp"
-		/>
+		tools:listitem="@layout/view_captured_data_fragment_monsters_item"/>
+
 </LinearLayout>
 
 

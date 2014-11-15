@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
@@ -33,7 +34,7 @@ public class ViewCapturedDataMonstersFragment extends Fragment implements Loader
 
 		mAdapter = new CapturedMonsterCursorAdapter(getActivity());
 
-		final CardGridView mGridView = (CardGridView) view.findViewById(R.id.view_captured_data_monsters_grid);
+		final GridView mGridView = (GridView) view.findViewById(R.id.view_captured_data_monsters_grid);
 		mGridView.setAdapter(mAdapter);
 
 		getLoaderManager().initLoader(0, null, this);

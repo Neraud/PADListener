@@ -28,7 +28,7 @@ public class ViewCapturedDataMonsterDetailDialogFragment extends DialogFragment 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
-		final View view = inflater.inflate(R.layout.view_captured_data_fragment_monster_detail, container, false);
+		final View view = inflater.inflate(R.layout.view_captured_data_fragment_monsters_detail, container, false);
 		final String title = getString(R.string.view_captured_monster_detail_name, mMonsterInfoModel.getIdJP(), mMonsterInfoModel.getName());
 		getDialog().setTitle(title);
 
