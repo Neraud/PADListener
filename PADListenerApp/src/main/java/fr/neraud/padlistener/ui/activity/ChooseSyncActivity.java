@@ -18,6 +18,7 @@ import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 import fr.neraud.padlistener.ui.fragment.PushSyncFragment;
+import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 
 /**
  * Activity to choose elements to sync
@@ -88,14 +89,15 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 		final int monsterToDeleteCount = mChooseResult.getSyncedMonsters(SyncMode.DELETED).size();
 		final int monsterToDeleteChosenCount = countChosenItems(mChooseResult.getSyncedMonsters(SyncMode.DELETED));
 
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.choose_sync_alert_push_title);
+
 		if (materialToUpdateChosenCount > 0 || monsterToUpdateChosenCount > 0 || monsterToCreateChosenCount > 0
 				|| monsterToDeleteChosenCount > 0 || hasUserInfoToUpdateChosen) {
-			final String message = getString(R.string.choose_sync_alert_push_content, materialToUpdateChosenCount, materialToUpdateCount,
+			final String message = getString(R.string.choose_sync_alert_push_content_selected, materialToUpdateChosenCount, materialToUpdateCount,
 					monsterToUpdateChosenCount, monsterToUpdateCount, monsterToCreateChosenCount, monsterToCreateCount,
 					monsterToDeleteChosenCount, monsterToDeleteCount);
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.choose_sync_alert_push_title);
 			builder.setMessage(message);
 			builder.setPositiveButton(R.string.choose_sync_alert_push_button_ok, new DialogInterface.OnClickListener() {
 				@Override
@@ -106,9 +108,12 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 					goToScreen(UiScreen.PUSH_SYNC, bundle);
 				}
 			});
-			builder.setNegativeButton(R.string.choose_sync_alert_push_button_cancel, null);
-			builder.create().show();
+		} else {
+			builder.setMessage(R.string.choose_sync_alert_push_content_empty);
 		}
+
+		builder.setNegativeButton(R.string.choose_sync_alert_push_button_cancel, null);
+		builder.create().show();
 	}
 
 	private static <T extends Serializable> int countChosenItems(List<ChooseSyncModelContainer<T>> list) {
@@ -119,5 +124,25 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 			}
 		}
 		return count;
+	}
+
+	protected BaseHelpManager getHelpManager() {
+		return new BaseHelpManager(this, "choose_sync", 1) {
+			@Override
+			public void buildHelpPages(PageBuilder builder) {
+				builder.addHelpPage(R.string.choose_sync_help_compute_sync_title, R.string.choose_sync_help_compute_sync_content);
+				builder.addHelpPage(R.string.choose_sync_help_tabs_title, R.string.choose_sync_help_tabs_content);
+				builder.addHelpPage(R.string.choose_sync_help_select_title, R.string.choose_sync_help_select_content);
+				builder.addHelpPage(R.string.choose_sync_help_advanced_title, R.string.choose_sync_help_advanced_content);
+				builder.addHelpPage(R.string.choose_sync_help_push_title, R.string.choose_sync_help_push_content, R.id.menu_choose_sync_sync, null);
+			}
+
+			@Override
+			public void buildDeltaHelpPages(PageBuilder builder, int lastDisplayedVersion) {
+				switch (lastDisplayedVersion) {
+					default: buildHelpPages(builder);
+				}
+			}
+		};
 	}
 }

@@ -319,7 +319,7 @@ You can manage these accounts in the settings.
 	<string name="compute_sync_status_finished">finished</string>
 	<string name="compute_sync_status_failed">failed : %1$s</string>
 	<string name="compute_sync_check_login_case">This error can appear if your PADherder login is set up with an incorrect case. Please check that \'%1$s\' is your correct login. (PADherder\'s website accept login even when they have an incorrect case, but this app requires the correct case)</string>
-	<string name="compute_sync_check_creadentials">This error can occur if your PADherder login or password is incorrect. Please check that \'%1$s\' is your correct login, and that the password set in the settings is correct.</string>
+	<string name="compute_sync_check_credentials">This error can occur if your PADherder login or password is incorrect. Please check that \'%1$s\' is your correct login, and that the password set in the settings is correct.</string>
 	<string name="compute_sync_check_padherder_status">This error can occur if PADherder is down. Please check the website.</string>
 	<string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
 	<string name="compute_sync_missing_capture">You did not capture any data from PAD, there is nothing to sync !</string>
@@ -327,6 +327,16 @@ You can manage these accounts in the settings.
 
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
+	<string name="choose_sync_help_compute_sync_title">Choose sync</string>
+	<string name="choose_sync_help_compute_sync_content">This is the 2nd step to sync with PADherder</string>
+	<string name="choose_sync_help_tabs_title">Tabs</string>
+	<string name="choose_sync_help_tabs_content">You can see up to 4 tabs : updated materials, updated monsters, created monsters and deleted monsters.\n\nEach of them contains a series of materials or monsters that can be synced with PADherder.</string>
+	<string name="choose_sync_help_select_title">Selection</string>
+	<string name="choose_sync_help_select_content">You can individually select which of them you want to sync</string>
+	<string name="choose_sync_help_advanced_title">Advanced</string>
+	<string name="choose_sync_help_advanced_content">You can long tap on a monster to open a menu.\n\nIt will allow you to change PADherder\'s priority or note or to add a monster to the ignore list.</string>
+	<string name="choose_sync_help_push_title">Sync !</string>
+	<string name="choose_sync_help_push_content">When your selection is done, you can trigger the sync using the dedicated button.</string>
 	<string name="choose_sync_action_sync">Sync</string>
 	<string name="choose_sync_info_label">Summary</string>
 	<string name="choose_sync_alert_unknown_monster_encountered_title">Unknown monsters</string>
@@ -338,7 +348,8 @@ You can manage these accounts in the settings.
 
 	<string name="choose_sync_info_head">Sync computation is finished</string>
 	<string name="choose_sync_alert_push_title">Push sync</string>
-	<string name="choose_sync_alert_push_content">You have selected the following items : \n\n- %1$d/%2$d materials updated\n- %3$d/%4$d monsters updated\n- %5$d/%6$d monsters created\n- %7$d/%8$d monsters deleted</string>
+	<string name="choose_sync_alert_push_content_selected">You have selected the following items : \n\n- %1$d/%2$d materials updated\n- %3$d/%4$d monsters updated\n- %5$d/%6$d monsters created\n- %7$d/%8$d monsters deleted</string>
+	<string name="choose_sync_alert_push_content_empty">You did not select any item to push</string>
 	<string name="choose_sync_alert_push_button_ok">Push</string>
 	<string name="choose_sync_alert_push_button_cancel">Cancel</string>
 	<string name="choose_sync_info_explain">In the following tabs, you can choose which element you want to sync or ignore. Your PADherder account will be updated with the chosen elements when you tap the button</string>

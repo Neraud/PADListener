@@ -108,7 +108,7 @@ public class ComputeSyncFragment extends Fragment {
 							if (code == 403) {
 								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
 										.getPadHerderUserName(mAccountId);
-								mErrorExplain.setText(getString(R.string.compute_sync_check_creadentials, accountLogin));
+								mErrorExplain.setText(getString(R.string.compute_sync_check_credentials, accountLogin));
 								mErrorExplain.setVisibility(View.VISIBLE);
 							} else if (code == 404) {
 								final String accountLogin = new DefaultSharedPreferencesHelper(getActivity())
