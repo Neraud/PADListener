@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-	android:id="@+id/card_monster_info_monster_container"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="112dp"
@@ -9,39 +8,37 @@
 	tools:context=".ui.activity.ViewMonsterInfoActivity">
 
 	<ImageView
-		android:id="@+id/card_monster_image"
+		android:id="@+id/item_monster_image"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_margin="8dp"
 		android:src="@drawable/no_monster_image"/>
 
 	<LinearLayout
-		android:id="@+id/card_monster_info_monster_text_block"
+		android:id="@+id/view_monster_info_item_text_block"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_alignBottom="@+id/card_monster_image"
-		android:layout_alignLeft="@+id/card_monster_image"
-		android:layout_alignRight="@+id/card_monster_image"
-		android:layout_alignTop="@+id/card_monster_image"
+		android:layout_alignBottom="@+id/item_monster_image"
+		android:layout_alignLeft="@+id/item_monster_image"
+		android:layout_alignRight="@+id/item_monster_image"
+		android:layout_alignTop="@+id/item_monster_image"
 		android:orientation="vertical">
 
 		<TextView
-			android:id="@+id/card_monster_info_monster_text_id"
+			android:id="@+id/view_monster_info_item_text_id"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center"
-			android:textColor="@color/body_text_1_inverse"
-			/>
+			android:textColor="@color/body_text_1_inverse"/>
 
 		<TextView
-			android:id="@+id/card_monster_info_monster_text_name"
+			android:id="@+id/view_monster_info_item_text_name"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_weight="3"
 			android:gravity="center"
-			android:textColor="@color/body_text_1_inverse"
-			/>
+			android:textColor="@color/body_text_1_inverse"/>
 
 	</LinearLayout>
 
