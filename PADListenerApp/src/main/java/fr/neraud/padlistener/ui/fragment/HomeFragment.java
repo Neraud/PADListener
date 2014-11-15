@@ -1,18 +1,17 @@
 package fr.neraud.padlistener.ui.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.ui.constant.UiScreen;
-import fr.neraud.padlistener.ui.model.ActionsCard;
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.view.CardView;
 
 /**
  * Main fragment for MainMenu
@@ -28,96 +27,75 @@ public class HomeFragment extends Fragment {
 		final View mainView = inflater.inflate(R.layout.home_fragment, container, false);
 
 		fillCaptureCard(mainView);
-		//fillMonsterInfoCard(mainView);
-		//fillCapturedDataCard(mainView);
 		fillSyncCard(mainView);
 
 		return mainView;
 	}
 
 	private void fillCaptureCard(View mainView) {
-		final ActionsCard captureCard = new ActionsCard(getActivity());
-		captureCard.setContentText(getString(R.string.home_capture_content));
-		captureCard.setPrimaryActionEnabled(false);
-		captureCard.setPrimaryActionTitle(getString(R.string.home_capture_button_auto));
-		captureCard.setPrimaryActionOnClickListener(new View.OnClickListener() {
+		final Button autoButton = (Button) mainView.findViewById(R.id.home_capture_auto_button);
+		final Button manualButton = (Button) mainView.findViewById(R.id.home_capture_manual_button);
+
+		final View.OnClickListener autoOnClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "captureCard.primaryActionOnClickListener.onClick");
+				Log.d(getClass().getName(), "capture.autoButton.onClick");
 				// TODO
 			}
-		});
-		captureCard.setSecondaryActionTitle(getString(R.string.home_capture_button_manual));
-		captureCard.setSecondaryActionEnabled(true);
-		captureCard.setSecondaryActionOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Log.d(getClass().getName(), "captureCard.secondaryActionOnClickListener.onClick");
-				((HomeActivity)getActivity()).goToScreen(UiScreen.SWITCH_LISTENER);
-			}
-		});
-		fillCardInView(mainView, captureCard, R.id.home_card_capture);
-	}
+		};
 
-	/*
-	private void fillMonsterInfoCard(View mainView) {
-		final ActionsCard monsterInfoCard = new ActionsCard(getActivity());
-		monsterInfoCard.setContentText("Monster info");
-		monsterInfoCard.setSecondaryActionTitle("View");
-		monsterInfoCard.setSecondaryActionOnClickListener(new View.OnClickListener() {
+		final View.OnClickListener manualOnClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "monsterInfoCard.secondaryActionOnClickListener.onClick");
-				((HomeActivity)getActivity()).goToScreen(UiScreen.VIEW_MONSTER_INFO);
+				Log.d(getClass().getName(), "capture.manualButton.onClick");
+				((HomeActivity) getActivity()).goToScreen(UiScreen.SWITCH_LISTENER);
 			}
-		});
-		fillCardInView(mainView, monsterInfoCard, R.id.home_card_monster_info);
-	}
-	*/
+		};
 
-	/*
-	private void fillCapturedDataCard(View mainView) {
-		final ActionsCard capturedDataCard = new ActionsCard(getActivity());
-		capturedDataCard.setContentText("Captured data");
-		capturedDataCard.setSecondaryActionTitle("View");
-		capturedDataCard.setSecondaryActionOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Log.d(getClass().getName(), "capturedDataCard.secondaryActionOnClickListener.onClick");
-				((HomeActivity)getActivity()).goToScreen(UiScreen.VIEW_CAPTURED_DATA);
-			}
-		});
-		fillCardInView(mainView, capturedDataCard, R.id.home_card_captured_data);
+		fillButton(autoButton, false, autoOnClickListener, R.drawable.button_primary);
+		fillButton(manualButton, true, manualOnClickListener, R.drawable.button_secondary);
 	}
-	*/
 
 	private void fillSyncCard(View mainView) {
-		final ActionsCard syncCard = new ActionsCard(getActivity());
-		syncCard.setContentText(getString(R.string.home_sync_content));
-		syncCard.setPrimaryActionTitle(getString(R.string.home_sync_button_auto));
-		syncCard.setPrimaryActionEnabled(false);
-		syncCard.setPrimaryActionOnClickListener(new View.OnClickListener() {
+		final Button autoButton = (Button) mainView.findViewById(R.id.home_sync_auto_button);
+		final Button manualButton = (Button) mainView.findViewById(R.id.home_sync_manual_button);
+
+		final View.OnClickListener autoOnClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "syncCard.primaryActionOnClickListener.onClick");
+				Log.d(getClass().getName(), "sync.autoButton.onClick");
 				// TODO
 			}
-		});
-		syncCard.setSecondaryActionTitle(getString(R.string.home_sync_button_manual));
-		syncCard.setSecondaryActionEnabled(true);
-		syncCard.setSecondaryActionOnClickListener(new View.OnClickListener() {
+		};
+
+		final View.OnClickListener manualOnClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "syncCard.secondaryActionOnClickListener.onClick");
-				((HomeActivity)getActivity()).goToScreen(UiScreen.COMPUTE_SYNC);
+				Log.d(getClass().getName(), "sync.manualButton.onClick");
+				((HomeActivity) getActivity()).goToScreen(UiScreen.COMPUTE_SYNC);
 			}
-		});
-		fillCardInView(mainView, syncCard, R.id.home_card_sync);
+		};
+
+		fillButton(autoButton, false, autoOnClickListener, R.drawable.button_primary);
+		fillButton(manualButton, true, manualOnClickListener, R.drawable.button_secondary);
 	}
 
-	private void fillCardInView(View mainView, Card card, int cardViewId) {
-		final CardView cardView = (CardView) mainView.findViewById(cardViewId);
-		cardView.setCard(card);
+	private void fillButton(Button button, boolean enabled, View.OnClickListener listener, int drawableResId) {
+		if (enabled) {
+			button.setBackgroundResource(drawableResId);
+		} else {
+			// if the button is disabled, the listener won't be triggered, so we just swap the background to the disabled one
+			final Drawable draw = getResources().getDrawable(drawableResId);
+			draw.setState(new int[]{-android.R.attr.state_enabled});
+
+			// deprecated since API 16 which introduced setBackgound(Drawable), but to remain compatible with API15 it still must be used
+			//noinspection deprecation
+			button.setBackgroundDrawable(draw.getCurrent());
+		}
+
+		if (listener != null) {
+			button.setOnClickListener(listener);
+		}
 	}
 
 }
