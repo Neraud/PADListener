@@ -31,7 +31,7 @@ public class MonsterInfoCursorAdapter extends AbstractMonsterCursorAdapter {
 
 		final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(cursor);
 
-		final ImageView monsterImageView = fillImage(view, model);
+		final ImageView monsterImageView = fillImage(view, R.id.view_monster_info_item_image, model);
 		monsterImageView.clearColorFilter();
 
 		final ViewGroup monsterTextBlock = (ViewGroup) view.findViewById(R.id.view_monster_info_item_text_block);

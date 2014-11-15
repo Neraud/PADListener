@@ -36,7 +36,7 @@ public class CapturedMonsterCursorAdapter extends AbstractMonsterCursorAdapter {
 		final MonsterModel monsterModel = model.getCapturedMonster();
 		final MonsterInfoModel monsterInfoModel = model.getMonsterInfo();
 
-		fillImage(view, monsterInfoModel);
+		fillImage(view, R.id.view_captured_monsters_item_image, monsterInfoModel);
 
 		fillTextView(view, R.id.view_captured_monsters_item_awakenings, monsterModel.getAwakenings(), monsterInfoModel.getAwokenSkillIds().size());
 		fillTextView(view, R.id.view_captured_monsters_item_level, monsterModel.getLevel(), monsterInfoModel.getMaxLevel());

@@ -25,8 +25,8 @@ public abstract class AbstractMonsterCursorAdapter extends SimpleCursorAdapter {
 		mContext = context;
 	}
 
-	protected ImageView fillImage(View view, MonsterInfoModel model) {
-		final ImageView monsterImageView = (ImageView) view.findViewById(R.id.item_monster_image);
+	protected ImageView fillImage(View view, int imageViewId, MonsterInfoModel model) {
+		final ImageView monsterImageView = (ImageView) view.findViewById(imageViewId);
 		final String imageUrl = PadHerderDescriptor.serverUrl + model.getImage60Url();
 
 		Picasso.with(mContext)

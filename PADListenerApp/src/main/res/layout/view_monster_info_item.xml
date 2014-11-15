@@ -8,7 +8,7 @@
 	tools:context=".ui.activity.ViewMonsterInfoActivity">
 
 	<ImageView
-		android:id="@+id/item_monster_image"
+		android:id="@+id/view_monster_info_item_image"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_margin="8dp"
@@ -18,10 +18,10 @@
 		android:id="@+id/view_monster_info_item_text_block"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_alignBottom="@+id/item_monster_image"
-		android:layout_alignLeft="@+id/item_monster_image"
-		android:layout_alignRight="@+id/item_monster_image"
-		android:layout_alignTop="@+id/item_monster_image"
+		android:layout_alignBottom="@+id/view_monster_info_item_image"
+		android:layout_alignLeft="@+id/view_monster_info_item_image"
+		android:layout_alignRight="@+id/view_monster_info_item_image"
+		android:layout_alignTop="@+id/view_monster_info_item_image"
 		android:orientation="vertical">
 
 		<TextView
