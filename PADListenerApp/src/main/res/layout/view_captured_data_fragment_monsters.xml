@@ -1,9 +1,11 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-    android:orientation="vertical"
-	>
+	android:orientation="vertical"
+	tools:context=".ui.activity.ViewCapturedDataActivity">
+
 	<it.gmariotti.cardslib.library.view.CardGridView
 		android:id="@+id/view_captured_data_monsters_grid"
 		android:layout_width="match_parent"
