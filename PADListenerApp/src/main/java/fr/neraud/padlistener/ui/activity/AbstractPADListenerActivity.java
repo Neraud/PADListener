@@ -28,7 +28,6 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.InstallationHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
-import fr.neraud.padlistener.service.InstallMonsterImagesService;
 import fr.neraud.padlistener.service.InstallMonsterInfoService;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
 import fr.neraud.padlistener.ui.constant.UiScreen;
@@ -108,7 +107,6 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		if (installHelper.needsInstall()) {
 			Log.d(getClass().getName(), "handleInstallIfNecessary : starting install");
 			startService(new Intent(getApplicationContext(), InstallMonsterInfoService.class));
-			startService(new Intent(getApplicationContext(), InstallMonsterImagesService.class));
 			final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
 			prefHelper.setHasBeenInstalled(true);
 

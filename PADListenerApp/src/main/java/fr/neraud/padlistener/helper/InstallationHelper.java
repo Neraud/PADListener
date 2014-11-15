@@ -32,8 +32,7 @@ public class InstallationHelper {
 		Log.d(getClass().getName(), "needsInstall");
 		final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(context);
 		if (prefHelper.isHasBeenInstalled()) {
-			return needsInstallForOneAsset(InstallAsset.MONSTER_INFO_DATE, prefHelper.getMonsterInfoRefreshDate())
-					|| needsInstallForOneAsset(InstallAsset.MONSTER_IMAGES_DATE, prefHelper.getMonsterImagesRefreshDate());
+			return needsInstallForOneAsset(InstallAsset.MONSTER_INFO_DATE, prefHelper.getMonsterInfoRefreshDate());
 		} else {
 			Log.d(getClass().getName(), "needsInstall : not installed");
 			return true;

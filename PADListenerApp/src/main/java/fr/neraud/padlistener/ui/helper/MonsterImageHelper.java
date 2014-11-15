@@ -1,82 +1,57 @@
 package fr.neraud.padlistener.ui.helper;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
+import android.view.View;
 import android.widget.ImageView;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import com.squareup.picasso.Picasso;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
+import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
+import fr.neraud.padlistener.model.MonsterInfoModel;
 
 /**
  * Helper to retrieve a monster image
  *
- * Created by Neraud on 22/09/2014.
+ * Created by Neraud on 15/11/2015.
  */
 public class MonsterImageHelper {
 
-	private final Context context;
+
+	private final Context mContext;
 
 	public MonsterImageHelper(Context context) {
-		this.context = context;
+		this.mContext = context;
 	}
 
 	/**
 	 * Fill the imageView with the monster image
-	 * @param imageView the ImageView
-	 * @param monsterIdJp the monsterId (in JP)
+	 *
+	 * @param container the View container
+	 * @param imageViewId the id of the ImageView
+	 * @param model the MonsterInfoModel
+	 * @return the filled ImageView
 	 */
-	public void fillMonsterImage(ImageView imageView, Integer monsterIdJp) {
-		fillMonsterImage(imageView, monsterIdJp, false);
+	public ImageView fillImage(View container, int imageViewId, MonsterInfoModel model) {
+		final ImageView monsterImageView = (ImageView) container.findViewById(imageViewId);
+		return fillImage(monsterImageView, model);
 	}
 
 	/**
 	 * Fill the imageView with the monster image
-	 * @param imageView the ImageView
-	 * @param monsterIdJp the monsterId (in JP)
-	 * @param inBlackAndWhite if true, will display the image in black and white
+	 *
+	 * @param monsterImageView the ImageView
+	 * @param model the MonsterInfoModel
+	 * @return the filled ImageView
 	 */
-	public void fillMonsterImage(ImageView imageView, Integer monsterIdJp, boolean inBlackAndWhite) {
-		if (monsterIdJp != null && monsterIdJp > 0) {
-			try {
-				final InputStream is = context.getContentResolver().openInputStream(MonsterInfoDescriptor.UriHelper.uriForImage(monsterIdJp));
-				final BitmapDrawable bm = new BitmapDrawable(null, is);
+	public ImageView fillImage(ImageView monsterImageView, MonsterInfoModel model) {
+		final String imageUrl = PadHerderDescriptor.serverUrl + model.getImage60Url();
 
-				if(inBlackAndWhite) {
-					imageView.setImageBitmap(convertColorIntoBlackAndWhiteImage(bm.getBitmap()));
-				} else {
-					imageView.setImageDrawable(bm);
-				}
-			} catch (final FileNotFoundException e) {
-				imageView.setImageResource(R.drawable.no_monster_image);
-			}
-		} else {
-			imageView.setImageResource(R.drawable.no_monster_image);
-		}
-	}
+		Picasso.with(mContext)
+				.load(imageUrl)
+				.error(R.drawable.no_monster_image)
+				.into(monsterImageView);
 
-	private Bitmap convertColorIntoBlackAndWhiteImage(Bitmap orginalBitmap) {
-		ColorMatrix colorMatrix = new ColorMatrix();
-		colorMatrix.setSaturation(0);
-
-		ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(
-				colorMatrix);
-
-		Bitmap blackAndWhiteBitmap = orginalBitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-		Paint paint = new Paint();
-		paint.setColorFilter(colorMatrixFilter);
-
-		Canvas canvas = new Canvas(blackAndWhiteBitmap);
-		canvas.drawBitmap(blackAndWhiteBitmap, 0, 0, paint);
-
-		return blackAndWhiteBitmap;
+		return monsterImageView;
 	}
 }

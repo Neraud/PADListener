@@ -21,7 +21,7 @@ import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.model.IgnoreMonsterQuickActionModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.ui.fragment.ManageIgnoreListTaskFragment;
-import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
+import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 
 /**
  * Created by Neraud on 15/11/2014.
@@ -29,12 +29,12 @@ import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
 public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMonsterQuickActionModel> {
 
 	private final ManageIgnoreListTaskFragment mTaskFragment;
-	private final NewMonsterImageHelper mImageHelper;
+	private final MonsterImageHelper mImageHelper;
 
 	public ManageIgnoreListQuickActionsAdapter(Context context, List<IgnoreMonsterQuickActionModel> ignoreMonsterQuickActionModels, ManageIgnoreListTaskFragment mTaskFragment) {
 		super(context, 0, ignoreMonsterQuickActionModels);
 		this.mTaskFragment = mTaskFragment;
-		mImageHelper = new NewMonsterImageHelper(context);
+		mImageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override

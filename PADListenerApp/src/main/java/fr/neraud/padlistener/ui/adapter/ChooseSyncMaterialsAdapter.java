@@ -17,7 +17,7 @@ import java.util.List;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
-import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
+import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 
 /**
  * Adaptor to display the choose sync materials
@@ -27,11 +27,11 @@ import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
 public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMaterialModel>> {
 
 	private Integer mDefaultTextColor = null;
-	private NewMonsterImageHelper mImageHelper;
+	private MonsterImageHelper mImageHelper;
 
 	public ChooseSyncMaterialsAdapter(Context context, List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
 		super(context, 0, syncedMaterialsToUpdate);
-		mImageHelper = new NewMonsterImageHelper(context);
+		mImageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override

@@ -65,9 +65,6 @@
 			android:name=".service.ListenerService"
 			android:exported="false" />
 		<service
-			android:name=".service.InstallMonsterInfoService"
-			android:exported="false" />
-		<service
 			android:name=".service.FetchPadHerderMonsterInfoService"
 			android:exported="false" />
 		<service

@@ -22,7 +22,7 @@ import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
-import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
+import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 
 /**
  * Adaptor to display Monsters set up as simple
@@ -32,7 +32,7 @@ import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
 public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMonsterModel>> {
 
 	private Integer mDefaultTextColor = null;
-	private final NewMonsterImageHelper mImageHelper;
+	private final MonsterImageHelper mImageHelper;
 
 	public ChooseSyncMonstersSimpleAdapter(Context context,
 			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
@@ -46,7 +46,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 		};
 		Collections.sort(syncedMonstersToUpdate, comparator);
 
-		mImageHelper = new NewMonsterImageHelper(context);
+		mImageHelper = new MonsterImageHelper(context);
 	}
 
 	@Override

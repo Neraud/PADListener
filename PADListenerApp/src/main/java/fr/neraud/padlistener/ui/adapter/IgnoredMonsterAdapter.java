@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.ui.fragment.ManageIgnoreListTaskFragment;
-import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
+import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 
 /**
  * Adapter to display the Ignored monsters for the List tab
@@ -72,6 +72,6 @@ public class IgnoredMonsterAdapter extends ArrayAdapter<MonsterInfoModel> {
 	}
 
 	protected ImageView fillImage(View view, int imageViewId, MonsterInfoModel model) {
-		return new NewMonsterImageHelper(mContext).fillImage(view, imageViewId, model);
+		return new MonsterImageHelper(mContext).fillImage(view, imageViewId, model);
 	}
 }

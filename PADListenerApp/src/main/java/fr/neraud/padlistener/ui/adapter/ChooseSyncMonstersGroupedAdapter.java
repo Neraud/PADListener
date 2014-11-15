@@ -26,7 +26,7 @@ import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
-import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
+import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 
 /**
  * Adaptor to display Monsters set up as grouped
@@ -40,13 +40,13 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	private List<MonsterInfoModel> mGroups;
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> mSortedSyncedMonsters;
 	private Integer mDefaultTextColor = null;
-	private NewMonsterImageHelper mImageHelper;
+	private MonsterImageHelper mImageHelper;
 
 	public ChooseSyncMonstersGroupedAdapter(Context context, List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters) {
 		this.mContext = context;
 		this.mSyncedMonsters = syncedMonsters;
 		refreshData();
-		mImageHelper = new NewMonsterImageHelper(context);
+		mImageHelper = new MonsterImageHelper(context);
 	}
 
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
