@@ -10,8 +10,6 @@ You can watch a [demonstration on youtube](https://www.youtube.com/watch?v=6zCGq
 
 To sum up, this application starts a local proxy on your Android device and captures the data sent by GungHo servers to PAD. It then syncs your monster box using PADherder's APIs.
 
-It's still in beta, but I plan to upload it on the Play Store as soon as it's stable enough.
-
 Thanks
 ----------
 I'd like to thank [Freddie](https://github.com/madcowfred) for his great work on [PADherder](https://www.padherder.com) and its API.
@@ -19,7 +17,6 @@ I use the following libraries :
 * [SandroProxyLib](http://code.google.com/p/sandrop/) : local proxy on an Android device
 * [ckChangeLog](https://github.com/cketti/ckChangeLog) : changelog library
 * [libsuperuser](https://github.com/Chainfire/libsuperuser)
-* [Card Library](https://github.com/gabrielemariotti/cardslib)
 * [Picasso](https://github.com/square/picasso)
 * [Showcaseview](https://github.com/amlcurran/ShowcaseView)
 
@@ -33,16 +30,12 @@ Depending on the chosen settings, this application will modify your WiFi setting
 And finally, this application could mess up a sync and corrupt your PADherder's account. I suggest you back it up first.
 
 
-This application is still in beta. I only tested it on my devices (Samsung GS4 and Nexus 7, both running Android 4.4).
-If you're willing to test it, you understand that it could crash, melt your phone, or even kill kittens.
-
-
 Longer description
 ----------
 This application can :
 * store monster information (stats and images) and expose it through ContentProviders for other apps
 * refresh the monster information to keep it up-to-date without having to update the app itself
-* start a local proxy to capture the monster box from PAD. You have to start the listener from PADListener, and then start PAD. When you pass the title screen, you should see a Toast at the bottom of your screen saying "PAD data captured for [your account name]
+* start a local proxy to capture the monster box from PAD. You have to start the listener from PADListener, and then start PAD. When you pass the title screen, you should see a Toast at the bottom of your screen saying "PAD data captured for [your account name]"
 * list the captured monster box
 * sync the captured monster box (materials and monsters) with a PADherder account
 
