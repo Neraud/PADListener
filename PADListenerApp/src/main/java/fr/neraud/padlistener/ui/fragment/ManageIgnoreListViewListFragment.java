@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,11 +17,7 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.helper.MonsterInfoHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
-import fr.neraud.padlistener.ui.model.AbstractMonsterCard;
-import fr.neraud.padlistener.ui.model.MonsterIgnoredCard;
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.view.CardGridView;
+import fr.neraud.padlistener.ui.adapter.IgnoredMonsterAdapter;
 
 /**
  * ViewCapturedData fragment for the Monsters tabs
@@ -30,7 +27,7 @@ import it.gmariotti.cardslib.library.view.CardGridView;
 public class ManageIgnoreListViewListFragment extends Fragment {
 
 	private ManageIgnoreListTaskFragment mTaskFragment;
-	private CardArrayAdapter mAdapter;
+	private IgnoredMonsterAdapter mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,9 +37,9 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 
 		mTaskFragment = (ManageIgnoreListTaskFragment) getFragmentManager().findFragmentByTag(ManageIgnoreListTaskFragment.TAG_TASK_FRAGMENT);
 
-		final CardGridView mListView = (CardGridView) view.findViewById(R.id.manage_ignore_list_monsters_grid);
-		mAdapter = new CardArrayAdapter(getActivity(), new ArrayList<Card>());
-		mListView.setAdapter(mAdapter);
+		final GridView mGridView = (GridView) view.findViewById(R.id.manage_ignore_list_monsters_grid);
+		mAdapter = new IgnoredMonsterAdapter(getActivity(), mTaskFragment);
+		mGridView.setAdapter(mAdapter);
 
 		return view;
 	}
@@ -63,7 +60,7 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 
 	public void refreshAdapter(MonsterInfoHelper monsterInfoHelper, Set<Integer> ignoredIds) {
 		Log.d(getClass().getName(), "refreshAdapter");
-		final List<AbstractMonsterCard> monsterCards = new ArrayList<AbstractMonsterCard>();
+		final List<MonsterInfoModel> monsterModels = new ArrayList<MonsterInfoModel>();
 
 		final List<Integer> ignoredIdList = new ArrayList<Integer>(ignoredIds);
 		Collections.sort(ignoredIdList);
@@ -71,13 +68,13 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 		for (final Integer ignoredId : ignoredIdList) {
 			try {
 				final MonsterInfoModel monsterInfo = monsterInfoHelper.getMonsterInfo(ignoredId);
-				monsterCards.add(new MonsterIgnoredCard(getActivity(), monsterInfo, mTaskFragment));
-			} catch(UnknownMonsterException e) {
+				monsterModels.add(monsterInfo);
+			} catch (UnknownMonsterException e) {
 				Log.w(getClass().getName(), "refreshAdapter : missing monster info for id = " + e.getMonsterId());
 			}
 		}
 
 		mAdapter.clear();
-		mAdapter.addAll(monsterCards);
+		mAdapter.addAll(monsterModels);
 	}
 }

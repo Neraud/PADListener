@@ -5,11 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 
-import com.squareup.picasso.Picasso;
-
-import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
 
 /**
  * Base Adapter to display monsters
@@ -26,14 +23,6 @@ public abstract class AbstractMonsterCursorAdapter extends SimpleCursorAdapter {
 	}
 
 	protected ImageView fillImage(View view, int imageViewId, MonsterInfoModel model) {
-		final ImageView monsterImageView = (ImageView) view.findViewById(imageViewId);
-		final String imageUrl = PadHerderDescriptor.serverUrl + model.getImage60Url();
-
-		Picasso.with(mContext)
-				.load(imageUrl)
-				.error(R.drawable.no_monster_image)
-				.into(monsterImageView);
-
-		return monsterImageView;
+		return new NewMonsterImageHelper(mContext).fillImage(view, imageViewId, model);
 	}
 }
