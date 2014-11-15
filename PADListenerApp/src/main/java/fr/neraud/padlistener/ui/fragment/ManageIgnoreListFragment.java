@@ -17,17 +17,15 @@ import fr.neraud.padlistener.R;
  */
 public class ManageIgnoreListFragment extends AbstractViewPagerFragment {
 
-	private ManageIgnoreListTaskFragment mTaskFragment;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = super.onCreateView(inflater, container, savedInstanceState);
 
 		final FragmentManager fm = getFragmentManager();
-		mTaskFragment = (ManageIgnoreListTaskFragment) fm.findFragmentByTag(ManageIgnoreListTaskFragment.TAG_TASK_FRAGMENT);
-		if (mTaskFragment == null) {
-			mTaskFragment = new ManageIgnoreListTaskFragment();
-			fm.beginTransaction().add(mTaskFragment, ManageIgnoreListTaskFragment.TAG_TASK_FRAGMENT).commit();
+		ManageIgnoreListTaskFragment taskFragment = (ManageIgnoreListTaskFragment) fm.findFragmentByTag(ManageIgnoreListTaskFragment.TAG_TASK_FRAGMENT);
+		if (taskFragment == null) {
+			taskFragment = new ManageIgnoreListTaskFragment();
+			fm.beginTransaction().add(taskFragment, ManageIgnoreListTaskFragment.TAG_TASK_FRAGMENT).commit();
 		}
 
 		return view;

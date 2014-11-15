@@ -24,7 +24,7 @@ public abstract class AbstractSharedPreferencesHelper {
 	}
 
 	protected void setBooleanPreference(String name, boolean bool) {
-		sharedPreferences.edit().putBoolean(name, bool).commit();
+		sharedPreferences.edit().putBoolean(name, bool).apply();
 	}
 
 	protected String getStringPreference(String name, String defaultValue) {
@@ -32,7 +32,7 @@ public abstract class AbstractSharedPreferencesHelper {
 	}
 
 	protected void setStringPreference(String name, String value) {
-		sharedPreferences.edit().putString(name, value).commit();
+		sharedPreferences.edit().putString(name, value).apply();
 	}
 
 	protected int getIntPreference(String name, int defaultValue) {
@@ -40,7 +40,7 @@ public abstract class AbstractSharedPreferencesHelper {
 	}
 
 	protected void setIntPreference(String name, int value) {
-		sharedPreferences.edit().putInt(name, value).commit();
+		sharedPreferences.edit().putInt(name, value).apply();
 	}
 
 	protected Long getLongPreference(String name, Long defaultValue) {
@@ -48,7 +48,7 @@ public abstract class AbstractSharedPreferencesHelper {
 	}
 
 	protected void setLongPreference(String name, Long value) {
-		sharedPreferences.edit().putLong(name, value).commit();
+		sharedPreferences.edit().putLong(name, value).apply();
 	}
 
 	protected int getIntFromStringPreference(String name, int defaultValue) {

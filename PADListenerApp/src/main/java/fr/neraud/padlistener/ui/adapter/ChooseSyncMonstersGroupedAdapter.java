@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,7 +155,8 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			evoText.setText(mContext.getString(R.string.choose_sync_monsters_item_evo,
 					evolvedFrom.getIdJP(),
 					evolvedFrom.getName()));
-			evoText.setTextColor(padherder.getIdJp() < captured.getIdJp() ? Color.GREEN : Color.RED);
+			final int color = mContext.getResources().getColor(padherder.getIdJp() < captured.getIdJp() ? R.color.text_increase : R.color.text_decrease);
+			evoText.setTextColor(color);
 		} else {
 			evoText.setVisibility(View.GONE);
 		}
@@ -225,15 +225,14 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		return false;
 	}
 
-	private void fillBothText(View view, int padherderTextViewResId, long padherderValue, int capturedTextViewResId,
-			long capturedValue) {
+	private void fillBothText(View view, int padherderTextViewResId, long padherderValue, int capturedTextViewResId, long capturedValue) {
 		fillOneText(view, padherderTextViewResId, padherderValue);
 		fillOneText(view, capturedTextViewResId, capturedValue);
 
 		if (padherderValue < capturedValue) {
-			((TextView) view.findViewById(capturedTextViewResId)).setTextColor(Color.GREEN);
+			((TextView) view.findViewById(capturedTextViewResId)).setTextColor(mContext.getResources().getColor(R.color.text_increase));
 		} else if (padherderValue > capturedValue) {
-			((TextView) view.findViewById(capturedTextViewResId)).setTextColor(Color.RED);
+			((TextView) view.findViewById(capturedTextViewResId)).setTextColor(mContext.getResources().getColor(R.color.text_decrease));
 		}
 	}
 

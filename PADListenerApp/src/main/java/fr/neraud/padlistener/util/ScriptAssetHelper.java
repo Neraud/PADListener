@@ -50,8 +50,6 @@ public class ScriptAssetHelper extends AbstractAssetHelper {
 			}
 			writer.flush();
 			targetFile.setExecutable(true);
-		} catch (final IOException e) {
-			throw e;
 		} finally {
 			if (reader != null) {
 				try {

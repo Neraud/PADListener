@@ -19,7 +19,6 @@ import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
 public class ChooseSyncFragment extends AbstractViewPagerFragment {
 
 	private ChooseSyncDataPagerHelper mHelper;
-	private ChooseSyncModel mChooseResult;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,9 +26,9 @@ public class ChooseSyncFragment extends AbstractViewPagerFragment {
 
 		final Bundle extras = getActivity().getIntent().getExtras();
 
-		mChooseResult = (ChooseSyncModel) extras.getSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME);
-		Log.d(getClass().getName(), "onCreate : getting mChooseResult in extras (" + ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME + ") : " + mChooseResult);
-		mHelper = new ChooseSyncDataPagerHelper(getActivity(), mChooseResult);
+		final ChooseSyncModel chooseResult = (ChooseSyncModel) extras.getSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME);
+		Log.d(getClass().getName(), "onCreate : getting chooseResult in extras (" + ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME + ") : " + chooseResult);
+		mHelper = new ChooseSyncDataPagerHelper(getActivity(), chooseResult);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}

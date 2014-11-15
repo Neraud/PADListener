@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.choose_sync_item_materials, null);
+			view = inflater.inflate(R.layout.choose_sync_item_materials, parent, false);
 			mDefaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_materials_item_quantities)).getTextColors()
 					.getDefaultColor();
 		}
@@ -75,14 +74,16 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		quantitiesText.setText(getContext().getString(R.string.choose_sync_materials_item_quantities,
 				item.getSyncedModel().getPadherderInfo(), item.getSyncedModel().getCapturedInfo()));
 
+		int textColor;
 		if (item.getSyncedModel().getPadherderInfo() < item.getSyncedModel().getCapturedInfo()) {
-			quantitiesText.setTextColor(Color.GREEN);
+			textColor = getContext().getResources().getColor(R.color.text_increase);
 		} else if (item.getSyncedModel().getPadherderInfo() > item.getSyncedModel().getCapturedInfo()) {
-			quantitiesText.setTextColor(Color.RED);
+			textColor = getContext().getResources().getColor(R.color.text_decrease);
 		} else {
 			// Shouldn't happen
-			quantitiesText.setTextColor(mDefaultTextColor);
+			textColor = mDefaultTextColor;
 		}
+		quantitiesText.setTextColor(textColor);
 
 		return view;
 	}

@@ -49,8 +49,6 @@ public abstract class AbstractAssetHelper {
 			}
 			out.flush();
 			targetFile.setExecutable(true);
-		} catch (final IOException e) {
-			throw e;
 		} finally {
 			if (in != null) {
 				try {

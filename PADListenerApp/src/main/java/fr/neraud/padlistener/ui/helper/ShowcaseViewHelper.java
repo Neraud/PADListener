@@ -12,7 +12,6 @@ import com.github.amlcurran.showcaseview.targets.Target;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.ui.model.ShowcaseHelpPageModel;
 
 /**
@@ -25,12 +24,10 @@ public class ShowcaseViewHelper {
 	private int mCounter;
 	private ShowcaseView mShowcaseView;
 	private ShowcaseHelpPageModel.HelpPageListener previousPageListener = null;
-	private final TechnicalSharedPreferencesHelper mTechHelper;
 
 	public ShowcaseViewHelper(Activity activity, List<ShowcaseHelpPageModel> helpPages) {
 		mActivity = activity;
 		mHelpPages = helpPages;
-		mTechHelper = new TechnicalSharedPreferencesHelper(mActivity);
 	}
 
 	public void showHelp() {

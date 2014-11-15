@@ -28,7 +28,6 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 
 	private static final String TAG_TASK_FRAGMENT = "view_monster_info_refresh_task";
 	private final MonsterInfoRefreshInfoTaskFragment.ProgressCallBacks mProgressCallbacks;
-	private MonsterInfoRefreshInfoTaskFragment mTaskFragment;
 	private TextView mStatusText;
 	private TextView mCurrentText;
 	private ProgressBar mProgress;
@@ -110,13 +109,13 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 		refreshLastUpdate();
 
 		final FragmentManager fm = getFragmentManager();
-		mTaskFragment = (MonsterInfoRefreshInfoTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
-		if (mTaskFragment == null) {
-			mTaskFragment = new MonsterInfoRefreshInfoTaskFragment();
-			mTaskFragment.setAutoStart(true);
-			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+		MonsterInfoRefreshInfoTaskFragment taskFragment = (MonsterInfoRefreshInfoTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+		if (taskFragment == null) {
+			taskFragment = new MonsterInfoRefreshInfoTaskFragment();
+			taskFragment.setAutoStart(true);
+			fm.beginTransaction().add(taskFragment, TAG_TASK_FRAGMENT).commit();
 		}
-		mTaskFragment.registerCallbacks(mProgressCallbacks);
+		taskFragment.registerCallbacks(mProgressCallbacks);
 
 		return view;
 	}
