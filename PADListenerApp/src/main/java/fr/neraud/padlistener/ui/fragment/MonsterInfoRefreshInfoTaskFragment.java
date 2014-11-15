@@ -14,11 +14,11 @@ import fr.neraud.padlistener.service.constant.RestCallState;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 /**
- * ViewMonsterInfo retained fragment to store the RefreshInfo progression
+ * MonsterInfo retained fragment to store the RefreshInfo progression
  *
  * @author Neraud
  */
-public class ViewMonsterInfoRefreshInfoTaskFragment extends Fragment {
+public class MonsterInfoRefreshInfoTaskFragment extends Fragment {
 
 	private boolean mAutoStart = false;
 	private RestCallState mCallState = null;

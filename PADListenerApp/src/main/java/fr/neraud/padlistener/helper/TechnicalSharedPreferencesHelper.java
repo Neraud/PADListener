@@ -57,14 +57,6 @@ public class TechnicalSharedPreferencesHelper extends AbstractSharedPreferencesH
 		setLongPreference("monsterInfoRefreshDate", date.getTime());
 	}
 
-	public Date getMonsterImagesRefreshDate() {
-		return new Date(getLongPreference("monsterImagesRefreshDate", 0L));
-	}
-
-	public void setMonsterImagesRefreshDate(Date date) {
-		setLongPreference("monsterImagesRefreshDate", date.getTime());
-	}
-
 	public int getLastHelpDisplayedVersionForTag(String helpTag) {
 		return getIntPreference("lastHelpDisplayedVersion_" + helpTag, 0);
 	}

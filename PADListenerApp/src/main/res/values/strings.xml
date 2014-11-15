@@ -119,12 +119,6 @@
 	<string name="monster_priority_zero">Zero</string>
 
 
-	<!-- Install Activity -->
-	<string name="install_dialog_title">Monster data</string>
-	<string name="install_dialog_message">This application uses information from PADHerder (monster data and icons).\n\nTo limit the data usage, theses informations are provided within the application package and are being loaded in the background.\n\nIf some data is obsolete (for example, if new monsters are released, or awakenings added), you can refresh this data from the "View monster info" section.</string>
-	<string name="install_dialog_button_ok">OK</string>
-
-
 	<!-- About -->
 	<string name="about_dialog_title">About PADListener v%1$s</string>
     <string name="about_dialog_message">PADListener v%1$s, available under GNU GPL v2 license
@@ -224,7 +218,8 @@
 \n\nThey are dynamically fetched when needed and cached on your device.
 	</string>
 	<string name="view_monster_info_action_refresh">Refresh</string>
-	<string name="monster_info_last_refresh">The monster information has been refreshed at : %1$s</string>
+	<string name="monster_info_last_refresh_date">Monster information was last refreshed at : %1$s</string>
+	<string name="monster_info_last_refresh_never">Monster information has not been fetched yet</string>
 
 	<string name="monster_info_refresh_title">Refresh monster information</string>
 	<string name="monster_info_refresh_info_start">Refresh monster info</string>
@@ -335,7 +330,7 @@ You can manage these accounts in the settings.
 	<string name="choose_sync_action_sync">Sync</string>
 	<string name="choose_sync_info_label">Summary</string>
 	<string name="choose_sync_alert_unknown_monster_encountered_title">Unknown monsters</string>
-	<string name="choose_sync_alert_unknown_monster_encountered_content">The sync process encountered unknown monsters, they have been ignored. You should refresh the monster information (from the "View monster info" screen)</string>
+	<string name="choose_sync_alert_unknown_monster_encountered_content">The sync process encountered unknown monsters, they have been ignored. You should refresh the monster information (from the "View monster info" screen) and capture your box again.</string>
 	<string name="choose_sync_materialsUpdated_label">^ Materials</string>
 	<string name="choose_sync_monstersUpdated_label">^ Monsters</string>
 	<string name="choose_sync_monstersCreated_label">+ Monsters</string>

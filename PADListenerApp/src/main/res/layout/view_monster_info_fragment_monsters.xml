@@ -15,7 +15,7 @@
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
 		android:gravity="center_vertical"
-		android:text="@string/monster_info_last_refresh"/>
+		android:text="@string/monster_info_last_refresh_date"/>
 
 	<GridView
 		android:id="@+id/view_monster_info_monster_grid"

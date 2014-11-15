@@ -53,8 +53,12 @@ public class ViewMonsterInfoFragment extends Fragment implements LoaderManager.L
 
 	private void refreshLastUpdate() {
 		final Date lastRefreshDate = new TechnicalSharedPreferencesHelper(getActivity()).getMonsterInfoRefreshDate();
-		final String lastRefreshDateFormatted = SimpleDateFormat.getDateInstance().format(lastRefreshDate);
-		mCurrentTextView.setText(getString(R.string.monster_info_last_refresh, lastRefreshDateFormatted));
+		if(lastRefreshDate.getTime() > 0) {
+			final String lastRefreshDateFormatted = SimpleDateFormat.getDateInstance().format(lastRefreshDate);
+			mCurrentTextView.setText(getString(R.string.monster_info_last_refresh_date, lastRefreshDateFormatted));
+		} else {
+			mCurrentTextView.setText(getString(R.string.monster_info_last_refresh_never));
+		}
 	}
 
 	@Override

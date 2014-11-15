@@ -20,21 +20,21 @@ import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 
 /**
- * ViewMonsterInfo fragment for the RefreshInfo tab
+ * DialogFragment used to refresh the monster information
  *
  * @author Neraud
  */
-public class ViewMonsterInfoRefreshDialogFragment extends DialogFragment {
+public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 
 	private static final String TAG_TASK_FRAGMENT = "view_monster_info_refresh_task";
-	private final ViewMonsterInfoRefreshInfoTaskFragment.ProgressCallBacks mProgressCallbacks;
-	private ViewMonsterInfoRefreshInfoTaskFragment mTaskFragment;
+	private final MonsterInfoRefreshInfoTaskFragment.ProgressCallBacks mProgressCallbacks;
+	private MonsterInfoRefreshInfoTaskFragment mTaskFragment;
 	private TextView mStatusText;
 	private TextView mCurrentText;
 	private ProgressBar mProgress;
 
-	public ViewMonsterInfoRefreshDialogFragment() {
-		mProgressCallbacks = new ViewMonsterInfoRefreshInfoTaskFragment.ProgressCallBacks() {
+	public MonsterInfoRefreshDialogFragment() {
+		mProgressCallbacks = new MonsterInfoRefreshInfoTaskFragment.ProgressCallBacks() {
 
 			@Override
 			public void updateCallState(RestCallState callState, RestCallRunningStep callRunningStep, Throwable callErrorCause) {
@@ -110,9 +110,9 @@ public class ViewMonsterInfoRefreshDialogFragment extends DialogFragment {
 		refreshLastUpdate();
 
 		final FragmentManager fm = getFragmentManager();
-		mTaskFragment = (ViewMonsterInfoRefreshInfoTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+		mTaskFragment = (MonsterInfoRefreshInfoTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
 		if (mTaskFragment == null) {
-			mTaskFragment = new ViewMonsterInfoRefreshInfoTaskFragment();
+			mTaskFragment = new MonsterInfoRefreshInfoTaskFragment();
 			mTaskFragment.setAutoStart(true);
 			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
 		}
@@ -123,7 +123,11 @@ public class ViewMonsterInfoRefreshDialogFragment extends DialogFragment {
 
 	private void refreshLastUpdate() {
 		final Date lastRefreshDate = new TechnicalSharedPreferencesHelper(getActivity()).getMonsterInfoRefreshDate();
-		final String lastRefreshDateFormatted = SimpleDateFormat.getDateInstance().format(lastRefreshDate);
-		mCurrentText.setText(getString(R.string.monster_info_last_refresh, lastRefreshDateFormatted));
+		if(lastRefreshDate.getTime() > 0) {
+			final String lastRefreshDateFormatted = SimpleDateFormat.getDateInstance().format(lastRefreshDate);
+			mCurrentText.setText(getString(R.string.monster_info_last_refresh_date, lastRefreshDateFormatted));
+		} else {
+			mCurrentText.setText(getString(R.string.monster_info_last_refresh_never));
+		}
 	}
 }

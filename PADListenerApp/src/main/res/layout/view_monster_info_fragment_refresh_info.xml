@@ -1,9 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".ui.activity.ViewMonsterInfoActivity">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context=".ui.activity.ViewMonsterInfoActivity">
 
 	<TextView
 		android:id="@+id/monster_info_refresh_info_current"
@@ -14,7 +15,7 @@
 		android:layout_marginRight="10dp"
 		android:layout_marginTop="10dp"
 		android:gravity="center_vertical"
-		android:text="@string/monster_info_last_refresh"/>
+		android:text="@string/monster_info_last_refresh_date"/>
 
 	<ProgressBar
 		android:id="@+id/monster_info_refresh_info_progress"

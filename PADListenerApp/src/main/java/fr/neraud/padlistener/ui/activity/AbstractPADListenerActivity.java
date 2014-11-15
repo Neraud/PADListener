@@ -21,16 +21,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.helper.InstallationHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
-import fr.neraud.padlistener.service.InstallMonsterInfoService;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
 import fr.neraud.padlistener.ui.constant.UiScreen;
+import fr.neraud.padlistener.ui.fragment.MonsterInfoRefreshDialogFragment;
 import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 import fr.neraud.padlistener.ui.helper.ChangeLogHelper;
 import fr.neraud.padlistener.util.VersionUtil;
@@ -69,7 +70,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		new ChangeLogHelper(this).displayWhatsNew();
 
-		handleInstallIfNecessary();
+		updateMonsterInfoInNecessary();
 	}
 
 	@Override
@@ -101,21 +102,18 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		}
 	}
 
-	private void handleInstallIfNecessary() {
-		Log.d(getClass().getName(), "handleInstallIfNecessary");
-		final InstallationHelper installHelper = new InstallationHelper(getApplicationContext());
-		if (installHelper.needsInstall()) {
-			Log.d(getClass().getName(), "handleInstallIfNecessary : starting install");
-			startService(new Intent(getApplicationContext(), InstallMonsterInfoService.class));
-			final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(getApplicationContext());
-			prefHelper.setHasBeenInstalled(true);
+	private void updateMonsterInfoInNecessary() {
+		Log.d(getClass().getName(), "updateMonsterInfoInNecessary");
+		final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(this);
 
-			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.install_dialog_title);
-			builder.setMessage(R.string.install_dialog_message);
-			builder.setPositiveButton(R.string.install_dialog_button_ok, null);
-			builder.setCancelable(false);
-			builder.create().show();
+		final Date lastRefresh = prefHelper.getMonsterInfoRefreshDate();
+		final Date now = new Date();
+		final long daysAgo = TimeUnit.MILLISECONDS.toDays(now.getTime() - lastRefresh.getTime());
+
+		if (daysAgo >= 7) {
+			Log.d(getClass().getName(), "updateMonsterInfoInNecessary : starting install");
+			final MonsterInfoRefreshDialogFragment fragment = new MonsterInfoRefreshDialogFragment();
+			fragment.show(getSupportFragmentManager(), "view_monster_info_refresh");
 		}
 	}
 

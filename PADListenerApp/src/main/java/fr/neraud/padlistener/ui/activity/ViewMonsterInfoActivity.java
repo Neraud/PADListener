@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
-import fr.neraud.padlistener.ui.fragment.ViewMonsterInfoRefreshDialogFragment;
+import fr.neraud.padlistener.ui.fragment.MonsterInfoRefreshDialogFragment;
 import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 
 /**
@@ -39,7 +39,7 @@ public class ViewMonsterInfoActivity extends AbstractPADListenerActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_view_monster_info_action_refresh:
-				final ViewMonsterInfoRefreshDialogFragment fragment = new ViewMonsterInfoRefreshDialogFragment();
+				final MonsterInfoRefreshDialogFragment fragment = new MonsterInfoRefreshDialogFragment();
 				fragment.show(getSupportFragmentManager(), "view_monster_info_refresh");
 				return true;
 			default:
