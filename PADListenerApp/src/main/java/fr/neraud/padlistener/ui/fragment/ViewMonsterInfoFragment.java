@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -19,7 +20,6 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.ui.adapter.MonsterInfoCursorAdapter;
-import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * Main fragment for ViewMonsterInfo
@@ -42,7 +42,7 @@ public class ViewMonsterInfoFragment extends Fragment implements LoaderManager.L
 
 		mAdapter = new MonsterInfoCursorAdapter(getActivity());
 
-		final CardGridView mGridView = (CardGridView) view.findViewById(R.id.view_monster_info_monster_grid);
+		final GridView mGridView = (GridView) view.findViewById(R.id.view_monster_info_monster_grid);
 		mGridView.setAdapter(mAdapter);
 
 		getLoaderManager().initLoader(0, null, this);

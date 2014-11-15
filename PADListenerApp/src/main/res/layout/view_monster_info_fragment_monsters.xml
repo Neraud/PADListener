@@ -1,9 +1,10 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-    android:orientation="vertical"
-	>
+	android:orientation="vertical"
+	tools:context=".ui.activity.ViewMonsterInfoActivity">
 
 	<TextView
 		android:id="@+id/monster_info_fetch_info_current"
@@ -16,7 +17,7 @@
 		android:gravity="center_vertical"
 		android:text="@string/monster_info_last_refresh"/>
 
-	<it.gmariotti.cardslib.library.view.CardGridView
+	<GridView
 		android:id="@+id/view_monster_info_monster_grid"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -26,7 +27,7 @@
 		android:numColumns="auto_fit"
 		android:stretchMode="columnWidth"
 		android:verticalSpacing="3dp"
-		/>
+		tools:listitem="@layout/view_monster_info_item"/>
 </LinearLayout>
 
 
