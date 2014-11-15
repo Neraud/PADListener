@@ -15,7 +15,6 @@ import android.widget.GridView;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 import fr.neraud.padlistener.ui.adapter.CapturedMonsterCursorAdapter;
-import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * ViewCapturedData fragment for the Monsters tabs
@@ -34,8 +33,8 @@ public class ViewCapturedDataMonstersFragment extends Fragment implements Loader
 
 		mAdapter = new CapturedMonsterCursorAdapter(getActivity());
 
-		final GridView mGridView = (GridView) view.findViewById(R.id.view_captured_data_monsters_grid);
-		mGridView.setAdapter(mAdapter);
+		final GridView gridView = (GridView) view.findViewById(R.id.view_captured_data_monsters_grid);
+		gridView.setAdapter(mAdapter);
 
 		getLoaderManager().initLoader(0, null, this);
 
