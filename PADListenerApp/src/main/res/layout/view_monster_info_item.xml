@@ -3,8 +3,10 @@
 <RelativeLayout
 	android:id="@+id/card_monster_info_monster_container"
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="112dp"
-	android:layout_height="112dp">
+	android:layout_height="112dp"
+	tools:context=".ui.activity.ViewMonsterInfoActivity">
 
 	<ImageView
 		android:id="@+id/card_monster_image"

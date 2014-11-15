@@ -2,8 +2,10 @@
 <android.support.v4.widget.DrawerLayout
 	android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	tools:context=".ui.activity.ViewMonsterInfoActivity">
 
 	<!-- The main content view -->
 	<FrameLayout
@@ -16,7 +18,8 @@
 			android:id="@+id/view_monster_info_fragment"
 			android:name="fr.neraud.padlistener.ui.fragment.ViewMonsterInfoFragment"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent"
+			tools:layout="@layout/view_monster_info_fragment_monsters"/>
 
 	</FrameLayout>
 
