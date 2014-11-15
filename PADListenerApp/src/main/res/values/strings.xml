@@ -307,6 +307,13 @@
 
 	<!-- Compute Sync -->
 	<string name="label_computeSync">Compute Sync</string>
+	<string name="compute_sync_help_compute_sync_title">Compute sync</string>
+	<string name="compute_sync_help_compute_sync_content">This is the 1st step to sync with PADherder</string>
+	<string name="compute_sync_help_choose_account_title">Choose account</string>
+	<string name="compute_sync_help_choose_account_content">You can choose with which of your PADherder account you want to sync.\n\n
+You can manage these accounts in the settings.
+</string>
+
 	<string name="compute_sync_content">Sync data captured from PAD at %1$s</string>
 	<string name="compute_sync_start">Start</string>
 	<string name="compute_sync_status">Sync status : %1$s</string>

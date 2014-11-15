@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 
 /**
  * Activity to compute sync
@@ -17,6 +18,23 @@ public class ComputeSyncActivity extends AbstractPADListenerActivity {
 		Log.d(getClass().getName(), "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.compute_sync_activity);
+	}
+
+	protected BaseHelpManager getHelpManager() {
+		return new BaseHelpManager(this, "compute_sync", 1) {
+			@Override
+			public void buildHelpPages(PageBuilder builder) {
+				builder.addHelpPage(R.string.compute_sync_help_compute_sync_title, R.string.compute_sync_help_compute_sync_content);
+				builder.addHelpPage(R.string.compute_sync_help_choose_account_title, R.string.compute_sync_help_choose_account_content, R.id.compute_sync_choose_account_spinner, null);
+			}
+
+			@Override
+			public void buildDeltaHelpPages(PageBuilder builder, int lastDisplayedVersion) {
+				switch (lastDisplayedVersion) {
+					default: buildHelpPages(builder);
+				}
+			}
+		};
 	}
 
 }
