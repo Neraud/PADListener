@@ -10,11 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
 import fr.neraud.padlistener.ui.adapter.CapturedFriendCursorAdapter;
-import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * ViewCapturedData fragment for the Friends tabs
@@ -33,7 +33,7 @@ public class ViewCapturedDataFriendsFragment extends Fragment implements LoaderC
 
 		mAdapter = new CapturedFriendCursorAdapter(getActivity());
 
-		final CardGridView mGridView = (CardGridView) view.findViewById(R.id.view_captured_data_friends_grid);
+		final GridView mGridView = (GridView) view.findViewById(R.id.view_captured_data_friends_grid);
 		mGridView.setAdapter(mAdapter);
 
 		getLoaderManager().initLoader(0, null, this);
