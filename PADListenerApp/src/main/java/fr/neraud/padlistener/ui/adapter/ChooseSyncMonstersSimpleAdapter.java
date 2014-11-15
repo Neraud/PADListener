@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,11 +18,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
-import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
+import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
 
 /**
  * Adaptor to display Monsters set up as simple
@@ -32,8 +31,8 @@ import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
  */
 public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMonsterModel>> {
 
-	private Integer defaultTextColor = null;
-	private final MonsterImageHelper imageHelper;
+	private Integer mDefaultTextColor = null;
+	private final NewMonsterImageHelper mImageHelper;
 
 	public ChooseSyncMonstersSimpleAdapter(Context context,
 			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
@@ -47,7 +46,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 		};
 		Collections.sort(syncedMonstersToUpdate, comparator);
 
-		imageHelper = new MonsterImageHelper(context);
+		mImageHelper = new NewMonsterImageHelper(context);
 	}
 
 	@Override
@@ -58,7 +57,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.choose_sync_item_monsters_simple, parent, false);
-			defaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_monsters_item_padherder_exp)).getTextColors()
+			mDefaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_monsters_item_padherder_exp)).getTextColors()
 					.getDefaultColor();
 			// For the contextMenu
 			view.setLongClickable(true);
@@ -79,7 +78,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 			}
 		});
 
-		imageHelper.fillMonsterImage((ImageView) view.findViewById(R.id.choose_sync_monsters_item_image), item.getSyncedModel().getDisplayedMonsterInfo().getIdJP());
+		mImageHelper.fillImage(view, R.id.choose_sync_monsters_item_image, item.getSyncedModel().getDisplayedMonsterInfo());
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
 		nameText.setText(getContext().getString(R.string.choose_sync_monsters_item_name_simple,
@@ -184,6 +183,6 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 
 	private void fillOneText(View view, int textViewResId, String value) {
 		((TextView) view.findViewById(textViewResId)).setText(value);
-		((TextView) view.findViewById(textViewResId)).setTextColor(defaultTextColor);
+		((TextView) view.findViewById(textViewResId)).setTextColor(mDefaultTextColor);
 	}
 }

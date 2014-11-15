@@ -9,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
-import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
+import fr.neraud.padlistener.ui.helper.NewMonsterImageHelper;
 
 /**
  * Adaptor to display Monsters set up as grouped
@@ -36,18 +35,18 @@ import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
  */
 public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter {
 
-	private final Context context;
-	private final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters;
-	private List<MonsterInfoModel> groups;
-	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> sortedSyncedMonsters;
-	private Integer defaultTextColor = null;
-	private MonsterImageHelper imageHelper;
+	private final Context mContext;
+	private final List<ChooseSyncModelContainer<SyncedMonsterModel>> mSyncedMonsters;
+	private List<MonsterInfoModel> mGroups;
+	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> mSortedSyncedMonsters;
+	private Integer mDefaultTextColor = null;
+	private NewMonsterImageHelper mImageHelper;
 
 	public ChooseSyncMonstersGroupedAdapter(Context context, List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters) {
-		this.context = context;
-		this.syncedMonsters = syncedMonsters;
+		this.mContext = context;
+		this.mSyncedMonsters = syncedMonsters;
 		refreshData();
-		imageHelper = new MonsterImageHelper(context);
+		mImageHelper = new NewMonsterImageHelper(context);
 	}
 
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
@@ -68,22 +67,22 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 	@Override
 	public int getGroupCount() {
-		return groups.size();
+		return mGroups.size();
 	}
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return sortedSyncedMonsters.get(groups.get(groupPosition)).size();
+		return mSortedSyncedMonsters.get(mGroups.get(groupPosition)).size();
 	}
 
 	@Override
 	public MonsterInfoModel getGroup(int groupPosition) {
-		return groups.get(groupPosition);
+		return mGroups.get(groupPosition);
 	}
 
 	@Override
 	public ChooseSyncModelContainer<SyncedMonsterModel> getChild(int groupPosition, int childPosition) {
-		return sortedSyncedMonsters.get(groups.get(groupPosition)).get(childPosition);
+		return mSortedSyncedMonsters.get(mGroups.get(groupPosition)).get(childPosition);
 	}
 
 	@Override
@@ -106,14 +105,14 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		Log.d(getClass().getName(), "getGroupView");
 		final MonsterInfoModel monsterInfo = getGroup(groupPosition);
 		if (view == null) {
-			final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.choose_sync_item_monsters_group, parent, false);
 		}
 
-		imageHelper.fillMonsterImage((ImageView) view.findViewById(R.id.choose_sync_monsters_item_image), monsterInfo.getIdJP());
+		mImageHelper.fillImage(view, R.id.choose_sync_monsters_item_image, monsterInfo);
 
 		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_name);
-		nameText.setText(context.getString(R.string.choose_sync_monsters_item_name_group, sortedSyncedMonsters.get(monsterInfo).size(),
+		nameText.setText(mContext.getString(R.string.choose_sync_monsters_item_name_group, mSortedSyncedMonsters.get(monsterInfo).size(),
 				monsterInfo.getIdJP(), monsterInfo.getName()));
 
 		return view;
@@ -124,9 +123,9 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		Log.d(getClass().getName(), "getChildView");
 		final ChooseSyncModelContainer<SyncedMonsterModel> item = getChild(groupPosition, childPosition);
 		if (view == null) {
-			final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.choose_sync_item_monsters_child, parent, false);
-			defaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_monsters_item_padherder_exp)).getTextColors()
+			mDefaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_monsters_item_padherder_exp)).getTextColors()
 					.getDefaultColor();
 			// To enable the contextMenu
 			view.setLongClickable(true);
@@ -154,7 +153,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			evoText.setVisibility(View.VISIBLE);
 			final MonsterInfoModel evolvedFrom = item.getSyncedModel().getPadherderMonsterInfo();
 
-			evoText.setText(context.getString(R.string.choose_sync_monsters_item_evo,
+			evoText.setText(mContext.getString(R.string.choose_sync_monsters_item_evo,
 					evolvedFrom.getIdJP(),
 					evolvedFrom.getName()));
 			evoText.setTextColor(padherder.getIdJp() < captured.getIdJp() ? Color.GREEN : Color.RED);
@@ -165,12 +164,12 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 		final MonsterModel modelToUse = captured != null ? captured : padherder;
 		final TextView priorityText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_priority);
-		final String priorityLabel = context.getString(modelToUse.getPriority().getLabelResId());
-		priorityText.setText(context.getString(R.string.choose_sync_monsters_item_priority, priorityLabel));
+		final String priorityLabel = mContext.getString(modelToUse.getPriority().getLabelResId());
+		priorityText.setText(mContext.getString(R.string.choose_sync_monsters_item_priority, priorityLabel));
 		final TextView noteText = (TextView) view.findViewById(R.id.choose_sync_monsters_item_note);
 		if (StringUtils.isNotBlank(modelToUse.getNote())) {
 			noteText.setVisibility(View.VISIBLE);
-			noteText.setText(context.getString(R.string.choose_sync_monsters_item_note, modelToUse.getNote()));
+			noteText.setText(mContext.getString(R.string.choose_sync_monsters_item_note, modelToUse.getNote()));
 		} else {
 			noteText.setVisibility(View.GONE);
 		}
@@ -248,13 +247,13 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 	private void fillOneText(View view, int textViewResId, String value) {
 		((TextView) view.findViewById(textViewResId)).setText(value);
-		((TextView) view.findViewById(textViewResId)).setTextColor(defaultTextColor);
+		((TextView) view.findViewById(textViewResId)).setTextColor(mDefaultTextColor);
 	}
 
 	public void refreshData() {
 		Log.d(getClass().getName(), "refreshData");
-		sortedSyncedMonsters = reorgMonsters(syncedMonsters);
-		groups = new ArrayList<MonsterInfoModel>(sortedSyncedMonsters.keySet());
+		mSortedSyncedMonsters = reorgMonsters(mSyncedMonsters);
+		mGroups = new ArrayList<MonsterInfoModel>(mSortedSyncedMonsters.keySet());
 
 		final Comparator<MonsterInfoModel> comparator = new Comparator<MonsterInfoModel>() {
 			@Override
@@ -262,6 +261,6 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 				return a.getIdJP() - b.getIdJP();
 			}
 		};
-		Collections.sort(groups, comparator);
+		Collections.sort(mGroups, comparator);
 	}
 }

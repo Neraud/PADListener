@@ -27,6 +27,7 @@
 			android:gravity="center_vertical"
 			android:lines="1"
 			android:text="@string/choose_sync_monsters_item_evo"
+			android:textColor="@color/body_text_1"
 			android:textSize="10sp"/>
 
 		<TableLayout
@@ -42,6 +43,7 @@
 					android:layout_weight="2"
 					android:gravity="center"
 					android:text="@string/choose_sync_monsters_item_label_exp"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -49,6 +51,7 @@
 					android:layout_weight="1"
 					android:gravity="center"
 					android:text="@string/choose_sync_monsters_item_label_skill"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -56,6 +59,7 @@
 					android:layout_weight="1"
 					android:gravity="center"
 					android:text="@string/choose_sync_monsters_item_label_awakenings"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -63,6 +67,7 @@
 					android:layout_weight="1"
 					android:gravity="center"
 					android:text="@string/choose_sync_monsters_item_label_plusHp"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -70,6 +75,7 @@
 					android:layout_weight="1"
 					android:gravity="center"
 					android:text="@string/choose_sync_monsters_item_label_plusAtk"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -77,6 +83,7 @@
 					android:layout_weight="1"
 					android:gravity="center"
 					android:text="@string/choose_sync_monsters_item_label_plusRcv"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 			</TableRow>
 
@@ -87,6 +94,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="2"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -94,6 +102,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -101,6 +110,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -108,6 +118,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -115,6 +126,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -122,6 +134,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 			</TableRow>
 
@@ -132,6 +145,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="2"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -139,6 +153,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -146,6 +161,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -153,6 +169,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -160,6 +177,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 
 				<TextView
@@ -167,6 +185,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
+					android:textColor="@color/body_text_1"
 					android:textSize="12sp"/>
 			</TableRow>
 		</TableLayout>
@@ -177,6 +196,7 @@
 			android:layout_height="wrap_content"
 			android:gravity="left"
 			android:text="@string/choose_sync_monsters_item_priority"
+			android:textColor="@color/body_text_1"
 			android:textSize="12sp"/>
 
 		<TextView
@@ -186,6 +206,7 @@
 			android:ellipsize="end"
 			android:gravity="left"
 			android:text="@string/choose_sync_monsters_item_note"
+			android:textColor="@color/body_text_1"
 			android:textSize="12sp"/>
 	</LinearLayout>
 

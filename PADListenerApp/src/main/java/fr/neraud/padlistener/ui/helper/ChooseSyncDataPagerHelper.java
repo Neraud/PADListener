@@ -44,14 +44,14 @@ public class ChooseSyncDataPagerHelper {
 
 	private void populate() {
 		Log.d(getClass().getName(), "populate");
-		populateInfoMaterialsUpdated();
+		populateMaterialsUpdated();
 		populateMonsterFragment(SyncMode.UPDATED, R.string.choose_sync_monstersUpdated_label);
 		populateMonsterFragment(SyncMode.CREATED, R.string.choose_sync_monstersCreated_label);
 		populateMonsterFragment(SyncMode.DELETED, R.string.choose_sync_monstersDeleted_label);
 	}
 
-	private void populateInfoMaterialsUpdated() {
-		Log.d(getClass().getName(), "populateInfoMaterialsUpdated");
+	private void populateMaterialsUpdated() {
+		Log.d(getClass().getName(), "populateMaterialsUpdated");
 		if (mResult.getSyncedMaterialsToUpdate().size() > 0) {
 			final Fragment fragment = new ChooseSyncMaterialsFragment();
 			addResultToFragmentArguments(fragment);
@@ -62,6 +62,7 @@ public class ChooseSyncDataPagerHelper {
 	}
 
 	private void populateMonsterFragment(SyncMode mode, int titleId) {
+		Log.d(getClass().getName(), "populateMonsterFragment : " + mode);
 		if (mResult.getSyncedMonsters(mode).size() > 0) {
 			final Fragment fragment = createChoiceFragment(mPrefHelper.isChooseSyncGroupMonsters(mode));
 			addResultToFragmentArguments(fragment);
