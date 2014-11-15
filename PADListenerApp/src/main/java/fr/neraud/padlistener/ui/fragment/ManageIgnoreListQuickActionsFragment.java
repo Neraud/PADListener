@@ -6,19 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.IgnoreMonsterQuickActionsHelper;
 import fr.neraud.padlistener.helper.MonsterInfoHelper;
-import fr.neraud.padlistener.model.IgnoreMonsterQuickActionModel;
-import fr.neraud.padlistener.ui.model.IgnoreListQuickActionCard;
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.view.CardListView;
+import fr.neraud.padlistener.ui.adapter.ManageIgnoreListQuickActionsAdapter;
 
 /**
  * ViewCapturedData fragment for the Information tab
@@ -28,7 +23,7 @@ import it.gmariotti.cardslib.library.view.CardListView;
 public class ManageIgnoreListQuickActionsFragment extends Fragment {
 
 	private ManageIgnoreListTaskFragment mTaskFragment;
-	private CardArrayAdapter mAdapter;
+	private ManageIgnoreListQuickActionsAdapter mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,22 +33,12 @@ public class ManageIgnoreListQuickActionsFragment extends Fragment {
 
 		mTaskFragment = (ManageIgnoreListTaskFragment) getFragmentManager().findFragmentByTag(ManageIgnoreListTaskFragment.TAG_TASK_FRAGMENT);
 
-		final CardListView mListView = (CardListView) view.findViewById(R.id.manage_ignore_list_quick_actions_list);
-		mAdapter = new CardArrayAdapter(getActivity(), buildCardList());
+		final ListView mListView = (ListView) view.findViewById(R.id.manage_ignore_list_quick_actions_list);
+		final IgnoreMonsterQuickActionsHelper helper = new IgnoreMonsterQuickActionsHelper(getActivity());
+		mAdapter = new ManageIgnoreListQuickActionsAdapter(getActivity(), helper.extractQuickActions(), mTaskFragment);
 		mListView.setAdapter(mAdapter);
 
 		return view;
-	}
-
-	private List<Card> buildCardList() {
-		final List<Card> quickActionCards = new ArrayList<Card>();
-
-		final IgnoreMonsterQuickActionsHelper helper = new IgnoreMonsterQuickActionsHelper(getActivity());
-		for(final IgnoreMonsterQuickActionModel model : helper.extractQuickActions()) {
-			quickActionCards.add(new IgnoreListQuickActionCard(getActivity(),mTaskFragment, model));
-		}
-
-		return quickActionCards;
 	}
 
 	@Override

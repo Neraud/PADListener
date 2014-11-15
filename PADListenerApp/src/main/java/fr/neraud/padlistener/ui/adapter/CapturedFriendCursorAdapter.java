@@ -32,13 +32,13 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 
 		final CapturedFriendFullInfoModel model = CapturedPlayerFriendProviderHelper.cursorWithInfoToModel(cursor);
 
-		final TextView friendNameTextView = (TextView) view.findViewById(R.id.card_friend_name);
+		final TextView friendNameTextView = (TextView) view.findViewById(R.id.view_captured_data_friend_name);
 		friendNameTextView.setText(model.getFriendModel().getName());
 
-		final TextView friendIdTextView = (TextView) view.findViewById(R.id.card_friend_id);
+		final TextView friendIdTextView = (TextView) view.findViewById(R.id.view_captured_data_friend_id);
 		friendIdTextView.setText(mActivity.getString(R.string.view_captured_data_friend_id, model.getFriendModel().getId()));
 
-		final TextView friendRankTextView = (TextView) view.findViewById(R.id.card_friend_rank);
+		final TextView friendRankTextView = (TextView) view.findViewById(R.id.view_captured_data_friend_rank);
 		friendRankTextView.setText(mActivity.getString(R.string.view_captured_data_friend_rank, model.getFriendModel().getRank()));
 
 		fillLeader1(view, model.getLeader1Info(), model.getFriendModel().getLeader1());

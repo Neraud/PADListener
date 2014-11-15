@@ -1,7 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	tools:context=".ui.activity.ManageIgnoreListActivity">
+
+	<TextView
+		android:id="@+id/manage_ignore_list_quick_action_item_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:textSize="@dimen/text_size_medium"
+		android:textStyle="bold"/>
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -74,8 +85,8 @@
 			android:layout_marginLeft="20dp"
 			android:layout_marginRight="20dp"
 			android:layout_weight="1"
-			android:text="@string/manage_ignore_list_quick_action_remove"
 			android:background="@drawable/button_secondary"
+			android:text="@string/manage_ignore_list_quick_action_remove"
 			android:textColor="@color/theme_primary"
 			android:textSize="@dimen/text_size_medium"
 			android:textStyle="bold"
@@ -89,11 +100,11 @@
 			android:layout_marginLeft="20dp"
 			android:layout_marginRight="20dp"
 			android:layout_weight="1"
+			android:background="@drawable/button_primary"
 			android:text="@string/manage_ignore_list_quick_action_add"
-		    android:background="@drawable/button_primary"
-		    android:textColor="#fff"
-		    android:textSize="@dimen/text_size_medium"
-		    android:textStyle="bold"
+			android:textColor="#fff"
+			android:textSize="@dimen/text_size_medium"
+			android:textStyle="bold"
 			/>
 	</LinearLayout>
 

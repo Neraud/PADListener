@@ -34,6 +34,17 @@ public class NewMonsterImageHelper {
 	 */
 	public ImageView fillImage(View container, int imageViewId, MonsterInfoModel model) {
 		final ImageView monsterImageView = (ImageView) container.findViewById(imageViewId);
+		return fillImage(monsterImageView, model);
+	}
+
+	/**
+	 * Fill the imageView with the monster image
+	 *
+	 * @param monsterImageView the ImageView
+	 * @param model the MonsterInfoModel
+	 * @return the filled ImageView
+	 */
+	public ImageView fillImage(ImageView monsterImageView, MonsterInfoModel model) {
 		final String imageUrl = PadHerderDescriptor.serverUrl + model.getImage60Url();
 
 		Picasso.with(mContext)

@@ -6,10 +6,12 @@
 	android:orientation="vertical"
 	tools:context=".ui.activity.ManageIgnoreListActivity">
 
-	<it.gmariotti.cardslib.library.view.CardListView
+	<ListView
 		android:id="@+id/manage_ignore_list_quick_actions_list"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent"
+		tools:listitem="@layout/manage_ignore_list_fragment_quick_actions_item"/>
+
 </LinearLayout>
 
 

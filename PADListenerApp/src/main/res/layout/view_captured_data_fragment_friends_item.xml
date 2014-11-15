@@ -19,7 +19,7 @@
 		android:orientation="vertical">
 
 		<TextView
-			android:id="@+id/card_friend_name"
+			android:id="@+id/view_captured_data_friend_name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="16dp"
@@ -27,7 +27,7 @@
 			android:textStyle="bold"/>
 
 		<TextView
-			android:id="@+id/card_friend_id"
+			android:id="@+id/view_captured_data_friend_id"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="16dp"
@@ -35,7 +35,7 @@
 			/>
 
 		<TextView
-			android:id="@+id/card_friend_rank"
+			android:id="@+id/view_captured_data_friend_rank"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="16dp"
