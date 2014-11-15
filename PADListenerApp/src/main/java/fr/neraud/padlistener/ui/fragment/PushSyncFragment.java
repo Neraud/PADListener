@@ -26,13 +26,13 @@ public class PushSyncFragment extends Fragment {
 	public static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
 
-	private TextView head;
-	private ProgressBar progress;
-	private TextView summaryUserInfoUpdated;
-	private TextView summaryMaterialsUpdated;
-	private TextView summaryMonstersUpdated;
-	private TextView summaryMonstersCreated;
-	private TextView summaryMonstersDeleted;
+	private TextView mHead;
+	private ProgressBar mProgress;
+	private TextView mSummaryUserInfoUpdated;
+	private TextView mSummaryMaterialsUpdated;
+	private TextView mSummaryMonstersUpdated;
+	private TextView mSummaryMonstersCreated;
+	private TextView mSummaryMonstersDeleted;
 
 	private final PushSyncTaskFragment.CallBacks callbacks = new PushSyncTaskFragment.CallBacks() {
 
@@ -43,23 +43,23 @@ public class PushSyncFragment extends Fragment {
 				Log.d(getClass().getName(), "updateState : " + pushModel.getElementPushedCount() + pushModel.getElementErrorCount()
 						+ " / " + pushModel.getElementToPushCount());
 
-				progress.setIndeterminate(false);
-				progress.setMax(pushModel.getElementToPushCount());
-				progress.setProgress(pushModel.getElementPushedCount() + pushModel.getElementErrorCount());
-				updateText(pushModel, summaryUserInfoUpdated, R.string.push_sync_summary_userinfo_updated, ElementToPush.USER_INFO);
-				updateText(pushModel, summaryMaterialsUpdated, R.string.push_sync_summary_materials_updated,
+				mProgress.setIndeterminate(false);
+				mProgress.setMax(pushModel.getElementToPushCount());
+				mProgress.setProgress(pushModel.getElementPushedCount() + pushModel.getElementErrorCount());
+				updateText(pushModel, mSummaryUserInfoUpdated, R.string.push_sync_summary_userinfo_updated, ElementToPush.USER_INFO);
+				updateText(pushModel, mSummaryMaterialsUpdated, R.string.push_sync_summary_materials_updated,
 						ElementToPush.MATERIAL_TO_UPDATE);
-				updateText(pushModel, summaryMonstersUpdated, R.string.push_sync_summary_monsters_updated,
+				updateText(pushModel, mSummaryMonstersUpdated, R.string.push_sync_summary_monsters_updated,
 						ElementToPush.MONSTER_TO_UPDATE);
-				updateText(pushModel, summaryMonstersCreated, R.string.push_sync_summary_monsters_created,
+				updateText(pushModel, mSummaryMonstersCreated, R.string.push_sync_summary_monsters_created,
 						ElementToPush.MONSTER_TO_CREATE);
-				updateText(pushModel, summaryMonstersDeleted, R.string.push_sync_summary_monsters_deleted,
+				updateText(pushModel, mSummaryMonstersDeleted, R.string.push_sync_summary_monsters_deleted,
 						ElementToPush.MONSTER_TO_DELETE);
 
 				if (pushModel.getElementPushedCount() + pushModel.getElementErrorCount() >= pushModel.getElementToPushCount()) {
-					head.setText(R.string.push_sync_head_done);
+					mHead.setText(R.string.push_sync_head_done);
 				} else {
-					head.setText(R.string.push_sync_head_pushing);
+					mHead.setText(R.string.push_sync_head_pushing);
 				}
 			}
 		}
@@ -78,13 +78,13 @@ public class PushSyncFragment extends Fragment {
 
 		final View view = inflater.inflate(R.layout.push_sync_fragment, container, false);
 
-		head = (TextView) view.findViewById(R.id.push_sync_head);
-		progress = (ProgressBar) view.findViewById(R.id.push_sync_progress);
-		summaryUserInfoUpdated = (TextView) view.findViewById(R.id.push_sync_summary_userinfo_updated);
-		summaryMaterialsUpdated = (TextView) view.findViewById(R.id.push_sync_summary_materials_updated);
-		summaryMonstersUpdated = (TextView) view.findViewById(R.id.push_sync_summary_monsters_updated);
-		summaryMonstersCreated = (TextView) view.findViewById(R.id.push_sync_summary_monsters_created);
-		summaryMonstersDeleted = (TextView) view.findViewById(R.id.push_sync_summary_monsters_deleted);
+		mHead = (TextView) view.findViewById(R.id.push_sync_head);
+		mProgress = (ProgressBar) view.findViewById(R.id.push_sync_progress);
+		mSummaryUserInfoUpdated = (TextView) view.findViewById(R.id.push_sync_summary_userinfo_updated);
+		mSummaryMaterialsUpdated = (TextView) view.findViewById(R.id.push_sync_summary_materials_updated);
+		mSummaryMonstersUpdated = (TextView) view.findViewById(R.id.push_sync_summary_monsters_updated);
+		mSummaryMonstersCreated = (TextView) view.findViewById(R.id.push_sync_summary_monsters_created);
+		mSummaryMonstersDeleted = (TextView) view.findViewById(R.id.push_sync_summary_monsters_deleted);
 
 		final FragmentManager fm = getFragmentManager();
 		PushSyncTaskFragment mTaskFragment = (PushSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
