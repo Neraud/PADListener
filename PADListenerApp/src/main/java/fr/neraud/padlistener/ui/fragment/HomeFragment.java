@@ -13,7 +13,9 @@ import android.widget.Button;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.AutoCaptureService;
+import fr.neraud.padlistener.service.AutoSyncService;
 import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 
@@ -98,15 +100,37 @@ public class HomeFragment extends Fragment {
 
 	private void fillSyncCard(View mainView) {
 		final Button autoButton = (Button) mainView.findViewById(R.id.home_sync_auto_button);
-		final Button manualButton = (Button) mainView.findViewById(R.id.home_sync_manual_button);
 
-		final View.OnClickListener autoOnClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Log.d(getClass().getName(), "sync.autoButton.onClick");
-				// TODO
-			}
-		};
+		final boolean autoButtonEnabled;
+		final View.OnClickListener autoOnClickListener;
+		if(canUseAutoSync()) {
+			autoButtonEnabled = true;
+			autoOnClickListener = new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "sync.autoButton.onClick");
+					final Intent serviceIntent = new Intent(getActivity(), AutoSyncService.class);
+					getActivity().startService(serviceIntent);
+				}
+			};
+		} else {
+			autoButtonEnabled = false;
+			autoOnClickListener = new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "sync.autoButton.onClick");
+					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setTitle(R.string.home_auto_sync_disabled_title);
+					builder.setCancelable(true);
+					builder.setMessage(R.string.home_auto_sync_disabled_message);
+					builder.create().show();
+				}
+			};
+		}
+
+		fillButton(autoButton, autoButtonEnabled, autoOnClickListener, R.drawable.button_primary);
+
+		final Button manualButton = (Button) mainView.findViewById(R.id.home_sync_manual_button);
 
 		final View.OnClickListener manualOnClickListener = new View.OnClickListener() {
 			@Override
@@ -116,8 +140,18 @@ public class HomeFragment extends Fragment {
 			}
 		};
 
-		fillButton(autoButton, false, autoOnClickListener, R.drawable.button_primary);
 		fillButton(manualButton, true, manualOnClickListener, R.drawable.button_secondary);
+	}
+
+
+	private boolean canUseAutoSync() {
+		final DefaultSharedPreferencesHelper defaultHelper = new DefaultSharedPreferencesHelper(getActivity());
+		boolean hasAccounts = defaultHelper.getPadHerderAccounts().size() > 0;
+
+		final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
+		boolean hasCaptured = techHelper.getLastCaptureDate().getTime() > 0;
+
+		return hasAccounts && hasCaptured;
 	}
 
 	private void fillButton(Button button, boolean enabled, View.OnClickListener listener, int drawableResId) {

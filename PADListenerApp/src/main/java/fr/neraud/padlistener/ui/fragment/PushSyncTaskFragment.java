@@ -21,8 +21,6 @@ import fr.neraud.padlistener.service.PushSyncService;
  */
 public class PushSyncTaskFragment extends Fragment {
 
-	protected static final String EXTRA_CHOOSE_SYNC_MODEL_NAME = "sync_model";
-
 	private ChooseSyncModel result;
 	private int accountId;
 	private CallBacks callbacks = null;

@@ -77,6 +77,9 @@
 		<service
 			android:name=".service.PushSyncService"
 			android:exported="false" />
+		<service
+			android:name=".service.AutoSyncService"
+			android:exported="false" />
 
 
 		<provider
