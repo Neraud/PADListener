@@ -28,6 +28,7 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 	private final ProxyHelper proxyHelper;
 	private final DefaultSharedPreferencesHelper prefHelper;
 	private final ProxyMode proxyMode;
+	private boolean forceAutoStopListenerAfterCapture = false;
 
 	public StartListenerAsyncTask(Context context, ProxyHelper proxyHelper) {
 		this.context = context;
@@ -54,7 +55,7 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(context);
 			techPrefHelper.setLastListenerStartProxyMode(proxyMode);
 
-			proxyHelper.activateProxy();
+			proxyHelper.activateProxy(forceAutoStopListenerAfterCapture);
 
 			switch (proxyMode) {
 				case AUTO_IPTABLES:
@@ -111,5 +112,9 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 		editor.putBoolean(PreferenceUtils.proxyCaptureData, true);
 
 		editor.commit();
+	}
+
+	public void setForceAutoStopListenerAfterCapture(boolean forceAutoStopListenerAfterCapture) {
+		this.forceAutoStopListenerAfterCapture = forceAutoStopListenerAfterCapture;
 	}
 }

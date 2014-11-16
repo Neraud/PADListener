@@ -51,6 +51,8 @@
 	<string name="settings_listener_custom_target_hostname_summary">Custom hostname added to the list of intercepted hostname for PAD calls.</string>
 	<string name="settings_proxy_mode_title">Proxy settings mode</string>
 	<string name="settings_proxy_mode_summary">%1$s</string>
+	<string name="settings_listener_auto_capture_server_title">Server for auto capture</string>
+	<string name="settings_listener_auto_capture_server_summary">Which PAD version to use when automatically capturing</string>
 	<string name="settings_listener_auto_shutdown_title">Auto shutdown</string>
 	<string name="settings_listener_auto_shutdown_summary">Automatically shuts down the Listener when the capture is done. Only used for automatic listener modes</string>
 	<string name="settings_listener_on_local_title">Non local mode</string>
@@ -151,6 +153,10 @@
 \n\nManual sync will require you to follow a few steps.
 \nOnce set up, the Auto mode will speed the process.
 	</string>
+	<string name="home_help_capture_manual_title">Manual capture</string>
+	<string name="home_help_capture_manual_content">With the manual mode, you\'ll start a capture Listener.\n\nYou\'ll then have to start PAD and go through the title screen to capture data.</string>
+	<string name="home_help_capture_auto_title">Auto capture</string>
+	<string name="home_help_capture_auto_content">With the auto mode, the capture Listener will be automatically started.\n\nThen, PAD will be started (re-started if it was previously opened).</string>
 	<string name="home_help_drawer_title">Secondary functions</string>
 	<string name="home_help_drawer_content">The left navigation drawer contains the secondary functions.
 \n\nYou can open it by clicking on the top left icon, or by swiping right from the left edge of the screen.
@@ -165,9 +171,16 @@
 	<string name="home_capture_content">Capture from PAD</string>
 	<string name="home_capture_button_manual">Manual</string>
 	<string name="home_capture_button_auto">Auto</string>
+	<string name="home_auto_capture_disabled_title">Auto capture disabled</string>
+	<string name="home_auto_capture_disabled_message">To enable auto capture you need to use an automatic listener mode.</string>
 	<string name="home_sync_content">Sync with PADherder</string>
 	<string name="home_sync_button_manual">Manual</string>
 	<string name="home_sync_button_auto">Auto</string>
+
+
+	<!-- Auto-capture -->
+	<string name="auto_capture_start_listener_failed">Start listener failed</string>
+
 
 
 	<!-- Switch listener -->

@@ -21,6 +21,13 @@
 			android:key="listener_proxy_mode"
 			android:summary="@string/settings_proxy_mode_summary"
 			android:title="@string/settings_proxy_mode_title"/>
+		<ListPreference
+			android:defaultValue="US"
+			android:entries="@array/settings_listener_target_server_entries"
+			android:entryValues="@array/settings_listener_target_server_entryValues"
+			android:key="listener_auto_capture_server"
+			android:summary="@string/settings_listener_auto_capture_server_summary"
+			android:title="@string/settings_listener_auto_capture_server_title"/>
 		<CheckBoxPreference
 			android:defaultValue="true"
 			android:key="listener_auto_shutdown"

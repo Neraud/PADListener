@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import fr.neraud.padlistener.constant.PADServer;
+import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 import fr.neraud.padlistener.constant.SyncMode;
@@ -37,9 +37,9 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 		final String customTargetHostName = getStringPreference("listener_custom_target_hostname", null);
 
 		for (final String selectedTargetServer : selectedTargetServers) {
-			final PADServer server = PADServer.fromName(selectedTargetServer);
+			final PADVersion server = PADVersion.fromName(selectedTargetServer);
 			if (server != null) {
-				targetHostNames.add(server.getHostName());
+				targetHostNames.add(server.getServerHostName());
 			} else {
 				Log.w(getClass().getName(), "getAllListenerTargetHostnames : ignoring unknown server : " + selectedTargetServer);
 			}
@@ -54,6 +54,10 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 
 	public ProxyMode getProxyMode() {
 		return ProxyMode.valueOf(getStringPreference("listener_proxy_mode", "MANUAL"));
+	}
+
+	public PADVersion getAutoCaptureServer() {
+		return PADVersion.valueOf(getStringPreference("listener_auto_capture_server", "US"));
 	}
 
 	public boolean isListenerAutoShutdown() {

@@ -30,7 +30,6 @@ import fr.neraud.padlistener.util.ScriptAssetHelper;
 public class ListenerService extends Service {
 
 	private static final int NOTIFICATION_ID = 1;
-	public static String EXTRA_TOSTART_NAME = "activate";
 	private final IBinder mBinder = new ListenerServiceBinder();
 	private boolean started = false;
 	private ProxyHelper proxyHelper = null;
@@ -48,8 +47,8 @@ public class ListenerService extends Service {
 			return started;
 		}
 
-		public void startListener(ListenerServiceListener listener) {
-			doStartListener(listener);
+		public void startListener(ListenerServiceListener listener, boolean forceAutoStopListenerAfterCapture) {
+			doStartListener(listener, forceAutoStopListenerAfterCapture);
 		}
 
 		public void stopListener(ListenerServiceListener listener) {
@@ -117,7 +116,7 @@ public class ListenerService extends Service {
 		return mBinder;
 	}
 
-	private void doStartListener(final ListenerServiceListener listener) {
+	private void doStartListener(final ListenerServiceListener listener, boolean forceAutoStopListenerAfterCapture) {
 		Log.d(getClass().getName(), "doStartListener");
 
 		final StartListenerAsyncTask asyncTask = new StartListenerAsyncTask(getApplicationContext(), proxyHelper) {
@@ -141,6 +140,7 @@ public class ListenerService extends Service {
 				}
 			}
 		};
+		asyncTask.setForceAutoStopListenerAfterCapture(forceAutoStopListenerAfterCapture);
 		asyncTask.execute();
 	}
 

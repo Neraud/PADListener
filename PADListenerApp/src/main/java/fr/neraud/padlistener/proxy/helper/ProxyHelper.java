@@ -7,7 +7,6 @@ import org.sandrop.webscarab.model.StoreException;
 import org.sandrop.webscarab.plugin.Framework;
 import org.sandrop.webscarab.plugin.proxy.IClientResolver;
 import org.sandrop.webscarab.plugin.proxy.Proxy;
-import org.sandrop.webscarab.plugin.proxy.ProxyPlugin;
 import org.sandroproxy.utils.NetworkHostNameResolver;
 import org.sandroproxy.utils.PreferenceUtils;
 import org.sandroproxy.utils.network.ClientResolver;
@@ -34,7 +33,7 @@ public class ProxyHelper {
 		this.context = context;
 	}
 
-	public void activateProxy() throws ListenerSetupException {
+	public void activateProxy(boolean forceAutoStopListenerAfterCapture) throws ListenerSetupException {
 		Log.d(getClass().getName(), "activateProxy");
 		framework = new Framework(context);
 		setStore(context);
@@ -43,7 +42,8 @@ public class ProxyHelper {
 		final Proxy proxy = new Proxy(framework, networkHostNameResolver, clientResolver);
 		framework.addPlugin(proxy);
 
-		final ProxyPlugin plugin = new PADPlugin(context);
+		final PADPlugin plugin = new PADPlugin(context);
+		plugin.setForceAutoStopListenerAfterCapture(forceAutoStopListenerAfterCapture);
 		proxy.addPlugin(plugin);
 
 		proxy.run();

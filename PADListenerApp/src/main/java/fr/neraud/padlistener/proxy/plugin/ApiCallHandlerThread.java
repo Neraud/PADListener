@@ -17,9 +17,9 @@ import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.pad.GetPlayerDataJsonParser;
-import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
@@ -39,6 +39,7 @@ public class ApiCallHandlerThread extends Thread {
 
 	private final Context context;
 	private final ApiCallModel callModel;
+	private boolean forceAutoStopListenerAfterCapture = false;
 	private final CaptureNotificationHelper captureCallback;
 
 
@@ -71,7 +72,7 @@ public class ApiCallHandlerThread extends Thread {
 					captureCallback.notifyCaptureFinished(result.getPlayerInfo().getName());
 
 					final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
-					if(prefHelper.isListenerAutoShutdown() && techPrefHelper.getLastListenerStartProxyMode().isAutomatic()) {
+					if ((forceAutoStopListenerAfterCapture || prefHelper.isListenerAutoShutdown()) && techPrefHelper.getLastListenerStartProxyMode().isAutomatic()) {
 						stopListener();
 					}
 					break;
@@ -156,4 +157,7 @@ public class ApiCallHandlerThread extends Thread {
 		context.stopService(serviceIntent);
 	}
 
+	public void setForceAutoStopListenerAfterCapture(boolean forceAutoStopListenerAfterCapture) {
+		this.forceAutoStopListenerAfterCapture = forceAutoStopListenerAfterCapture;
+	}
 }

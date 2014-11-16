@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.neraud.padlistener.constant.PADRegion;
-import fr.neraud.padlistener.constant.PADServer;
+import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
@@ -28,6 +28,7 @@ import fr.neraud.padlistener.pad.model.ApiCallModel;
 public class PADPlugin extends ProxyPlugin {
 
 	private final Context context;
+	private boolean forceAutoStopListenerAfterCapture = false;
 	private final Set<String> targetHostnames;
 	private boolean _enabled = true;
 
@@ -69,7 +70,9 @@ public class PADPlugin extends ProxyPlugin {
 					model.setResponseContent(responseContentString);
 
 					Log.d(PADPlugin.class.getName(), "" + model);
-					new ApiCallHandlerThread(context, model).start();
+					final ApiCallHandlerThread handler = new ApiCallHandlerThread(context, model);
+					handler.setForceAutoStopListenerAfterCapture(forceAutoStopListenerAfterCapture);
+					handler.start();
 				}
 
 				return response;
@@ -93,7 +96,7 @@ public class PADPlugin extends ProxyPlugin {
 		}
 
 		private PADRegion extractRegion(String reqHost) {
-			final PADServer server = PADServer.fromHostName(reqHost);
+			final PADVersion server = PADVersion.fromHostName(reqHost);
 
 			if(server != null) {
 				return server.getRegion();
@@ -131,4 +134,7 @@ public class PADPlugin extends ProxyPlugin {
 		return new Plugin(in);
 	}
 
+	public void setForceAutoStopListenerAfterCapture(boolean forceAutoStopListenerAfterCapture) {
+		this.forceAutoStopListenerAfterCapture = forceAutoStopListenerAfterCapture;
+	}
 }

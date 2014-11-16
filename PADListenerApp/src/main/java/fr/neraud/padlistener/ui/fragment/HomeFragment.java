@@ -1,5 +1,7 @@
 package fr.neraud.padlistener.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.service.AutoCaptureService;
 import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 
@@ -32,17 +36,48 @@ public class HomeFragment extends Fragment {
 		return mainView;
 	}
 
+	@Override
+	public void onResume() {
+		Log.d(getClass().getName(), "onResume");
+		super.onResume();
+
+		fillCaptureCard(getView());
+		fillSyncCard(getView());
+	}
+
 	private void fillCaptureCard(View mainView) {
 		final Button autoButton = (Button) mainView.findViewById(R.id.home_capture_auto_button);
-		final Button manualButton = (Button) mainView.findViewById(R.id.home_capture_manual_button);
 
-		final View.OnClickListener autoOnClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Log.d(getClass().getName(), "capture.autoButton.onClick");
-				// TODO
-			}
-		};
+		final boolean autoButtonEnabled;
+		final View.OnClickListener autoOnClickListener;
+		if(canUseAutoCapture()) {
+			autoButtonEnabled = true;
+			autoOnClickListener = new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "capture.autoButton.onClick");
+					final Intent serviceIntent = new Intent(getActivity(), AutoCaptureService.class);
+					getActivity().startService(serviceIntent);
+				}
+			};
+		} else {
+			autoButtonEnabled = false;
+			autoOnClickListener = new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "capture.autoButton.onClick");
+					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setTitle(R.string.home_auto_capture_disabled_title);
+					builder.setCancelable(true);
+					builder.setMessage(R.string.home_auto_capture_disabled_message);
+					builder.create().show();
+				}
+			};
+		}
+
+		fillButton(autoButton, autoButtonEnabled, autoOnClickListener, R.drawable.button_primary);
+
+		final Button manualButton = (Button) mainView.findViewById(R.id.home_capture_manual_button);
 
 		final View.OnClickListener manualOnClickListener = new View.OnClickListener() {
 			@Override
@@ -52,8 +87,13 @@ public class HomeFragment extends Fragment {
 			}
 		};
 
-		fillButton(autoButton, false, autoOnClickListener, R.drawable.button_primary);
 		fillButton(manualButton, true, manualOnClickListener, R.drawable.button_secondary);
+	}
+
+	private boolean canUseAutoCapture() {
+		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(getActivity());
+
+		return helper.getProxyMode().isAutomatic();
 	}
 
 	private void fillSyncCard(View mainView) {
