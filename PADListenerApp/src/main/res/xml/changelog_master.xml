@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>updated JP hostname</change>
+	</release>
+	<release
 		version="1.5.0" versioncode="32">
-		<change>Fixed #52 : updated HK/TW hostname</change>
+		<change>Fixed #54 : updated HK/TW hostname</change>
 	</release>
 	<release
 		version="1.4.9" versioncode="31">

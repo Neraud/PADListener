@@ -3,7 +3,7 @@ package fr.neraud.padlistener.constant;
 public enum PADServer {
 
 	US(PADRegion.US, "api-na-adr.padsv.gungho.jp"),
-	JP(PADRegion.JP, "api-adr-pad.gungho.jp"),
+	JP(PADRegion.JP, "api-adr.padsv.gungho.jp"),
 	HK_TW(PADRegion.HK_TW, "api-ht-adr.padsv.gungho.jp"),
 	AMAZON_US(PADRegion.US, "api-na-amz-pad.gungho.jp");
 
