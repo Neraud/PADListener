@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="1.5.1" versioncode="33">
 		<change>updated JP hostname</change>
 	</release>
 	<release
