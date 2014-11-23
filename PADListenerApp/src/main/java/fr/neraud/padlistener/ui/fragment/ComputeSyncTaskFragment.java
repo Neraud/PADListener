@@ -99,10 +99,16 @@ public class ComputeSyncTaskFragment extends Fragment {
 	/**
 	 * Starts the ComputeSyncService
 	 *
-	 * @param mAccountId the mAccountId
 	 */
-	public void startComputeSyncService(int mAccountId) {
+	public void startComputeSyncService() {
 		Log.d(getClass().getName(), "startComputeSyncService");
+		if (mCallState == null) {
+			doStartComputeSyncService();
+		}
+	}
+
+	private void doStartComputeSyncService() {
+		Log.d(getClass().getName(), "doStartComputeSyncService");
 		mCallState = RestCallState.RUNNING;
 		mCallRunningStep = null;
 		mSyncResult = null;

@@ -14,13 +14,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.exception.NoMatchingAccountException;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.AutoCaptureService;
-import fr.neraud.padlistener.service.AutoSyncService;
 import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
-import fr.neraud.padlistener.service.receiver.AbstractAutoSyncReceiver;
+import fr.neraud.padlistener.ui.activity.ComputeSyncActivity;
 import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 
@@ -126,38 +124,9 @@ public class HomeFragment extends Fragment {
 				@Override
 				public void onClick(View view) {
 					Log.d(getClass().getName(), "sync.autoButton.onClick");
-					final Intent serviceIntent = new Intent(getActivity(), AutoSyncService.class);
-					AutoSyncService.addSyncListenerInIntent(serviceIntent, new AbstractAutoSyncReceiver(new Handler()) {
-						@Override
-						public void notifyProgress(State state) {
-							Log.d(getClass().getName(), "notifyProgress : " + state);
-						}
-
-						@Override
-						public void notifyError(Error error, Throwable t) {
-							switch (error) {
-								case NO_MATCHING_ACCOUNT:
-									final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-									builder.setTitle(R.string.auto_sync_no_matching_account_title);
-									builder.setCancelable(true);
-									String accountName = "";
-									if (t instanceof NoMatchingAccountException) {
-										accountName = ((NoMatchingAccountException) t).getAccountName();
-									}
-									final String content = getString(R.string.auto_sync_no_matching_account_content, accountName);
-									builder.setMessage(content);
-									builder.create().show();
-									break;
-								case COMPUTE:
-									Toast.makeText(getActivity(), R.string.auto_sync_compute_failed, Toast.LENGTH_LONG).show();
-									break;
-								case PUSH:
-									Toast.makeText(getActivity(), R.string.auto_sync_push_failed, Toast.LENGTH_LONG).show();
-									break;
-							}
-						}
-					});
-					getActivity().startService(serviceIntent);
+					final Bundle extras = new Bundle();
+					extras.putBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME, true);
+					((HomeActivity) getActivity()).goToScreen(UiScreen.COMPUTE_SYNC, extras);
 				}
 			};
 		} else {

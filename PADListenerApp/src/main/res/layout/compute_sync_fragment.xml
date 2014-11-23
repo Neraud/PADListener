@@ -97,4 +97,15 @@
 		android:text="@string/compute_sync_missing_capture"
 		android:textSize="20sp"/>
 
+	<TextView
+		android:id="@+id/compute_sync_auto_no_matching_account"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:gravity="center_vertical"
+		android:text="@string/compute_sync_auto_no_matching_account"
+		android:textSize="20sp"/>
+
 </LinearLayout>

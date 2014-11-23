@@ -22,15 +22,18 @@ import java.text.DateFormat;
 import java.util.List;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.HttpResponseException;
+import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.PADHerderAccountModel;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
 import fr.neraud.padlistener.ui.activity.AbstractPADListenerActivity;
 import fr.neraud.padlistener.ui.activity.ChooseSyncActivity;
+import fr.neraud.padlistener.ui.activity.ComputeSyncActivity;
 import fr.neraud.padlistener.ui.adapter.AccountSpinnerAdapter;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 
@@ -44,10 +47,13 @@ public class ComputeSyncFragment extends Fragment {
 	private static final String TAG_TASK_FRAGMENT = "compute_sync_task_fragment";
 	private ComputeSyncTaskFragment mTaskFragment;
 
+	private boolean mAutoSync;
+	private boolean mAccountFound = false;
 	private Button mStartButton;
 	private ProgressBar mProgress;
 	private TextView mStatus;
 	private TextView mErrorExplain;
+	private TextView mAutoNoMatchingAccount;
 	private int mAccountId = -1;
 	private final ComputeSyncTaskFragment.CallBacks mCallBacks = new ComputeSyncTaskFragment.CallBacks() {
 
@@ -92,11 +98,21 @@ public class ComputeSyncFragment extends Fragment {
 						mStatus.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
 						mProgress.setProgress(4);
 
-						final Bundle extras = new Bundle();
-						extras.putSerializable(ChooseSyncActivity.EXTRA_SYNC_RESULT_NAME, syncResult);
-						extras.putInt(ChooseSyncActivity.EXTRA_ACCOUNT_ID_NAME, mAccountId);
-						((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.CHOOSE_SYNC, extras);
+						if (mAutoSync) {
+							final Bundle extras = new Bundle();
 
+							final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(getActivity(), syncResult);
+							final ChooseSyncModel chooseSyncModel = initHelper.filterSyncResult();
+
+							extras.putSerializable(PushSyncFragment.EXTRA_CHOOSE_SYNC_MODEL_NAME, chooseSyncModel);
+							extras.putInt(PushSyncFragment.EXTRA_ACCOUNT_ID_NAME, mAccountId);
+							((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.PUSH_SYNC, extras);
+						} else {
+							final Bundle extras = new Bundle();
+							extras.putSerializable(ChooseSyncActivity.EXTRA_SYNC_RESULT_NAME, syncResult);
+							extras.putInt(ChooseSyncActivity.EXTRA_ACCOUNT_ID_NAME, mAccountId);
+							((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.CHOOSE_SYNC, extras);
+						}
 						break;
 					case FAILED:
 						mProgress.setIndeterminate(false);
@@ -135,6 +151,9 @@ public class ComputeSyncFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
+		final Bundle extras = getActivity().getIntent().getExtras();
+		mAutoSync = extras != null ? extras.getBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME) : false;
+
 		final View view = inflater.inflate(R.layout.compute_sync_fragment, container, false);
 
 		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getActivity());
@@ -147,6 +166,7 @@ public class ComputeSyncFragment extends Fragment {
 		mProgress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
 		mStatus = (TextView) view.findViewById(R.id.compute_sync_status);
 		mErrorExplain = (TextView) view.findViewById(R.id.compute_sync_error_explain);
+		mAutoNoMatchingAccount = (TextView) view.findViewById(R.id.compute_sync_auto_no_matching_account);
 
 		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(getActivity()).getPadHerderAccounts();
 
@@ -154,11 +174,13 @@ public class ComputeSyncFragment extends Fragment {
 		chooseAccountSpinner.setAdapter(adapter);
 
 		final String lastCaptureAccountName = techPrefHelper.getLastCaptureName();
-		if(StringUtils.isNotBlank(lastCaptureAccountName)) {
+		if (StringUtils.isNotBlank(lastCaptureAccountName)) {
 			for (final PADHerderAccountModel account : accounts) {
 				if (lastCaptureAccountName.equals(account.getName())) {
 					final int selectedPosition = adapter.getPositionById(account.getAccountId());
 					chooseAccountSpinner.setSelection(selectedPosition);
+					mAccountId = account.getAccountId();
+					mAccountFound = true;
 					break;
 				}
 			}
@@ -197,7 +219,7 @@ public class ComputeSyncFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(getClass().getName(), "onClick");
-				mTaskFragment.startComputeSyncService(mAccountId);
+				mTaskFragment.startComputeSyncService();
 			}
 		});
 
@@ -220,5 +242,31 @@ public class ComputeSyncFragment extends Fragment {
 		}
 
 		return view;
+	}
+
+	@Override
+	public void onStart() {
+		Log.d(getClass().getName(), "onStart");
+		super.onStart();
+
+		handleAutoSync();
+	}
+
+	private void handleAutoSync() {
+		Log.d(getClass().getName(), "handleAutoSync");
+		if (mAutoSync) {
+			if (mAccountFound) {
+				mAutoNoMatchingAccount.setVisibility(View.GONE);
+				mTaskFragment.setAccountId(mAccountId);
+				mTaskFragment.startComputeSyncService();
+			} else {
+				final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
+				final String content = getActivity().getString(R.string.compute_sync_auto_no_matching_account, techHelper.getLastCaptureName());
+				mAutoNoMatchingAccount.setText(content);
+				mAutoNoMatchingAccount.setVisibility(View.VISIBLE);
+			}
+		} else {
+			mAutoNoMatchingAccount.setVisibility(View.GONE);
+		}
 	}
 }

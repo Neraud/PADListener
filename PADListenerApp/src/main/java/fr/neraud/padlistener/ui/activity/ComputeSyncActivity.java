@@ -13,6 +13,8 @@ import fr.neraud.padlistener.ui.helper.BaseHelpManager;
  */
 public class ComputeSyncActivity extends AbstractPADListenerActivity {
 
+	public static String AUTO_SYNC_EXTRA_NAME = "auto_sync";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreate");
