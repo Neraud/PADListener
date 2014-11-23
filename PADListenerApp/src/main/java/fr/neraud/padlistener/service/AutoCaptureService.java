@@ -7,15 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.ResultReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.List;
 
-import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
+import fr.neraud.padlistener.helper.CaptureNotificationHelper;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
 import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 
 /**
@@ -24,15 +26,25 @@ import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
  */
 public class AutoCaptureService extends IntentService {
 
+	private static final String CAPTURE_RECEIVER_EXTRA_NAME = "captureReceiver";
+	private ResultReceiver mAutoCaptureReceiver;
+
 	public AutoCaptureService() {
 		super("AutoCaptureService");
+	}
+
+	public static void addCaptureListenerInIntent(Intent intent, ResultReceiver receiver) {
+		intent.putExtra(CAPTURE_RECEIVER_EXTRA_NAME, receiver);
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.d(getClass().getName(), "onHandleIntent");
 
-		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(getApplicationContext());
+		this.mAutoCaptureReceiver = intent.getParcelableExtra(CAPTURE_RECEIVER_EXTRA_NAME);
+		notifyProgress(AbstractAutoCaptureReceiver.State.INITIALIZED);
+
+		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(this);
 		final PADVersion server = helper.getAutoCaptureServer();
 		startListener(server);
 	}
@@ -45,6 +57,7 @@ public class AutoCaptureService extends IntentService {
 			@Override
 			public void notifyActionSuccess(SwitchListenerResult result) {
 				Log.d(getClass().getName(), "notifyActionSuccess");
+				notifyProgress(AbstractAutoCaptureReceiver.State.LISTENER_STARTED);
 				killPadIfNecessary(server);
 				startPad(server);
 			}
@@ -52,7 +65,7 @@ public class AutoCaptureService extends IntentService {
 			@Override
 			public void notifyActionFailed(SwitchListenerResult result) {
 				Log.d(getClass().getName(), "notifyActionFailed");
-				Toast.makeText(getApplicationContext(), R.string.auto_capture_start_listener_failed, Toast.LENGTH_LONG).show();
+				notifyListenerError(result.getError());
 			}
 		};
 
@@ -66,10 +79,30 @@ public class AutoCaptureService extends IntentService {
 				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarted());
 
 				if (listenerServiceBinder.isListenerStarted()) {
+					notifyProgress(AbstractAutoCaptureReceiver.State.LISTENER_STARTED);
 					killPadIfNecessary(server);
 					startPad(server);
 				} else {
-					listenerServiceBinder.startListener(listener, true);
+					final ListenerService.CaptureListener callbacks = new CaptureNotificationHelper(AutoCaptureService.this) {
+						protected boolean needsToShutDownListener() {
+							return true;
+						}
+
+						@Override
+						public void notifyCaptureStarted() {
+							super.notifyCaptureStarted();
+
+							notifyProgress(AbstractAutoCaptureReceiver.State.CAPTURE_STARTING);
+						}
+
+						@Override
+						public void notifyCaptureFinished(String accountName) {
+							super.notifyCaptureFinished(accountName);
+							notifyProgress(AbstractAutoCaptureReceiver.State.CAPTURE_FINISHED);
+						}
+					};
+
+					listenerServiceBinder.startListener(listener, callbacks);
 				}
 				unbindService(this);
 			}
@@ -97,7 +130,8 @@ public class AutoCaptureService extends IntentService {
 			for (ActivityManager.RunningAppProcessInfo process : processes) {
 				if (server.getApplicationPackage().equals(process.processName)) {
 					Log.d(getClass().getName(), "killPadIfNecessary : PAD found, killing");
-					activityManager.killBackgroundProcesses("jp.gungho.padEN");
+					notifyProgress(AbstractAutoCaptureReceiver.State.STOPPING_PAD);
+					activityManager.killBackgroundProcesses(process.processName);
 					//android.os.Process.sendSignal(process.pid, android.os.Process.SIGNAL_KILL);
 					break;
 				}
@@ -106,9 +140,26 @@ public class AutoCaptureService extends IntentService {
 	}
 
 	private void startPad(PADVersion server) {
-		Log.d(getClass().getName(), "startListener");
+		Log.d(getClass().getName(), "startPad");
 		final PackageManager packageManager = getPackageManager();
 		final Intent padStartIntent = packageManager.getLaunchIntentForPackage(server.getApplicationPackage());
+		notifyProgress(AbstractAutoCaptureReceiver.State.STARTING_PAD);
 		startActivity(padStartIntent);
+	}
+
+	private void notifyProgress(AbstractAutoCaptureReceiver.State state) {
+		if (mAutoCaptureReceiver != null) {
+			final Bundle data = new Bundle();
+			data.putSerializable(AbstractAutoCaptureReceiver.STATE_NAME, state);
+			mAutoCaptureReceiver.send(AbstractAutoCaptureReceiver.CODE_OK, data);
+		}
+	}
+
+	private void notifyListenerError(Exception error) {
+		if (mAutoCaptureReceiver != null) {
+			final Bundle data = new Bundle();
+			data.putSerializable(AbstractAutoCaptureReceiver.EXCEPTION_NAME, error);
+			mAutoCaptureReceiver.send(AbstractAutoCaptureReceiver.CODE_KO, data);
+		}
 	}
 }

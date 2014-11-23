@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.helper.CaptureNotificationHelper;
 import fr.neraud.padlistener.service.ListenerService;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceBinder;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceListener;
@@ -139,7 +139,6 @@ public class SwitchListenerTaskFragment extends Fragment {
 		if (canStart()) {
 			updateState(ListenerState.STARTING);
 
-			DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(getActivity());
 			final ListenerServiceListener startListener = new ListenerServiceListener() {
 
 				@Override
@@ -157,7 +156,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 				}
 
 			};
-			mListenerServiceBinder.startListener(startListener, helper.isListenerAutoShutdown());
+			mListenerServiceBinder.startListener(startListener, new CaptureNotificationHelper(getActivity()));
 		} else {
 			notifyCallBacks();
 		}

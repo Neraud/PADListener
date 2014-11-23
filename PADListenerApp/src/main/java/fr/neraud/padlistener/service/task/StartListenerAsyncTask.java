@@ -16,6 +16,7 @@ import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.proxy.helper.IptablesHelper;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
 import fr.neraud.padlistener.proxy.helper.WifiAutoProxyHelper;
+import fr.neraud.padlistener.service.ListenerService;
 import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 
 /**
@@ -26,13 +27,14 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 
 	private final Context context;
 	private final ProxyHelper proxyHelper;
+	private final ListenerService.CaptureListener captureListener;
 	private final DefaultSharedPreferencesHelper prefHelper;
 	private final ProxyMode proxyMode;
-	private boolean forceAutoStopListenerAfterCapture = false;
 
-	public StartListenerAsyncTask(Context context, ProxyHelper proxyHelper) {
+	public StartListenerAsyncTask(Context context, ProxyHelper proxyHelper, ListenerService.CaptureListener captureListener) {
 		this.context = context;
 		this.proxyHelper = proxyHelper;
+		this.captureListener = captureListener;
 
 		prefHelper = new DefaultSharedPreferencesHelper(context);
 		proxyMode = prefHelper.getProxyMode();
@@ -55,7 +57,7 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 			final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(context);
 			techPrefHelper.setLastListenerStartProxyMode(proxyMode);
 
-			proxyHelper.activateProxy(forceAutoStopListenerAfterCapture);
+			proxyHelper.activateProxy(captureListener);
 
 			switch (proxyMode) {
 				case AUTO_IPTABLES:
@@ -112,9 +114,5 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 		editor.putBoolean(PreferenceUtils.proxyCaptureData, true);
 
 		editor.commit();
-	}
-
-	public void setForceAutoStopListenerAfterCapture(boolean forceAutoStopListenerAfterCapture) {
-		this.forceAutoStopListenerAfterCapture = forceAutoStopListenerAfterCapture;
 	}
 }

@@ -2,6 +2,7 @@ package fr.neraud.padlistener.helper;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -10,12 +11,13 @@ import android.widget.Toast;
 import java.util.Date;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.service.ListenerService;
 
 /**
  * Helper to notify the user when the Listener captures data
  * Created by Neraud on 28/06/2014.
  */
-public class CaptureNotificationHelper {
+public class CaptureNotificationHelper implements ListenerService.CaptureListener {
 
 	private final Context context;
 
@@ -45,6 +47,10 @@ public class CaptureNotificationHelper {
 
 		final String notificationMessage = context.getString(R.string.notification_data_capture_finished, accountName);
 		displayNotification(notificationMessage);
+
+		if(needsToShutDownListener()) {
+			stopListener();
+		}
 	}
 
 	private void displayToast(final String toastMessage) {
@@ -65,5 +71,16 @@ public class CaptureNotificationHelper {
 		NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		mNotificationManager.notify(0, mBuilder.build());
+	}
+
+	protected boolean needsToShutDownListener() {
+		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
+		return helper.isListenerAutoShutdown();
+	}
+
+	private void stopListener() {
+		Log.d(getClass().getName(), "stopListener");
+		final Intent serviceIntent = new Intent(context, ListenerService.class);
+		context.stopService(serviceIntent);
 	}
 }

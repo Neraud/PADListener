@@ -3,7 +3,6 @@ package fr.neraud.padlistener.proxy.plugin;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
@@ -11,8 +10,6 @@ import android.util.Log;
 import java.util.Date;
 import java.util.List;
 
-import fr.neraud.padlistener.helper.CaptureNotificationHelper;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -39,14 +36,12 @@ public class ApiCallHandlerThread extends Thread {
 
 	private final Context context;
 	private final ApiCallModel callModel;
-	private boolean forceAutoStopListenerAfterCapture = false;
-	private final CaptureNotificationHelper captureCallback;
+	private final ListenerService.CaptureListener captureListener;
 
-
-	public ApiCallHandlerThread(Context context, ApiCallModel callModel) {
+	public ApiCallHandlerThread(Context context, ApiCallModel callModel, ListenerService.CaptureListener captureListener) {
 		this.context = context;
 		this.callModel = callModel;
-		this.captureCallback = new CaptureNotificationHelper(context);
+		this.captureListener = captureListener;
 	}
 
 	@Override
@@ -56,7 +51,7 @@ public class ApiCallHandlerThread extends Thread {
 		try {
 			switch (callModel.getAction()) {
 				case GET_PLAYER_DATA:
-					captureCallback.notifyCaptureStarted();
+					notifyCaptureStarted();
 
 					final GetPlayerDataApiCallResult result = parsePlayerData(callModel);
 					savePlayerInfo(result.getPlayerInfo());
@@ -69,12 +64,9 @@ public class ApiCallHandlerThread extends Thread {
 					final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(context);
 					techPrefHelper.setLastCaptureDate(new Date());
 					techPrefHelper.setLastCaptureName(result.getPlayerInfo().getName());
-					captureCallback.notifyCaptureFinished(result.getPlayerInfo().getName());
 
-					final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(context);
-					if ((forceAutoStopListenerAfterCapture || prefHelper.isListenerAutoShutdown()) && techPrefHelper.getLastListenerStartProxyMode().isAutomatic()) {
-						stopListener();
-					}
+					notifyCaptureFinished(result.getPlayerInfo().getName());
+
 					break;
 				default:
 					Log.d(getClass().getName(), "Ignoring action " + callModel.getAction());
@@ -151,13 +143,16 @@ public class ApiCallHandlerThread extends Thread {
 		cr.bulkInsert(uri, values);
 	}
 
-	private void stopListener() {
-		Log.d(getClass().getName(), "stopListener");
-		final Intent serviceIntent = new Intent(context, ListenerService.class);
-		context.stopService(serviceIntent);
+	private void notifyCaptureStarted() {
+		if (captureListener != null) {
+			captureListener.notifyCaptureStarted();
+		}
 	}
 
-	public void setForceAutoStopListenerAfterCapture(boolean forceAutoStopListenerAfterCapture) {
-		this.forceAutoStopListenerAfterCapture = forceAutoStopListenerAfterCapture;
+	private void notifyCaptureFinished(String playerName) {
+		if (captureListener != null) {
+			captureListener.notifyCaptureFinished(playerName);
+		}
 	}
+
 }

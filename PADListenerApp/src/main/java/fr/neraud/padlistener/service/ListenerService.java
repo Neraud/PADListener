@@ -34,6 +34,11 @@ public class ListenerService extends Service {
 	private boolean started = false;
 	private ProxyHelper proxyHelper = null;
 
+	public interface CaptureListener {
+		public void notifyCaptureStarted();
+		public void notifyCaptureFinished(String playerName);
+	}
+
 	public interface ListenerServiceListener {
 
 		public void notifyActionSuccess(SwitchListenerResult result);
@@ -47,8 +52,8 @@ public class ListenerService extends Service {
 			return started;
 		}
 
-		public void startListener(ListenerServiceListener listener, boolean forceAutoStopListenerAfterCapture) {
-			doStartListener(listener, forceAutoStopListenerAfterCapture);
+		public void startListener(ListenerServiceListener listener, CaptureListener captureListener) {
+			doStartListener(listener, captureListener);
 		}
 
 		public void stopListener(ListenerServiceListener listener) {
@@ -116,10 +121,10 @@ public class ListenerService extends Service {
 		return mBinder;
 	}
 
-	private void doStartListener(final ListenerServiceListener listener, boolean forceAutoStopListenerAfterCapture) {
+	private void doStartListener(final ListenerServiceListener listener, CaptureListener captureListener) {
 		Log.d(getClass().getName(), "doStartListener");
 
-		final StartListenerAsyncTask asyncTask = new StartListenerAsyncTask(getApplicationContext(), proxyHelper) {
+		final StartListenerAsyncTask asyncTask = new StartListenerAsyncTask(getApplicationContext(), proxyHelper, captureListener) {
 
 			@Override
 			protected void onPostExecute(SwitchListenerResult switchListenerResult) {
@@ -140,7 +145,6 @@ public class ListenerService extends Service {
 				}
 			}
 		};
-		asyncTask.setForceAutoStopListenerAfterCapture(forceAutoStopListenerAfterCapture);
 		asyncTask.execute();
 	}
 

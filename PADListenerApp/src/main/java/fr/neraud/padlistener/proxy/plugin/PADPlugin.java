@@ -19,6 +19,7 @@ import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
+import fr.neraud.padlistener.service.ListenerService;
 
 /**
  * ProxyPlugin to capture PAD calls to GunHo servers
@@ -28,7 +29,7 @@ import fr.neraud.padlistener.pad.model.ApiCallModel;
 public class PADPlugin extends ProxyPlugin {
 
 	private final Context context;
-	private boolean forceAutoStopListenerAfterCapture = false;
+	private final ListenerService.CaptureListener captureListener;
 	private final Set<String> targetHostnames;
 	private boolean _enabled = true;
 
@@ -70,8 +71,7 @@ public class PADPlugin extends ProxyPlugin {
 					model.setResponseContent(responseContentString);
 
 					Log.d(PADPlugin.class.getName(), "" + model);
-					final ApiCallHandlerThread handler = new ApiCallHandlerThread(context, model);
-					handler.setForceAutoStopListenerAfterCapture(forceAutoStopListenerAfterCapture);
+					final ApiCallHandlerThread handler = new ApiCallHandlerThread(context, model, captureListener);
 					handler.start();
 				}
 
@@ -107,8 +107,9 @@ public class PADPlugin extends ProxyPlugin {
 		}
 	}
 
-	public PADPlugin(Context context) {
+	public PADPlugin(Context context, ListenerService.CaptureListener captureListener) {
 		this.context = context;
+		this.captureListener = captureListener;
 		targetHostnames = new DefaultSharedPreferencesHelper(context).getAllListenerTargetHostnames();
 	}
 
@@ -134,7 +135,4 @@ public class PADPlugin extends ProxyPlugin {
 		return new Plugin(in);
 	}
 
-	public void setForceAutoStopListenerAfterCapture(boolean forceAutoStopListenerAfterCapture) {
-		this.forceAutoStopListenerAfterCapture = forceAutoStopListenerAfterCapture;
-	}
 }

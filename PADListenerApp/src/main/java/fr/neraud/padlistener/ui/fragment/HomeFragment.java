@@ -4,18 +4,23 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.exception.NoMatchingAccountException;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.AutoCaptureService;
 import fr.neraud.padlistener.service.AutoSyncService;
+import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
+import fr.neraud.padlistener.service.receiver.AbstractAutoSyncReceiver;
 import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 
@@ -52,13 +57,25 @@ public class HomeFragment extends Fragment {
 
 		final boolean autoButtonEnabled;
 		final View.OnClickListener autoOnClickListener;
-		if(canUseAutoCapture()) {
+		if (canUseAutoCapture()) {
 			autoButtonEnabled = true;
 			autoOnClickListener = new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					Log.d(getClass().getName(), "capture.autoButton.onClick");
 					final Intent serviceIntent = new Intent(getActivity(), AutoCaptureService.class);
+					AutoCaptureService.addCaptureListenerInIntent(serviceIntent, new AbstractAutoCaptureReceiver(new Handler()) {
+
+						@Override
+						public void notifyProgress(State state) {
+							Log.d(getClass().getName(), "notifyProgress : " + state);
+						}
+
+						@Override
+						public void notifyListenerError(Exception error) {
+							Toast.makeText(getActivity(), R.string.auto_capture_start_listener_failed, Toast.LENGTH_LONG).show();
+						}
+					});
 					getActivity().startService(serviceIntent);
 				}
 			};
@@ -103,13 +120,43 @@ public class HomeFragment extends Fragment {
 
 		final boolean autoButtonEnabled;
 		final View.OnClickListener autoOnClickListener;
-		if(canUseAutoSync()) {
+		if (canUseAutoSync()) {
 			autoButtonEnabled = true;
 			autoOnClickListener = new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					Log.d(getClass().getName(), "sync.autoButton.onClick");
 					final Intent serviceIntent = new Intent(getActivity(), AutoSyncService.class);
+					AutoSyncService.addSyncListenerInIntent(serviceIntent, new AbstractAutoSyncReceiver(new Handler()) {
+						@Override
+						public void notifyProgress(State state) {
+							Log.d(getClass().getName(), "notifyProgress : " + state);
+						}
+
+						@Override
+						public void notifyError(Error error, Throwable t) {
+							switch (error) {
+								case NO_MATCHING_ACCOUNT:
+									final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+									builder.setTitle(R.string.auto_sync_no_matching_account_title);
+									builder.setCancelable(true);
+									String accountName = "";
+									if (t instanceof NoMatchingAccountException) {
+										accountName = ((NoMatchingAccountException) t).getAccountName();
+									}
+									final String content = getString(R.string.auto_sync_no_matching_account_content, accountName);
+									builder.setMessage(content);
+									builder.create().show();
+									break;
+								case COMPUTE:
+									Toast.makeText(getActivity(), R.string.auto_sync_compute_failed, Toast.LENGTH_LONG).show();
+									break;
+								case PUSH:
+									Toast.makeText(getActivity(), R.string.auto_sync_push_failed, Toast.LENGTH_LONG).show();
+									break;
+							}
+						}
+					});
 					getActivity().startService(serviceIntent);
 				}
 			};

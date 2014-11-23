@@ -16,6 +16,7 @@ import java.io.File;
 
 import fr.neraud.padlistener.exception.ListenerSetupException;
 import fr.neraud.padlistener.proxy.plugin.PADPlugin;
+import fr.neraud.padlistener.service.ListenerService;
 
 /**
  * Helper to start / stop the proxy
@@ -33,7 +34,7 @@ public class ProxyHelper {
 		this.context = context;
 	}
 
-	public void activateProxy(boolean forceAutoStopListenerAfterCapture) throws ListenerSetupException {
+	public void activateProxy(ListenerService.CaptureListener captureListener) throws ListenerSetupException {
 		Log.d(getClass().getName(), "activateProxy");
 		framework = new Framework(context);
 		setStore(context);
@@ -42,8 +43,7 @@ public class ProxyHelper {
 		final Proxy proxy = new Proxy(framework, networkHostNameResolver, clientResolver);
 		framework.addPlugin(proxy);
 
-		final PADPlugin plugin = new PADPlugin(context);
-		plugin.setForceAutoStopListenerAfterCapture(forceAutoStopListenerAfterCapture);
+		final PADPlugin plugin = new PADPlugin(context, captureListener);
 		proxy.addPlugin(plugin);
 
 		proxy.run();

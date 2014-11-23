@@ -16,6 +16,7 @@ import java.util.List;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
+import fr.neraud.padlistener.exception.NoMatchingAccountException;
 import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -26,6 +27,7 @@ import fr.neraud.padlistener.model.PADHerderAccountModel;
 import fr.neraud.padlistener.model.PushSyncStatModel;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
+import fr.neraud.padlistener.service.receiver.AbstractAutoSyncReceiver;
 import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
 
 /**
@@ -34,8 +36,15 @@ import fr.neraud.padlistener.service.receiver.AbstractRestResultReceiver;
  */
 public class AutoSyncService extends IntentService {
 
+	private static final String SYNC_LISTENER_EXTRA_NAME = "syncListener";
+	private ResultReceiver mAutoSyncReceiver;
+
 	public AutoSyncService() {
 		super("AutoSyncService");
+	}
+
+	public static void addSyncListenerInIntent(Intent intent, ResultReceiver receiver) {
+		intent.putExtra(SYNC_LISTENER_EXTRA_NAME, receiver);
 	}
 
 	private class MyComputeSyncReceiver extends AbstractRestResultReceiver<ComputeSyncResultModel> {
@@ -58,6 +67,7 @@ public class AutoSyncService extends IntentService {
 			Log.d(getClass().getName(), "onReceiveSuccess");
 
 			final ChooseSyncModel chooseModel = prepareSync(result);
+			notifyProgress(AbstractAutoSyncReceiver.State.COMPUTE_FINISHED);
 			pushSync(accountId, chooseModel);
 		}
 
@@ -65,6 +75,7 @@ public class AutoSyncService extends IntentService {
 		protected void onReceiveError(RestCallError error, Throwable errorCause) {
 			Log.d(getClass().getName(), "onReceiveError");
 
+			notifyError(AbstractAutoSyncReceiver.Error.COMPUTE, errorCause);
 			finishSync();
 		}
 	}
@@ -83,9 +94,10 @@ public class AutoSyncService extends IntentService {
 			final boolean isSuccess = resultData.getBoolean(PushSyncService.RECEIVER_SUCCESS_NAME);
 			final String errorMessage = resultData.getString(PushSyncService.RECEIVER_MESSAGE_NAME);
 
-			// TODO
 			if (isSuccess) {
+				notifyProgress(AbstractAutoSyncReceiver.State.PUSH_FINISHED);
 			} else {
+				notifyError(AbstractAutoSyncReceiver.Error.PUSH, new Exception(errorMessage));
 			}
 		}
 	}
@@ -94,11 +106,18 @@ public class AutoSyncService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		Log.d(getClass().getName(), "onHandleIntent");
 
-		final int accountId = extractAccountId();
-		computeSync(accountId);
+		this.mAutoSyncReceiver = intent.getParcelableExtra(SYNC_LISTENER_EXTRA_NAME);
+		notifyProgress(AbstractAutoSyncReceiver.State.INITIALIZED);
+
+		try {
+			final int accountId = extractAccountId();
+			computeSync(accountId);
+		} catch (NoMatchingAccountException e) {
+			notifyError(AbstractAutoSyncReceiver.Error.NO_MATCHING_ACCOUNT, e);
+		}
 	}
 
-	private int extractAccountId() {
+	private int extractAccountId() throws NoMatchingAccountException {
 		Log.d(getClass().getName(), "extractAccountId");
 
 		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(this).getPadHerderAccounts();
@@ -112,8 +131,7 @@ public class AutoSyncService extends IntentService {
 			}
 		}
 
-		// TODO
-		return 1;
+		throw new NoMatchingAccountException(lastCaptureAccountName);
 	}
 
 	private void computeSync(int accountId) {
@@ -123,6 +141,7 @@ public class AutoSyncService extends IntentService {
 		startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyComputeSyncReceiver(new Handler(), accountId));
 		startIntent.putExtra(ComputeSyncService.EXTRA_ACCOUNT_ID_NAME, accountId);
 
+		notifyProgress(AbstractAutoSyncReceiver.State.COMPUTE_STARTED);
 		startService(startIntent);
 
 		Looper.loop();
@@ -144,6 +163,8 @@ public class AutoSyncService extends IntentService {
 	}
 
 	private void pushSync(int accountId, ChooseSyncModel chooseModel) {
+		notifyProgress(AbstractAutoSyncReceiver.State.PUSH_STARTED);
+
 		final boolean hasUserInfoToUpdate = chooseModel.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync();
 		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && chooseModel.getSyncedUserInfoToUpdate().isChosen();
 		//final int materialToUpdateCount = chooseModel.getSyncedMaterialsToUpdate().size();
@@ -164,7 +185,7 @@ public class AutoSyncService extends IntentService {
 			intent.putExtra(PushSyncService.RECEIVER_EXTRA_NAME, new MyPushSyncReceiver(new Handler()));
 			startService(intent);
 		} else {
-			// Nothing to push
+			notifyProgress(AbstractAutoSyncReceiver.State.NOTHING_TO_PUSH);
 		}
 	}
 
@@ -180,5 +201,22 @@ public class AutoSyncService extends IntentService {
 
 	private void finishSync() {
 		Looper.myLooper().quit();
+	}
+
+	private void notifyProgress(AbstractAutoSyncReceiver.State state) {
+		if (mAutoSyncReceiver != null) {
+			final Bundle data = new Bundle();
+			data.putSerializable(AbstractAutoSyncReceiver.STATE_NAME, state);
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.CODE_OK, data);
+		}
+	}
+
+	private void notifyError(AbstractAutoSyncReceiver.Error error, Throwable t) {
+		if (mAutoSyncReceiver != null) {
+			final Bundle data = new Bundle();
+			data.putSerializable(AbstractAutoSyncReceiver.ERROR_NAME, error);
+			data.putSerializable(AbstractAutoSyncReceiver.EXCEPTION_NAME, t);
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.CODE_KO, data);
+		}
 	}
 }

@@ -38,7 +38,7 @@ public class MockCaptureHelper {
 			//model.setRequestContent(requestContentString);
 			model.setRegion(PADRegion.US);
 			model.setResponseContent(extractResponseContent());
-			new ApiCallHandlerThread(context, model).start();
+			new ApiCallHandlerThread(context, model, null).start();
 		} catch (final IOException e) {
 			Log.e(getClass().getName(), "loadMockCapture", e);
 		}
