@@ -1,23 +1,19 @@
 package fr.neraud.padlistener.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
-import fr.neraud.padlistener.service.AutoCaptureService;
-import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
 import fr.neraud.padlistener.ui.activity.ComputeSyncActivity;
 import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.ui.constant.UiScreen;
@@ -51,6 +47,7 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void fillCaptureCard(View mainView) {
+		Log.d(getClass().getName(), "fillCaptureCard");
 		final Button autoButton = (Button) mainView.findViewById(R.id.home_capture_auto_button);
 
 		final boolean autoButtonEnabled;
@@ -61,20 +58,7 @@ public class HomeFragment extends Fragment {
 				@Override
 				public void onClick(View view) {
 					Log.d(getClass().getName(), "capture.autoButton.onClick");
-					final Intent serviceIntent = new Intent(getActivity(), AutoCaptureService.class);
-					AutoCaptureService.addCaptureListenerInIntent(serviceIntent, new AbstractAutoCaptureReceiver(new Handler()) {
-
-						@Override
-						public void notifyProgress(State state) {
-							Log.d(getClass().getName(), "notifyProgress : " + state);
-						}
-
-						@Override
-						public void notifyListenerError(Exception error) {
-							Toast.makeText(getActivity(), R.string.auto_capture_start_listener_failed, Toast.LENGTH_LONG).show();
-						}
-					});
-					getActivity().startService(serviceIntent);
+					showChoosePadVersionDialog(new ChoosePadVersionForCaptureDialogFragment());
 				}
 			};
 		} else {
@@ -114,11 +98,12 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void fillSyncCard(View mainView) {
+		Log.d(getClass().getName(), "fillSyncCard");
 		final Button autoButton = (Button) mainView.findViewById(R.id.home_sync_auto_button);
 
 		final boolean autoButtonEnabled;
 		final View.OnClickListener autoOnClickListener;
-		if (canUseAutoSync()) {
+		if (canUseAutoSync(true)) {
 			autoButtonEnabled = true;
 			autoOnClickListener = new View.OnClickListener() {
 				@Override
@@ -159,13 +144,15 @@ public class HomeFragment extends Fragment {
 		fillButton(manualButton, true, manualOnClickListener, R.drawable.button_secondary);
 	}
 
-
-	private boolean canUseAutoSync() {
+	private boolean canUseAutoSync(boolean needsCapturedData) {
 		final DefaultSharedPreferencesHelper defaultHelper = new DefaultSharedPreferencesHelper(getActivity());
-		boolean hasAccounts = defaultHelper.getPadHerderAccounts().size() > 0;
+		final boolean hasAccounts = defaultHelper.getPadHerderAccounts().size() > 0;
 
-		final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
-		boolean hasCaptured = techHelper.getLastCaptureDate().getTime() > 0;
+		boolean hasCaptured = true;
+		if (needsCapturedData) {
+			final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
+			hasCaptured = techHelper.getLastCaptureDate().getTime() > 0;
+		}
 
 		return hasAccounts && hasCaptured;
 	}
@@ -188,4 +175,15 @@ public class HomeFragment extends Fragment {
 		}
 	}
 
+	private void showChoosePadVersionDialog(ChoosePadVersionDialogFragment fragment) {
+		Log.d(getClass().getName(), "showChoosePadVersionDialog");
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("choosePadDialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		fragment.show(ft, "choosePadDialog");
+	}
 }

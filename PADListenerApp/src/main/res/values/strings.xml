@@ -51,8 +51,6 @@
 	<string name="settings_listener_custom_target_hostname_summary">Custom hostname added to the list of intercepted hostname for PAD calls.</string>
 	<string name="settings_proxy_mode_title">Proxy settings mode</string>
 	<string name="settings_proxy_mode_summary">%1$s</string>
-	<string name="settings_listener_auto_capture_server_title">Server for auto capture</string>
-	<string name="settings_listener_auto_capture_server_summary">Which PAD version to use when automatically capturing</string>
 	<string name="settings_listener_auto_shutdown_title">Auto shutdown</string>
 	<string name="settings_listener_auto_shutdown_summary">Automatically shuts down the Listener when the capture is done. Only used for automatic listener modes</string>
 	<string name="settings_listener_on_local_title">Non local mode</string>
@@ -172,6 +170,9 @@
 \n - the listener mode (how can PADListener capture data from PAD)
 \n - your PADherder account(s)
 	</string>
+	<string name="choose_pad_version_title">Choose a PAD version to start</string>
+	<string name="choose_pad_version_running">Running, will be restarted !</string>
+	<string name="choose_pad_version_cancel">Cancel</string>
 	<string name="home_capture_content">Capture from PAD</string>
 	<string name="home_capture_button_manual">Manual</string>
 	<string name="home_capture_button_auto">Auto</string>
@@ -182,6 +183,9 @@
 	<string name="home_sync_content">Sync with PADherder</string>
 	<string name="home_sync_button_manual">Manual</string>
 	<string name="home_sync_button_auto">Auto</string>
+	<string name="home_auto_all_content">Start PAD, capture &amp; sync</string>
+	<string name="home_auto_capture_and_sync_disabled_title">Auto capture and sync disabled</string>
+	<string name="home_auto_capture_and_sync_disabled_message">To enable auto capture and sync you need to use an automatic listener mode and to set up a PADherder account in the settings</string>
 
 
 	<!-- Auto-capture / sync -->

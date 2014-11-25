@@ -15,6 +15,8 @@
 	<color name="text_increase">#FF008800</color>
 	<color name="text_decrease">#FFEE0000</color>
 
+	<color name="text_warning">#FFEE0000</color>
+
 
 	<color name="theme_primary">#3f51b5</color>
 	<color name="theme_primary_dark">#303f9f</color>

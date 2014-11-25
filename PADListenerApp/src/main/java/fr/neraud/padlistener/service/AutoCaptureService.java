@@ -16,7 +16,6 @@ import java.util.List;
 
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.helper.CaptureNotificationHelper;
-import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
 import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 
@@ -27,6 +26,7 @@ import fr.neraud.padlistener.service.task.model.SwitchListenerResult;
 public class AutoCaptureService extends IntentService {
 
 	private static final String CAPTURE_RECEIVER_EXTRA_NAME = "captureReceiver";
+	private static final String PAD_VERSION_EXTRA_NAME = "padVersion";
 	private ResultReceiver mAutoCaptureReceiver;
 
 	public AutoCaptureService() {
@@ -37,20 +37,23 @@ public class AutoCaptureService extends IntentService {
 		intent.putExtra(CAPTURE_RECEIVER_EXTRA_NAME, receiver);
 	}
 
+	public static void addPadVersionInIntent(Intent intent, PADVersion version) {
+		intent.putExtra(PAD_VERSION_EXTRA_NAME, version);
+	}
+
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.d(getClass().getName(), "onHandleIntent");
 
 		this.mAutoCaptureReceiver = intent.getParcelableExtra(CAPTURE_RECEIVER_EXTRA_NAME);
+		final PADVersion version = (PADVersion) intent.getSerializableExtra(PAD_VERSION_EXTRA_NAME);
 		notifyProgress(AbstractAutoCaptureReceiver.State.INITIALIZED);
 
-		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(this);
-		final PADVersion server = helper.getAutoCaptureServer();
-		startListener(server);
+		startListener(version);
 	}
 
-	private void startListener(final PADVersion server) {
-		Log.d(getClass().getName(), "startListener");
+	private void startListener(final PADVersion version) {
+		Log.d(getClass().getName(), "startListener : " + version);
 
 		final ListenerService.ListenerServiceListener listener = new ListenerService.ListenerServiceListener() {
 
@@ -58,8 +61,8 @@ public class AutoCaptureService extends IntentService {
 			public void notifyActionSuccess(SwitchListenerResult result) {
 				Log.d(getClass().getName(), "notifyActionSuccess");
 				notifyProgress(AbstractAutoCaptureReceiver.State.LISTENER_STARTED);
-				killPadIfNecessary(server);
-				startPad(server);
+				killPadIfNecessary(version);
+				startPad(version);
 			}
 
 			@Override
@@ -80,8 +83,8 @@ public class AutoCaptureService extends IntentService {
 
 				if (listenerServiceBinder.isListenerStarted()) {
 					notifyProgress(AbstractAutoCaptureReceiver.State.LISTENER_STARTED);
-					killPadIfNecessary(server);
-					startPad(server);
+					killPadIfNecessary(version);
+					startPad(version);
 				} else {
 					final ListenerService.CaptureListener callbacks = new CaptureNotificationHelper(AutoCaptureService.this) {
 						protected boolean needsToShutDownListener() {
@@ -121,14 +124,14 @@ public class AutoCaptureService extends IntentService {
 		bindService(serviceIntent, connection, 0/*Context.BIND_AUTO_CREATE*/);
 	}
 
-	private void killPadIfNecessary(PADVersion server) {
+	private void killPadIfNecessary(PADVersion version) {
 		Log.d(getClass().getName(), "killPadIfNecessary");
 		ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
 		List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
 		if (processes != null) {
 			for (ActivityManager.RunningAppProcessInfo process : processes) {
-				if (server.getApplicationPackage().equals(process.processName)) {
+				if (version.getApplicationPackage().equals(process.processName)) {
 					Log.d(getClass().getName(), "killPadIfNecessary : PAD found, killing");
 					notifyProgress(AbstractAutoCaptureReceiver.State.STOPPING_PAD);
 					activityManager.killBackgroundProcesses(process.processName);
@@ -139,10 +142,10 @@ public class AutoCaptureService extends IntentService {
 		}
 	}
 
-	private void startPad(PADVersion server) {
+	private void startPad(PADVersion version) {
 		Log.d(getClass().getName(), "startPad");
 		final PackageManager packageManager = getPackageManager();
-		final Intent padStartIntent = packageManager.getLaunchIntentForPackage(server.getApplicationPackage());
+		final Intent padStartIntent = packageManager.getLaunchIntentForPackage(version.getApplicationPackage());
 		notifyProgress(AbstractAutoCaptureReceiver.State.STARTING_PAD);
 		startActivity(padStartIntent);
 	}
