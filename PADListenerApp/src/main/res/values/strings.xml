@@ -134,7 +134,7 @@
 	<string name="label_home">Home</string>
 	<string name="home_help_welcome_title">Welcome !</string>
 	<string name="home_help_welcome_content">Welcome to PADListener !
-\n\nHelp pages are automatically displayed the first time you access a new screen of the app.
+\n\nThese help pages are automatically displayed the first time you access a new screen of the app.
 	</string>
 	<string name="home_help_help_title">Help</string>
 	<string name="home_help_help_content">The help pages are different for each screen.
@@ -142,8 +142,8 @@
 	</string>
 	<string name="home_help_main_title">Main functions</string>
 	<string name="home_help_main_content">You can access the main functions from this home screen :
-\n\n - capturing data from your PAD game
-\n\n - syncing the captured data with your PADherder accounts
+\n\n - capturing data from your PAD game(s)
+\n\n - syncing the captured data with your PADherder account(s)
 	</string>
 	<string name="home_help_capture_title">Capture</string>
 	<string name="home_help_capture_content">You can capture data from PAD.
@@ -154,11 +154,13 @@
 	<string name="home_help_capture_manual_title">Manual capture</string>
 	<string name="home_help_capture_manual_content">With the manual mode, you\'ll start a capture Listener.\n\nYou\'ll then have to start PAD and go through the title screen to capture data.</string>
 	<string name="home_help_capture_auto_title">Auto capture</string>
-	<string name="home_help_capture_auto_content">With the auto mode, the capture Listener will be automatically started.\n\nThen, PAD will be started (re-started if it was previously opened).</string>
+	<string name="home_help_capture_auto_content">If you use an automatic Listener mode, you can use the auto mode.\n\nIn this mode, the capture Listener will be automatically started.\nThen, PAD will be started (re-started if it was previously opened).\nAnd finally, once your account is captured, the Listener will be shut down.</string>
 	<string name="home_help_sync_manual_title">Manual sync</string>
 	<string name="home_help_sync_manual_content">With the manual mode, the app will 1st compute the differences between your captured box and your PADherder account. \n\nIt will then let you choose what you want to push. \n\nAnd finally push the changes.</string>
 	<string name="home_help_sync_auto_title">Auto sync</string>
-	<string name="home_help_sync_auto_content">With the auto mode, the sync is automatic.\n\nIt will automatically select changes based on the preselection settings.</string>
+	<string name="home_help_sync_auto_content">With the auto mode, the sync process is automatic.\n\nIt will match your captured account name with your PADherder settings.\n\nIt will then automatically select changes based on the preselection settings and push them to PADherder.</string>
+	<string name="home_help_capture_and_sync_auto_title">Auto capture &amp; sync</string>
+	<string name="home_help_capture_and_sync_auto_content">This button is made for lazy people (like myself) ;p\n\nIt will start the auto capture process.\n\nWhen the capture is done, the auto sync process will be triggered.</string>
 	<string name="home_help_drawer_title">Secondary functions</string>
 	<string name="home_help_drawer_content">The left navigation drawer contains the secondary functions.
 \n\nYou can open it by clicking on the top left icon, or by swiping right from the left edge of the screen.

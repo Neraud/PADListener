@@ -42,6 +42,7 @@ public class HomeActivity extends AbstractPADListenerActivity {
 				builder.addHelpPage(R.string.home_help_capture_auto_title, R.string.home_help_capture_auto_content, R.id.home_capture_auto_button, null);
 				builder.addHelpPage(R.string.home_help_sync_manual_title, R.string.home_help_sync_manual_content, R.id.home_sync_manual_button, null);
 				builder.addHelpPage(R.string.home_help_sync_auto_title, R.string.home_help_sync_auto_content, R.id.home_sync_auto_button, null);
+				builder.addHelpPage(R.string.home_help_capture_and_sync_auto_title, R.string.home_help_capture_and_sync_auto_content, R.id.home_capture_and_sync_auto_button, null);
 				builder.addHelpPage(R.string.home_help_drawer_title, R.string.home_help_drawer_content, ActionViewTarget.Type.TITLE, null);
 				builder.addHelpPage(R.string.home_help_settings_title, R.string.home_help_settings_content, R.id.drawer_settings, new ShowcaseHelpPageModel.HelpPageListener() {
 					@Override

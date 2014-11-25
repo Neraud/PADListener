@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
 
 		fillCaptureCard(getView());
 		fillSyncCard(getView());
+		fillCaptureAndSyncCard(getView());
 	}
 
 	private void fillCaptureCard(View mainView) {
@@ -173,6 +174,38 @@ public class HomeFragment extends Fragment {
 		if (listener != null) {
 			button.setOnClickListener(listener);
 		}
+	}
+
+	private void fillCaptureAndSyncCard(View mainView) {
+		Log.d(getClass().getName(), "fillCaptureAndSyncCard");
+		final Button autoButton = (Button) mainView.findViewById(R.id.home_capture_and_sync_auto_button);
+
+		final boolean autoButtonEnabled;
+		final View.OnClickListener autoOnClickListener;
+		if (canUseAutoCapture() && canUseAutoSync(false)) {
+			autoButtonEnabled = true;
+			autoOnClickListener = new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "captureAndSync.autoButton.onClick");
+					showChoosePadVersionDialog(new ChoosePadVersionForCaptureAndSyncDialogFragment());
+				}
+			};
+		} else {
+			autoButtonEnabled = false;
+			autoOnClickListener = new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Log.d(getClass().getName(), "captureAndSync.autoButton.onClick");
+					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setTitle(R.string.home_auto_capture_and_sync_disabled_title);
+					builder.setCancelable(true);
+					builder.setMessage(R.string.home_auto_capture_and_sync_disabled_message);
+					builder.create().show();
+				}
+			};
+		}
+		fillButton(autoButton, autoButtonEnabled, autoOnClickListener, R.drawable.button_primary);
 	}
 
 	private void showChoosePadVersionDialog(ChoosePadVersionDialogFragment fragment) {
