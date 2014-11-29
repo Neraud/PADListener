@@ -20,7 +20,7 @@ dependencies {
 }
 
 android {
-	compileSdkVersion 15
+	compileSdkVersion 21
 	buildToolsVersion "20.0.0"
 
 	productFlavors {
