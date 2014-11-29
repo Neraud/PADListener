@@ -2,6 +2,7 @@
 <changelog>
 	<release
 		version="" versioncode="">
+		<change>Fixed #56 : auto Wifi Proxy Listener fixed for Android 5.0</change>
 		<change>Fixed #58 : auto IPtables Listener fixed for Android 5.0</change>
 	</release>
 	<release

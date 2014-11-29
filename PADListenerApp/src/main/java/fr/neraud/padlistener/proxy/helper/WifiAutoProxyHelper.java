@@ -12,18 +12,20 @@ import fr.neraud.padlistener.exception.MissingRequirementException;
  */
 public class WifiAutoProxyHelper {
 
-	private final Context context;
+	private final Context mContext;
 
 	public WifiAutoProxyHelper(Context context) {
-		this.context = context;
+		this.mContext = context;
 	}
 
 	private WifiConfigHelper getWifiConfigHelper() throws MissingRequirementException {
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
-			return new WifiConfigKitKatHelper();
+			return new WifiConfigKitKatHelper(mContext);
 		} else {
-			throw new MissingRequirementException(MissingRequirementException.Requirement.ANDROID_VERSION);
+			return new WifiConfigLollipopHelper(mContext);
 		}
+
+		//throw new MissingRequirementException(MissingRequirementException.Requirement.ANDROID_VERSION);
 	}
 
 	public void activateAutoProxy() throws Exception {
@@ -31,7 +33,7 @@ public class WifiAutoProxyHelper {
 
 		final WifiConfigHelper helper = getWifiConfigHelper();
 		try {
-			helper.modifyWifiProxySettings(context, "localhost", 8008);
+			helper.modifyWifiProxySettings("localhost", 8008);
 		} catch (final Exception e) {
 			throw new Exception("Error activating auto proxy", e);
 		}
@@ -42,7 +44,7 @@ public class WifiAutoProxyHelper {
 
 		final WifiConfigHelper helper = getWifiConfigHelper();
 		try {
-			helper.unsetWifiProxySettings(context);
+			helper.unsetWifiProxySettings();
 		} catch (final Exception e) {
 			throw new Exception("Error deactivating auto proxy", e);
 		}
