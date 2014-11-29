@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="1.5.2" versioncode="34">
 		<change>Fixed #56 : auto Wifi Proxy Listener fixed for Android 5.0</change>
 		<change>Fixed #58 : auto IPtables Listener fixed for Android 5.0</change>
 		<change>Fixed #60 : fixed the "all white notification icon" bug in Lollipop</change>
