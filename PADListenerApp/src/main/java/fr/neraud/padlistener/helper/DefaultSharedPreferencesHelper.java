@@ -129,11 +129,11 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 	public boolean isChooseSyncGroupMonsters(SyncMode mode) {
 		switch (mode) {
 			case CREATED:
-				return getBooleanPreference("choose_sync_group_monsters_created", false);
+				return getBooleanPreference("choose_sync_group_monsters_created", true);
 			case DELETED:
 				return getBooleanPreference("choose_sync_group_monsters_deleted", false);
 			case UPDATED:
-				return getBooleanPreference("choose_sync_group_monsters_updated", true);
+				return getBooleanPreference("choose_sync_group_monsters_updated", false);
 			default:
 				return false;
 		}
