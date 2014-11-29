@@ -7,7 +7,7 @@ package fr.neraud.padlistener.constant;
  */
 public enum ExecutableAsset {
 
-	IPTABLES("iptables_arm", "iptables");
+	IPTABLES("iptables_armv7_pie", "iptables");
 
 	private final String assetName;
 	private final String targetName;

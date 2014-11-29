@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #58 : auto IPtables Listener fixed for Android 5.0</change>
+	</release>
+	<release
 		version="1.5.1" versioncode="33">
 		<change>updated JP hostname</change>
 	</release>
