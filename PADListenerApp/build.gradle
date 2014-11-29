@@ -3,15 +3,15 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:0.12.+'
+		classpath 'com.android.tools.build:gradle:0.13.2'
 	}
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'maven'
 
 dependencies {
-	compile 'com.android.support:support-v4:19.1.0'
+	compile 'com.android.support:support-v4:21.0.2'
 	compile 'org.apache.commons:commons-lang3:3.3.2'
 	compile 'commons-io:commons-io:2.4'
 	compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
