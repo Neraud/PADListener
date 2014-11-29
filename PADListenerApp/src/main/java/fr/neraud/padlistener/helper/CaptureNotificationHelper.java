@@ -58,7 +58,7 @@ public class CaptureNotificationHelper {
 
 	private void displayNotification(final String notificationMessage) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-		mBuilder.setSmallIcon(R.drawable.ic_launcher);
+		mBuilder.setSmallIcon(R.drawable.ic_notification);
 		mBuilder.setWhen(new Date().getTime());
 		mBuilder.setContentTitle(context.getString(R.string.notification_data_capture_title));
 		mBuilder.setContentText(notificationMessage);

@@ -167,7 +167,7 @@ public class ListenerService extends Service {
 		builder.setContentTitle(notifTitle);
 		builder.setOngoing(true);
 		builder.setContentText(notifContent);
-		builder.setSmallIcon(R.drawable.ic_launcher);
+		builder.setSmallIcon(R.drawable.ic_notification);
 		builder.setContentIntent(pendingIntent);
 
 		return builder.getNotification();
