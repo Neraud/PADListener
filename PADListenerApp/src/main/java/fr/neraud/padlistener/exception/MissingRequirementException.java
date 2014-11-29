@@ -13,7 +13,8 @@ public class MissingRequirementException extends Exception {
 
 	public static enum Requirement {
 
-		ROOT(R.string.switch_listener_settings_require_root);
+		ROOT(R.string.switch_listener_settings_require_root),
+		ANDROID_VERSION(R.string.switch_listener_settings_android_version);
 
 		private final int errorTextResId;
 

@@ -141,6 +141,7 @@
 	<string name="switch_listener_settings_no_target_hostname">You did not select any target hostname for the listener, it cannot capture anything.</string>
 	<string name="switch_listener_settings_require_wifi">Your Listener settings (AutoProxy mode or Enable non local) require a WiFI connection. Please connect to a WiFI network or change those settings.</string>
 	<string name="switch_listener_settings_require_root">Your Listener settings (Auto iptables) require a rooted device.</string>
+	<string name="switch_listener_settings_android_version">Your Listener settings cannot work with your Android version.</string>
 	<string name="switch_listener_show_logs">Logs</string>
 	<string name="switch_listener_show_logs_title">Logs</string>
 	<string name="switch_listener_show_logs_close">Close</string>
