@@ -23,7 +23,8 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.List;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
@@ -124,7 +125,7 @@ public class SwitchListenerFragment extends Fragment {
 					final int resId = ((MissingRequirementException) result.getError()).getRequirement().getErrorTextResId();
 					updateMissingRequirement(resId);
 				} else {
-					updateError(result.getError().getMessage(), result.getLogs());
+					updateError(result.getError().getMessage(), result);
 				}
 			}
 		};
@@ -244,7 +245,7 @@ public class SwitchListenerFragment extends Fragment {
 		errorText.setText(textResId);
 	}
 
-	private void updateError(String errorMessage, final List<String> logs) {
+	private void updateError(String errorMessage, final SwitchListenerResult result) {
 		Log.d(getClass().getName(), "updateError");
 
 		listenerSwitch.setClickable(false);
@@ -259,16 +260,33 @@ public class SwitchListenerFragment extends Fragment {
 			public void onClick(View view) {
 				Log.d(getClass().getName(), "showLogsButton.onClick");
 
-				AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+				final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 				alert.setTitle(R.string.switch_listener_show_logs_title);
 
-				WebView wv = new WebView(getActivity());
+				final WebView wv = new WebView(getActivity());
 				final StringBuilder dataBuilder = new StringBuilder();
-				dataBuilder.append("<html><body><ul>");
-				for (final String logLine : logs) {
-					dataBuilder.append("<li>").append(logLine).append("</li>");
+				dataBuilder.append("<html><body>");
+				if (result.getError() != null) {
+					dataBuilder.append("<h2>").append(result.getError().getMessage()).append("</h2><br/>");
+					final StringWriter sw = new StringWriter();
+					final PrintWriter pw = new PrintWriter(sw);
+					result.getError().printStackTrace(pw);
+					final String stackTrace = sw.toString();
+					pw.close();
+					dataBuilder.append("<b>Stacktrace</b> : <br/>");
+					dataBuilder.append("<pre>").append(stackTrace).append("</pre>");
 				}
-				dataBuilder.append("</ul></body></html>");
+
+				if (result.getLogs() != null) {
+					dataBuilder.append("<b>Logs</b> : <br/>");
+					dataBuilder.append("<pre>");
+					for (final String logLine : result.getLogs()) {
+						dataBuilder.append(logLine).append("\n");
+					}
+					dataBuilder.append("</pre>");
+				}
+
+				dataBuilder.append("</body></html>");
 				wv.loadDataWithBaseURL("", dataBuilder.toString(), "text/html", "UTF-8", "");
 
 				alert.setView(wv);
