@@ -6,14 +6,18 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.io.IOException;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.MyNotification;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.WifiHelper;
+import fr.neraud.padlistener.model.CapturedFriendModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
 import fr.neraud.padlistener.service.task.StartListenerAsyncTask;
 import fr.neraud.padlistener.service.task.StopListenerAsyncTask;
@@ -29,13 +33,17 @@ import fr.neraud.padlistener.util.ScriptAssetHelper;
  */
 public class ListenerService extends Service {
 
-	private static final int NOTIFICATION_ID = 1;
 	private final IBinder mBinder = new ListenerServiceBinder();
 	private boolean started = false;
 	private ProxyHelper proxyHelper = null;
 
 	public interface CaptureListener {
+
 		public void notifyCaptureStarted();
+
+		public void notifySavingMonsters(int num, int total, MonsterModel monster);
+
+		public void notifySavingFriends(int num, int total, CapturedFriendModel friend);
 
 		public void notifyCaptureFinished(String playerName);
 	}
@@ -135,7 +143,7 @@ public class ListenerService extends Service {
 					started = true;
 
 					final Notification notification = buildNotification(getProxyMode());
-					startForeground(NOTIFICATION_ID, notification);
+					startForeground(MyNotification.LISTENER_SERVICE.getId(), notification);
 					if (listener != null) {
 						listener.notifyActionSuccess(switchListenerResult);
 					}
@@ -168,14 +176,14 @@ public class ListenerService extends Service {
 		final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		final Notification.Builder builder = new Notification.Builder(this);
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 		builder.setContentTitle(notifTitle);
 		builder.setOngoing(true);
 		builder.setContentText(notifContent);
 		builder.setSmallIcon(R.drawable.ic_notification);
 		builder.setContentIntent(pendingIntent);
 
-		return builder.getNotification();
+		return builder.build();
 	}
 
 	private void doStopListener(final ListenerServiceListener listener) {

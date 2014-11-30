@@ -11,6 +11,9 @@ import android.widget.Toast;
 import java.util.Date;
 
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.constant.MyNotification;
+import fr.neraud.padlistener.model.CapturedFriendModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.service.ListenerService;
 
 /**
@@ -19,10 +22,10 @@ import fr.neraud.padlistener.service.ListenerService;
  */
 public class CaptureNotificationHelper implements ListenerService.CaptureListener {
 
-	private final Context context;
+	private final Context mContext;
 
 	public CaptureNotificationHelper(Context context) {
-		this.context = context;
+		this.mContext = context;
 	}
 
 	/**
@@ -30,12 +33,26 @@ public class CaptureNotificationHelper implements ListenerService.CaptureListene
 	 */
 	public void notifyCaptureStarted() {
 		Log.d(getClass().getName(), "notifyCaptureStarted");
-		final String notificationMessage = context.getString(R.string.notification_data_capture_started);
+		final String notificationMessage = mContext.getString(R.string.notification_data_capture_started);
 		displayNotification(notificationMessage);
 
 		if(needsToShutDownListener()) {
 			stopListener();
 		}
+	}
+
+	@Override
+	public void notifySavingMonsters(int num, int total, MonsterModel monster) {
+		Log.d(getClass().getName(), "notifySavingMonsters : " + num);
+		final String notificationMessage = mContext.getString(R.string.notification_data_capture_saving_monsters, monster.getIdJp());
+		displayNotificationWithProgress(notificationMessage, num, total);
+	}
+
+	@Override
+	public void notifySavingFriends(int num, int total, CapturedFriendModel friend) {
+		Log.d(getClass().getName(), "notifySavingFriends : " + num);
+		final String notificationMessage = mContext.getString(R.string.notification_data_capture_saving_friends, friend.getId(), friend.getName());
+		displayNotificationWithProgress(notificationMessage, num, total);
 	}
 
 	/**
@@ -46,41 +63,57 @@ public class CaptureNotificationHelper implements ListenerService.CaptureListene
 	public void notifyCaptureFinished(String accountName) {
 		Log.d(getClass().getName(), "notifyCaptureFinished : " + accountName);
 
-		final String toastMessage = context.getString(R.string.toast_data_capture_finished, accountName);
+		final String toastMessage = mContext.getString(R.string.toast_data_capture_finished, accountName);
 		displayToast(toastMessage);
 
-		final String notificationMessage = context.getString(R.string.notification_data_capture_finished, accountName);
+		final String notificationMessage = mContext.getString(R.string.notification_data_capture_finished, accountName);
 		displayNotification(notificationMessage);
 	}
 
 	private void displayToast(final String toastMessage) {
-		new Handler(context.getMainLooper()).post(new Runnable() {
+		new Handler(mContext.getMainLooper()).post(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show();
+				Toast.makeText(mContext, toastMessage, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
 
-	private void displayNotification(final String notificationMessage) {
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-		mBuilder.setSmallIcon(R.drawable.ic_notification);
-		mBuilder.setWhen(new Date().getTime());
-		mBuilder.setContentTitle(context.getString(R.string.notification_data_capture_title));
-		mBuilder.setContentText(notificationMessage);
-		NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+	private NotificationCompat.Builder prepareNotification() {
+		final NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+		builder.setSmallIcon(R.drawable.ic_notification);
+		builder.setWhen(new Date().getTime());
+		builder.setContentTitle(mContext.getString(R.string.notification_data_capture_title));
 
-		mNotificationManager.notify(0, mBuilder.build());
+		return builder;
+	}
+
+	private void showNotification(NotificationCompat.Builder builder) {
+		NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.notify(MyNotification.ONGOING_CAPTURE.getId(), builder.build());
+	}
+
+	private void displayNotification(final String notificationMessage) {
+		final NotificationCompat.Builder builder = prepareNotification();
+		builder.setContentText(notificationMessage);
+		showNotification(builder);
+	}
+
+	private void displayNotificationWithProgress(final String notificationMessage, int nb, int max) {
+		final NotificationCompat.Builder builder = prepareNotification();
+		builder.setContentText(notificationMessage);
+		builder.setProgress(max, nb, false);
+		showNotification(builder);
 	}
 
 	protected boolean needsToShutDownListener() {
-		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
+		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(mContext);
 		return helper.isListenerAutoShutdown();
 	}
 
 	private void stopListener() {
 		Log.d(getClass().getName(), "stopListener");
-		final Intent serviceIntent = new Intent(context, ListenerService.class);
-		context.stopService(serviceIntent);
+		final Intent serviceIntent = new Intent(mContext, ListenerService.class);
+		mContext.stopService(serviceIntent);
 	}
 }

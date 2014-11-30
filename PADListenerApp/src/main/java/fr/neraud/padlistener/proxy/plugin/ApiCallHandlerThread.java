@@ -118,13 +118,14 @@ public class ApiCallHandlerThread extends Thread {
 		final Uri uri = CapturedPlayerMonsterDescriptor.UriHelper.uriForAll();
 
 		cr.delete(uri, null, null);
-		final ContentValues[] values = new ContentValues[monsters.size()];
 		int i = 0;
+		final int count = monsters.size();
 		for (final MonsterModel monster : monsters) {
-			values[i] = CapturedPlayerMonsterProviderHelper.modelToValues(monster);
 			i++;
+			notifySavingMonster(i, count, monster);
+			final ContentValues values = CapturedPlayerMonsterProviderHelper.modelToValues(monster);
+			cr.insert(uri, values);
 		}
-		cr.bulkInsert(uri, values);
 	}
 
 	private void saveFriends(List<CapturedFriendModel> friends) {
@@ -134,18 +135,31 @@ public class ApiCallHandlerThread extends Thread {
 		final Uri uri = CapturedPlayerFriendDescriptor.UriHelper.uriForAll();
 
 		cr.delete(uri, null, null);
-		final ContentValues[] values = new ContentValues[friends.size()];
 		int i = 0;
+		final int count = friends.size();
 		for (final CapturedFriendModel friend : friends) {
-			values[i] = CapturedPlayerFriendProviderHelper.modelToValues(friend);
 			i++;
+			notifySavingFriend(i, count, friend);
+			final ContentValues values = CapturedPlayerFriendProviderHelper.modelToValues(friend);
+			cr.insert(uri, values);
 		}
-		cr.bulkInsert(uri, values);
 	}
 
 	private void notifyCaptureStarted() {
 		if (captureListener != null) {
 			captureListener.notifyCaptureStarted();
+		}
+	}
+
+	private void notifySavingMonster(int num, int count, MonsterModel monster) {
+		if (captureListener != null) {
+			captureListener.notifySavingMonsters(num, count, monster);
+		}
+	}
+
+	private void notifySavingFriend(int num, int count, CapturedFriendModel friend) {
+		if (captureListener != null) {
+			captureListener.notifySavingFriends(num, count, friend);
 		}
 	}
 
