@@ -36,6 +36,7 @@ public class ListenerService extends Service {
 
 	public interface CaptureListener {
 		public void notifyCaptureStarted();
+
 		public void notifyCaptureFinished(String playerName);
 	}
 
@@ -53,11 +54,11 @@ public class ListenerService extends Service {
 		}
 
 		public void startListener(ListenerServiceListener listener, CaptureListener captureListener) {
-			doStartListener(listener, captureListener);
+			ListenerService.this.doStartListener(listener, captureListener);
 		}
 
 		public void stopListener(ListenerServiceListener listener) {
-			doStopListener(listener);
+			ListenerService.this.doStopListener(listener);
 		}
 	}
 
