@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.0.b1" versioncode="40">
 		<change>UI/UX reworked !</change>
-		<change>Added auto-capture</change>
+		<change>Added auto-capture and auto-sync</change>
 	</release>
 	<release
 		version="1.5.2" versioncode="34">
