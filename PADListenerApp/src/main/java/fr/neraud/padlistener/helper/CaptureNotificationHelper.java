@@ -1,14 +1,10 @@
 package fr.neraud.padlistener.helper;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.util.Date;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.MyNotification;
@@ -20,11 +16,12 @@ import fr.neraud.padlistener.service.ListenerService;
  * Helper to notify the user when the Listener captures data
  * Created by Neraud on 28/06/2014.
  */
-public class CaptureNotificationHelper implements ListenerService.CaptureListener {
+public class CaptureNotificationHelper extends NotificationHelper implements ListenerService.CaptureListener {
 
 	private final Context mContext;
 
 	public CaptureNotificationHelper(Context context) {
+		super(context, MyNotification.ONGOING_CAPTURE, R.string.notification_data_capture_title);
 		this.mContext = context;
 	}
 
@@ -77,33 +74,6 @@ public class CaptureNotificationHelper implements ListenerService.CaptureListene
 				Toast.makeText(mContext, toastMessage, Toast.LENGTH_LONG).show();
 			}
 		});
-	}
-
-	private NotificationCompat.Builder prepareNotification() {
-		final NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
-		builder.setSmallIcon(R.drawable.ic_notification);
-		builder.setWhen(new Date().getTime());
-		builder.setContentTitle(mContext.getString(R.string.notification_data_capture_title));
-
-		return builder;
-	}
-
-	private void showNotification(NotificationCompat.Builder builder) {
-		NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.notify(MyNotification.ONGOING_CAPTURE.getId(), builder.build());
-	}
-
-	private void displayNotification(final String notificationMessage) {
-		final NotificationCompat.Builder builder = prepareNotification();
-		builder.setContentText(notificationMessage);
-		showNotification(builder);
-	}
-
-	private void displayNotificationWithProgress(final String notificationMessage, int nb, int max) {
-		final NotificationCompat.Builder builder = prepareNotification();
-		builder.setContentText(notificationMessage);
-		builder.setProgress(max, nb, false);
-		showNotification(builder);
 	}
 
 	protected boolean needsToShutDownListener() {

@@ -38,6 +38,8 @@ public class AutoSyncService extends IntentService {
 
 	private static final String SYNC_LISTENER_EXTRA_NAME = "syncListener";
 	private ResultReceiver mAutoSyncReceiver;
+	private int mItemsPushedCount;
+	private int mItemsToPushTotal;
 
 	public AutoSyncService() {
 		super("AutoSyncService");
@@ -59,7 +61,7 @@ public class AutoSyncService extends IntentService {
 		@Override
 		protected void onReceiveProgress(RestCallRunningStep progress) {
 			Log.d(getClass().getName(), "onReceiveProgress");
-
+			notifyComputeSyncProgress(progress);
 		}
 
 		@Override
@@ -67,7 +69,7 @@ public class AutoSyncService extends IntentService {
 			Log.d(getClass().getName(), "onReceiveSuccess");
 
 			final ChooseSyncModel chooseModel = prepareSync(result);
-			notifyProgress(AbstractAutoSyncReceiver.State.COMPUTE_FINISHED);
+			notifyComputeSyncFinished();
 			pushSync(accountId, chooseModel);
 		}
 
@@ -95,7 +97,8 @@ public class AutoSyncService extends IntentService {
 			final String errorMessage = resultData.getString(PushSyncService.RECEIVER_MESSAGE_NAME);
 
 			if (isSuccess) {
-				notifyProgress(AbstractAutoSyncReceiver.State.PUSH_FINISHED);
+				mItemsPushedCount++;
+				notifyPushSyncProgress();
 			} else {
 				notifyError(AbstractAutoSyncReceiver.Error.PUSH, new Exception(errorMessage));
 			}
@@ -107,7 +110,7 @@ public class AutoSyncService extends IntentService {
 		Log.d(getClass().getName(), "onHandleIntent");
 
 		this.mAutoSyncReceiver = intent.getParcelableExtra(SYNC_LISTENER_EXTRA_NAME);
-		notifyProgress(AbstractAutoSyncReceiver.State.INITIALIZED);
+		notifyInitialized();
 
 		try {
 			final int accountId = extractAccountId();
@@ -123,7 +126,7 @@ public class AutoSyncService extends IntentService {
 		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(this).getPadHerderAccounts();
 		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(this);
 		final String lastCaptureAccountName = techPrefHelper.getLastCaptureName();
-		if(StringUtils.isNotBlank(lastCaptureAccountName)) {
+		if (StringUtils.isNotBlank(lastCaptureAccountName)) {
 			for (final PADHerderAccountModel account : accounts) {
 				if (lastCaptureAccountName.equals(account.getName())) {
 					return account.getAccountId();
@@ -141,12 +144,11 @@ public class AutoSyncService extends IntentService {
 		startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyComputeSyncReceiver(new Handler(), accountId));
 		startIntent.putExtra(ComputeSyncService.EXTRA_ACCOUNT_ID_NAME, accountId);
 
-		notifyProgress(AbstractAutoSyncReceiver.State.COMPUTE_STARTED);
+		notifyComputeSyncInitialized();
 		startService(startIntent);
 
 		Looper.loop();
 	}
-
 
 	private ChooseSyncModel prepareSync(ComputeSyncResultModel result) {
 		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(this, result);
@@ -163,29 +165,30 @@ public class AutoSyncService extends IntentService {
 	}
 
 	private void pushSync(int accountId, ChooseSyncModel chooseModel) {
-		notifyProgress(AbstractAutoSyncReceiver.State.PUSH_STARTED);
+		notifyPushSyncInitialized();
 
 		final boolean hasUserInfoToUpdate = chooseModel.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync();
 		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && chooseModel.getSyncedUserInfoToUpdate().isChosen();
-		//final int materialToUpdateCount = chooseModel.getSyncedMaterialsToUpdate().size();
 		final int materialToUpdateChosenCount = countChosenItems(chooseModel.getSyncedMaterialsToUpdate());
-		//final int monsterToUpdateCount = chooseModel.getSyncedMonsters(SyncMode.UPDATED).size();
 		final int monsterToUpdateChosenCount = countChosenItems(chooseModel.getSyncedMonsters(SyncMode.UPDATED));
-		//final int monsterToCreateCount = chooseModel.getSyncedMonsters(SyncMode.CREATED).size();
 		final int monsterToCreateChosenCount = countChosenItems(chooseModel.getSyncedMonsters(SyncMode.CREATED));
-		//final int monsterToDeleteCount = chooseModel.getSyncedMonsters(SyncMode.DELETED).size();
 		final int monsterToDeleteChosenCount = countChosenItems(chooseModel.getSyncedMonsters(SyncMode.DELETED));
 
-		if (materialToUpdateChosenCount > 0 || monsterToUpdateChosenCount > 0 || monsterToCreateChosenCount > 0
-				|| monsterToDeleteChosenCount > 0 || hasUserInfoToUpdateChosen) {
+		mItemsPushedCount = 0;
+		mItemsToPushTotal = (hasUserInfoToUpdateChosen ? 1 : 0) +
+				materialToUpdateChosenCount +
+				monsterToUpdateChosenCount +
+				monsterToCreateChosenCount +
+				monsterToDeleteChosenCount;
 
+		if (mItemsToPushTotal > 0) {
 			final Intent intent = new Intent(this, PushSyncService.class);
 			intent.putExtra(PushSyncService.CHOOSE_SYNC_MODEL_EXTRA_NAME, chooseModel);
 			intent.putExtra(PushSyncService.ACCOUNT_ID_EXTRA_NAME, accountId);
 			intent.putExtra(PushSyncService.RECEIVER_EXTRA_NAME, new MyPushSyncReceiver(new Handler()));
 			startService(intent);
 		} else {
-			notifyProgress(AbstractAutoSyncReceiver.State.NOTHING_TO_PUSH);
+			notifyPushSyncFinished();
 		}
 	}
 
@@ -203,11 +206,52 @@ public class AutoSyncService extends IntentService {
 		Looper.myLooper().quit();
 	}
 
-	private void notifyProgress(AbstractAutoSyncReceiver.State state) {
+	private void notifyInitialized() {
+		if (mAutoSyncReceiver != null) {
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.INITIALIZED.getCode(), null);
+		}
+	}
+
+	private void notifyComputeSyncInitialized() {
+		if (mAutoSyncReceiver != null) {
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.COMPUTING_SYNC_INITIALIZED.getCode(), null);
+		}
+	}
+
+	private void notifyComputeSyncProgress(RestCallRunningStep progress) {
 		if (mAutoSyncReceiver != null) {
 			final Bundle data = new Bundle();
-			data.putSerializable(AbstractAutoSyncReceiver.STATE_NAME, state);
-			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.CODE_OK, data);
+			data.putSerializable(AbstractAutoSyncReceiver.COMPUTE_SYNC_PROGRESS, progress);
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.COMPUTING_SYNC_PROGRESS.getCode(), data);
+		}
+	}
+
+	private void notifyComputeSyncFinished() {
+		if (mAutoSyncReceiver != null) {
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.COMPUTING_SYNC_FINISHED.getCode(), null);
+		}
+	}
+
+	private void notifyPushSyncInitialized() {
+		if (mAutoSyncReceiver != null) {
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.PUSHING_SYNC_INITIALIZED.getCode(), null);
+		}
+	}
+
+	private void notifyPushSyncProgress() {
+		if (mAutoSyncReceiver != null) {
+			final Bundle data = new Bundle();
+			data.putInt(AbstractAutoSyncReceiver.PUSH_SYNC_ITEMS_PUSHED, mItemsPushedCount);
+			data.putInt(AbstractAutoSyncReceiver.PUSH_SYNC_ITEMS_TO_PUSH, mItemsToPushTotal);
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.PUSHING_SYNC_PROGRESS.getCode(), data);
+		}
+	}
+
+	private void notifyPushSyncFinished() {
+		if (mAutoSyncReceiver != null) {
+			final Bundle data = new Bundle();
+			data.putInt(AbstractAutoSyncReceiver.PUSH_SYNC_ITEMS_PUSHED, mItemsPushedCount);
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.PUSHING_SYNC_FINISHED.getCode(), data);
 		}
 	}
 
@@ -216,7 +260,7 @@ public class AutoSyncService extends IntentService {
 			final Bundle data = new Bundle();
 			data.putSerializable(AbstractAutoSyncReceiver.ERROR_NAME, error);
 			data.putSerializable(AbstractAutoSyncReceiver.EXCEPTION_NAME, t);
-			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.CODE_KO, data);
+			mAutoSyncReceiver.send(AbstractAutoSyncReceiver.ResultCode.ERROR.getCode(), data);
 		}
 	}
 }

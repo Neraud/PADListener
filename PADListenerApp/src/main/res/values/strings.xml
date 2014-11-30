@@ -32,6 +32,16 @@
 	<string name="notification_data_capture_saving_friends">Saving friend [%1$d] %2$s</string>
 	<string name="notification_data_capture_finished">PAD data captured for %1$s</string>
 
+	<string name="notification_data_sync_title">PADListener sync</string>
+	<string name="notification_data_sync_started">PAD data being synced ...</string>
+	<string name="notification_data_sync_computing">PAD sync being computed ...</string>
+	<string name="notification_data_sync_computing_calling">Calling PadHerder API</string>
+	<string name="notification_data_sync_computing_parsing">Parsing PadHerder API result</string>
+	<string name="notification_data_sync_computing_computing">Computing sync</string>
+	<string name="notification_data_sync_computed">PAD sync is computed</string>
+	<string name="notification_data_sync_pushing">PAD sync being pushed ...</string>
+	<string name="notification_data_sync_push_finished">Finished, %1$d pushed</string>
+
 
 	<!-- Toasts -->
 	<string name="toast_data_capture_finished">PAD data captured for %1$s</string>

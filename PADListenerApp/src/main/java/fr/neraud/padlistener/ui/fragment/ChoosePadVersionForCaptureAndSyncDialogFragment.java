@@ -9,11 +9,10 @@ import android.widget.Toast;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
-import fr.neraud.padlistener.exception.NoMatchingAccountException;
 import fr.neraud.padlistener.service.AutoCaptureService;
 import fr.neraud.padlistener.service.AutoSyncService;
 import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
-import fr.neraud.padlistener.service.receiver.AbstractAutoSyncReceiver;
+import fr.neraud.padlistener.service.receiver.AutoSyncReceiver;
 
 /**
  * Created by Neraud on 25/11/2014.
@@ -55,35 +54,7 @@ public class ChoosePadVersionForCaptureAndSyncDialogFragment extends ChoosePadVe
 	private void triggerAutoSync() {
 		Log.d(getClass().getName(), "triggerAutoSync");
 		final Intent serviceIntent = new Intent(mContext, AutoSyncService.class);
-		AutoSyncService.addSyncListenerInIntent(serviceIntent, new AbstractAutoSyncReceiver(new Handler()) {
-			@Override
-			public void notifyProgress(State state) {
-				Log.d(getClass().getName(), "notifyProgress : " + state);
-
-				// TODO notification for the sync process
-			}
-
-			@Override
-			public void notifyError(Error error, Throwable t) {
-				switch (error) {
-					case NO_MATCHING_ACCOUNT:
-
-						String accountName = "";
-						if (t instanceof NoMatchingAccountException) {
-							accountName = ((NoMatchingAccountException) t).getAccountName();
-						}
-						final String content = getString(R.string.auto_sync_no_matching_account_content, accountName);
-						Toast.makeText(mContext, content, Toast.LENGTH_LONG).show();
-						break;
-					case COMPUTE:
-						Toast.makeText(mContext, R.string.auto_sync_compute_failed, Toast.LENGTH_LONG).show();
-						break;
-					case PUSH:
-						Toast.makeText(mContext, R.string.auto_sync_push_failed, Toast.LENGTH_LONG).show();
-						break;
-				}
-			}
-		});
+		AutoSyncService.addSyncListenerInIntent(serviceIntent, new AutoSyncReceiver(mContext, new Handler()));
 		mContext.startService(serviceIntent);
 	}
 }

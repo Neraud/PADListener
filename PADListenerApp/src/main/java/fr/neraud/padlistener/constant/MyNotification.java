@@ -6,7 +6,8 @@ package fr.neraud.padlistener.constant;
 public enum MyNotification {
 
 	LISTENER_SERVICE(1),
-	ONGOING_CAPTURE(2);
+	ONGOING_CAPTURE(2),
+	ONGOING_SYNC(3);
 
 	private final int id;
 
