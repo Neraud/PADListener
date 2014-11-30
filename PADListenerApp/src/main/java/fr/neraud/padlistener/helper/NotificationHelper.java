@@ -1,13 +1,16 @@
 package fr.neraud.padlistener.helper;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Date;
 
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.MyNotification;
+import fr.neraud.padlistener.ui.activity.HomeActivity;
 
 /**
  * Created by Neraud on 30/11/2014.
@@ -29,6 +32,10 @@ public class NotificationHelper {
 		builder.setSmallIcon(R.drawable.ic_notification);
 		builder.setWhen(new Date().getTime());
 		builder.setContentTitle(mContext.getString(mTitleId));
+
+		final Intent notificationIntent = new Intent(mContext, HomeActivity.class);
+		final PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, 0);
+		builder.setContentIntent(pendingIntent);
 
 		return builder;
 	}
