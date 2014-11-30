@@ -24,7 +24,6 @@ import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.PADHerderAccountModel;
-import fr.neraud.padlistener.model.PushSyncStatModel;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.receiver.AbstractAutoSyncReceiver;
@@ -92,13 +91,17 @@ public class AutoSyncService extends IntentService {
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			Log.d(getClass().getName(), "onReceiveResult");
 
-			final PushSyncStatModel.ElementToPush element = PushSyncStatModel.ElementToPush.valueOf(resultData.getString(PushSyncService.RECEIVER_ELEMENT_NAME));
+			//final PushSyncStatModel.ElementToPush element = PushSyncStatModel.ElementToPush.valueOf(resultData.getString(PushSyncService.RECEIVER_ELEMENT_NAME));
 			final boolean isSuccess = resultData.getBoolean(PushSyncService.RECEIVER_SUCCESS_NAME);
 			final String errorMessage = resultData.getString(PushSyncService.RECEIVER_MESSAGE_NAME);
 
 			if (isSuccess) {
 				mItemsPushedCount++;
-				notifyPushSyncProgress();
+				if (mItemsPushedCount < mItemsToPushTotal) {
+					notifyPushSyncProgress();
+				} else {
+					notifyPushSyncFinished();
+				}
 			} else {
 				notifyError(AbstractAutoSyncReceiver.Error.PUSH, new Exception(errorMessage));
 			}
