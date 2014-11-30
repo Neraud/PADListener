@@ -32,6 +32,10 @@ public class CaptureNotificationHelper implements ListenerService.CaptureListene
 		Log.d(getClass().getName(), "notifyCaptureStarted");
 		final String notificationMessage = context.getString(R.string.notification_data_capture_started);
 		displayNotification(notificationMessage);
+
+		if(needsToShutDownListener()) {
+			stopListener();
+		}
 	}
 
 	/**
@@ -47,10 +51,6 @@ public class CaptureNotificationHelper implements ListenerService.CaptureListene
 
 		final String notificationMessage = context.getString(R.string.notification_data_capture_finished, accountName);
 		displayNotification(notificationMessage);
-
-		if(needsToShutDownListener()) {
-			stopListener();
-		}
 	}
 
 	private void displayToast(final String toastMessage) {
