@@ -80,7 +80,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		initNavDrawer();
 
-		if(mHelpManager != null) {
+		if (mHelpManager != null) {
 			mHelpManager.showHelpFirstTime();
 		}
 	}
@@ -265,7 +265,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		Log.d(getClass().getName(), "onCreateOptionsMenu");
-		if(mHelpManager != null) {
+		if (mHelpManager != null) {
 			getMenuInflater().inflate(R.menu.help, menu);
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -282,7 +282,9 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		switch (item.getItemId()) {
 			case R.id.menu_common_help:
-				if(mHelpManager != null) {
+				if (mHelpManager != null) {
+					// Close the drawer by default, so that the help screen is displayed over the activity
+					getDrawerLayout().closeDrawer(Gravity.START);
 					mHelpManager.showHelp();
 				}
 				return true;

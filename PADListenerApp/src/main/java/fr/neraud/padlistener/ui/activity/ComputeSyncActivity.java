@@ -27,7 +27,7 @@ public class ComputeSyncActivity extends AbstractPADListenerActivity {
 			@Override
 			public void buildHelpPages(PageBuilder builder) {
 				builder.addHelpPage(R.string.compute_sync_help_compute_sync_title, R.string.compute_sync_help_compute_sync_content);
-				builder.addHelpPage(R.string.compute_sync_help_choose_account_title, R.string.compute_sync_help_choose_account_content, R.id.compute_sync_choose_account_spinner, null);
+				builder.addHelpPage(R.string.compute_sync_help_choose_account_title, R.string.compute_sync_help_choose_account_content);
 			}
 
 			@Override

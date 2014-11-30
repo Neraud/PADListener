@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed help messages on lower resolutions</change>
+	</release>
+	<release
 		version="2.0.b1" versioncode="40">
 		<change>UI/UX reworked !</change>
 		<change>Added auto-capture and auto-sync</change>

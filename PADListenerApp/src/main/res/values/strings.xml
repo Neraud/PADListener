@@ -347,10 +347,10 @@
 	<!-- Compute Sync -->
 	<string name="label_computeSync">Compute Sync</string>
 	<string name="compute_sync_help_compute_sync_title">Compute sync</string>
-	<string name="compute_sync_help_compute_sync_content">This is the 1st step to sync with PADherder</string>
+	<string name="compute_sync_help_compute_sync_content">This is the first step to sync with PADherder</string>
 	<string name="compute_sync_help_choose_account_title">Choose account</string>
-	<string name="compute_sync_help_choose_account_content">You can choose with which of your PADherder account you want to sync.\n\n
-You can manage these accounts in the settings.
+	<string name="compute_sync_help_choose_account_content">You can choose with which of your PADherder account you want to sync.
+\n\nYou can manage these accounts in the settings.
 </string>
 
 	<string name="compute_sync_content">Sync data captured from PAD at %1$s</string>
@@ -373,7 +373,7 @@ You can manage these accounts in the settings.
 	<!-- Choose Sync -->
 	<string name="label_chooseSync">Choose sync</string>
 	<string name="choose_sync_help_compute_sync_title">Choose sync</string>
-	<string name="choose_sync_help_compute_sync_content">This is the 2nd step to sync with PADherder</string>
+	<string name="choose_sync_help_compute_sync_content">This is the second step to sync with PADherder</string>
 	<string name="choose_sync_help_tabs_title">Tabs</string>
 	<string name="choose_sync_help_tabs_content">You can see up to 4 tabs : updated materials, updated monsters, created monsters and deleted monsters.\n\nEach of them contains a series of materials or monsters that can be synced with PADherder.</string>
 	<string name="choose_sync_help_select_title">Selection</string>

@@ -33,8 +33,8 @@ public class SwitchListenerActivity extends AbstractPADListenerActivity {
 			@Override
 			public void buildHelpPages(PageBuilder builder) {
 				builder.addHelpPage(R.string.switch_listener_help_listener_title, R.string.switch_listener_help_listener_content);
-				builder.addHelpPage(R.string.switch_listener_help_start_title, R.string.switch_listener_help_start_content, R.id.switch_listener_switch, null);
-				builder.addHelpPage(R.string.switch_listener_help_button_title, R.string.switch_listener_help_button_content, R.id.switch_listener_secondary_action_button, null);
+				builder.addHelpPage(R.string.switch_listener_help_start_title, R.string.switch_listener_help_start_content);
+				builder.addHelpPage(R.string.switch_listener_help_button_title, R.string.switch_listener_help_button_content);
 			}
 
 			@Override
