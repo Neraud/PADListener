@@ -30,6 +30,7 @@ public class NotificationHelper {
 	private NotificationCompat.Builder prepareNotification() {
 		final NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 		builder.setSmallIcon(R.drawable.ic_notification);
+		builder.setColor(mContext.getResources().getColor(R.color.theme_primary));
 		builder.setWhen(new Date().getTime());
 		builder.setContentTitle(mContext.getString(mTitleId));
 

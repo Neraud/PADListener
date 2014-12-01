@@ -181,6 +181,7 @@ public class ListenerService extends Service {
 		builder.setOngoing(true);
 		builder.setContentText(notifContent);
 		builder.setSmallIcon(R.drawable.ic_notification);
+		builder.setColor(getResources().getColor(R.color.theme_primary));
 		builder.setContentIntent(pendingIntent);
 
 		return builder.build();
