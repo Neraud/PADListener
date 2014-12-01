@@ -25,6 +25,26 @@ public class ViewCapturedDataMonsterDetailDialogFragment extends DialogFragment 
 	private MonsterInfoModel mMonsterInfoModel;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		Log.d(getClass().getName(), "onCreate");
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mMonsterStatsModel = (BaseMonsterStatsModel) savedInstanceState.getSerializable("mMonsterStatsModel");
+			mMonsterInfoModel = (MonsterInfoModel) savedInstanceState.getSerializable("mMonsterInfoModel");
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		Log.d(getClass().getName(), "onSaveInstanceState");
+		super.onSaveInstanceState(outState);
+
+		outState.putSerializable("mMonsterStatsModel", mMonsterStatsModel);
+		outState.putSerializable("mMonsterInfoModel", mMonsterInfoModel);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(getClass().getName(), "onCreateView");
 
