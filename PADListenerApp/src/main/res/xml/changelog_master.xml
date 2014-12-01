@@ -3,6 +3,7 @@
 	<release
 		version="" versioncode="">
 		<change>Fixed crash when rotating the device while a monster popup is opened</change>
+		<change>Misc UI changes</change>
 	</release>
 	<release
 		version="2.0.b2" versioncode="41">
