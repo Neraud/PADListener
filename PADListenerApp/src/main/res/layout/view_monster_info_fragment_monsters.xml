@@ -22,6 +22,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:columnWidth="112dp"
+		android:fastScrollAlwaysVisible="true"
+		android:fastScrollEnabled="true"
 		android:gravity="center"
 		android:horizontalSpacing="2dp"
 		android:numColumns="auto_fit"

@@ -12,11 +12,13 @@
 		android:layout_height="match_parent"
 		android:columnWidth="200dp"
 		android:gravity="center"
+		android:fastScrollAlwaysVisible="true"
+		android:fastScrollEnabled="true"
 		android:horizontalSpacing="2dp"
 		android:numColumns="auto_fit"
 		android:stretchMode="columnWidth"
 		android:verticalSpacing="3dp"
-		tools:listitem="@layout/view_captured_data_fragments_friends_item"/>
+		tools:listitem="@layout/view_captured_data_fragment_friends_item"/>
 </LinearLayout>
 
 
