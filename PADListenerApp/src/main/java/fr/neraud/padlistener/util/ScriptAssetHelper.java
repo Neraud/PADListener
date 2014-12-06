@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.ScriptAsset;
 
 /**
@@ -25,9 +25,10 @@ public class ScriptAssetHelper extends AbstractAssetHelper {
 	}
 
 	public void copyScriptsFromAssets() throws IOException {
-		Log.d(getClass().getName(), "copyScriptsFromAssets");
+		MyLog.entry();
 		copyScriptFromAssets(ScriptAsset.ENABLE_IPTABLES);
 		copyScriptFromAssets(ScriptAsset.DISABLE_IPTABLES);
+		MyLog.exit();
 	}
 
 	private void copyScriptFromAssets(ScriptAsset scriptAsset) throws IOException {
@@ -35,6 +36,8 @@ public class ScriptAssetHelper extends AbstractAssetHelper {
 	}
 
 	protected void doCopyAsset(String assetFileName, String targetFilePath, File targetFile) throws IOException {
+		MyLog.entry();
+
 		BufferedReader reader = null;
 		BufferedWriter writer = null;
 		try {
@@ -55,16 +58,18 @@ public class ScriptAssetHelper extends AbstractAssetHelper {
 				try {
 					reader.close();
 				} catch (final IOException e) {
-					Log.w(getClass().getName(), "doCopyAsset : error closing in stream");
+					MyLog.warn("error closing in stream");
 				}
 			}
 			if (writer != null) {
 				try {
 					writer.close();
 				} catch (final IOException e) {
-					Log.w(getClass().getName(), "doCopyAsset : error closing out stream");
+					MyLog.warn("error closing out stream");
 				}
 			}
 		}
+
+		MyLog.exit();
 	}
 }

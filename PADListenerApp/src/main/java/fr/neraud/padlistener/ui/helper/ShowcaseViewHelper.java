@@ -3,7 +3,6 @@ package fr.neraud.padlistener.ui.helper;
 import android.app.Activity;
 import android.text.SpannableString;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.View;
 
 import com.github.amlcurran.showcaseview.ShowcaseView;
@@ -11,6 +10,7 @@ import com.github.amlcurran.showcaseview.targets.Target;
 
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.ui.model.ShowcaseHelpPageModel;
 
@@ -31,7 +31,8 @@ public class ShowcaseViewHelper {
 	}
 
 	public void showHelp() {
-		Log.d(getClass().getName(), "showHelp");
+		MyLog.entry();
+
 		if (mHelpPages.size() > 0) {
 			mCounter = 0;
 			mShowcaseView = new ShowcaseView.Builder(mActivity, true).build();
@@ -40,7 +41,7 @@ public class ShowcaseViewHelper {
 			mShowcaseView.overrideButtonClick(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Log.d(getClass().getName(), "onClick");
+					MyLog.entry();
 					mCounter++;
 
 					if (mCounter < mHelpPages.size()) {
@@ -53,13 +54,17 @@ public class ShowcaseViewHelper {
 							previousPageListener = null;
 						}
 					}
+					MyLog.exit();
 				}
 			});
 		}
+
+		MyLog.exit();
 	}
 
 	private void fillShowcaseView() {
-		Log.d(getClass().getName(), "fillShowcaseView : " + mCounter);
+		MyLog.entry("counter = " + mCounter);
+
 		final ShowcaseHelpPageModel pageModel = mHelpPages.get(mCounter);
 		final ShowcaseHelpPageModel.HelpPageListener pageListener = pageModel.getPageListener();
 
@@ -95,6 +100,8 @@ public class ShowcaseViewHelper {
 		mShowcaseView.setShouldCentreText(false);
 
 		previousPageListener = pageListener;
+
+		MyLog.exit();
 	}
 
 }

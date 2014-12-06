@@ -1,10 +1,10 @@
 package fr.neraud.padlistener.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.IOException;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.ExecutableAsset;
 
 /**
@@ -19,8 +19,9 @@ public class ExecutableAssetHelper extends AbstractAssetHelper {
 	}
 
 	public void copyExecutablesFromAssets() throws IOException {
-		Log.d(getClass().getName(), "copyScriptsFromAssets");
+		MyLog.entry();
 		copyExecutableFromAssets(ExecutableAsset.IPTABLES);
+		MyLog.exit();
 	}
 
 	private void copyExecutableFromAssets(ExecutableAsset executableAsset) throws IOException {

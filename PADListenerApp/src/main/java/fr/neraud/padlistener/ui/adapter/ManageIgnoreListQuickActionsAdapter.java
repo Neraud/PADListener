@@ -3,7 +3,6 @@ package fr.neraud.padlistener.ui.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.model.IgnoreMonsterQuickActionModel;
@@ -39,13 +39,14 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
-		Log.d(getClass().getName(), "getView");
+		MyLog.entry();
+
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.manage_ignore_list_fragment_quick_actions_item, parent, false);
 		}
 		final IgnoreMonsterQuickActionModel item = super.getItem(position);
-		Log.d(getClass().getName(), "getView : " + item);
+		MyLog.debug("item = " + item);
 
 		final TextView nameText = (TextView) view.findViewById(R.id.manage_ignore_list_quick_action_item_name);
 		nameText.setText(getContext().getString(R.string.manage_ignore_list_quick_action_name, item.getQuickActionName()));
@@ -81,9 +82,10 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 			removeButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Log.d(getClass().getName(), "removeButton.onClick");
+					MyLog.entry();
 					List<Integer> var = item.getMonsterIds();
 					mTaskFragment.removeIgnoredIds(var.toArray(new Integer[var.size()]));
+					MyLog.exit();
 				}
 			});
 		}
@@ -95,17 +97,19 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 			addButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Log.d(getClass().getName(), "addButton.onClick");
+					MyLog.entry();
 					final List<Integer> monsterIds = item.getMonsterIds();
 					mTaskFragment.addIgnoredIds(monsterIds.toArray(new Integer[monsterIds.size()]));
+					MyLog.exit();
 				}
 			});
 		}
+		MyLog.exit();
 		return view;
 	}
 
 	private void bindOneImage(View view, int position, Integer monsterId, boolean alreadyIgnored, int imageId) {
-		Log.d(getClass().getName(), "bindOneImage" + position);
+		MyLog.entry("position = " + position);
 
 		final ImageView monsterImageView = (ImageView) view.findViewById(imageId);
 		monsterImageView.clearColorFilter();
@@ -125,8 +129,9 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 						.into(monsterImageView);
 			}
 		} else {
-			Log.d(getClass().getName(), "bindOneImage : no monster at " + position + ", ignored");
+			MyLog.debug("no monster at " + position + ", ignored");
 			monsterImageView.setVisibility(View.INVISIBLE);
 		}
+		MyLog.exit();
 	}
 }

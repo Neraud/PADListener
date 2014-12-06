@@ -1,9 +1,9 @@
 package fr.neraud.padlistener.proxy.helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import eu.chainfire.libsuperuser.Shell;
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.exception.CommandExecutionException;
 import fr.neraud.padlistener.exception.MissingRequirementException;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
@@ -23,7 +23,8 @@ public class IptablesHelper {
 	}
 
 	public void activateIptables() throws MissingRequirementException, CommandExecutionException {
-		Log.d(getClass().getName(), "activateIptables");
+		MyLog.entry();
+
 		checkRoot();
 
 		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(context);
@@ -45,10 +46,13 @@ public class IptablesHelper {
 
 		final String targetCommand = commandBuilder.toString();
 		executeCommand(targetCommand);
+
+		MyLog.exit();
 	}
 
 	public void deactivateIptables() throws MissingRequirementException, CommandExecutionException {
-		Log.d(getClass().getName(), "deactivateIptables");
+		MyLog.entry();
+
 		checkRoot();
 
 		final StringBuilder commandBuilder = new StringBuilder("sh ");
@@ -58,14 +62,16 @@ public class IptablesHelper {
 
 		final String targetCommand = commandBuilder.toString();
 		executeCommand(targetCommand);
+
+		MyLog.exit();
 	}
 
 	private void checkRoot() throws MissingRequirementException {
 		if (!Shell.SU.available()) {
-			Log.d(getClass().getName(), "checkRoot : SU not available");
+			MyLog.debug("SU not available");
 			throw new MissingRequirementException(MissingRequirementException.Requirement.ROOT);
 		} else {
-			Log.d(getClass().getName(), "checkRoot : SU available");
+			MyLog.debug("SU available");
 		}
 	}
 

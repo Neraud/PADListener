@@ -10,10 +10,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.helper.CaptureNotificationHelper;
 import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
@@ -43,32 +43,36 @@ public class AutoCaptureService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d(getClass().getName(), "onHandleIntent");
+		MyLog.entry();
 
 		this.mAutoCaptureReceiver = intent.getParcelableExtra(CAPTURE_RECEIVER_EXTRA_NAME);
 		final PADVersion version = (PADVersion) intent.getSerializableExtra(PAD_VERSION_EXTRA_NAME);
 		notifyProgress(AbstractAutoCaptureReceiver.State.INITIALIZED);
 
 		startListener(version);
+
+		MyLog.exit();
 	}
 
 	private void startListener(final PADVersion version) {
-		Log.d(getClass().getName(), "startListener : " + version);
+		MyLog.entry("version = " + version);
 
 		final ListenerService.ListenerServiceListener listener = new ListenerService.ListenerServiceListener() {
 
 			@Override
 			public void notifyActionSuccess(SwitchListenerResult result) {
-				Log.d(getClass().getName(), "notifyActionSuccess");
+				MyLog.entry();
 				notifyProgress(AbstractAutoCaptureReceiver.State.LISTENER_STARTED);
 				killPadIfNecessary(version);
 				startPad(version);
+				MyLog.exit();
 			}
 
 			@Override
 			public void notifyActionFailed(SwitchListenerResult result) {
-				Log.d(getClass().getName(), "notifyActionFailed");
+				MyLog.entry();
 				notifyListenerError(result.getError());
+				MyLog.exit();
 			}
 		};
 
@@ -76,10 +80,10 @@ public class AutoCaptureService extends IntentService {
 
 			@Override
 			public void onServiceConnected(ComponentName className, IBinder service) {
-				Log.d(getClass().getName(), "onServiceConnected");
+				MyLog.entry();
 				final ListenerService.ListenerServiceBinder listenerServiceBinder = (ListenerService.ListenerServiceBinder) service;
 
-				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + listenerServiceBinder.isListenerStarted());
+				MyLog.debug("started ? -> " + listenerServiceBinder.isListenerStarted());
 
 				if (listenerServiceBinder.isListenerStarted()) {
 					notifyProgress(AbstractAutoCaptureReceiver.State.LISTENER_STARTED);
@@ -108,11 +112,13 @@ public class AutoCaptureService extends IntentService {
 					listenerServiceBinder.startListener(listener, callbacks);
 				}
 				unbindService(this);
+				MyLog.exit();
 			}
 
 			@Override
 			public void onServiceDisconnected(ComponentName className) {
-				Log.d(getClass().getName(), "onServiceDisconnected");
+				MyLog.entry();
+				MyLog.exit();
 			}
 		};
 
@@ -122,17 +128,20 @@ public class AutoCaptureService extends IntentService {
 		// Start manually to prevent the service being stopped when the app is closed and unbinds
 		startService(serviceIntent);
 		bindService(serviceIntent, connection, 0/*Context.BIND_AUTO_CREATE*/);
+
+		MyLog.exit();
 	}
 
 	private void killPadIfNecessary(PADVersion version) {
-		Log.d(getClass().getName(), "killPadIfNecessary");
-		ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		MyLog.entry();
 
-		List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
+		final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+		final List<ActivityManager.RunningAppProcessInfo> processes = activityManager.getRunningAppProcesses();
 		if (processes != null) {
 			for (ActivityManager.RunningAppProcessInfo process : processes) {
 				if (version.getApplicationPackage().equals(process.processName)) {
-					Log.d(getClass().getName(), "killPadIfNecessary : PAD found, killing");
+					MyLog.debug("PAD found, killing");
 					notifyProgress(AbstractAutoCaptureReceiver.State.STOPPING_PAD);
 					activityManager.killBackgroundProcesses(process.processName);
 					//android.os.Process.sendSignal(process.pid, android.os.Process.SIGNAL_KILL);
@@ -140,14 +149,18 @@ public class AutoCaptureService extends IntentService {
 				}
 			}
 		}
+		MyLog.exit();
 	}
 
 	private void startPad(PADVersion version) {
-		Log.d(getClass().getName(), "startPad");
+		MyLog.entry();
+
 		final PackageManager packageManager = getPackageManager();
 		final Intent padStartIntent = packageManager.getLaunchIntentForPackage(version.getApplicationPackage());
 		notifyProgress(AbstractAutoCaptureReceiver.State.STARTING_PAD);
 		startActivity(padStartIntent);
+
+		MyLog.exit();
 	}
 
 	private void notifyProgress(AbstractAutoCaptureReceiver.State state) {

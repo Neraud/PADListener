@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
@@ -59,7 +59,8 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+
 		super.onCreate(savedInstanceState);
 
 		handler = new Handler();
@@ -71,11 +72,14 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		new ChangeLogHelper(this).displayWhatsNew();
 
 		updateMonsterInfoInNecessary();
+
+		MyLog.exit();
 	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onPostCreate");
+		MyLog.entry();
+
 		super.onPostCreate(savedInstanceState);
 
 		initNavDrawer();
@@ -83,15 +87,20 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		if (mHelpManager != null) {
 			mHelpManager.showHelpFirstTime();
 		}
+
+		MyLog.exit();
 	}
 
 	@Override
 	protected void onPostResume() {
-		Log.d(getClass().getName(), "onPostResume");
+		MyLog.entry();
+
 		super.onPostResume();
 
 		// re-select the correct entry in the NavDrawer
 		setSelectedNavDrawerItem(getSelfNavDrawerItem());
+
+		MyLog.exit();
 	}
 
 	@Override
@@ -103,7 +112,8 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 	}
 
 	private void updateMonsterInfoInNecessary() {
-		Log.d(getClass().getName(), "updateMonsterInfoInNecessary");
+		MyLog.entry();
+
 		final TechnicalSharedPreferencesHelper prefHelper = new TechnicalSharedPreferencesHelper(this);
 
 		final Date lastRefresh = prefHelper.getMonsterInfoRefreshDate();
@@ -111,14 +121,17 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		final long daysAgo = TimeUnit.MILLISECONDS.toDays(now.getTime() - lastRefresh.getTime());
 
 		if (daysAgo >= 7) {
-			Log.d(getClass().getName(), "updateMonsterInfoInNecessary : starting install");
+			MyLog.debug("starting install");
 			final MonsterInfoRefreshDialogFragment fragment = new MonsterInfoRefreshDialogFragment();
 			fragment.show(getSupportFragmentManager(), "view_monster_info_refresh");
 		}
+
+		MyLog.exit();
 	}
 
 	private void initNavDrawer() {
-		Log.d(getClass().getName(), "initNavDrawer");
+		MyLog.entry();
+
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
@@ -156,16 +169,22 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.ABOUT);
 
 		drawerToggle.syncState();
+
+		MyLog.exit();
 	}
 
 	private void addNavDrawerSeparator(ViewGroup container) {
-		Log.d(getClass().getName(), "addNavDrawerSeparator");
+		MyLog.entry();
+
 		final View view = getLayoutInflater().inflate(R.layout.navdrawer_separator, container, false);
 		container.addView(view);
+
+		MyLog.exit();
 	}
 
 	private void addNavDrawerItem(ViewGroup container, final NavigationDrawerItem item) {
-		Log.d(getClass().getName(), "addNavDrawerItem : " + item);
+		MyLog.entry("item = " + item);
+
 		final View view = getLayoutInflater().inflate(R.layout.navdrawer_item, container, false);
 		view.setId(item.getItemViewId());
 		container.addView(view);
@@ -180,7 +199,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 			iconView.setImageResource(item.getIconResId());
 		}
 		titleView.setText(getString(item.getTitleResId()));
-		Log.d(getClass().getName(), "addNavDrawerItem : text = " + getString(item.getTitleResId()));
+		MyLog.debug("text = " + getString(item.getTitleResId()));
 
 		final boolean selected = item == getSelfNavDrawerItem();
 
@@ -192,6 +211,8 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 				onNavDrawerItemClicked(item);
 			}
 		});
+
+		MyLog.exit();
 	}
 
 	private void formatNavDrawerItem(View view, boolean selected) {
@@ -208,15 +229,18 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 	}
 
 	private void setSelectedNavDrawerItem(NavigationDrawerItem selectedItem) {
-		Log.d(getClass().getName(), "setSelectedNavDrawerItem : " + selectedItem);
+		MyLog.entry(" - " + selectedItem);
+
 		for (final NavigationDrawerItem item : navDrawerItems.keySet()) {
 			final View view = navDrawerItems.get(item);
 			formatNavDrawerItem(view, item == selectedItem);
 		}
+
+		MyLog.exit();
 	}
 
 	private void onNavDrawerItemClicked(final NavigationDrawerItem item) {
-		Log.d(getClass().getName(), "onNavDrawerItemClicked : " + item);
+		MyLog.entry(" - " + item);
 
 		if (item != getSelfNavDrawerItem()) {
 			// if it is a new screen, highlight the item in the drawer
@@ -235,9 +259,13 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		}
 
 		drawerLayout.closeDrawer(Gravity.START);
+
+		MyLog.exit();
 	}
 
 	private void goToNavDrawerItem(NavigationDrawerItem item) {
+		MyLog.entry(" - " + item);
+
 		if (item != getSelfNavDrawerItem()) {
 			if (item.getUiScreen() != null) {
 				goToScreen(item.getUiScreen());
@@ -248,7 +276,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 				switch (item) {
 					case SETTINGS:
 						final Intent settingsIntent = new Intent(this, SettingsActivity.class);
-						Log.d(getClass().getName(), "onOptionsItemSelected : going to settings : " + settingsIntent);
+						MyLog.debug("going to settings : " + settingsIntent);
 						startActivity(settingsIntent);
 						break;
 					case CHANGELOG:
@@ -260,41 +288,54 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 				}
 			}
 		}
+
+		MyLog.exit();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.d(getClass().getName(), "onCreateOptionsMenu");
+		MyLog.entry();
+
 		if (mHelpManager != null) {
 			getMenuInflater().inflate(R.menu.help, menu);
 		}
-		return super.onCreateOptionsMenu(menu);
+		final boolean result = super.onCreateOptionsMenu(menu);
+
+		MyLog.exit();
+		return result;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.d(getClass().getName(), "onOptionsItemSelected");
+		MyLog.entry(" - " + item);
+
+		boolean result;
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
 		if (drawerToggle.onOptionsItemSelected(item)) {
-			return true;
+			result = true;
+		} else {
+			switch (item.getItemId()) {
+				case R.id.menu_common_help:
+					if (mHelpManager != null) {
+						// Close the drawer by default, so that the help screen is displayed over the activity
+						getDrawerLayout().closeDrawer(Gravity.START);
+						mHelpManager.showHelp();
+					}
+					result = true;
+					break;
+				default:
+					result = super.onOptionsItemSelected(item);
+			}
 		}
 
-		switch (item.getItemId()) {
-			case R.id.menu_common_help:
-				if (mHelpManager != null) {
-					// Close the drawer by default, so that the help screen is displayed over the activity
-					getDrawerLayout().closeDrawer(Gravity.START);
-					mHelpManager.showHelp();
-				}
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
+		MyLog.exit();
+		return result;
 	}
 
 	private void openAboutDialog() {
-		Log.d(getClass().getName(), "openAboutDialog");
+		MyLog.entry();
+
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		builder.setTitle(getString(R.string.about_dialog_title, VersionUtil.getVersion(this)));
@@ -309,6 +350,8 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		aboutDialog.show();
 
 		((TextView) aboutDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
+		MyLog.exit();
 	}
 
 	protected BaseHelpManager getHelpManager() {
@@ -321,7 +364,8 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 	}
 
 	public void goToScreen(UiScreen screen, Bundle extras) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry(screen.toString());
+
 		final Intent intent = new Intent(getApplicationContext(), screen.getActivityClass());
 		if (extras != null) {
 			intent.putExtras(extras);
@@ -332,6 +376,8 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		// TODO handle wide screens with a different layout ?
 		startActivity(intent);
+
+		MyLog.exit();
 	}
 
 	protected NavigationDrawerItem getSelfNavDrawerItem() {

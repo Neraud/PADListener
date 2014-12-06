@@ -4,12 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
@@ -27,7 +27,7 @@ public class MonsterInfoCursorAdapter extends AbstractMonsterCursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		Log.d(getClass().getName(), "bindView");
+		MyLog.entry();
 
 		final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(cursor);
 
@@ -46,19 +46,23 @@ public class MonsterInfoCursorAdapter extends AbstractMonsterCursorAdapter {
 		monsterImageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "monsterImageView.onClick :" + model.getIdJP());
+				MyLog.entry("idJP = " + model.getIdJP());
 				monsterTextBlock.setVisibility(View.VISIBLE);
 				monsterImageView.setColorFilter(Color.parseColor("#99000000"), PorterDuff.Mode.DARKEN);
+				MyLog.exit();
 			}
 		});
 
 		monsterTextBlock.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "monsterTextBlock.onClick :" + model.getIdJP());
+				MyLog.entry("idJP = " + model.getIdJP());
 				monsterTextBlock.setVisibility(View.INVISIBLE);
 				monsterImageView.clearColorFilter();
+				MyLog.exit();
 			}
 		});
+
+		MyLog.exit();
 	}
 }

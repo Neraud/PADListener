@@ -6,13 +6,13 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.text.InputType;
-import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 
@@ -28,7 +28,7 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.preference_fragment_padherder);
@@ -36,7 +36,9 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 		getPreferenceScreen().getPreference(0).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object o) {
-				Log.d(getClass().getName(), "onPreferenceChange : " + o);
+				MyLog.entry();
+
+				boolean result = false;
 				if ("padherder_account_number".equals(preference.getKey())) {
 					final String newNumberOfAccountsString = (String) o;
 					final int newNumberOfAccounts = StringUtils.isNotBlank(newNumberOfAccountsString) ? Integer.parseInt(newNumberOfAccountsString) : 3;
@@ -52,9 +54,11 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 					}
 
 					numberOfAccounts = newNumberOfAccounts;
-					return true;
+					result = true;
 				}
-				return false;
+
+				MyLog.exit();
+				return result;
 			}
 		});
 		accountsByPosition = new HashMap<Integer, Preference>();
@@ -63,10 +67,12 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 		for (int i = 1; i <= numberOfAccounts; i++) {
 			addPreferencesForOneAccount(i);
 		}
+		MyLog.exit();
 	}
 
 	private void addPreferencesForOneAccount(int accountId) {
-		Log.d(getClass().getName(), "addPreferencesForOneAccount : " + accountId);
+		MyLog.entry("accountId = " + accountId);
+
 		final PreferenceCategory accountCategory = new PreferenceCategory(getActivity());
 		accountCategory.setTitle(getString(R.string.settings_padherder_account_category, accountId));
 		accountsByPosition.put(accountId, accountCategory);
@@ -93,6 +99,8 @@ public class PADherderAccountsPreferenceFragment extends PreferenceFragment {
 		accountPassword.setSummary(R.string.settings_padherder_password_summary);
 		accountPassword.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		accountCategory.addPreference(accountPassword);
+
+		MyLog.exit();
 	}
 
 	private void removePreferencesForOneAccount(int accountId) {

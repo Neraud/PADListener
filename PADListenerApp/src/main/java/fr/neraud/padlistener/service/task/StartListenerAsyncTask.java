@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.sandrop.webscarab.model.Preferences;
 import org.sandroproxy.utils.PreferenceUtils;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.exception.CommandExecutionException;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
@@ -46,7 +46,8 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 
 	@Override
 	protected SwitchListenerResult doInBackground(Void... params) {
-		Log.d(getClass().getName(), "doInBackground");
+		MyLog.entry();
+
 		final SwitchListenerResult result = new SwitchListenerResult();
 
 		final ProxyMode proxyMode = getProxyMode();
@@ -75,21 +76,22 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 			}
 			result.setSuccess(true);
 		} catch (final CommandExecutionException e) {
-			Log.e(getClass().getName(), "PADListener start failed  : " + e.getMessage(), e);
+			MyLog.error("PADListener start failed  : " + e.getMessage(), e);
 			result.setSuccess(false);
 			result.setError(e);
 			result.setLogs(e.getLogs());
 		} catch (final Exception e) {
-			Log.e(getClass().getName(), "PADListener start failed  : " + e.getMessage(), e);
+			MyLog.error("PADListener start failed  : " + e.getMessage(), e);
 			result.setSuccess(false);
 			result.setError(e);
 		}
 
+		MyLog.exit();
 		return result;
 	}
 
 	private void initValues() {
-		Log.d(getClass().getName(), "initValues");
+		MyLog.entry();
 
 		final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 
@@ -114,5 +116,7 @@ public class StartListenerAsyncTask extends AsyncTask<Void, Void, SwitchListener
 		editor.putBoolean(PreferenceUtils.proxyCaptureData, true);
 
 		editor.commit();
+
+		MyLog.exit();
 	}
 }

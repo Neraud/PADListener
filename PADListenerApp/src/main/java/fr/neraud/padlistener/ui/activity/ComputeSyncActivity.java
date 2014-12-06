@@ -1,8 +1,8 @@
 package fr.neraud.padlistener.ui.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 
@@ -17,9 +17,12 @@ public class ComputeSyncActivity extends AbstractPADListenerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.compute_sync_activity);
+
+		MyLog.exit();
 	}
 
 	protected BaseHelpManager getHelpManager() {

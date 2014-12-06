@@ -1,13 +1,14 @@
 package fr.neraud.padlistener.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import fr.neraud.log.MyLog;
 
 /**
  * Helper to copy the assets
@@ -24,18 +25,22 @@ public abstract class AbstractAssetHelper {
 	}
 
 	protected void copyAsset(final String assetFileName, String targetFilePath) throws IOException {
-		Log.d(getClass().getName(), "copyAsset : " + assetFileName + " -> " + targetFilePath);
+		MyLog.entry(assetFileName + " -> " + targetFilePath);
 
 		final File targetFile = new File(targetFilePath);
 		if (targetFile.exists()) {
-			Log.d(getClass().getName(), "copyAsset : deleting old file");
+			MyLog.debug("deleting old file");
 			targetFile.delete();
 		}
 
 		doCopyAsset(assetFileName, targetFilePath, targetFile);
+
+		MyLog.exit();
 	}
 
 	protected void doCopyAsset(String assetFileName, String targetFilePath, File targetFile) throws IOException {
+		MyLog.entry();
+
 		InputStream in = null;
 		OutputStream out = null;
 		try {
@@ -54,17 +59,18 @@ public abstract class AbstractAssetHelper {
 				try {
 					in.close();
 				} catch (final IOException e) {
-					Log.w(getClass().getName(), "doCopyAsset : error closing in stream");
+					MyLog.warn("error closing in stream");
 				}
 			}
 			if (out != null) {
 				try {
 					out.close();
 				} catch (final IOException e) {
-					Log.w(getClass().getName(), "doCopyAsset : error closing out stream");
+					MyLog.warn("error closing out stream");
 				}
 			}
 		}
+		MyLog.exit();
 	}
 
 	protected Context getContext() {

@@ -1,12 +1,11 @@
 package fr.neraud.padlistener.helper;
 
-import android.util.Log;
-
 import java.util.Comparator;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
-import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.model.MonsterModel;
 
 /**
  * BaseMonsterModel comparator.<br/>
@@ -43,7 +42,7 @@ public class MonsterComparator implements Comparator<MonsterModel> {
 				return result;
 			}
 		} catch(UnknownMonsterException e) {
-			Log.w(getClass().getName(), "compare : missing monster for id = " + e.getMonsterId());
+			MyLog.warn("missing monster for id = " + e.getMonsterId());
 		}
 
 		result = compareLong(a.getExp(), b.getExp());

@@ -2,10 +2,11 @@ package fr.neraud.padlistener.proxy.helper;
 
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
-import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+
+import fr.neraud.log.MyLog;
 
 /**
  * Helper to access hidden WiFi settings.
@@ -26,7 +27,8 @@ public class WifiConfigKitKatHelper extends AbstractWifiConfigHelper {
 	}
 
 	public void modifyWifiProxySettings(String proxyHost, int proxyPost) throws Exception {
-		Log.d(getClass().getName(), "modifyWifiProxySettings");
+		MyLog.entry();
+
 		//get the current wifi configuration
 		final WifiConfiguration config = findCurrentWifiConfiguration();
 		if (null == config) {
@@ -63,10 +65,13 @@ public class WifiConfigKitKatHelper extends AbstractWifiConfigHelper {
 		setProxySettings("STATIC", config);
 
 		saveConfig(config);
+
+		MyLog.exit();
 	}
 
 	public void unsetWifiProxySettings() throws Exception {
-		Log.d(getClass().getName(), "unsetWifiProxySettings");
+		MyLog.entry();
+
 		final WifiConfiguration config = findCurrentWifiConfiguration();
 		if (null == config) {
 			throw new Exception("Current WIFI configuration not found");
@@ -92,5 +97,7 @@ public class WifiConfigKitKatHelper extends AbstractWifiConfigHelper {
 		setProxySettings("NONE", config);
 
 		saveConfig(config);
+
+		MyLog.exit();
 	}
 }

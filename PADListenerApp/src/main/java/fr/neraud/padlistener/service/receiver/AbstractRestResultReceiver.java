@@ -3,10 +3,10 @@ package fr.neraud.padlistener.service.receiver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import java.io.Serializable;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 import fr.neraud.padlistener.service.constant.RestCallState;
@@ -32,7 +32,8 @@ public abstract class AbstractRestResultReceiver<R extends Serializable> extends
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onReceiveResult(int resultCode, Bundle resultData) {
-		Log.d(getClass().getName(), "onReceiveResult");
+		MyLog.entry();
+
 		super.onReceiveResult(resultCode, resultData);
 
 		//final RestCallState state = RestCallState.findByCode(resultCode);
@@ -59,6 +60,8 @@ public abstract class AbstractRestResultReceiver<R extends Serializable> extends
 			default:
 				break;
 		}
+
+		MyLog.exit();
 	}
 
 	protected abstract void onReceiveProgress(RestCallRunningStep progress);

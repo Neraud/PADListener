@@ -1,10 +1,10 @@
 package fr.neraud.padlistener.ui.adapter;
 
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.model.BaseMonsterStatsModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.ui.fragment.ViewCapturedDataMonsterDetailDialogFragment;
@@ -37,11 +37,12 @@ public abstract class AbstractMonsterWithStatsCursorAdapter extends AbstractMons
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "onClick");
+				MyLog.entry();
 				final ViewCapturedDataMonsterDetailDialogFragment fragment = new ViewCapturedDataMonsterDetailDialogFragment();
 				fragment.setMonsterInfoModel(monsterInfoModel);
 				fragment.setMonsterStatsModel(monsterModel);
 				fragment.show(mActivity.getSupportFragmentManager(), "view_captured_data_monster_detail");
+				MyLog.exit();
 			}
 		});
 	}

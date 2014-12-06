@@ -3,7 +3,8 @@ package fr.neraud.padlistener.service.receiver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.util.Log;
+
+import fr.neraud.log.MyLog;
 
 /**
  * Created by Neraud on 23/11/2014.
@@ -30,7 +31,8 @@ public abstract class AbstractAutoCaptureReceiver extends ResultReceiver {
 	}
 
 	public void onReceiveResult(int resultCode, Bundle resultData) {
-		Log.d(getClass().getName(), "onReceiveResult");
+		MyLog.entry();
+
 		if(resultCode == CODE_OK) {
 			State state = (State) resultData.getSerializable(STATE_NAME);
 			notifyProgress(state);
@@ -41,6 +43,8 @@ public abstract class AbstractAutoCaptureReceiver extends ResultReceiver {
 			}
 			notifyListenerError(ex);
 		}
+
+		MyLog.exit();
 	}
 
 	protected abstract void notifyProgress(State state);

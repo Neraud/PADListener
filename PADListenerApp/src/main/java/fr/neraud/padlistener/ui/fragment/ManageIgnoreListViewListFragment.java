@@ -2,7 +2,6 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.helper.MonsterInfoHelper;
@@ -31,7 +31,7 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
+		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.manage_ignore_list_fragment_list, container, false);
 
@@ -41,25 +41,28 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 		mAdapter = new IgnoredMonsterAdapter(getActivity(), mTaskFragment);
 		mGridView.setAdapter(mAdapter);
 
+		MyLog.exit();
 		return view;
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onViewCreated");
+		MyLog.entry();
 		super.onViewCreated(view, savedInstanceState);
 		mTaskFragment.registerListFragment(this);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onDestroyView() {
-		Log.d(getClass().getName(), "onDestroyView");
+		MyLog.entry();
 		super.onDestroyView();
 		mTaskFragment.registerListFragment(null);
+		MyLog.exit();
 	}
 
 	public void refreshAdapter(MonsterInfoHelper monsterInfoHelper, Set<Integer> ignoredIds) {
-		Log.d(getClass().getName(), "refreshAdapter");
+		MyLog.entry();
 		final List<MonsterInfoModel> monsterModels = new ArrayList<MonsterInfoModel>();
 
 		final List<Integer> ignoredIdList = new ArrayList<Integer>(ignoredIds);
@@ -70,11 +73,12 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 				final MonsterInfoModel monsterInfo = monsterInfoHelper.getMonsterInfo(ignoredId);
 				monsterModels.add(monsterInfo);
 			} catch (UnknownMonsterException e) {
-				Log.w(getClass().getName(), "refreshAdapter : missing monster info for id = " + e.getMonsterId());
+				MyLog.warn("missing monster info for id = " + e.getMonsterId());
 			}
 		}
 
 		mAdapter.clear();
 		mAdapter.addAll(monsterModels);
+		MyLog.exit();
 	}
 }

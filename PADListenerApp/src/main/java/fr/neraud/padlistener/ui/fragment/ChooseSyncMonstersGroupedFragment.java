@@ -2,7 +2,6 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -12,14 +11,15 @@ import android.widget.ExpandableListView;
 
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
-import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
-import fr.neraud.padlistener.ui.helper.ChooseSyncGroupedContextMenuHelper;
-import fr.neraud.padlistener.ui.adapter.ChooseSyncMonstersGroupedAdapter;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
+import fr.neraud.padlistener.ui.adapter.ChooseSyncMonstersGroupedAdapter;
+import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
+import fr.neraud.padlistener.ui.helper.ChooseSyncGroupedContextMenuHelper;
 
 /**
  * ChooseSync fragment for Monsters set up as grouped
@@ -32,7 +32,8 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
+		MyLog.entry();
+
 		final View view = inflater.inflate(R.layout.choose_sync_fragment_monsters_grouped, container, false);
 
 		final ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.choose_sync_monsters_list);
@@ -49,6 +50,7 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 
 		listView.setAdapter(adapter);
 
+		MyLog.exit();
 		return view;
 	}
 

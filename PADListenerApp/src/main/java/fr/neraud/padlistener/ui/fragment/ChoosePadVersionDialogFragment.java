@@ -4,12 +4,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.ui.adapter.ChoosePadVersionAdapter;
@@ -24,7 +24,8 @@ public abstract class ChoosePadVersionDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateDialog");
+		MyLog.entry();
+
 		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		final LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -39,7 +40,6 @@ public abstract class ChoosePadVersionDialogFragment extends DialogFragment {
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//Log.d(getClass().getName(), "onItemClick : " + position);
 				final PADVersion chosenVersion = (PADVersion) list.getAdapter().getItem(position);
 				handlePadVersionChosen(chosenVersion);
 				dismiss();
@@ -48,7 +48,10 @@ public abstract class ChoosePadVersionDialogFragment extends DialogFragment {
 
 		builder.setView(view);
 		builder.setNegativeButton(R.string.choose_pad_version_cancel, null);
-		return builder.create();
+		final Dialog dialog = builder.create();
+
+		MyLog.exit();
+		return dialog;
 	}
 
 	protected abstract void handlePadVersionChosen(PADVersion chosenVersion);

@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.http.parser.padherder;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.UserInfoMaterialModel;
@@ -27,7 +27,8 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 	@SuppressLint("UseSparseArrays")
 	@Override
 	protected UserInfoModel parseJsonObject(JSONObject json) throws JSONException, ParsingException {
-		Log.d(getClass().getName(), "parseJsonObject");
+		MyLog.entry();
+
 		final UserInfoModel userModel = new UserInfoModel();
 
 		/*
@@ -75,14 +76,14 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		}
 		userModel.setMonsters(monsters);
 
-		Log.d(getClass().getName(), "parseJsonObject : " + userModel);
+		MyLog.debug("userModel = " + userModel);
+
+		MyLog.exit();
 		return userModel;
 	}
 
 	@Override
 	protected UserInfoModel parseJsonArray(JSONArray json) throws JSONException, ParsingException {
-		Log.d(getClass().getName(), "parseJsonArray");
-
 		throw new ParsingException("Cannot parse JSONArray, JSONObject expected");
 	}
 
@@ -102,7 +103,8 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 	}
 
 	private UserInfoMonsterModel parseOneMonster(JSONObject monsterJson) throws JSONException {
-		Log.d(getClass().getName(), "parseOneMonster");
+		MyLog.entry();
+
 		/*
 		"id": 650,
 		"monster": 4, 
@@ -132,6 +134,7 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		monster.setPlusAtk(monsterJson.optInt("plus_atk"));
 		monster.setPlusRcv(monsterJson.optInt("plus_rcv"));
 
+		MyLog.exit();
 		return monster;
 	}
 }

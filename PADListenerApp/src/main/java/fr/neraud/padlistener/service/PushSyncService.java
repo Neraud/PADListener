@@ -4,8 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.PushSyncHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
@@ -37,7 +37,7 @@ public class PushSyncService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d(getClass().getName(), "onHandleIntent");
+		MyLog.entry();
 
 		final ResultReceiver receiver = intent.getParcelableExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME);
 		final ChooseSyncModel result = (ChooseSyncModel) intent.getExtras().getSerializable(CHOOSE_SYNC_MODEL_EXTRA_NAME);
@@ -50,26 +50,32 @@ public class PushSyncService extends IntentService {
 		pushMonsters(SyncMode.UPDATED, helper, receiver, result);
 		pushMonsters(SyncMode.CREATED, helper, receiver, result);
 		pushMonsters(SyncMode.DELETED, helper, receiver, result);
+
+		MyLog.exit();
 	}
 
 	private void pushUserInfoToUpdate(PushSyncHelper helper, ResultReceiver receiver, ChooseSyncModel result) {
-		Log.d(getClass().getName(), "pushUserInfoToUpdate");
+		MyLog.entry();
+
 		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = result.getSyncedUserInfoToUpdate();
 		if (syncedUserInfoToUpdate.getSyncedModel().hasDataToSync() && syncedUserInfoToUpdate.isChosen()) {
 			try {
 				helper.pushUserInfoToUpdate(syncedUserInfoToUpdate.getSyncedModel());
 				notifyUserInfoUpdated(receiver);
 			} catch (final Exception e) {
-				Log.e(getClass().getName(), "pushUserInfoToUpdate : error syncing", e);
+				MyLog.error("error syncing", e);
 				notifyUserInfoUpdatedFailed(receiver, e.getMessage());
 			}
 		} else {
-			Log.d(getClass().getName(), "pushUserInfoToUpdate : ignoring");
+			MyLog.debug("ignoring");
 		}
+
+		MyLog.exit();
 	}
 
 	private void pushMaterialsToUpdate(PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
-		Log.d(getClass().getName(), "pushMaterialsToUpdate");
+		MyLog.entry();
+
 		for (final ChooseSyncModelContainer<SyncedMaterialModel> syncModel : result.getSyncedMaterialsToUpdate()) {
 			final SyncedMaterialModel model = syncModel.getSyncedModel();
 			if (syncModel.isChosen()) {
@@ -77,17 +83,20 @@ public class PushSyncService extends IntentService {
 					helper.pushMaterialToUpdate(model);
 					notifyMaterialUpdated(receiver);
 				} catch (final Exception e) {
-					Log.e(getClass().getName(), "pushMaterialsToUpdate : error syncing", e);
+					MyLog.error("error syncing", e);
 					notifyMaterialUpdatedFailed(receiver, e.getMessage());
 				}
 			} else {
-				Log.d(getClass().getName(), "pushMaterialsToUpdate : ignoring : " + model);
+				MyLog.debug("ignoring : " + model);
 			}
 		}
+
+		MyLog.exit();
 	}
 
 	private void pushMonsters(SyncMode mode, PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
-		Log.d(getClass().getName(), "pushMonsters");
+		MyLog.entry();
+
 		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonsters(mode)) {
 			final SyncedMonsterModel model = syncModel.getSyncedModel();
 			if (syncModel.isChosen()) {
@@ -95,13 +104,15 @@ public class PushSyncService extends IntentService {
 					helper.pushMonster(mode, model);
 					notifyMonsterPushed(mode, receiver);
 				} catch (final Exception e) {
-					Log.e(getClass().getName(), "pushMonsters : error syncing", e);
+					MyLog.error("error syncing", e);
 					notifyMonsterPushedFailed(mode, receiver, e.getMessage());
 				}
 			} else {
-				Log.d(getClass().getName(), "pushMonsters : ignoring : " + model);
+				MyLog.debug("ignoring : " + model);
 			}
 		}
+
+		MyLog.exit();
 	}
 
 	private ElementToPush extractMonsterElementToPushFromSyncMode(SyncMode mode) {

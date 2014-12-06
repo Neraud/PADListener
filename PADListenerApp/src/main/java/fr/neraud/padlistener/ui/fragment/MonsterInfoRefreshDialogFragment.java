@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
@@ -37,7 +37,8 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 
 			@Override
 			public void updateCallState(RestCallState callState, RestCallRunningStep callRunningStep, Throwable callErrorCause) {
-				Log.d(getClass().getName(), "updateCallState : " + callState + ", " + callRunningStep);
+				MyLog.entry(callState + ", " + callRunningStep);
+
 				setCancelable(false);
 				if (callState != null) {
 					mProgress.setVisibility(View.VISIBLE);
@@ -92,13 +93,14 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 				} else {
 					mProgress.setVisibility(View.GONE);
 				}
+				MyLog.exit();
 			}
 		};
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
+		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.view_monster_info_fragment_refresh_info, container, false);
 		getDialog().setTitle(R.string.monster_info_refresh_title);
@@ -117,6 +119,7 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 		}
 		taskFragment.registerCallbacks(mProgressCallbacks);
 
+		MyLog.exit();
 		return view;
 	}
 

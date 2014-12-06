@@ -2,7 +2,6 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.ListView;
 
 import java.util.Set;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.IgnoreMonsterQuickActionsHelper;
 import fr.neraud.padlistener.helper.MonsterInfoHelper;
@@ -27,7 +27,7 @@ public class ManageIgnoreListQuickActionsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
+		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.manage_ignore_list_fragment_quick_actions, container, false);
 
@@ -38,26 +38,30 @@ public class ManageIgnoreListQuickActionsFragment extends Fragment {
 		mAdapter = new ManageIgnoreListQuickActionsAdapter(getActivity(), helper.extractQuickActions(), mTaskFragment);
 		mListView.setAdapter(mAdapter);
 
+		MyLog.exit();
 		return view;
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onViewCreated");
+		MyLog.entry();
 		super.onViewCreated(view, savedInstanceState);
 		mTaskFragment.registerQuickActionsFragment(this);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onDestroyView() {
-		Log.d(getClass().getName(), "onDestroyView");
+		MyLog.entry();
 		super.onDestroyView();
 		mTaskFragment.registerListFragment(null);
+		MyLog.exit();
 	}
 
 	public void refreshAdapter(MonsterInfoHelper monsterInfoHelper, Set<Integer> ignoredIds) {
-		Log.d(getClass().getName(), "refreshAdapter");
+		MyLog.entry();
 		mAdapter.notifyDataSetChanged();
+		MyLog.exit();
 	}
 
 }

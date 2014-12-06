@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.service.FetchPadHerderMonsterInfoService;
 import fr.neraud.padlistener.service.constant.RestCallError;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
@@ -39,51 +39,57 @@ public class MonsterInfoRefreshInfoTaskFragment extends Fragment {
 
 		@Override
 		protected void onReceiveProgress(RestCallRunningStep step) {
-			Log.d(getClass().getName(), "onReceiveProgress : " + step);
+			MyLog.entry("step = " + step);
 			mCallState = RestCallState.RUNNING;
 			mCallRunningStep = step;
 			notifyProgressCallBacks();
+			MyLog.exit();
 		}
 
 		@Override
 		protected void onReceiveSuccess(Integer result) {
-			Log.d(getClass().getName(), "onReceiveSuccess");
+			MyLog.entry();
 			mCallState = RestCallState.SUCCEEDED;
 			notifyProgressCallBacks();
+			MyLog.exit();
 		}
 
 		@Override
 		protected void onReceiveError(RestCallError error, Throwable cause) {
-			Log.d(getClass().getName(), "onReceiveError : " + error);
+			MyLog.entry("error = " + error);
 			mCallState = RestCallState.FAILED;
 			mCallErrorCause = cause;
 			notifyProgressCallBacks();
+			MyLog.exit();
 		}
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 		super.onCreate(savedInstanceState);
 
 		setRetainInstance(true);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
+		MyLog.entry();
 		super.onAttach(activity);
-		Log.d(getClass().getName(), "onAttach");
 
 		if(mAutoStart && mCallState == null) {
 			startFetchInfoService();
 		}
+		MyLog.exit();
 	}
 
 	@Override
 	public void onDetach() {
-		Log.d(getClass().getName(), "onDetach");
+		MyLog.entry();
 		super.onDetach();
 		mProgressCallbacks = null;
+		MyLog.exit();
 	}
 
 	public void registerCallbacks(ProgressCallBacks callbacks) {
@@ -98,7 +104,7 @@ public class MonsterInfoRefreshInfoTaskFragment extends Fragment {
 	}
 
 	public void startFetchInfoService() {
-		Log.d(getClass().getName(), "startFetchInfoService");
+		MyLog.entry();
 		mCallState = RestCallState.RUNNING;
 		mCallRunningStep = null;
 		mCallErrorCause = null;
@@ -107,6 +113,7 @@ public class MonsterInfoRefreshInfoTaskFragment extends Fragment {
 		final Intent startIntent = new Intent(getActivity(), FetchPadHerderMonsterInfoService.class);
 		startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyResultReceiver(new Handler()));
 		getActivity().startService(startIntent);
+		MyLog.exit();
 	}
 
 	public boolean isAutoStart() {

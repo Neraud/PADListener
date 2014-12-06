@@ -3,13 +3,13 @@ package fr.neraud.padlistener.ui.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.Serializable;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
@@ -35,7 +35,8 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+
 		super.onCreate(savedInstanceState);
 
 		final Bundle extras = getIntent().getExtras();
@@ -45,7 +46,7 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 
 		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(this, result);
 		mChooseResult = initHelper.filterSyncResult();
-		Log.d(getClass().getName(), "onCreate : putting mChooseResult in extras (" + EXTRA_CHOOSE_SYNC_RESULT_NAME + ") : " + mChooseResult);
+		MyLog.debug("putting mChooseResult in extras (" + EXTRA_CHOOSE_SYNC_RESULT_NAME + ") : " + mChooseResult);
 		getIntent().putExtra(EXTRA_CHOOSE_SYNC_RESULT_NAME, mChooseResult);
 
 		if (result.isHasEncounteredUnknownMonster()) {
@@ -56,6 +57,8 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 		}
 
 		setContentView(R.layout.choose_sync_activity);
+
+		MyLog.exit();
 	}
 
 	@Override
@@ -76,7 +79,7 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 	}
 
 	private void pushSync() {
-		Log.d(getClass().getName(), "pushSync");
+		MyLog.entry();
 
 		final boolean hasUserInfoToUpdate = mChooseResult.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync();
 		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && mChooseResult.getSyncedUserInfoToUpdate().isChosen();
@@ -114,6 +117,8 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 
 		builder.setNegativeButton(R.string.choose_sync_alert_push_button_cancel, null);
 		builder.create().show();
+
+		MyLog.exit();
 	}
 
 	private static <T extends Serializable> int countChosenItems(List<ChooseSyncModelContainer<T>> list) {

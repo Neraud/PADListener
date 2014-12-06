@@ -3,9 +3,9 @@ package fr.neraud.padlistener.helper;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.MyNotification;
 import fr.neraud.padlistener.model.CapturedFriendModel;
@@ -29,27 +29,36 @@ public class CaptureNotificationHelper extends NotificationHelper implements Lis
 	 * Notify the start of a capture process
 	 */
 	public void notifyCaptureStarted() {
-		Log.d(getClass().getName(), "notifyCaptureStarted");
+		MyLog.entry();
+
 		final String notificationMessage = mContext.getString(R.string.notification_data_capture_started);
 		displayNotification(notificationMessage);
 
-		if(needsToShutDownListener()) {
+		if (needsToShutDownListener()) {
 			stopListener();
 		}
+
+		MyLog.exit();
 	}
 
 	@Override
 	public void notifySavingMonsters(int num, int total, MonsterModel monster) {
-		Log.d(getClass().getName(), "notifySavingMonsters : " + num);
+		MyLog.entry("num = " + num);
+
 		final String notificationMessage = mContext.getString(R.string.notification_data_capture_saving_monsters, monster.getIdJp());
 		displayNotificationWithProgress(notificationMessage, num, total);
+
+		MyLog.exit();
 	}
 
 	@Override
 	public void notifySavingFriends(int num, int total, CapturedFriendModel friend) {
-		Log.d(getClass().getName(), "notifySavingFriends : " + num);
+		MyLog.entry("num = " + num);
+
 		final String notificationMessage = mContext.getString(R.string.notification_data_capture_saving_friends, friend.getId(), friend.getName());
 		displayNotificationWithProgress(notificationMessage, num, total);
+
+		MyLog.exit();
 	}
 
 	/**
@@ -58,13 +67,15 @@ public class CaptureNotificationHelper extends NotificationHelper implements Lis
 	 * @param accountName the account name captured
 	 */
 	public void notifyCaptureFinished(String accountName) {
-		Log.d(getClass().getName(), "notifyCaptureFinished : " + accountName);
+		MyLog.entry("accountName = " + accountName);
 
 		final String toastMessage = mContext.getString(R.string.toast_data_capture_finished, accountName);
 		displayToast(toastMessage);
 
 		final String notificationMessage = mContext.getString(R.string.notification_data_capture_finished, accountName);
 		displayNotification(notificationMessage);
+
+		MyLog.exit();
 	}
 
 	private void displayToast(final String toastMessage) {
@@ -82,8 +93,9 @@ public class CaptureNotificationHelper extends NotificationHelper implements Lis
 	}
 
 	private void stopListener() {
-		Log.d(getClass().getName(), "stopListener");
+		MyLog.entry();
 		final Intent serviceIntent = new Intent(mContext, ListenerService.class);
 		mContext.stopService(serviceIntent);
+		MyLog.exit();
 	}
 }

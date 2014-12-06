@@ -3,10 +3,10 @@ package fr.neraud.padlistener.ui.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoProviderHelper;
@@ -24,7 +24,8 @@ public class CapturedPlayerInfoCursorAdapter extends SimpleCursorAdapter {
 
 	@Override
 	public void bindView(View view, final Context context, Cursor cursor) {
-		Log.d(getClass().getName(), "bindView");
+		MyLog.entry();
+
 		final CapturedPlayerInfoModel model = CapturedPlayerInfoProviderHelper.cursorToModel(cursor);
 
 		final String lineName = context.getString(R.string.view_captured_info_item_name, model.getName(), model.getLastUpdate());
@@ -47,6 +48,8 @@ public class CapturedPlayerInfoCursorAdapter extends SimpleCursorAdapter {
 		final String lineCurrency = context.getString(R.string.view_captured_info_item_currency, model.getCoins(),
 				model.getStones());
 		((TextView) view.findViewById(R.id.view_captured_data_info_item_currency)).setText(lineCurrency);
+
+		MyLog.exit();
 	}
 
 }

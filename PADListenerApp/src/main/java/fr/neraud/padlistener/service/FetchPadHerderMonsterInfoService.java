@@ -1,12 +1,11 @@
 package fr.neraud.padlistener.service;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -39,9 +38,11 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 
 		@Override
 		protected List<MonsterInfoModel> parseResult(String responseContent) throws ParsingException {
-			Log.d(getClass().getName(), "parseResult");
+			MyLog.entry();
 			final MonsterInfoJsonParser parser = new MonsterInfoJsonParser();
-			return parser.parse(responseContent);
+			final List<MonsterInfoModel> result = parser.parse(responseContent);
+			MyLog.exit();
+			return result;
 		}
 	}
 
@@ -59,9 +60,11 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 
 		@Override
 		protected Map<Integer, Integer> parseResult(String responseContent) throws ParsingException {
-			Log.w(getClass().getName(), "parseResult");
+			MyLog.entry();
 			final MonsterEvolutionJsonParser parser = new MonsterEvolutionJsonParser();
-			return parser.parse(responseContent);
+			final Map<Integer, Integer> result = parser.parse(responseContent);
+			MyLog.exit();
+			return result;
 		}
 	}
 
@@ -79,7 +82,7 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Integer processResult(List results) throws ProcessException {
-		Log.d(getClass().getName(), "processResult");
+		MyLog.entry();
 		final List<MonsterInfoModel> monsters = (List<MonsterInfoModel>) results.get(0);
 		final Map<Integer, Integer> evolutions = (Map<Integer, Integer>) results.get(1);
 
@@ -87,6 +90,8 @@ public class FetchPadHerderMonsterInfoService extends AbstractRestIntentService<
 		int count = updateHelper.mergeAndSaveMonsterInfo(monsters, evolutions);
 
 		new TechnicalSharedPreferencesHelper(getApplicationContext()).setMonsterInfoRefreshDate(new Date());
+
+		MyLog.exit();
 		return count;
 	}
 }

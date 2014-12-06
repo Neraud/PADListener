@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
 
@@ -9,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.pad.constant.ApiAction;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
@@ -30,7 +30,8 @@ public class MockCaptureHelper {
 	}
 
 	public void loadMockCapture() {
-		Log.d(getClass().getName(), "loadMockCapture");
+		MyLog.entry();
+
 		try {
 			final ApiCallModel model = new ApiCallModel();
 			model.setAction(ApiAction.GET_PLAYER_DATA);
@@ -40,11 +41,15 @@ public class MockCaptureHelper {
 			model.setResponseContent(extractResponseContent());
 			new ApiCallHandlerThread(context, model, null).start();
 		} catch (final IOException e) {
-			Log.e(getClass().getName(), "loadMockCapture", e);
+			MyLog.error("Error loading mock capture", e);
 		}
+
+		MyLog.exit();
 	}
 
 	private String extractResponseContent() throws IOException {
+		MyLog.entry();
+
 		InputStream is = null;
 		String result = null;
 		try {
@@ -60,10 +65,12 @@ public class MockCaptureHelper {
 				try {
 					is.close();
 				} catch (final IOException e) {
-					Log.w(getClass().getName(), "extractResponseContent : error closing in stream");
+					MyLog.warn("Error closing in stream");
 				}
 			}
 		}
+
+		MyLog.exit();
 		return result;
 	}
 }

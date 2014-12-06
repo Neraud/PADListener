@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.http.client;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 
@@ -9,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.model.RestResponse;
 
@@ -25,7 +25,7 @@ public class RestClient extends MyHttpClientClient<RestResponse> {
 
 	@Override
 	protected RestResponse createResultFromResponse(final HttpResponse httpResponse) throws HttpCallException {
-		Log.d(getClass().getName(), "createResultFromResponse");
+		MyLog.entry();
 		final RestResponse result = new RestResponse();
 
 		final int status = httpResponse.getStatusLine().getStatusCode();
@@ -37,7 +37,7 @@ public class RestClient extends MyHttpClientClient<RestResponse> {
 				inputStream = httpResponse.getEntity().getContent();
 				final Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
 				final String stringResult = scanner.hasNext() ? scanner.next() : "";
-				Log.d(getClass().getName(), "createResultFromResponse : " + stringResult);
+				MyLog.debug("stringResult = " + stringResult);
 				result.setContentResult(stringResult);
 			} catch (final IllegalStateException e) {
 				throw new HttpCallException(e);
@@ -48,12 +48,13 @@ public class RestClient extends MyHttpClientClient<RestResponse> {
 					try {
 						inputStream.close();
 					} catch (final IOException e) {
-						Log.w(getClass().getName(), "createResultFromResponse : error closing in stream");
+						MyLog.warn("error closing in stream");
 					}
 				}
 			}
 		}
 
+		MyLog.exit();
 		return result;
 	}
 

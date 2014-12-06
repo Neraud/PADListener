@@ -3,13 +3,13 @@ package fr.neraud.padlistener.ui.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.ui.fragment.ManageIgnoreListTaskFragment;
@@ -33,7 +33,8 @@ public class IgnoredMonsterAdapter extends ArrayAdapter<MonsterInfoModel> {
 
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
-		Log.d(getClass().getName(), "getView");
+		MyLog.entry();
+
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.manage_ignore_list_fragment_list_item, parent, false);
@@ -49,25 +50,28 @@ public class IgnoredMonsterAdapter extends ArrayAdapter<MonsterInfoModel> {
 		monsterImageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "monsterImageView.onClick :" + model.getIdJP());
-				if(removeImageView.getVisibility() == View.GONE) {
+				MyLog.entry("idJP = " + model.getIdJP());
+				if (removeImageView.getVisibility() == View.GONE) {
 					removeImageView.setVisibility(View.VISIBLE);
 					monsterImageView.setColorFilter(Color.parseColor("#99000000"), PorterDuff.Mode.DARKEN);
 				} else {
 					removeImageView.setVisibility(View.GONE);
 					monsterImageView.clearColorFilter();
 				}
+				MyLog.exit();
 			}
 		});
 
 		removeImageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "removeImageView.onClick :" + model.getIdJP());
+				MyLog.entry("idJP = " + model.getIdJP());
 				mTaskFragment.removeIgnoredIds(model.getIdJP());
+				MyLog.exit();
 			}
 		});
 
+		MyLog.exit();
 		return view;
 	}
 

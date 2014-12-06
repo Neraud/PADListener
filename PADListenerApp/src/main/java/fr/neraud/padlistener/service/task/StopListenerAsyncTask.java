@@ -2,8 +2,8 @@ package fr.neraud.padlistener.service.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.exception.CommandExecutionException;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -28,7 +28,8 @@ public class StopListenerAsyncTask extends AsyncTask<Void, Void, SwitchListenerR
 
 	@Override
 	protected SwitchListenerResult doInBackground(Void... params) {
-		Log.d(getClass().getName(), "doInBackground");
+		MyLog.entry();
+
 		final SwitchListenerResult result = new SwitchListenerResult();
 
 		try {
@@ -53,16 +54,17 @@ public class StopListenerAsyncTask extends AsyncTask<Void, Void, SwitchListenerR
 
 			result.setSuccess(true);
 		} catch (final CommandExecutionException e) {
-			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage(), e);
+			MyLog.error("PADListener stop failed  : " + e.getMessage(), e);
 			result.setSuccess(false);
 			result.setError(e);
 			result.setLogs(e.getLogs());
 		} catch (final Exception e) {
-			Log.e(getClass().getName(), "PADListener stop failed  : " + e.getMessage());
+			MyLog.error("PADListener stop failed  : " + e.getMessage());
 			result.setSuccess(false);
 			result.setError(e);
 		}
 
+		MyLog.exit();
 		return result;
 	}
 }

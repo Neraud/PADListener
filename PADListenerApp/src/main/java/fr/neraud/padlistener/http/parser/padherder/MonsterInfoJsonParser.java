@@ -1,7 +1,5 @@
 package fr.neraud.padlistener.http.parser.padherder;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -24,13 +23,13 @@ public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoMo
 
 	@Override
 	protected List<MonsterInfoModel> parseJsonObject(JSONObject json) throws JSONException, ParsingException {
-		Log.d(getClass().getName(), "parseJsonObject");
 		throw new ParsingException("Cannot parse JSONObject, JSONArray expected");
 	}
 
 	@Override
 	protected List<MonsterInfoModel> parseJsonArray(JSONArray json) throws JSONException, ParsingException {
-		Log.d(getClass().getName(), "parseJsonArray");
+		MyLog.entry();
+
 		final List<MonsterInfoModel> monsterList = new ArrayList<MonsterInfoModel>();
 		for (int i = 0; i < json.length(); i++) {
 			final JSONObject monsterJson = (JSONObject) json.get(i);
@@ -38,11 +37,13 @@ public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoMo
 			monsterList.add(monsterModel);
 		}
 
+		MyLog.exit();
 		return monsterList;
 	}
 
 	private MonsterInfoModel parseOneMonster(JSONObject monsterJson) throws JSONException {
-		Log.d(getClass().getName(), "parseOneMonster");
+		MyLog.entry();
+
 		final MonsterInfoModel monster = new MonsterInfoModel();
 
 		monster.setIdJP(monsterJson.getInt("id"));
@@ -83,6 +84,7 @@ public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoMo
 		monster.setImage40Url(monsterJson.getString("image40_href"));
 		monster.setImage60Url(monsterJson.getString("image60_href"));
 
+		MyLog.exit();
 		return monster;
 	}
 }

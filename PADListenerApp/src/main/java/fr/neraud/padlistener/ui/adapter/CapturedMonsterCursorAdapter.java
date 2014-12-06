@@ -3,9 +3,9 @@ package fr.neraud.padlistener.ui.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.CapturedMonsterFullInfoModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -25,7 +25,7 @@ public class CapturedMonsterCursorAdapter extends AbstractMonsterWithStatsCursor
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		Log.d(getClass().getName(), "bindView");
+		MyLog.entry();
 
 		final CapturedMonsterFullInfoModel model = CapturedPlayerMonsterProviderHelper.cursorWithInfoToModel(cursor);
 		final MonsterModel monsterModel = model.getCapturedMonster();
@@ -39,6 +39,8 @@ public class CapturedMonsterCursorAdapter extends AbstractMonsterWithStatsCursor
 		final int totalPluses = monsterModel.getPlusHp() + monsterModel.getPlusAtk() + monsterModel.getPlusRcv();
 		fillTextView(view, R.id.view_captured_monsters_item_pluses, totalPluses, 3 * 99);
 		addDetailDialog(view, monsterInfoModel, monsterModel);
+
+		MyLog.exit();
 	}
 
 }

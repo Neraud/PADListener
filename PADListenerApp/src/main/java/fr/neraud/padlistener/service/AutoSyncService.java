@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.exception.NoMatchingAccountException;
@@ -59,25 +59,30 @@ public class AutoSyncService extends IntentService {
 
 		@Override
 		protected void onReceiveProgress(RestCallRunningStep progress) {
-			Log.d(getClass().getName(), "onReceiveProgress");
+			MyLog.entry();
 			notifyComputeSyncProgress(progress);
+			MyLog.exit();
 		}
 
 		@Override
 		protected void onReceiveSuccess(ComputeSyncResultModel result) {
-			Log.d(getClass().getName(), "onReceiveSuccess");
+			MyLog.entry();
 
 			final ChooseSyncModel chooseModel = prepareSync(result);
 			notifyComputeSyncFinished();
 			pushSync(accountId, chooseModel);
+
+			MyLog.exit();
 		}
 
 		@Override
 		protected void onReceiveError(RestCallError error, Throwable errorCause) {
-			Log.d(getClass().getName(), "onReceiveError");
+			MyLog.entry();
 
 			notifyError(AbstractAutoSyncReceiver.Error.COMPUTE, errorCause);
 			finishSync();
+
+			MyLog.exit();
 		}
 	}
 
@@ -89,7 +94,7 @@ public class AutoSyncService extends IntentService {
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			Log.d(getClass().getName(), "onReceiveResult");
+			MyLog.entry();
 
 			//final PushSyncStatModel.ElementToPush element = PushSyncStatModel.ElementToPush.valueOf(resultData.getString(PushSyncService.RECEIVER_ELEMENT_NAME));
 			final boolean isSuccess = resultData.getBoolean(PushSyncService.RECEIVER_SUCCESS_NAME);
@@ -105,12 +110,14 @@ public class AutoSyncService extends IntentService {
 			} else {
 				notifyError(AbstractAutoSyncReceiver.Error.PUSH, new Exception(errorMessage));
 			}
+
+			MyLog.exit();
 		}
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d(getClass().getName(), "onHandleIntent");
+		MyLog.entry();
 
 		this.mAutoSyncReceiver = intent.getParcelableExtra(SYNC_LISTENER_EXTRA_NAME);
 		notifyInitialized();
@@ -121,10 +128,12 @@ public class AutoSyncService extends IntentService {
 		} catch (NoMatchingAccountException e) {
 			notifyError(AbstractAutoSyncReceiver.Error.NO_MATCHING_ACCOUNT, e);
 		}
+
+		MyLog.exit();
 	}
 
 	private int extractAccountId() throws NoMatchingAccountException {
-		Log.d(getClass().getName(), "extractAccountId");
+		MyLog.entry();
 
 		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(this).getPadHerderAccounts();
 		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(this);
@@ -132,6 +141,7 @@ public class AutoSyncService extends IntentService {
 		if (StringUtils.isNotBlank(lastCaptureAccountName)) {
 			for (final PADHerderAccountModel account : accounts) {
 				if (lastCaptureAccountName.equals(account.getName())) {
+					MyLog.exit();
 					return account.getAccountId();
 				}
 			}
@@ -141,7 +151,7 @@ public class AutoSyncService extends IntentService {
 	}
 
 	private void computeSync(int accountId) {
-		Log.d(getClass().getName(), "computeSync : " + accountId);
+		MyLog.entry();
 
 		final Intent startIntent = new Intent(this, ComputeSyncService.class);
 		startIntent.putExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME, new MyComputeSyncReceiver(new Handler(), accountId));
@@ -151,9 +161,13 @@ public class AutoSyncService extends IntentService {
 		startService(startIntent);
 
 		Looper.loop();
+
+		MyLog.exit();
 	}
 
 	private ChooseSyncModel prepareSync(ComputeSyncResultModel result) {
+		MyLog.entry();
+
 		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(this, result);
 		final ChooseSyncModel mChooseResult = initHelper.filterSyncResult();
 
@@ -164,10 +178,13 @@ public class AutoSyncService extends IntentService {
 			builder.create().show();
 		}
 
+		MyLog.exit();
 		return mChooseResult;
 	}
 
 	private void pushSync(int accountId, ChooseSyncModel chooseModel) {
+		MyLog.entry();
+
 		notifyPushSyncInitialized();
 
 		final boolean hasUserInfoToUpdate = chooseModel.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync();
@@ -193,6 +210,8 @@ public class AutoSyncService extends IntentService {
 		} else {
 			notifyPushSyncFinished();
 		}
+
+		MyLog.exit();
 	}
 
 	private static <T extends Serializable> int countChosenItems(List<ChooseSyncModelContainer<T>> list) {

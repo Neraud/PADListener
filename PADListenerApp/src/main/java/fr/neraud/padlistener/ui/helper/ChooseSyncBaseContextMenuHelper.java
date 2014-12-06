@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.ui.helper;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.Iterator;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
@@ -43,9 +43,10 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 	}
 
 	public boolean contextItemSelected(MenuItem item) {
-		Log.d(getClass().getName(), "contextItemSelected : item = " + item);
-
-		return item.getGroupId() == groupId && doContextItemSelected(item);
+		MyLog.entry("item = " + item);
+		final boolean result = item.getGroupId() == groupId && doContextItemSelected(item);
+		MyLog.exit();
+		return result;
 	}
 
 	protected abstract boolean doContextItemSelected(MenuItem item);
@@ -75,28 +76,32 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 	}
 
 	protected void addMonsterToIgnoreList(int monsterId) {
-		Log.d(getClass().getName(), "addMonsterToIgnoreList : monsterId = " + monsterId);
+		MyLog.entry("monsterId = " + monsterId);
+
 		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(getContext());
 		final Set<Integer> ignoredIds = helper.getMonsterIgnoreList();
 		ignoredIds.add(monsterId);
 		helper.setMonsterIgnoreList(ignoredIds);
 
-		for(final SyncMode mode : SyncMode.values()) {
-			if(helper.isChooseSyncUseIgnoreListForMonsters(mode)) {
+		for (final SyncMode mode : SyncMode.values()) {
+			if (helper.isChooseSyncUseIgnoreListForMonsters(mode)) {
 				filterMonsterList(mode, result.getSyncedMonsters(mode), monsterId);
 			}
 		}
+
+		MyLog.exit();
 	}
 
 	private void filterMonsterList(SyncMode mode, List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters, int monsterId) {
-		Log.d(getClass().getName(), "filterMonsterList : " + mode);
+		MyLog.entry("mode = " + mode);
 		final Iterator<ChooseSyncModelContainer<SyncedMonsterModel>> iter = monsters.iterator();
-		while(iter.hasNext()) {
+		while (iter.hasNext()) {
 			final ChooseSyncModelContainer<SyncedMonsterModel> item = iter.next();
-			if(item.getSyncedModel().getDisplayedMonsterInfo().getIdJP() == monsterId)  {
-				Log.d(getClass().getName(), "filterMonsterList : - removing " + item);
+			if (item.getSyncedModel().getDisplayedMonsterInfo().getIdJP() == monsterId) {
+				MyLog.debug(" - removing " + item);
 				iter.remove();
 			}
 		}
+		MyLog.exit();
 	}
 }

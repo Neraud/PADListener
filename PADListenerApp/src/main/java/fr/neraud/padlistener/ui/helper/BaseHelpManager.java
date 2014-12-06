@@ -1,13 +1,13 @@
 package fr.neraud.padlistener.ui.helper;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.ui.model.ShowcaseHelpPageModel;
 
@@ -64,7 +64,7 @@ public abstract class BaseHelpManager {
 	}
 
 	public void showHelpFirstTime() {
-		Log.d(getClass().getName(), "showHelpFirstTime");
+		MyLog.entry();
 
 		final int lastHelpDisplayedVersion = mTechHelper.getLastHelpDisplayedVersionForTag(mHelpTag);
 		if(lastHelpDisplayedVersion < mHelpVersion) {
@@ -73,14 +73,17 @@ public abstract class BaseHelpManager {
 
 			doShow(builder);
 		}
+
+		MyLog.exit();
 	}
 
 	public void showHelp() {
-		Log.d(getClass().getName(), "showHelp");
+		MyLog.entry();
 		final PageBuilder builder = new PageBuilder();
 		buildHelpPages(builder);
 
 		doShow(builder);
+		MyLog.exit();
 	}
 
 	private void doShow(PageBuilder builder) {

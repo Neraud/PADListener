@@ -4,12 +4,12 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
@@ -31,7 +31,8 @@ public class UpdateMonsterInfoHelper {
 	}
 
 	private void fillEvolutionData(List<MonsterInfoModel> monsters, Map<Integer, Integer> evolutions) {
-		Log.d(getClass().getName(), "fillEvolutionData");
+		MyLog.entry();
+
 		final Map<Integer, MonsterInfoModel> monsterInfoById = new HashMap<Integer, MonsterInfoModel>();
 		for (final MonsterInfoModel monster : monsters) {
 			monsterInfoById.put(monster.getIdJP(), monster);
@@ -43,14 +44,17 @@ public class UpdateMonsterInfoHelper {
 				baseMonsterId = evolutions.get(baseMonsterId);
 				evolutionStage++;
 			}
-			Log.d(getClass().getName(), "fillEvolutionData : " + monster + " -> " + monsterInfoById.get(baseMonsterId) + " (stage = " + evolutionStage + ")");
+			MyLog.debug(" - " + monster + " -> " + monsterInfoById.get(baseMonsterId) + " (stage = " + evolutionStage + ")");
 			monster.setBaseMonsterId(baseMonsterId);
 			monster.setEvolutionStage(evolutionStage);
 		}
+
+		MyLog.exit();
 	}
 
 	private int saveData(List<MonsterInfoModel> monsters) {
-		Log.d(getClass().getName(), "saveData");
+		MyLog.entry();
+
 		final ContentResolver cr = context.getContentResolver();
 		final Uri uri = MonsterInfoDescriptor.UriHelper.uriForAll();
 
@@ -61,6 +65,9 @@ public class UpdateMonsterInfoHelper {
 			values[i] = MonsterInfoProviderHelper.modelToValues(monster);
 			i++;
 		}
-		return cr.bulkInsert(uri, values);
+
+		final int result = cr.bulkInsert(uri, values);
+		MyLog.exit();
+		return result;
 	}
 }

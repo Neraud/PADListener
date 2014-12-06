@@ -6,12 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 import fr.neraud.padlistener.ui.adapter.CapturedMonsterCursorAdapter;
@@ -27,7 +27,7 @@ public class ViewCapturedDataMonstersFragment extends Fragment implements Loader
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.view_captured_data_fragment_monsters, container, false);
 
@@ -38,27 +38,32 @@ public class ViewCapturedDataMonstersFragment extends Fragment implements Loader
 
 		getLoaderManager().initLoader(0, null, this);
 
+		MyLog.exit();
 		return view;
 	}
 
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Log.d(getClass().getName(), "onCreateLoader");
-		return new CursorLoader(getActivity(), CapturedPlayerMonsterDescriptor.UriHelper.uriForAllWithInfo(),
+		MyLog.entry();
+		final Loader<Cursor> loader = new CursorLoader(getActivity(), CapturedPlayerMonsterDescriptor.UriHelper.uriForAllWithInfo(),
 				null, null, null, CapturedPlayerMonsterDescriptor.Fields.MONSTER_ID_JP.getColName());
+		MyLog.exit();
+		return loader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		Log.d(getClass().getName(), "onLoadFinished");
+		MyLog.entry();
 		mAdapter.swapCursor(data);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d(getClass().getName(), "onLoaderReset");
+		MyLog.entry();
 		mAdapter.swapCursor(null);
+		MyLog.exit();
 	}
 
 }

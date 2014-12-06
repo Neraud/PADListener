@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.proxy.plugin;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.sandrop.webscarab.httpclient.HTTPClient;
 import org.sandrop.webscarab.model.HttpUrl;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
@@ -47,7 +47,7 @@ public class PADPlugin extends ProxyPlugin {
 				final Response response = _in.fetchResponse(request);
 
 				final HttpUrl reqUrl = request.getURL();
-				Log.d(PADPlugin.class.getName(), "fetchResponse : " + reqUrl);
+				MyLog.debug("reqUrl = " + reqUrl);
 				final String reqHost = reqUrl.getHost();
 				final String reqPath = reqUrl.getPath();
 
@@ -70,7 +70,7 @@ public class PADPlugin extends ProxyPlugin {
 					model.setRequestContent(requestContentString);
 					model.setResponseContent(responseContentString);
 
-					Log.d(PADPlugin.class.getName(), "" + model);
+					MyLog.debug("model = " + model);
 					final ApiCallHandlerThread handler = new ApiCallHandlerThread(context, model, captureListener);
 					handler.start();
 				}
@@ -98,11 +98,11 @@ public class PADPlugin extends ProxyPlugin {
 		private PADRegion extractRegion(String reqHost) {
 			final PADVersion server = PADVersion.fromHostName(reqHost);
 
-			if(server != null) {
+			if (server != null) {
 				return server.getRegion();
 			}
 
-			Log.w(getClass().getName(), "extractRegion : host is not in the standard one, return US by default");
+			MyLog.warn("host is not in the standard one, return US by default");
 			return PADRegion.US;
 		}
 	}
@@ -111,9 +111,6 @@ public class PADPlugin extends ProxyPlugin {
 		this.context = context;
 		this.captureListener = captureListener;
 		targetHostnames = new DefaultSharedPreferencesHelper(context).getAllListenerTargetHostnames();
-	}
-
-	public void parseProperties() {
 	}
 
 	@Override

@@ -1,11 +1,10 @@
 package fr.neraud.padlistener.http.parser;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.http.exception.ParsingException;
 
 /**
@@ -17,7 +16,8 @@ import fr.neraud.padlistener.http.exception.ParsingException;
 public abstract class AbstractJsonParser<M> {
 
 	public M parse(String jsonString) throws ParsingException {
-		Log.d(getClass().getName(), "parse");
+		MyLog.entry();
+
 		M result = null;
 		try {
 			if (jsonString != null) {
@@ -31,6 +31,7 @@ public abstract class AbstractJsonParser<M> {
 				}
 			}
 
+			MyLog.exit();
 			return result;
 		} catch (final JSONException e) {
 			throw new ParsingException(e);

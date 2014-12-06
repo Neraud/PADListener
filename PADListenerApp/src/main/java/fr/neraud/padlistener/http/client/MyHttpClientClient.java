@@ -2,7 +2,6 @@ package fr.neraud.padlistener.http.client;
 
 import android.content.Context;
 import android.util.Base64;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -18,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.http.constant.HttpMethod;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.helper.HttpPatch;
@@ -44,7 +44,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 	}
 
 	public R call(MyHttpRequest httpRequest) throws HttpCallException {
-		Log.d(getClass().getName(), "call");
+		MyLog.entry();
 
 		final String fullUrl = createFullUrl(httpRequest);
 		final HttpRequestBase httpMethod = createMethod(httpRequest.getMethod(), fullUrl);
@@ -53,14 +53,13 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 		if (httpRequest.getAuthMode() != null) {
 			switch (httpRequest.getAuthMode()) {
 				case BASIC:
-					Log.d(getClass().getName(), "call : adding basic auth with user " + httpRequest.getAuthUserName());
-					final byte[] authorizationBytes = (httpRequest.getAuthUserName() + ":" + httpRequest.getAuthUserPassword())
-							.getBytes();
+					MyLog.debug("adding basic auth with user " + httpRequest.getAuthUserName());
+					final byte[] authorizationBytes = (httpRequest.getAuthUserName() + ":" + httpRequest.getAuthUserPassword()) .getBytes();
 					final String authorizationString = "Basic " + Base64.encodeToString(authorizationBytes, Base64.NO_WRAP);
 					httpMethod.setHeader("Authorization", authorizationString);
 					break;
 				case X_HEADER:
-					Log.d(getClass().getName(), "call : adding x-header auth with user " + httpRequest.getAuthUserName());
+					MyLog.debug("adding x-header auth with user " + httpRequest.getAuthUserName());
 
 					httpMethod.setHeader("X-Username", httpRequest.getAuthUserName());
 					httpMethod.setHeader("X-Password", httpRequest.getAuthUserPassword());
@@ -77,7 +76,7 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 
 		try {
 			if (httpRequest.getBody() != null) {
-				Log.d(getClass().getName(), "call : setting body : " + httpRequest.getBody());
+				MyLog.debug("setting body : " + httpRequest.getBody());
 				final StringEntity entity = new StringEntity(httpRequest.getBody(), "UTF-8");
 				switch (httpRequest.getMethod()) {
 					case POST:
@@ -90,14 +89,16 @@ public abstract class MyHttpClientClient<R extends MyHttpResponse> {
 						((HttpPatch) httpMethod).setEntity(entity);
 						break;
 					default:
-						Log.w(getClass().getName(), "call : cannot set body for method : " + httpRequest.getMethod());
+						MyLog.warn("cannot set body for method : " + httpRequest.getMethod());
 				}
 			}
 
-			Log.d(getClass().getName(), "call : " + httpRequest.getMethod() + " " + httpMethod.getURI());
+			MyLog.debug(httpRequest.getMethod() + " " + httpMethod.getURI());
 			final HttpResponse httpResponse = httpclient.execute(httpMethod);
 
-			return createResultFromResponse(httpResponse);
+			final R result = createResultFromResponse(httpResponse);
+			MyLog.exit();
+			return result;
 		} catch (final ClientProtocolException e) {
 			throw new HttpCallException(e);
 		} catch (final IOException e) {

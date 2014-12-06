@@ -3,11 +3,11 @@ package fr.neraud.padlistener.service;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.SyncHelper;
 import fr.neraud.padlistener.http.client.RestClient;
@@ -16,10 +16,10 @@ import fr.neraud.padlistener.http.exception.ProcessException;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.http.model.MyHttpRequest;
 import fr.neraud.padlistener.http.parser.padherder.UserInfoJsonParser;
-import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.UserInfoModel;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
@@ -52,13 +52,16 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 
 		@Override
 		protected UserInfoModel parseResult(String responseContent) throws ParsingException {
-			Log.d(getClass().getName(), "parseResult");
+			MyLog.entry();
 
 			final JsonCaptureHelper saveHelper = new JsonCaptureHelper(getApplicationContext());
 			saveHelper.savePadHerderUserInfo(responseContent);
 
 			final UserInfoJsonParser parser = new UserInfoJsonParser();
-			return parser.parse(responseContent);
+			final UserInfoModel result = parser.parse(responseContent);
+
+			MyLog.exit();
+			return result;
 		}
 	}
 
@@ -79,7 +82,8 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 
 	@Override
 	protected ComputeSyncResultModel processResult(List results) throws ProcessException {
-		Log.d(getClass().getName(), "processResult");
+		MyLog.entry();
+
 		final UserInfoModel padInfo = (UserInfoModel) results.get(0);
 
 		final List<MonsterModel> capturedMonsters = extractCapturedPlayerMonster();
@@ -88,11 +92,15 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 
 		final SyncHelper helper = new SyncHelper(getApplicationContext(), monsterInfos);
 
-		return helper.sync(capturedMonsters, capturedInfo, padInfo);
+		final ComputeSyncResultModel result = helper.sync(capturedMonsters, capturedInfo, padInfo);
+
+		MyLog.exit();
+		return result;
 	}
 
 	private List<MonsterModel> extractCapturedPlayerMonster() {
-		Log.d(getClass().getName(), "extractCapturedPlayerMonster");
+		MyLog.entry();
+
 		final Uri uri = CapturedPlayerMonsterDescriptor.UriHelper.uriForAll();
 		final Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
@@ -105,11 +113,14 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 			} while (cursor.moveToNext());
 		}
 		cursor.close();
+
+		MyLog.exit();
 		return capturedMonsters;
 	}
 
 	private CapturedPlayerInfoModel extractCapturedPlayerInfo() {
-		Log.d(getClass().getName(), "extractCapturedPlayerInfo");
+		MyLog.entry();
+
 		final Uri uri = CapturedPlayerInfoDescriptor.UriHelper.uriForAll();
 		final Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 		CapturedPlayerInfoModel model = null;
@@ -117,11 +128,14 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 			model = CapturedPlayerInfoProviderHelper.cursorToModel(cursor);
 		}
 		cursor.close();
+
+		MyLog.exit();
 		return model;
 	}
 
 	private List<MonsterInfoModel> extractMonsterInfo() {
-		Log.d(getClass().getName(), "extractMonsterInfo");
+		MyLog.entry();
+
 		final Uri uri = MonsterInfoDescriptor.UriHelper.uriForAll();
 		final Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
@@ -135,6 +149,7 @@ public class ComputeSyncService extends AbstractRestIntentService<ComputeSyncRes
 		}
 		cursor.close();
 
+		MyLog.exit();
 		return monsterInfos;
 	}
 }

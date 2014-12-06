@@ -5,11 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
@@ -22,7 +22,8 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 
 	@Override
 	public boolean onCreate() {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+		MyLog.exit();
 		return true;
 	}
 
@@ -38,7 +39,8 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
-		Log.d(getClass().getName(), "bulkInsert");
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final CapturedPlayerFriendDescriptor.Paths path = CapturedPlayerFriendDescriptor.matchUri(uri);
 
@@ -56,12 +58,14 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 
 		getContext().getContentResolver().notifyChange(uri, null);
 
+		MyLog.exit();
 		return count;
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		Log.d(getClass().getName(), "insert : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final CapturedPlayerFriendDescriptor.Paths path = CapturedPlayerFriendDescriptor.matchUri(uri);
 
@@ -71,12 +75,15 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 
 		db.insert(CapturedPlayerFriendDescriptor.TABLE_NAME, null, values);
 		getContext().getContentResolver().notifyChange(uri, null);
+
+		MyLog.exit();
 		return uri;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		Log.d(getClass().getName(), "query : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
 		final CapturedPlayerFriendDescriptor.Paths path = CapturedPlayerFriendDescriptor.matchUri(uri);
 
@@ -118,12 +125,15 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 
 		final Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+		MyLog.exit();
 		return cursor;
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		Log.d(getClass().getName(), "update : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final CapturedPlayerFriendDescriptor.Paths path = CapturedPlayerFriendDescriptor.matchUri(uri);
 
@@ -138,12 +148,15 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 
 		count = db.update(CapturedPlayerFriendDescriptor.TABLE_NAME, values, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
+
+		MyLog.exit();
 		return count;
 	}
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		Log.d(getClass().getName(), "delete : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
 		final CapturedPlayerFriendDescriptor.Paths path = CapturedPlayerFriendDescriptor.matchUri(uri);
 
@@ -158,6 +171,7 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		MyLog.exit("uri = " + uri);
 		return count;
 	}
 

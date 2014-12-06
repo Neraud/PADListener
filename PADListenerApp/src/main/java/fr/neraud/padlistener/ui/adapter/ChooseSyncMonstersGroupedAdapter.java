@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -50,7 +50,8 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
 			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
-		Log.d(getClass().getName(), "reorgMonsters");
+		MyLog.entry();
+
 		final Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> syncedMonsters = new HashMap<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>>();
 
 		for (final ChooseSyncModelContainer<SyncedMonsterModel> container : syncedMonstersToUpdate) {
@@ -61,6 +62,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			syncedMonsters.get(monster).add(container);
 		}
 
+		MyLog.exit();
 		return syncedMonsters;
 	}
 
@@ -101,7 +103,8 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
-		Log.d(getClass().getName(), "getGroupView");
+		MyLog.entry();
+
 		final MonsterInfoModel monsterInfo = getGroup(groupPosition);
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -114,12 +117,14 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		nameText.setText(mContext.getString(R.string.choose_sync_monsters_item_name_group, mSortedSyncedMonsters.get(monsterInfo).size(),
 				monsterInfo.getIdJP(), monsterInfo.getName()));
 
+		MyLog.exit();
 		return view;
 	}
 
 	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
-		Log.d(getClass().getName(), "getChildView");
+		MyLog.entry();
+
 		final ChooseSyncModelContainer<SyncedMonsterModel> item = getChild(groupPosition, childPosition);
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -138,9 +143,10 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		view.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "onClick");
+				MyLog.entry();
 				item.setChosen(!item.isChosen());
 				checkBox.setChecked(item.isChosen());
+				MyLog.exit();
 			}
 		});
 
@@ -174,6 +180,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			noteText.setVisibility(View.GONE);
 		}
 
+		MyLog.exit();
 		return view;
 	}
 
@@ -250,7 +257,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	}
 
 	public void refreshData() {
-		Log.d(getClass().getName(), "refreshData");
+		MyLog.entry();
 		mSortedSyncedMonsters = reorgMonsters(mSyncedMonsters);
 		mGroups = new ArrayList<MonsterInfoModel>(mSortedSyncedMonsters.keySet());
 
@@ -261,5 +268,6 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			}
 		};
 		Collections.sort(mGroups, comparator);
+		MyLog.exit();
 	}
 }

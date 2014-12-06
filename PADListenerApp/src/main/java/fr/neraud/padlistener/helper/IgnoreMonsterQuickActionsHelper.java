@@ -1,11 +1,11 @@
 package fr.neraud.padlistener.helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.IgnoreMonsterQuickActionModel;
 
@@ -21,8 +21,9 @@ public class IgnoreMonsterQuickActionsHelper {
 	}
 
 	public List<IgnoreMonsterQuickActionModel> extractQuickActions() {
-		Log.d(getClass().getName(), "extractQuickActions");
-		String[] quickActions = context.getResources().getStringArray(R.array.ignore_monster_quick_actions);
+		MyLog.entry();
+
+		final String[] quickActions = context.getResources().getStringArray(R.array.ignore_monster_quick_actions);
 
 		final List<IgnoreMonsterQuickActionModel> quickActionModels = new ArrayList<IgnoreMonsterQuickActionModel>();
 		for(final String quickAction : quickActions)  {
@@ -40,10 +41,11 @@ public class IgnoreMonsterQuickActionsHelper {
 
 			quickActionModel.setMonsterIds(monsterIds);
 
-			Log.d(getClass().getName(), "extractQuickActions : - " + quickActionModel);
+			MyLog.debug(" - " + quickActionModel);
 			quickActionModels.add(quickActionModel);
 		}
 
+		MyLog.exit();
 		return quickActionModels;
 	}
 }

@@ -3,11 +3,11 @@ package fr.neraud.padlistener.provider.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerFriendTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerInfoTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerMonsterTable;
@@ -60,16 +60,21 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Log.i(getClass().getName(), "Creating new DB");
+		MyLog.entry();
 
+		MyLog.info("Creating new DB");
 		for (final ITable table : TABLES) {
 			db.execSQL(table.createTable());
 		}
+
+		MyLog.exit();
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.i(getClass().getName(), "Upgrading database from version " + oldVersion + " to " + newVersion);
+		MyLog.entry();
+
+		MyLog.info("Upgrading database from version " + oldVersion + " to " + newVersion);
 
 		for (final ITable table : TABLES) {
 			table.preUpgrade(context, oldVersion, newVersion);
@@ -78,5 +83,7 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 			}
 			table.postUpgrade(context, oldVersion, newVersion);
 		}
+
+		MyLog.exit();
 	}
 }

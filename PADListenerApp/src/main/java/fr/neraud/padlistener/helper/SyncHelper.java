@@ -2,7 +2,6 @@ package fr.neraud.padlistener.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,12 +14,13 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
-import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.model.SyncedUserInfoModel;
@@ -46,7 +46,7 @@ public class SyncHelper {
 	}
 
 	public ComputeSyncResultModel sync(List<MonsterModel> capturedMonsters, CapturedPlayerInfoModel capturedInfo, UserInfoModel padInfo) {
-		Log.d(getClass().getName(), "sync");
+		MyLog.entry();
 
 		final Map<Integer, UserInfoMaterialModel> padherderMaterialsById = reorgPadherderMaterials(padInfo.getMaterials());
 		final Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById = reorgPadherderMonster(padInfo.getMonsters());
@@ -71,17 +71,19 @@ public class SyncHelper {
 
 		result.setHasEncounteredUnknownMonster(hasEncounteredUnknownMonster);
 
+		MyLog.exit();
 		return result;
 	}
 
 	@SuppressLint("UseSparseArrays")
 	private Map<Integer, List<MonsterModel>> reorgCapturedMonster(List<MonsterModel> capturedMonsters) {
-		Log.d(getClass().getName(), "reorgCapturedMonster");
+		MyLog.entry();
+
 		final Map<Integer, List<MonsterModel>> capturedMonstersById = new HashMap<Integer, List<MonsterModel>>();
 
 		for (final MonsterModel capturedMonster : capturedMonsters) {
 			final int capturedId = capturedMonster.getIdJp();
-			Log.d(getClass().getName(), "reorgCapturedMonster : - capturedId = " + capturedId);
+			MyLog.debug(" - capturedId = " + capturedId);
 			try {
 				final MonsterInfoModel monsterInfo = monsterInfoHelper.getMonsterInfo(capturedId);
 
@@ -92,7 +94,7 @@ public class SyncHelper {
 				capMonsterData(monsterInfo, capturedMonster);
 				capturedMonstersById.get(capturedId).add(capturedMonster);
 			} catch (UnknownMonsterException e) {
-				Log.w(getClass().getName(), "reorgCapturedMonster : missing monster info for capturedId = " + e.getMonsterId());
+				MyLog.warn("missing monster info for capturedId = " + e.getMonsterId());
 				hasEncounteredUnknownMonster = true;
 			}
 		}
@@ -103,6 +105,7 @@ public class SyncHelper {
 			Collections.sort(capturedMonstersList, comparatorDesc);
 		}
 
+		MyLog.exit();
 		return capturedMonstersById;
 	}
 
@@ -111,14 +114,14 @@ public class SyncHelper {
 		final MonsterExpHelper expHelper = new MonsterExpHelper(monsterInfo);
 		final long expCap = expHelper.getExpCap();
 		if (capturedMonster.getExp() > expCap) {
-			Log.d(getClass().getName(), "capMonsterData : capping monster xp for " + capturedMonster);
+			MyLog.debug("capping monster xp for " + capturedMonster);
 			capturedMonster.setExp(expCap);
 		}
 
 		// PAD allows to awaken a monster beyond its max, but PADHerder caps to the max awakenings
 		final int maxAwakenings = monsterInfo.getAwokenSkillIds() == null ? 0 : monsterInfo.getAwokenSkillIds().size();
 		if (capturedMonster.getAwakenings() > maxAwakenings) {
-			Log.d(getClass().getName(), "capMonsterData : capping monster awakenings for " + capturedMonster);
+			MyLog.debug("capping monster awakenings for " + capturedMonster);
 			capturedMonster.setAwakenings(maxAwakenings);
 		}
 
@@ -127,7 +130,8 @@ public class SyncHelper {
 
 	@SuppressLint("UseSparseArrays")
 	private Map<Integer, Integer> reorgCapturedMaterials(List<MonsterModel> capturedMonsters) {
-		Log.d(getClass().getName(), "reorgCapturedMaterials");
+		MyLog.entry();
+
 		final Map<Integer, Integer> capturedMaterialsById = new HashMap<Integer, Integer>();
 
 		for (final MonsterModel capturedMonster : capturedMonsters) {
@@ -142,17 +146,18 @@ public class SyncHelper {
 				}
 				capturedMaterialsById.put(capturedId, ++count);
 			} catch (UnknownMonsterException e) {
-				Log.w(getClass().getName(), "reorgCapturedMaterials : missing material info for capturedId = " + e.getMonsterId());
+				MyLog.warn("missing material info for capturedId = " + e.getMonsterId());
 				hasEncounteredUnknownMonster = true;
 			}
 		}
 
+		MyLog.exit();
 		return capturedMaterialsById;
 	}
 
 	@SuppressLint("UseSparseArrays")
 	private Map<Integer, List<UserInfoMonsterModel>> reorgPadherderMonster(List<UserInfoMonsterModel> monsters) {
-		Log.d(getClass().getName(), "reorgPadherderMonster");
+		MyLog.entry();
 
 		final Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById = new HashMap<Integer, List<UserInfoMonsterModel>>();
 
@@ -166,7 +171,7 @@ public class SyncHelper {
 				}
 				padherderMonstersById.get(padherderId).add(monster);
 			} catch (UnknownMonsterException e) {
-				Log.w(getClass().getName(), "reorgPadherderMonster : missing monster info for padherderId = " + e.getMonsterId());
+				MyLog.warn("missing monster info for padherderId = " + e.getMonsterId());
 				hasEncounteredUnknownMonster = true;
 			}
 		}
@@ -177,12 +182,14 @@ public class SyncHelper {
 			Collections.sort(capturedMonstersList, comparatorDesc);
 		}
 
+		MyLog.exit();
 		return padherderMonstersById;
 	}
 
 	@SuppressLint("UseSparseArrays")
 	private Map<Integer, UserInfoMaterialModel> reorgPadherderMaterials(List<UserInfoMaterialModel> materials) {
-		Log.d(getClass().getName(), "reorgPadherderMaterials");
+		MyLog.entry();
+
 		final Map<Integer, UserInfoMaterialModel> padherderMaterialsById = new HashMap<Integer, UserInfoMaterialModel>();
 
 		for (final UserInfoMaterialModel material : materials) {
@@ -192,18 +199,19 @@ public class SyncHelper {
 				monsterInfoHelper.getMonsterInfo(padherderId);
 				padherderMaterialsById.put(material.getId(), material);
 			} catch (UnknownMonsterException e) {
-				Log.w(getClass().getName(), "reorgPadherderMaterials : missing monster info for padherderId = " + e.getMonsterId());
+				MyLog.warn("missing monster info for padherderId = " + e.getMonsterId());
 				hasEncounteredUnknownMonster = true;
 			}
 		}
 
+		MyLog.exit();
 		return padherderMaterialsById;
 	}
 
 	private void filterMaterials(Map<Integer, UserInfoMaterialModel> padherderMaterialsById,
 			Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById, Map<Integer, Integer> capturedMaterialsById,
 			Map<Integer, List<MonsterModel>> capturedMonstersById) {
-		Log.d(getClass().getName(), "filterMaterials");
+		MyLog.entry();
 
 		final SyncMaterialInMonster syncMaterialInMonster = helper.getSyncMaterialInMonster();
 		final boolean syncDeductMonsterInMaterial = helper.isSyncDeductMonsterInMaterial();
@@ -211,15 +219,15 @@ public class SyncHelper {
 		if (syncMaterialInMonster != SyncMaterialInMonster.ALWAYS || syncDeductMonsterInMaterial) {
 			for (final Integer materialId : padherderMaterialsById.keySet()) {
 				if (capturedMonstersById.containsKey(materialId)) {
-					Log.d(getClass().getName(), "filterMaterials : materialId : " + materialId);
+					MyLog.debug("- " + materialId);
 					if (syncMaterialInMonster == SyncMaterialInMonster.NEVER) {
-						Log.d(getClass().getName(), "filterMaterials : removing all from captured monsters");
+						MyLog.debug("removing all from captured monsters");
 						capturedMonstersById.remove(materialId);
 					} else if (syncMaterialInMonster == SyncMaterialInMonster.ONLY_IF_ALREADY_IN_PADHERDER) {
 						if (padherderMonstersById.containsKey(materialId)) {
 							final int numberToKeep = padherderMonstersById.get(materialId).size();
 							final int numberToRemove = capturedMonstersById.get(materialId).size() - numberToKeep;
-							Log.d(getClass().getName(), "filterMaterials : in padherder's monsters, removing " + numberToRemove + " from captured monsters");
+							MyLog.debug("in padherder's monsters, removing " + numberToRemove + " from captured monsters");
 
 							final List<MonsterModel> capturedMonsterList = capturedMonstersById.get(materialId);
 							// Start an iterator at the end of the list, to remove the lowest monsters first
@@ -231,44 +239,47 @@ public class SyncHelper {
 								i++;
 							}
 						} else {
-							Log.d(getClass().getName(), "filterMaterials : not in padherder's monsters, removing all from captured monsters");
+							MyLog.debug("not in padherder's monsters, removing all from captured monsters");
 							capturedMonstersById.remove(materialId);
 						}
 					} else {
-						Log.d(getClass().getName(), "filterMaterials : not removing from monsters");
+						MyLog.debug("not removing from monsters");
 					}
 
 					// Same if than above, but a remove can occur, so we need to check again
 					if (syncDeductMonsterInMaterial) {
 						if (padherderMonstersById.containsKey(materialId)) {
 							final int nbAlreadyMonsters = padherderMonstersById.get(materialId).size();
-							Log.d(getClass().getName(), "filterMaterials : in capturedMonster, reducing captured quantity by " + nbAlreadyMonsters);
+							MyLog.debug("in capturedMonster, reducing captured quantity by " + nbAlreadyMonsters);
 							final int old = capturedMaterialsById.get(materialId);
 							capturedMaterialsById.put(materialId, old - nbAlreadyMonsters);
 						} else {
-							Log.d(getClass().getName(), "filterMaterials : not in capturedMonster, nothing to do");
+							MyLog.debug("not in capturedMonster, nothing to do");
 						}
 					}
 				}
 			}
 		} else {
-			Log.d(getClass().getName(), "filterMaterials : nothing to filter");
+			MyLog.debug("nothing to filter");
 		}
+		MyLog.exit();
 	}
 
 	private SyncedUserInfoModel syncRank(CapturedPlayerInfoModel capturedInfo, UserInfoModel padInfo) {
-		Log.d(getClass().getName(), "syncRank");
+		MyLog.entry();
+
 		final SyncedUserInfoModel syncedPlayerInfo = new SyncedUserInfoModel();
 		syncedPlayerInfo.setCapturedInfo(capturedInfo.getRank());
 		syncedPlayerInfo.setPadherderInfo(padInfo.getRank());
 		syncedPlayerInfo.setProfileApiId(padInfo.getProfileApiId());
 
+		MyLog.exit();
 		return syncedPlayerInfo;
 	}
 
 	private List<SyncedMaterialModel> syncMaterials(Map<Integer, Integer> capturedMaterialsById,
 			Map<Integer, UserInfoMaterialModel> padherderMaterialsById) {
-		Log.d(getClass().getName(), "syncMaterials");
+		MyLog.entry();
 
 		final List<SyncedMaterialModel> syncedMaterials = new ArrayList<SyncedMaterialModel>();
 		final Set<Integer> materialIds = new HashSet<Integer>();
@@ -287,15 +298,16 @@ public class SyncHelper {
 				syncedMaterial.setCapturedInfo(capturedMaterialsById.containsKey(materialId) ? capturedMaterialsById.get(materialId) : 0);
 				syncedMaterial.setPadherderInfo(padherderMaterial.getQuantity());
 
-				Log.d(getClass().getName(), "syncedMaterial : - " + syncedMaterial);
+				MyLog.debug(" - " + syncedMaterial);
 				syncedMaterials.add(syncedMaterial);
 			} catch (UnknownMonsterException e) {
 				// Should not happen as materials are checked before
-				Log.w(getClass().getName(), "syncMaterials : missing material info for materialId = " + e.getMonsterId());
+				MyLog.warn("missing material info for materialId = " + e.getMonsterId());
 				hasEncounteredUnknownMonster = true;
 			}
 		}
 
+		MyLog.exit();
 		return syncedMaterials;
 	}
 
@@ -310,7 +322,7 @@ public class SyncHelper {
 				capturedMonstersByBaseId.get(baseId).addAll(capturedMonstersById.get(id));
 			} catch (UnknownMonsterException e) {
 				// Should not happen as monsters are checked before during the reorg phase
-				Log.w(getClass().getName(), "reorgMonstersByBaseId : missing monster info for id = " + e.getMonsterId());
+				MyLog.warn("missing monster info for id = " + e.getMonsterId());
 				hasEncounteredUnknownMonster = true;
 			}
 		}
@@ -324,7 +336,7 @@ public class SyncHelper {
 
 	private List<SyncedMonsterModel> syncMonsters(Map<Integer, List<MonsterModel>> capturedMonstersById,
 			Map<Integer, List<UserInfoMonsterModel>> padherderMonstersById) {
-		Log.d(getClass().getName(), "syncMonsters");
+		MyLog.entry();
 
 		final List<SyncedMonsterModel> syncedMonsters = new ArrayList<SyncedMonsterModel>();
 		final Set<Integer> monsterIds = new HashSet<Integer>();
@@ -340,16 +352,17 @@ public class SyncHelper {
 			syncedMonsters.addAll(syncedMonstersForId);
 		}
 
+		MyLog.exit();
 		return syncedMonsters;
 	}
 
 	private List<SyncedMonsterModel> syncMonstersForOneId(Integer monsterId, List<MonsterModel> capturedMonsters,
 			List<UserInfoMonsterModel> padherderMonsters) {
-		Log.d(getClass().getName(), "syncMonstersForOneId : " + monsterId);
+		MyLog.entry("monsterId = " + monsterId);
 		final List<SyncedMonsterModel> syncedMonsters = new ArrayList<SyncedMonsterModel>();
 
-		Log.d(getClass().getName(), "syncMonstersForOneId : capturedMonsters = " + capturedMonsters);
-		Log.d(getClass().getName(), "syncMonstersForOneId : padherderMonsters = " + padherderMonsters);
+		MyLog.debug("capturedMonsters = " + capturedMonsters);
+		MyLog.debug("padherderMonsters = " + padherderMonsters);
 
 		final List<MonsterModel> capturedMonstersWork = new ArrayList<MonsterModel>();
 		if (capturedMonsters != null) {
@@ -370,7 +383,7 @@ public class SyncHelper {
 			while (parherderIter.hasNext()) {
 				final UserInfoMonsterModel padherder = parherderIter.next();
 				if (MonsterComparatorHelper.areMonstersEqual(captured, padherder)) {
-					Log.d(getClass().getName(), "syncMonstersForOneId : equals, removing : " + captured);
+					MyLog.debug("equals, removing : " + captured);
 					capturedIter.remove();
 					parherderIter.remove();
 					continue capturedLoop;
@@ -400,7 +413,7 @@ public class SyncHelper {
 
 					model.setCapturedInfo(captured);
 					model.setPadherderInfo(padherder);
-					Log.d(getClass().getName(), "syncMonstersForOneId : updated : " + model);
+					MyLog.debug("updated : " + model);
 				} else if (i < nbCaptured) {
 					// more captured -> creating
 					final MonsterModel captured = capturedMonstersWork.get(i);
@@ -412,7 +425,7 @@ public class SyncHelper {
 					model.setCapturedInfo(capturedMonstersWork.get(i));
 
 					model.setPadherderInfo(null);
-					Log.d(getClass().getName(), "syncMonstersForOneId : added : " + model);
+					MyLog.debug("added : " + model);
 				} else {
 					// not enough captured -> deleting
 					final UserInfoMonsterModel padherder = padherderMonstersWork.get(i);
@@ -422,17 +435,18 @@ public class SyncHelper {
 					model.setPadherderId(padherder.getPadherderId());
 					model.setCapturedInfo(null);
 					model.setPadherderInfo(padherderMonstersWork.get(i));
-					Log.d(getClass().getName(), "syncMonstersForOneId : deleted : " + model);
+					MyLog.debug("deleted : " + model);
 				}
 
 				syncedMonsters.add(model);
 			} catch (UnknownMonsterException e) {
 				// Should not happen as monsters are checked before during the reorg phase
-				Log.w(getClass().getName(), "syncMonstersForOneId : missing monster info for id = " + e.getMonsterId());
+				MyLog.warn("missing monster info for id = " + e.getMonsterId());
 				hasEncounteredUnknownMonster = true;
 			}
 		}
 
+		MyLog.exit();
 		return syncedMonsters;
 	}
 }

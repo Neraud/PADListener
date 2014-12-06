@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.service.ComputeSyncService;
 import fr.neraud.padlistener.service.constant.RestCallError;
@@ -46,43 +46,47 @@ public class ComputeSyncTaskFragment extends Fragment {
 
 		@Override
 		protected void onReceiveProgress(RestCallRunningStep progress) {
-			Log.d(getClass().getName(), "onReceiveProgress : " + progress);
+			MyLog.entry("progress = " + progress);
 			mCallState = RestCallState.RUNNING;
 			mCallRunningStep = progress;
 			notifyCallBacks();
+			MyLog.exit();
 		}
 
 		@Override
 		protected void onReceiveSuccess(ComputeSyncResultModel result) {
-			Log.d(getClass().getName(), "onReceiveSuccess");
+			MyLog.entry();
 			mCallState = RestCallState.SUCCEEDED;
 			mSyncResult = result;
 			notifyCallBacks();
+			MyLog.exit();
 		}
 
 		@Override
 		protected void onReceiveError(RestCallError error, Throwable cause) {
-			Log.d(getClass().getName(), "onReceiveError : " + error);
+			MyLog.entry("error = " + error);
 			mCallState = RestCallState.FAILED;
 			mCallErrorCause = cause;
 			notifyCallBacks();
+			MyLog.exit();
 		}
 
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 		super.onCreate(savedInstanceState);
-
 		setRetainInstance(true);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onDetach() {
-		Log.d(getClass().getName(), "onDetach");
+		MyLog.entry();
 		super.onDetach();
 		mCallbacks = null;
+		MyLog.exit();
 	}
 
 	public void registerCallbacks(CallBacks callbacks) {
@@ -101,14 +105,16 @@ public class ComputeSyncTaskFragment extends Fragment {
 	 *
 	 */
 	public void startComputeSyncService() {
-		Log.d(getClass().getName(), "startComputeSyncService");
+		MyLog.entry();
 		if (mCallState == null) {
 			doStartComputeSyncService();
 		}
+		MyLog.exit();
 	}
 
 	private void doStartComputeSyncService() {
-		Log.d(getClass().getName(), "doStartComputeSyncService");
+		MyLog.entry();
+
 		mCallState = RestCallState.RUNNING;
 		mCallRunningStep = null;
 		mSyncResult = null;
@@ -120,6 +126,8 @@ public class ComputeSyncTaskFragment extends Fragment {
 		startIntent.putExtra(ComputeSyncService.EXTRA_ACCOUNT_ID_NAME, mAccountId);
 
 		getActivity().startService(startIntent);
+
+		MyLog.exit();
 	}
 
 	public int getAccountId() {

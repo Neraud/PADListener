@@ -1,8 +1,8 @@
 package fr.neraud.padlistener.proxy.helper;
 
 import android.content.Context;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.exception.MissingRequirementException;
 
 /**
@@ -29,7 +29,7 @@ public class WifiAutoProxyHelper {
 	}
 
 	public void activateAutoProxy() throws Exception {
-		Log.d(getClass().getName(), "activateAutoProxy");
+		MyLog.entry();
 
 		final WifiConfigHelper helper = getWifiConfigHelper();
 		try {
@@ -37,10 +37,12 @@ public class WifiAutoProxyHelper {
 		} catch (final Exception e) {
 			throw new Exception("Error activating auto proxy", e);
 		}
+
+		MyLog.exit();
 	}
 
 	public void deactivateAutoProxy() throws Exception {
-		Log.d(getClass().getName(), "deactivateAutoProxy");
+		MyLog.entry();
 
 		final WifiConfigHelper helper = getWifiConfigHelper();
 		try {
@@ -48,6 +50,8 @@ public class WifiAutoProxyHelper {
 		} catch (final Exception e) {
 			throw new Exception("Error deactivating auto proxy", e);
 		}
+
+		MyLog.exit();
 	}
 
 }

@@ -3,10 +3,11 @@ package fr.neraud.padlistener.proxy.helper;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.util.List;
+
+import fr.neraud.log.MyLog;
 
 /**
  * Helper to access hidden WiFi settings.
@@ -49,29 +50,33 @@ public abstract class AbstractWifiConfigHelper implements WifiConfigHelper {
 	}
 
 	protected WifiConfiguration findCurrentWifiConfiguration() {
-		Log.d(getClass().getName(), "findCurrentWifiConfiguration");
-		if (!mWifiManager.isWifiEnabled()) {
-			return null;
-		}
+		MyLog.entry();
 
-		final List<WifiConfiguration> configurationList = mWifiManager.getConfiguredNetworks();
 		WifiConfiguration configuration = null;
-		final int cur = mWifiManager.getConnectionInfo().getNetworkId();
-		for (final WifiConfiguration wifiConfiguration : configurationList) {
-			if (wifiConfiguration.networkId == cur) {
-				configuration = wifiConfiguration;
-				break;
+
+		if (mWifiManager.isWifiEnabled()) {
+			final List<WifiConfiguration> configurationList = mWifiManager.getConfiguredNetworks();
+			final int cur = mWifiManager.getConnectionInfo().getNetworkId();
+			for (final WifiConfiguration wifiConfiguration : configurationList) {
+				if (wifiConfiguration.networkId == cur) {
+					configuration = wifiConfiguration;
+					break;
+				}
 			}
 		}
 
+		MyLog.exit();
 		return configuration;
 	}
 
 	protected void saveConfig(WifiConfiguration config) {
-		Log.d(getClass().getName(), "saveConfig");
+		MyLog.entry();
+
 		mWifiManager.updateNetwork(config);
 		mWifiManager.saveConfiguration();
 		mWifiManager.disconnect();
 		mWifiManager.reconnect();
+
+		MyLog.exit();
 	}
 }

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.DateFormat;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
@@ -58,9 +58,8 @@ public class ComputeSyncFragment extends Fragment {
 	private final ComputeSyncTaskFragment.CallBacks mCallBacks = new ComputeSyncTaskFragment.CallBacks() {
 
 		@Override
-		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult,
-				Throwable errorCause) {
-			Log.d(getClass().getName(), "updateState");
+		public void updateState(RestCallState state, RestCallRunningStep runningStep, ComputeSyncResultModel syncResult, Throwable errorCause) {
+			MyLog.entry();
 			if (state != null) {
 				mStartButton.setEnabled(false);
 				mProgress.setVisibility(View.VISIBLE);
@@ -143,13 +142,14 @@ public class ComputeSyncFragment extends Fragment {
 				mProgress.setVisibility(View.GONE);
 				mStatus.setVisibility(View.GONE);
 			}
+			MyLog.exit();
 		}
 
 	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
+		MyLog.entry();
 
 		final Bundle extras = getActivity().getIntent().getExtras();
 		mAutoSync = extras != null ? extras.getBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME) : false;
@@ -202,15 +202,16 @@ public class ComputeSyncFragment extends Fragment {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				Log.d(getClass().getName(), "onItemSelected : " + id);
+				MyLog.entry("id = " + id);
 				mAccountId = (int) id;
 				mTaskFragment.setAccountId(mAccountId);
+				MyLog.exit();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-				Log.d(getClass().getName(), "onNothingSelected");
-
+				MyLog.entry();
+				MyLog.exit();
 			}
 		});
 
@@ -218,8 +219,9 @@ public class ComputeSyncFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				Log.d(getClass().getName(), "onClick");
+				MyLog.entry();
 				mTaskFragment.startComputeSyncService();
+				MyLog.exit();
 			}
 		});
 
@@ -241,19 +243,21 @@ public class ComputeSyncFragment extends Fragment {
 			missingCapture.setVisibility(View.GONE);
 		}
 
+		MyLog.exit();
 		return view;
 	}
 
 	@Override
 	public void onStart() {
-		Log.d(getClass().getName(), "onStart");
+		MyLog.entry();
 		super.onStart();
-
 		handleAutoSync();
+		MyLog.exit();
 	}
 
 	private void handleAutoSync() {
-		Log.d(getClass().getName(), "handleAutoSync");
+		MyLog.entry();
+
 		if (mAutoSync) {
 			if (mAccountFound) {
 				mAutoNoMatchingAccount.setVisibility(View.GONE);
@@ -268,5 +272,7 @@ public class ComputeSyncFragment extends Fragment {
 		} else {
 			mAutoNoMatchingAccount.setVisibility(View.GONE);
 		}
+
+		MyLog.exit();
 	}
 }

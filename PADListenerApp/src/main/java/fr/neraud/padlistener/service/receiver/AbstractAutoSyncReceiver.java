@@ -3,8 +3,8 @@ package fr.neraud.padlistener.service.receiver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.service.constant.RestCallRunningStep;
 
 /**
@@ -53,7 +53,7 @@ public abstract class AbstractAutoSyncReceiver extends ResultReceiver {
 	}
 
 	public void onReceiveResult(int resultCode, Bundle resultData) {
-		Log.d(getClass().getName(), "onReceiveResult");
+		MyLog.entry();
 
 		switch (ResultCode.fromCode(resultCode)) {
 			case INITIALIZED:
@@ -91,6 +91,8 @@ public abstract class AbstractAutoSyncReceiver extends ResultReceiver {
 				break;
 			default:
 		}
+
+		MyLog.exit();
 	}
 
 	protected abstract void notifyInitialized();

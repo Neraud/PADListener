@@ -2,7 +2,6 @@ package fr.neraud.padlistener.ui.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.util.InstalledPadVersionsHelper;
@@ -30,14 +30,16 @@ public class ChoosePadVersionAdapter extends ArrayAdapter<PADVersion> {
 	}
 
 	private void initElements() {
-		Log.d(getClass().getName(), "initElements");
+		MyLog.entry();
 		final InstalledPadVersionsHelper helper = new InstalledPadVersionsHelper(mContext);
 		addAll(helper.getInstalledPadVersion());
+		MyLog.exit();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.d(getClass().getName(), "getView : " + position);
+		MyLog.entry("position = " + position);
+
 		if (convertView == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.choose_pad_version_item, parent, false);
@@ -58,6 +60,7 @@ public class ChoosePadVersionAdapter extends ArrayAdapter<PADVersion> {
 		final boolean padRunning = padVersionHelper.isPadRunning(version);
 		runningText.setVisibility(padRunning ? View.VISIBLE : View.GONE);
 
+		MyLog.exit();
 		return convertView;
 	}
 }

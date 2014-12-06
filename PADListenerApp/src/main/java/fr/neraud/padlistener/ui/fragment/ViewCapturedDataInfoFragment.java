@@ -7,11 +7,11 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.ui.adapter.CapturedPlayerInfoCursorAdapter;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
+import fr.neraud.padlistener.ui.adapter.CapturedPlayerInfoCursorAdapter;
 
 /**
  * ViewCapturedData fragment for the Information tab
@@ -24,36 +24,42 @@ public class ViewCapturedDataInfoFragment extends ListFragment implements Loader
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 		super.onCreate(savedInstanceState);
 
 		adapter = new CapturedPlayerInfoCursorAdapter(getActivity(), R.layout.view_captured_data_fragment_info);
 		setListAdapter(adapter);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onActivityCreated");
+		MyLog.entry();
 		super.onActivityCreated(savedInstanceState);
 		getLoaderManager().initLoader(0, null, this);
+		MyLog.exit();
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Log.d(getClass().getName(), "onCreateLoader");
-		return new CursorLoader(getActivity(), CapturedPlayerInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
+		MyLog.entry();
+		final Loader<Cursor> loader = new CursorLoader(getActivity(), CapturedPlayerInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
+		MyLog.exit();
+		return loader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		Log.d(getClass().getName(), "onLoadFinished");
+		MyLog.entry();
 		adapter.swapCursor(data);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d(getClass().getName(), "onLoaderReset");
+		MyLog.entry();
 		adapter.swapCursor(null);
+		MyLog.exit();
 	}
 
 }

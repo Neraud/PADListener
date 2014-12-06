@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
@@ -45,7 +45,7 @@ public class PushSyncTaskFragment extends Fragment {
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			Log.d(getClass().getName(), "onReceiveResult");
+			MyLog.entry();
 
 			final ElementToPush element = ElementToPush.valueOf(resultData.getString(PushSyncService.RECEIVER_ELEMENT_NAME));
 			final boolean isSuccess = resultData.getBoolean(PushSyncService.RECEIVER_SUCCESS_NAME);
@@ -57,12 +57,15 @@ public class PushSyncTaskFragment extends Fragment {
 				pushModel.incrementElementsError(element, errorMessage);
 			}
 			notifyCallBacks();
+
+			MyLog.exit();
 		}
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+
 		super.onCreate(savedInstanceState);
 
 		setRetainInstance(true);
@@ -76,13 +79,16 @@ public class PushSyncTaskFragment extends Fragment {
 		intent.putExtra(PushSyncService.ACCOUNT_ID_EXTRA_NAME, accountId);
 		intent.putExtra(PushSyncService.RECEIVER_EXTRA_NAME, new MyResultReceiver(new Handler()));
 		getActivity().startService(intent);
+
+		MyLog.exit();
 	}
 
 	@Override
 	public void onDetach() {
-		Log.d(getClass().getName(), "onDetach");
+		MyLog.entry();
 		super.onDetach();
 		callbacks = null;
+		MyLog.exit();
 	}
 
 	public void registerCallbacks(CallBacks callbacks) {
@@ -97,7 +103,8 @@ public class PushSyncTaskFragment extends Fragment {
 	}
 
 	private PushSyncStatModel initModel() {
-		Log.d(getClass().getName(), "initModel");
+		MyLog.entry();
+
 		final PushSyncStatModel pushModel = new PushSyncStatModel();
 
 		int count = 0;
@@ -138,6 +145,7 @@ public class PushSyncTaskFragment extends Fragment {
 		}
 		pushModel.initElementsToPush(ElementToPush.MONSTER_TO_DELETE, count);
 
+		MyLog.exit();
 		return pushModel;
 	}
 

@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.service.AutoCaptureService;
@@ -29,7 +29,7 @@ public class ChoosePadVersionForCaptureAndSyncDialogFragment extends ChoosePadVe
 
 	@Override
 	protected void handlePadVersionChosen(PADVersion chosenVersion) {
-		Log.d(getClass().getName(), "handlePadVersionChosen : " + chosenVersion);
+		MyLog.entry("chosenVersion = " + chosenVersion);
 
 		final Intent serviceIntent = new Intent(mContext, AutoCaptureService.class);
 		AutoCaptureService.addPadVersionInIntent(serviceIntent, PADVersion.US);
@@ -37,10 +37,11 @@ public class ChoosePadVersionForCaptureAndSyncDialogFragment extends ChoosePadVe
 
 			@Override
 			public void notifyProgress(State state) {
-				Log.d(getClass().getName(), "notifyProgress : " + state);
+				MyLog.entry("state = " + state);
 				if (state == State.CAPTURE_FINISHED) {
 					triggerAutoSync();
 				}
+				MyLog.exit();
 			}
 
 			@Override
@@ -49,12 +50,15 @@ public class ChoosePadVersionForCaptureAndSyncDialogFragment extends ChoosePadVe
 			}
 		});
 		mContext.startService(serviceIntent);
+
+		MyLog.exit();
 	}
 
 	private void triggerAutoSync() {
-		Log.d(getClass().getName(), "triggerAutoSync");
+		MyLog.entry();
 		final Intent serviceIntent = new Intent(mContext, AutoSyncService.class);
 		AutoSyncService.addSyncListenerInIntent(serviceIntent, new AutoSyncReceiver(mContext, new Handler()));
 		mContext.startService(serviceIntent);
+		MyLog.exit();
 	}
 }

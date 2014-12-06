@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.http.parser.pad;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,15 +13,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.helper.MonsterIdConverterHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.BaseMonsterStatsModel;
-import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
+import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.pad.constant.StartingColor;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
 
@@ -43,7 +43,8 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 
 	@Override
 	protected GetPlayerDataApiCallResult parseJsonObject(JSONObject json) throws JSONException, ParsingException {
-		Log.d(getClass().getName(), "parseJsonObject");
+		MyLog.entry();
+
 		final GetPlayerDataApiCallResult model = new GetPlayerDataApiCallResult();
 		final int res = json.getInt("res");
 		model.setRes(res);
@@ -91,10 +92,13 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 			model.setFriends(friends);
 		}
 
+		MyLog.exit();
 		return model;
 	}
 
 	private MonsterModel parseMonster(final JSONObject cardResult) throws JSONException {
+		MyLog.entry();
+
 		//"cuid": 1, "exp": 15939, "lv": 16, "slv": 1, "mcnt": 11, "no": 3, "plus": [0, 0, 0, 0]
 		final MonsterModel monster = new MonsterModel();
 		monster.setExp(cardResult.getLong("exp"));
@@ -105,7 +109,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		try {
 			idJp = idConverter.getMonsterRefIdByCapturedId(origId);
 		} catch (UnknownMonsterException e) {
-			Log.w(getClass().getName(), "parseMonster : " + e.getMessage());
+			MyLog.warn(e.getMessage());
 		}
 		monster.setIdJp(idJp);
 		final JSONArray plusResults = cardResult.getJSONArray("plus");
@@ -113,11 +117,15 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		monster.setPlusAtk(plusResults.getInt(1));
 		monster.setPlusRcv(plusResults.getInt(2));
 		monster.setAwakenings(plusResults.getInt(3));
+
+		MyLog.exit();
 		return monster;
 	}
 
 
 	private CapturedFriendModel parseFriend(final JSONArray friendResult) throws JSONException {
+		MyLog.entry();
+
 		//[4, 333300602, "NeraudMule", 17, 1, "140829151957", 9, 29, 6, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0]
 		final CapturedFriendModel friend = new CapturedFriendModel();
 		friend.setId(friendResult.getLong(1));
@@ -131,7 +139,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 			final Date lastActivityDate = parseFormat.parse(lastActivityDateString);
 			friend.setLastActivityDate(lastActivityDate);
 		} catch (ParseException e) {
-			Log.w(getClass().getName(), "parseFriend : error parsing lastActivityDate : " + e.getMessage());
+			MyLog.warn("error parsing lastActivityDate : " + e.getMessage());
 		}
 
 		final BaseMonsterStatsModel leader1 = new BaseMonsterStatsModel();
@@ -141,7 +149,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		try {
 			idJp1 = idConverter.getMonsterRefIdByCapturedId(origId1);
 		} catch (UnknownMonsterException e) {
-			Log.w(getClass().getName(), "parseFriend : leader 1 : " + e.getMessage());
+			MyLog.warn("leader 1 : " + e.getMessage());
 		}
 
 		leader1.setIdJp(idJp1);
@@ -160,7 +168,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		try {
 			idJp2 = idConverter.getMonsterRefIdByCapturedId(origId2);
 		} catch (UnknownMonsterException e) {
-			Log.w(getClass().getName(), "parseFriend : leader 2 : " + e.getMessage());
+			MyLog.warn("leader 2 : " + e.getMessage());
 		}
 
 		leader2.setIdJp(idJp2);
@@ -172,6 +180,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 		leader2.setAwakenings(friendResult.getInt(27));
 		friend.setLeader2(leader2);
 
+		MyLog.exit();
 		return friend;
 	}
 

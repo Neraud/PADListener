@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.exception.MissingRequirementException;
@@ -53,7 +53,7 @@ public class SwitchListenerFragment extends Fragment {
 
 			@Override
 			public void updateState(SwitchListenerTaskFragment.ListenerState state, SwitchListenerResult result) {
-				Log.d(getClass().getName(), "updateState : " + state);
+				MyLog.entry("state = " + state);
 				mProxyStartedTextView.setVisibility(View.GONE);
 
 				resetState();
@@ -114,12 +114,14 @@ public class SwitchListenerFragment extends Fragment {
 					forceToggledWithoutListener(false);
 					mListenerStatus.setText(R.string.switch_listener_status_stopped);
 				}
+				MyLog.exit();
 			}
 		};
 	}
 
 	private void resetState() {
-		Log.d(getClass().getName(), "resetState");
+		MyLog.entry();
+
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		final ProxyMode proxyMode = prefHelper.getProxyMode();
 
@@ -129,8 +131,9 @@ public class SwitchListenerFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					Log.d(getClass().getName(), "onClick");
+					MyLog.entry();
 					startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+					MyLog.exit();
 				}
 			});
 		} else if (proxyMode == ProxyMode.AUTO_IPTABLES) {
@@ -138,8 +141,9 @@ public class SwitchListenerFragment extends Fragment {
 			mSecondaryActionButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Log.d(getClass().getName(), "mSecondaryActionButton.onClick");
+					MyLog.entry();
 					mTaskFragment.stopListener(true);
+					MyLog.exit();
 				}
 			});
 		} else {
@@ -161,11 +165,14 @@ public class SwitchListenerFragment extends Fragment {
 			mListenerSwitch.setClickable(true);
 			mErrorText.setVisibility(View.GONE);
 		}
+
+		MyLog.exit();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
+		MyLog.entry();
+
 		final View view = inflater.inflate(R.layout.switch_listener_fragment, container, false);
 
 		mListenerStatus = (TextView) view.findViewById(R.id.switch_listener_status);
@@ -175,12 +182,13 @@ public class SwitchListenerFragment extends Fragment {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				Log.d(getClass().getName(), "mListenerSwitch.onClick : " + isChecked);
+				MyLog.entry("isChecked = " + isChecked);
 				if (isChecked) {
 					mTaskFragment.startListener();
 				} else {
 					mTaskFragment.stopListener(false);
 				}
+				MyLog.exit();
 			}
 		};
 		mListenerSwitch.setOnCheckedChangeListener(mOnCheckedListener);
@@ -198,21 +206,24 @@ public class SwitchListenerFragment extends Fragment {
 		}
 		mTaskFragment.registerCallbacks(mCallbacks);
 
+		MyLog.exit();
 		return view;
 	}
 
 	private void updateMissingRequirement(int textResId) {
-		Log.d(getClass().getName(), "updateMissingRequirement");
+		MyLog.entry();
 
 		mListenerSwitch.setClickable(false);
 		mSecondaryActionButton.setClickable(false);
 		mErrorText.setTextColor(Color.RED);
 		mErrorText.setVisibility(View.VISIBLE);
 		mErrorText.setText(textResId);
+
+		MyLog.exit();
 	}
 
 	private void updateError(String errorMessage, final SwitchListenerResult result) {
-		Log.d(getClass().getName(), "updateError");
+		MyLog.entry();
 
 		mListenerSwitch.setClickable(false);
 		mSecondaryActionButton.setClickable(false);
@@ -224,7 +235,7 @@ public class SwitchListenerFragment extends Fragment {
 		mShowLogsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Log.d(getClass().getName(), "mShowLogsButton.onClick");
+				MyLog.entry();
 
 				final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 				alert.setTitle(R.string.switch_listener_show_logs_title);
@@ -263,8 +274,11 @@ public class SwitchListenerFragment extends Fragment {
 					}
 				});
 				alert.show();
+				MyLog.exit();
 			}
 		});
+
+		MyLog.exit();
 	}
 
 	private String generateStatusStartedText() {

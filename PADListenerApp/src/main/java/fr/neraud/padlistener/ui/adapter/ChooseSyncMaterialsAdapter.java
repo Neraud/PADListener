@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
@@ -35,7 +35,8 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
-		Log.d(getClass().getName(), "getView");
+		MyLog.entry();
+
 		final ChooseSyncModelContainer<SyncedMaterialModel> item = super.getItem(position);
 
 		if (view == null) {
@@ -50,8 +51,9 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		checkBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(getClass().getName(), "onClick");
+				MyLog.entry();
 				item.setChosen(!item.isChosen());
+				MyLog.exit();
 			}
 		});
 
@@ -59,9 +61,10 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		image.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(getClass().getName(), "onClick");
+				MyLog.entry();
 				item.setChosen(!item.isChosen());
 				checkBox.setChecked(item.isChosen());
+				MyLog.exit();
 			}
 		});
 
@@ -85,6 +88,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		}
 		quantitiesText.setTextColor(textColor);
 
+		MyLog.exit();
 		return view;
 	}
 }

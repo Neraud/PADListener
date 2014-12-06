@@ -2,8 +2,8 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 
 /**
@@ -18,11 +18,11 @@ public class GenericPreferenceFragment extends PreferenceFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 		super.onCreate(savedInstanceState);
 
 		int preferenceFileToLoad = -1;
-		String settings = getArguments().getString("settings");
+		final String settings = getArguments().getString("settings");
 		if (PREFERENCE_LISTENER_NAME.equals(settings)) {
 			preferenceFileToLoad = R.xml.preference_fragment_listener;
 		} else if (PREFERENCE_SYNC_NAME.equals(settings)) {
@@ -30,5 +30,6 @@ public class GenericPreferenceFragment extends PreferenceFragment {
 		}
 
 		addPreferencesFromResource(preferenceFileToLoad);
+		MyLog.exit();
 	}
 }

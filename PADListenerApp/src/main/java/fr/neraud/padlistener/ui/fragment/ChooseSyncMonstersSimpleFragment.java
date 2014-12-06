@@ -2,20 +2,20 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
-import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
-import fr.neraud.padlistener.ui.adapter.ChooseSyncMonstersSimpleAdapter;
-import fr.neraud.padlistener.ui.helper.ChooseSyncSimpleContextMenuHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
+import fr.neraud.padlistener.ui.adapter.ChooseSyncMonstersSimpleAdapter;
+import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
+import fr.neraud.padlistener.ui.helper.ChooseSyncSimpleContextMenuHelper;
 
 /**
  * ChooseSync fragment for Monsters set up as simple
@@ -28,7 +28,8 @@ public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+
 		super.onCreate(savedInstanceState);
 
 		final ChooseSyncModel result = (ChooseSyncModel) getArguments().getSerializable(
@@ -41,14 +42,16 @@ public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 		final ChooseSyncMonstersSimpleAdapter adapter = new ChooseSyncMonstersSimpleAdapter(getActivity().getApplicationContext(), monsters);
 		menuHelper = new ChooseSyncSimpleContextMenuHelper(getActivity(), mode, adapter, result);
 		setListAdapter(adapter);
+
+		MyLog.exit();
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onViewCreated");
+		MyLog.entry();
 		super.onViewCreated(view, savedInstanceState);
-
 		registerForContextMenu(getListView());
+		MyLog.exit();
 	}
 
 	@Override

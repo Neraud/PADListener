@@ -4,12 +4,12 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.HttpCallException;
 import fr.neraud.padlistener.http.exception.HttpResponseException;
@@ -46,7 +46,8 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d(getClass().getName(), "onHandleIntent");
+		MyLog.entry();
+
 		initParams(intent);
 		receiver = intent.getParcelableExtra(AbstractRestResultReceiver.RECEIVER_EXTRA_NAME);
 		notifyProgress(RestCallRunningStep.STARTED);
@@ -63,24 +64,27 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 			final M resultModel = processResult(results);
 			notifyResult(resultModel);
 		} catch (final HttpCallException e) {
-			Log.e(getClass().getName(), "onHandleIntent : HttpCallException " + e.getMessage(), e);
+			MyLog.error("HttpCallException " + e.getMessage(), e);
 			notifyError(RestCallError.REST_CALL_ERROR, e);
 		} catch (final HttpResponseException e) {
-			Log.e(getClass().getName(), "onHandleIntent : HttpResponseException " + e.getMessage(), e);
+			MyLog.error("HttpResponseException " + e.getMessage(), e);
 			notifyError(RestCallError.RESPONSE_ERROR, e);
 		} catch (final ParsingException e) {
-			Log.e(getClass().getName(), "onHandleIntent : ParsingException " + e.getMessage(), e);
+			MyLog.error("ParsingException " + e.getMessage(), e);
 			notifyError(RestCallError.PARSING_ERROR, e);
 		} catch (final ProcessException e) {
-			Log.e(getClass().getName(), "onHandleIntent : ProcessException " + e.getMessage(), e);
+			MyLog.error("ProcessException " + e.getMessage(), e);
 			notifyError(RestCallError.PROCESS_ERROR, e);
 		}
+
+		MyLog.exit();
 	}
 
 	protected abstract List<RestTask<?>> createRestTasks();
 
 	private List<RestResponse> callRestApi(List<RestTask<?>> tasks) throws HttpCallException {
-		Log.d(getClass().getName(), "callRestApi");
+		MyLog.entry();
+
 		final List<RestResponse> responses = new ArrayList<RestResponse>();
 
 		for (final RestTask<?> task : tasks) {
@@ -89,12 +93,15 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 			final RestResponse response = restClient.call(restRequest);
 			responses.add(response);
 		}
+
+		MyLog.exit();
 		return responses;
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<?> extractResults(List<RestTask<?>> tasks, List<RestResponse> responses) throws ParsingException, HttpResponseException {
-		Log.d(getClass().getName(), "extractResults");
+		MyLog.entry();
+
 		final List<Object> results = new ArrayList();
 
 		for (int i = 0; i < tasks.size(); i++) {
@@ -110,6 +117,8 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 						+ " received with content : " + restResponse.getContentResult());
 			}
 		}
+
+		MyLog.exit();
 		return results;
 	}
 
@@ -120,37 +129,46 @@ public abstract class AbstractRestIntentService<M extends Serializable> extends 
 	}
 
 	protected void notifyProgress(RestCallRunningStep step) {
-		Log.d(getClass().getName(), "notifyProgress : " + step);
+		MyLog.entry("step = " + step);
+
 		if (receiver != null) {
 			final Bundle bundle = new Bundle();
 			bundle.putString(AbstractRestResultReceiver.RECEIVER_BUNDLE_STEP_NAME, step.name());
 			receiver.send(RestCallState.RUNNING.getCode(), bundle);
 		} else {
-			Log.w(getClass().getName(), "processResult : no ResultReceiver available !");
+			MyLog.warn("no ResultReceiver available !");
 		}
+
+		MyLog.exit();
 	}
 
 	protected void notifyResult(M result) {
-		Log.d(getClass().getName(), "notifyResult");
+		MyLog.entry();
+
 		if (receiver != null) {
 			final Bundle bundle = new Bundle();
 			bundle.putSerializable(AbstractRestResultReceiver.RECEIVER_BUNDLE_RESULT_NAME, result);
 			receiver.send(RestCallState.SUCCEEDED.getCode(), bundle);
 		} else {
-			Log.w(getClass().getName(), "processResult : no ResultReceiver available !");
+			MyLog.warn("no ResultReceiver available !");
 		}
+
+		MyLog.exit();
 	}
 
 	protected void notifyError(RestCallError error, Throwable t) {
-		Log.d(getClass().getName(), "notifyError : " + error);
+		MyLog.entry("error = " + error);
+
 		if (receiver != null) {
 			final Bundle bundle = new Bundle();
 			bundle.putString(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_NAME, error.name());
 			bundle.putSerializable(AbstractRestResultReceiver.RECEIVER_BUNDLE_ERROR_CAUSE, t);
 			receiver.send(RestCallState.FAILED.getCode(), bundle);
 		} else {
-			Log.w(getClass().getName(), "processResult : no ResultReceiver available !");
+			MyLog.warn("no ResultReceiver available !");
 		}
+
+		MyLog.exit();
 	}
 
 	protected ResultReceiver getReceiver() {

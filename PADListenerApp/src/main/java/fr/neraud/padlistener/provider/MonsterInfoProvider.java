@@ -5,13 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
-import android.util.Log;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 import fr.neraud.padlistener.provider.helper.MyDatabaseUtils;
 
@@ -24,7 +19,8 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+		MyLog.exit();
 		return true;
 	}
 
@@ -40,7 +36,8 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
-		Log.d(getClass().getName(), "bulkInsert");
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final MonsterInfoDescriptor.Paths path = MonsterInfoDescriptor.matchUri(uri);
 
@@ -58,13 +55,14 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 
 		getContext().getContentResolver().notifyChange(uri, null);
 
-		Log.d(getClass().getName(), "bulkInsert finished");
+		MyLog.exit();
 		return count;
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		Log.d(getClass().getName(), "insert : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final MonsterInfoDescriptor.Paths path = MonsterInfoDescriptor.matchUri(uri);
 
@@ -74,12 +72,15 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 
 		db.insert(MonsterInfoDescriptor.TABLE_NAME, null, values);
 		getContext().getContentResolver().notifyChange(uri, null);
+
+		MyLog.exit();
 		return uri;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		Log.d(getClass().getName(), "query : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
 		final MonsterInfoDescriptor.Paths path = MonsterInfoDescriptor.matchUri(uri);
 
@@ -101,12 +102,15 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 
 		final Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+		MyLog.exit();
 		return cursor;
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		Log.d(getClass().getName(), "update : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final MonsterInfoDescriptor.Paths path = MonsterInfoDescriptor.matchUri(uri);
 
@@ -133,12 +137,14 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		MyLog.exit();
 		return count;
 	}
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		Log.d(getClass().getName(), "delete : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
 		final MonsterInfoDescriptor.Paths path = MonsterInfoDescriptor.matchUri(uri);
 
@@ -167,47 +173,8 @@ public class MonsterInfoProvider extends AbstractPADListenerDbContentProvider {
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		MyLog.exit();
 		return count;
 	}
 
-	@Override
-	public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
-		Log.d(getClass().getName(), "openFile : " + uri);
-
-		final MonsterInfoDescriptor.Paths path = MonsterInfoDescriptor.matchUri(uri);
-		switch (path) {
-			case IMAGE_BY_ID:
-				final String monsterId = uri.getLastPathSegment();
-
-				final File imageDir = new File(getContext().getFilesDir().getPath() + "/monster_images");
-				if (!imageDir.exists()) {
-					imageDir.mkdir();
-				}
-				final File imagePath = new File(imageDir, monsterId + ".png");
-
-				int imode = 0;
-				if (mode.contains("w")) {
-					imode |= ParcelFileDescriptor.MODE_WRITE_ONLY;
-					if (!imagePath.exists()) {
-						try {
-							imagePath.createNewFile();
-						} catch (final IOException e) {
-							Log.e(getClass().getName(), "openFile : error creating file " + imagePath.getAbsolutePath(), e);
-						}
-					}
-				}
-				if (mode.contains("r")) {
-					imode |= ParcelFileDescriptor.MODE_READ_ONLY;
-				}
-				if (mode.contains("+")) {
-					imode |= ParcelFileDescriptor.MODE_APPEND;
-				}
-
-				Log.d(getClass().getName(), "openFile : -> " + imagePath.getAbsolutePath());
-
-				return ParcelFileDescriptor.open(imagePath, imode);
-			default:
-				throw new IllegalArgumentException("Unknown URI " + uri);
-		}
-	}
 }

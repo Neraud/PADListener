@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
@@ -23,9 +23,12 @@ public class ViewCapturedDataActivity extends AbstractPADListenerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_captured_data_activity);
+
+		MyLog.exit();
 	}
 
 	@Override

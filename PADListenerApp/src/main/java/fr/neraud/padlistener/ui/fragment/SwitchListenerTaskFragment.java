@@ -6,8 +6,8 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.helper.CaptureNotificationHelper;
 import fr.neraud.padlistener.service.ListenerService;
 import fr.neraud.padlistener.service.ListenerService.ListenerServiceBinder;
@@ -50,10 +50,11 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 			@Override
 			public void onServiceConnected(ComponentName className, IBinder service) {
-				Log.d(getClass().getName(), "onServiceConnected");
+				MyLog.entry();
+
 				mListenerServiceBinder = (ListenerServiceBinder) service;
 
-				Log.d(getClass().getName(), "onServiceConnected : started ? -> " + mListenerServiceBinder.isListenerStarted());
+				MyLog.debug("started ? -> " + mListenerServiceBinder.isListenerStarted());
 
 				if (mListenerServiceBinder.isListenerStarted()) {
 					updateState(ListenerState.STARTED);
@@ -62,64 +63,73 @@ public class SwitchListenerTaskFragment extends Fragment {
 				}
 
 				mIsBound = true;
+
+				MyLog.exit();
 			}
 
 			@Override
 			public void onServiceDisconnected(ComponentName className) {
-				Log.d(getClass().getName(), "onServiceDisconnected");
+				MyLog.entry();
 				mListenerServiceBinder = null;
 				mIsBound = false;
+				MyLog.exit();
 			}
 		};
 	}
 
 	private void doBindService() {
-		Log.d(getClass().getName(), "doBindService");
+		MyLog.entry();
 
 		final Intent serviceIntent = new Intent(getActivity().getApplicationContext(), ListenerService.class);
 
 		// Start manually to prevent the service being stopped when the app is closed and unbinds
 		getActivity().getApplicationContext().startService(serviceIntent);
 		getActivity().getApplicationContext().bindService(serviceIntent, mConnection, 0/*Context.BIND_AUTO_CREATE*/);
+
+		MyLog.exit();
 	}
 
 	private void doUnbindService() {
-		Log.d(getClass().getName(), "doUnbindService");
+		MyLog.entry();
+
 		if (mIsBound) {
 			// Detach our existing connection.
 			getActivity().getApplicationContext().unbindService(mConnection);
 		}
+
+		MyLog.exit();
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 		super.onCreate(savedInstanceState);
-
 		setRetainInstance(true);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onStart() {
-		Log.d(getClass().getName(), "onStart");
+		MyLog.entry();
 		super.onStart();
-
 		doBindService();
+		MyLog.exit();
 	}
 
 	@Override
 	public void onStop() {
-		Log.d(getClass().getName(), "onStop");
+		MyLog.entry();
 		super.onStop();
-
 		doUnbindService();
+		MyLog.exit();
 	}
 
 	@Override
 	public void onDetach() {
-		Log.d(getClass().getName(), "onDetach");
+		MyLog.entry();
 		super.onDetach();
 		mCallbacks = null;
+		MyLog.exit();
 	}
 
 	public void registerCallbacks(CallBacks callbacks) {
@@ -134,7 +144,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 	}
 
 	public void startListener() {
-		Log.d(getClass().getName(), "startListener");
+		MyLog.entry();
 
 		if (canStart()) {
 			updateState(ListenerState.STARTING);
@@ -143,16 +153,18 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 				@Override
 				public void notifyActionSuccess(SwitchListenerResult newResult) {
-					Log.d(getClass().getName(), "notifyActionSuccess");
+					MyLog.entry();
 					mResult = newResult;
 					updateState(ListenerState.STARTED);
+					MyLog.exit();
 				}
 
 				@Override
 				public void notifyActionFailed(SwitchListenerResult newResult) {
-					Log.d(getClass().getName(), "notifyActionFailed");
+					MyLog.entry();
 					mResult = newResult;
 					updateState(ListenerState.START_FAILED);
+					MyLog.exit();
 				}
 
 			};
@@ -160,11 +172,11 @@ public class SwitchListenerTaskFragment extends Fragment {
 		} else {
 			notifyCallBacks();
 		}
+		MyLog.exit();
 	}
 
 	public void stopListener(boolean forced) {
-		Log.d(getClass().getName(), "stopListener");
-
+		MyLog.entry();
 
 		if (canStop()) {
 			updateState(ListenerState.STOPPING);
@@ -173,16 +185,18 @@ public class SwitchListenerTaskFragment extends Fragment {
 
 				@Override
 				public void notifyActionSuccess(SwitchListenerResult newResult) {
-					Log.d(getClass().getName(), "notifyActionSuccess");
+					MyLog.entry();
 					mResult = newResult;
 					updateState(ListenerState.STOPPED);
+					MyLog.exit();
 				}
 
 				@Override
 				public void notifyActionFailed(SwitchListenerResult newResult) {
-					Log.d(getClass().getName(), "notifyActionFailed");
+					MyLog.entry();
 					mResult = newResult;
 					updateState(ListenerState.STOP_FAILED);
+					MyLog.exit();
 				}
 
 			};
@@ -193,6 +207,7 @@ public class SwitchListenerTaskFragment extends Fragment {
 		} else {
 			notifyCallBacks();
 		}
+		MyLog.exit();
 	}
 
 	private boolean canStart() {

@@ -1,7 +1,5 @@
 package fr.neraud.padlistener.http.parser.padherder;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 
@@ -23,7 +22,8 @@ public class MonsterEvolutionJsonParser extends AbstractJsonParser<Map<Integer, 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Map<Integer, Integer> parseJsonObject(JSONObject json) throws JSONException, ParsingException {
-		Log.d(getClass().getName(), "parseJsonObject");
+		MyLog.entry();
+
 		final Map<Integer, Integer> evolutions = new HashMap<Integer, Integer>();
 		final Iterator<String> iter = json.keys();
 		while(iter.hasNext()) {
@@ -41,20 +41,20 @@ public class MonsterEvolutionJsonParser extends AbstractJsonParser<Map<Integer, 
 				final Integer childId = Integer.parseInt(childIdString);
 				// FIXME : to prevent loop with UEVO, only store EVO with child < target
 				if(childId < targetId) {
-					Log.d(getClass().getName(), "parseJsonObject : adding " + childId + " -> " + targetId);
+					MyLog.debug("adding " + childId + " -> " + targetId);
 					evolutions.put(targetId, childId);
 				} else {
-					Log.d(getClass().getName(), "parseJsonObject : ignoring reverse UEVO : " + childId + " -> " + targetId);
+					MyLog.debug("ignoring reverse UEVO : " + childId + " -> " + targetId);
 				}
 			}
 		}
 
+		MyLog.exit();
 		return evolutions;
 	}
 
 	@Override
 	protected Map<Integer, Integer> parseJsonArray(JSONArray json) throws JSONException, ParsingException {
-		Log.d(getClass().getName(), "parseJsonArray");
 		throw new ParsingException("Cannot parse JSONArray, JSONObject expected");
 	}
 }

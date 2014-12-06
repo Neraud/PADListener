@@ -4,12 +4,13 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
+
+import fr.neraud.log.MyLog;
 
 /**
  * Helper to access Wifi properties
@@ -52,7 +53,7 @@ public class WifiHelper {
 		try {
 			ipAddressString = InetAddress.getByAddress(ipByteArray).getHostAddress();
 		} catch (UnknownHostException ex) {
-			Log.w(getClass().getName(), "Unable to get host address.");
+			MyLog.warn("Unable to get host address.", ex);
 			ipAddressString = null;
 		}
 

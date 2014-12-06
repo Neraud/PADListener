@@ -3,11 +3,11 @@ package fr.neraud.padlistener.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 
 /**
@@ -38,15 +38,20 @@ public class ManageIgnoreListFragment extends AbstractViewPagerFragment {
 
 	@Override
 	protected Fragment getPageFragment(int position) {
-		Log.d(getClass().getName(), "getPageFragment : " + position);
+		MyLog.entry("position = " + position);
+
+		Fragment fragment = null;
 		switch (position) {
 			case 0:
-				return new ManageIgnoreListViewListFragment();
+				fragment = new ManageIgnoreListViewListFragment();
+				break;
 			case 1:
-				return new ManageIgnoreListQuickActionsFragment();
-			default:
-				return null;
+				fragment = new ManageIgnoreListQuickActionsFragment();
+				break;
 		}
+
+		MyLog.exit();
+		return fragment;
 	}
 
 	@Override

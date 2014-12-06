@@ -2,13 +2,14 @@ package fr.neraud.padlistener.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import fr.neraud.log.MyLog;
 
 /**
  * Helper to save the JSON from PAD and PADherder to files
@@ -58,22 +59,26 @@ public class JsonCaptureHelper {
 
 	@SuppressLint("WorldReadableFiles")
 	private void saveData(String fileName, String content) {
+		MyLog.entry();
+
 		OutputStream out = null;
 		try {
 			// Written with MODE_WORLD_READABLE to be able to share the json files directly without having to copy them to ext storage
 			out = context.openFileOutput(fileName, Context.MODE_WORLD_READABLE);
 			IOUtils.write(content, out);
 		} catch (IOException e) {
-			Log.w(getClass().getName(), "saveData : error saving file", e);
+			MyLog.warn("error saving file", e);
 		} finally {
 			if (out != null) {
 				try {
 					out.close();
 				} catch (IOException e) {
-					Log.w(getClass().getName(), "saveData : error closing out stream");
+					MyLog.warn("error closing out stream");
 				}
 			}
 		}
+
+		MyLog.exit();
 	}
 
 	private boolean hasFilename(String fileName) {

@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.proxy.helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.sandrop.webscarab.model.StoreException;
 import org.sandrop.webscarab.plugin.Framework;
@@ -14,6 +13,7 @@ import org.sandroproxy.webscarab.store.sql.SqlLiteStore;
 
 import java.io.File;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.exception.ListenerSetupException;
 import fr.neraud.padlistener.proxy.plugin.PADPlugin;
 import fr.neraud.padlistener.service.ListenerService;
@@ -35,7 +35,8 @@ public class ProxyHelper {
 	}
 
 	public void activateProxy(ListenerService.CaptureListener captureListener) throws ListenerSetupException {
-		Log.d(getClass().getName(), "activateProxy");
+		MyLog.entry();
+
 		framework = new Framework(context);
 		setStore(context);
 		networkHostNameResolver = new NetworkHostNameResolver(context);
@@ -47,10 +48,12 @@ public class ProxyHelper {
 		proxy.addPlugin(plugin);
 
 		proxy.run();
+
+		MyLog.exit();
 	}
 
 	public void deactivateProxy() {
-		Log.d(getClass().getName(), "deactivateProxy");
+		MyLog.entry();
 
 		if (framework != null) {
 			framework.stop();
@@ -60,10 +63,13 @@ public class ProxyHelper {
 		}
 		networkHostNameResolver = null;
 		framework = null;
+
+		MyLog.exit();
 	}
 
 	private void setStore(Context context) throws ListenerSetupException {
-		Log.d(getClass().getName(), "setStore");
+		MyLog.entry();
+
 		if (framework != null) {
 			try {
 				final File file = PreferenceUtils.getDataStorageDir(context);
@@ -78,5 +84,7 @@ public class ProxyHelper {
 				throw new ListenerSetupException(e);
 			}
 		}
+
+		MyLog.exit();
 	}
 }

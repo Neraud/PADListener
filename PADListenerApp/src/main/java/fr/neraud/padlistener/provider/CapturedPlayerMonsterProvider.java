@@ -5,8 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
@@ -19,7 +19,8 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 
 	@Override
 	public boolean onCreate() {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+		MyLog.exit();
 		return true;
 	}
 
@@ -35,7 +36,8 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
-		Log.d(getClass().getName(), "bulkInsert");
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final CapturedPlayerMonsterDescriptor.Paths path = CapturedPlayerMonsterDescriptor.matchUri(uri);
 
@@ -53,12 +55,14 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 
 		getContext().getContentResolver().notifyChange(uri, null);
 
+		MyLog.exit();
 		return count;
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		Log.d(getClass().getName(), "insert : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final CapturedPlayerMonsterDescriptor.Paths path = CapturedPlayerMonsterDescriptor.matchUri(uri);
 
@@ -68,12 +72,15 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 
 		db.insert(CapturedPlayerMonsterDescriptor.TABLE_NAME, null, values);
 		getContext().getContentResolver().notifyChange(uri, null);
+
+		MyLog.exit();
 		return uri;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		Log.d(getClass().getName(), "query : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
 		final CapturedPlayerMonsterDescriptor.Paths path = CapturedPlayerMonsterDescriptor.matchUri(uri);
 
@@ -101,12 +108,15 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 
 		final Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+		MyLog.exit();
 		return cursor;
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		Log.d(getClass().getName(), "update : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getWritableDatabase();
 		final CapturedPlayerMonsterDescriptor.Paths path = CapturedPlayerMonsterDescriptor.matchUri(uri);
 
@@ -121,12 +131,15 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 
 		count = db.update(CapturedPlayerMonsterDescriptor.TABLE_NAME, values, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
+
+		MyLog.exit();
 		return count;
 	}
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		Log.d(getClass().getName(), "delete : " + uri);
+		MyLog.entry("uri = " + uri);
+
 		final SQLiteDatabase db = getDbHelper().getReadableDatabase();
 		final CapturedPlayerMonsterDescriptor.Paths path = CapturedPlayerMonsterDescriptor.matchUri(uri);
 
@@ -141,6 +154,7 @@ public class CapturedPlayerMonsterProvider extends AbstractPADListenerDbContentP
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		MyLog.exit();
 		return count;
 	}
 

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,10 +14,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.helper.MonsterInfoHelper;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
-import fr.neraud.padlistener.helper.MonsterInfoHelper;
 import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 
 /**
@@ -36,7 +36,7 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
 		super.onCreate(savedInstanceState);
 
 		ignoredIds = new HashSet<Integer>();
@@ -46,25 +46,30 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 		getLoaderManager().initLoader(0, null, this);
 
 		setRetainInstance(true);
+		MyLog.exit();
 	}
 
 	@Override
 	public void onDetach() {
-		Log.d(getClass().getName(), "onDetach");
+		MyLog.entry();
 		super.onDetach();
 		listFragment = null;
 		quickActionsFragment = null;
+		MyLog.exit();
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Log.d(getClass().getName(), "onCreateLoader");
-		return new CursorLoader(getActivity(), MonsterInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
+		MyLog.entry();
+		final Loader<Cursor> loader = new CursorLoader(getActivity(), MonsterInfoDescriptor.UriHelper.uriForAll(), null, null, null, null);
+		MyLog.exit();
+		return loader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		Log.d(getClass().getName(), "onLoadFinished");
+		MyLog.entry();
+
 		final Map<Integer, MonsterInfoModel> monsterInfoById = new HashMap<Integer, MonsterInfoModel>();
 
 		while (data.moveToNext()) {
@@ -75,11 +80,14 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 		monsterInfoHelper = new MonsterInfoHelper(monsterInfoById);
 
 		refreshAdapters();
+
+		MyLog.exit();
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d(getClass().getName(), "onLoaderReset");
+		MyLog.entry();
+		MyLog.exit();
 	}
 
 	public Set<Integer> getIgnoredIds() {
@@ -87,49 +95,54 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 	}
 
 	public void registerListFragment(ManageIgnoreListViewListFragment listFragment) {
-		Log.d(getClass().getName(), "registerListFragment : " + listFragment);
+		MyLog.entry();
 		this.listFragment = listFragment;
 
 		if (listFragment != null && monsterInfoHelper != null) {
 			listFragment.refreshAdapter(monsterInfoHelper, ignoredIds);
 		}
+		MyLog.exit();
 	}
 
 	public void registerQuickActionsFragment(ManageIgnoreListQuickActionsFragment quickActionsFragment) {
-		Log.d(getClass().getName(), "registerQuickActionsFragment : " + quickActionsFragment);
+		MyLog.entry();
 		this.quickActionsFragment = quickActionsFragment;
+		MyLog.exit();
 	}
 
 	public void clearIgnoredIds() {
-		Log.d(getClass().getName(), "clearIgnoredIds");
+		MyLog.entry();
 		ignoredIds.clear();
 
 		new DefaultSharedPreferencesHelper(getActivity()).setMonsterIgnoreList(ignoredIds);
 		refreshAdapters();
+		MyLog.exit();
 	}
 
 	public void removeIgnoredIds(Integer... ids) {
-		Log.d(getClass().getName(), "removeIgnoredIds : " + Arrays.toString(ids));
+		MyLog.entry("ids = " + Arrays.toString(ids));
 		for (final Integer id : ids) {
 			ignoredIds.remove(id);
 		}
 
 		new DefaultSharedPreferencesHelper(getActivity()).setMonsterIgnoreList(ignoredIds);
 		refreshAdapters();
+		MyLog.exit();
 	}
 
 	public void addIgnoredIds(Integer... ids) {
-		Log.d(getClass().getName(), "addIgnoredIds : " + Arrays.toString(ids));
+		MyLog.entry("ids = " + Arrays.toString(ids));
 		Collections.addAll(ignoredIds, ids);
 
 		new DefaultSharedPreferencesHelper(getActivity()).setMonsterIgnoreList(ignoredIds);
 		refreshAdapters();
+		MyLog.exit();
 	}
 
 	public void refreshAdapters() {
-		Log.d(getClass().getName(), "refreshAdapters : " + ignoredIds);
+		MyLog.entry();
 
-		if(monsterInfoHelper != null) {
+		if (monsterInfoHelper != null) {
 			if (listFragment != null) {
 				listFragment.refreshAdapter(monsterInfoHelper, ignoredIds);
 			}
@@ -137,6 +150,7 @@ public class ManageIgnoreListTaskFragment extends Fragment implements LoaderMana
 				quickActionsFragment.refreshAdapter(monsterInfoHelper, ignoredIds);
 			}
 		}
+		MyLog.exit();
 	}
 
 	public MonsterInfoHelper getMonsterInfoHelper() {

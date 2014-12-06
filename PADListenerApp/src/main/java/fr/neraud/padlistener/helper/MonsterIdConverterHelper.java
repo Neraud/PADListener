@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.PADRegion;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -35,7 +35,8 @@ public class MonsterIdConverterHelper {
 
 	@SuppressLint("UseSparseArrays")
 	private Map<Integer, Integer> initMonsterIdInCapturedRegionToRef() {
-		Log.d(getClass().getName(), "initMonsterIdInCapturedRegionToRef");
+		MyLog.entry();
+
 		List<MonsterInfoModel> monsterInfos = extractMonsterInfo();
 
 		final Map<Integer, Integer> monsterIdInCapturedRegionToRef = new HashMap<Integer, Integer>();
@@ -46,11 +47,13 @@ public class MonsterIdConverterHelper {
 			}
 		}
 
+		MyLog.exit();
 		return monsterIdInCapturedRegionToRef;
 	}
 
 	private List<MonsterInfoModel> extractMonsterInfo() {
-		Log.d(getClass().getName(), "extractMonsterInfo");
+		MyLog.entry();
+
 		final Uri uri = MonsterInfoDescriptor.UriHelper.uriForAll();
 		final Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
 
@@ -64,6 +67,7 @@ public class MonsterIdConverterHelper {
 		}
 		cursor.close();
 
+		MyLog.exit();
 		return monsterInfos;
 	}
 

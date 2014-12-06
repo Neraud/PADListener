@@ -1,12 +1,12 @@
 package fr.neraud.padlistener.helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.http.client.RestClient;
 import fr.neraud.padlistener.http.exception.HttpCallException;
@@ -34,7 +34,7 @@ public class PushSyncHelper {
 	}
 
 	public void pushMaterialToUpdate(SyncedMaterialModel model) throws JSONException, HttpCallException {
-		Log.d(getClass().getName(), "pushMaterialUpdate : " + model);
+		MyLog.entry("model = " + model);
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMaterial(context, accountId,
 				model.getPadherderId());
@@ -52,6 +52,8 @@ public class PushSyncHelper {
 		httpRequest.setBody(json.toString());
 
 		client.call(httpRequest);
+
+		MyLog.exit();
 	}
 
 	public void pushMonster(SyncMode mode, SyncedMonsterModel model) throws JSONException, HttpCallException {
@@ -69,7 +71,7 @@ public class PushSyncHelper {
 	}
 
 	private void pushMonsterToUpdate(SyncedMonsterModel model) throws JSONException, HttpCallException {
-		Log.d(getClass().getName(), "pushMonsterToUpdate : " + model);
+		MyLog.entry("model = " + model);
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPatchMonster(context, accountId,
 				model.getPadherderId());
@@ -116,10 +118,13 @@ public class PushSyncHelper {
 		httpRequest.setBody(json.toString());
 
 		client.call(httpRequest);
+
+		MyLog.exit();
 	}
 
 	private void pushMonsterToCreate(SyncedMonsterModel model) throws JSONException, HttpCallException {
-		Log.d(getClass().getName(), "pushMonsterToCreate : " + model);
+		MyLog.entry("model = " + model);
+
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForPostMonster(context, accountId);
 
 		/*
@@ -142,24 +147,28 @@ public class PushSyncHelper {
 		httpRequest.setBody(json.toString());
 
 		client.call(httpRequest);
+
+		MyLog.exit();
 	}
 
 	private void pushMonsterToDelete(SyncedMonsterModel model) throws HttpCallException {
-		Log.d(getClass().getName(), "pushMonsterToDelete : " + model);
+		MyLog.entry("model = " + model);
+
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForDeleteMonster(context, accountId,
 				model.getPadherderId());
 
 		client.call(httpRequest);
+
+		MyLog.exit();
 	}
 
 	public void pushUserInfoToUpdate(SyncedUserInfoModel model) throws HttpCallException, JSONException {
-		Log.d(getClass().getName(), "pushUserInfoToUpdate : " + model);
+		MyLog.entry("model = " + model);
 
 		final MyHttpRequest httpRequest = PadHerderDescriptor.RequestHelper.initRequestForUpdateUserInfo(context, accountId,
 				model.getProfileApiId());
 
 		/*
-
 			"id": 15458,
 			"url": "https://www.padherder.com/user-api/profile/15458/",
 			"public": true,
@@ -183,6 +192,8 @@ public class PushSyncHelper {
 		httpRequest.setBody(json.toString());
 
 		client.call(httpRequest);
+
+		MyLog.exit("model = " + model);
 	}
 
 }

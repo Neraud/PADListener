@@ -5,11 +5,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.Date;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
@@ -46,7 +46,7 @@ public class ApiCallHandlerThread extends Thread {
 
 	@Override
 	public void run() {
-		Log.d(getClass().getName(), "run");
+		MyLog.entry();
 
 		try {
 			switch (callModel.getAction()) {
@@ -69,29 +69,34 @@ public class ApiCallHandlerThread extends Thread {
 
 					break;
 				default:
-					Log.d(getClass().getName(), "Ignoring action " + callModel.getAction());
+					MyLog.debug("Ignoring action " + callModel.getAction());
 			}
 		} catch (final ParsingException e) {
-			Log.e(getClass().getName(), "run : parsing error", e);
+			MyLog.error("parsing error", e);
 		}
+
+		MyLog.exit();
 	}
 
 	private GetPlayerDataApiCallResult parsePlayerData(ApiCallModel callModel) throws ParsingException {
-		Log.d(getClass().getName(), "parsePlayerData");
+		MyLog.entry();
+
 		final GetPlayerDataJsonParser parser = new GetPlayerDataJsonParser(context, callModel.getRegion());
-		return parser.parse(callModel.getResponseContent());
+		final GetPlayerDataApiCallResult result = parser.parse(callModel.getResponseContent());
+
+		MyLog.exit();
+		return result;
 	}
 
 	private void savePlayerInfo(CapturedPlayerInfoModel playerInfoModel) {
-		Log.d(getClass().getName(), "savePlayerData");
+		MyLog.entry();
 
 		final ContentResolver cr = context.getContentResolver();
 		final Uri uri = CapturedPlayerInfoDescriptor.UriHelper.uriForAll();
 
 		Long fake_id = null;
 
-		final Cursor cursor = cr.query(uri, new String[]{CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName()}, null, null,
-				null);
+		final Cursor cursor = cr.query(uri, new String[]{CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName()}, null, null, null);
 		if (cursor != null) {
 			if (cursor.moveToNext()) {
 				fake_id = cursor.getLong(0);
@@ -102,17 +107,18 @@ public class ApiCallHandlerThread extends Thread {
 		final ContentValues values = CapturedPlayerInfoProviderHelper.modelToValues(playerInfoModel);
 
 		if (fake_id == null) {
-			Log.d(getClass().getName(), "savePlayerData : Insert new data");
+			MyLog.debug("Insert new data");
 			cr.insert(uri, values);
 		} else {
-			Log.d(getClass().getName(), "savePlayerData : Update existing data");
-			cr.update(uri, values, CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() + " = ?",
-					new String[]{fake_id.toString()});
+			MyLog.debug("Update existing data");
+			cr.update(uri, values, CapturedPlayerInfoDescriptor.Fields.FAKE_ID.getColName() + " = ?", new String[]{fake_id.toString()});
 		}
+
+		MyLog.exit();
 	}
 
 	private void saveMonsters(List<MonsterModel> monsters) {
-		Log.d(getClass().getName(), "saveMonsters");
+		MyLog.entry();
 
 		final ContentResolver cr = context.getContentResolver();
 		final Uri uri = CapturedPlayerMonsterDescriptor.UriHelper.uriForAll();
@@ -126,10 +132,12 @@ public class ApiCallHandlerThread extends Thread {
 			final ContentValues values = CapturedPlayerMonsterProviderHelper.modelToValues(monster);
 			cr.insert(uri, values);
 		}
+
+		MyLog.exit();
 	}
 
 	private void saveFriends(List<CapturedFriendModel> friends) {
-		Log.d(getClass().getName(), "saveFriends");
+		MyLog.entry();
 
 		final ContentResolver cr = context.getContentResolver();
 		final Uri uri = CapturedPlayerFriendDescriptor.UriHelper.uriForAll();
@@ -143,6 +151,8 @@ public class ApiCallHandlerThread extends Thread {
 			final ContentValues values = CapturedPlayerFriendProviderHelper.modelToValues(friend);
 			cr.insert(uri, values);
 		}
+
+		MyLog.exit();
 	}
 
 	private void notifyCaptureStarted() {

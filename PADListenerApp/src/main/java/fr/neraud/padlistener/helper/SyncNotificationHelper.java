@@ -1,9 +1,9 @@
 package fr.neraud.padlistener.helper;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.MyNotification;
 import fr.neraud.padlistener.exception.NoMatchingAccountException;
@@ -23,19 +23,22 @@ public class SyncNotificationHelper extends NotificationHelper {
 	}
 
 	public void notifyInitialized() {
-		Log.d(getClass().getName(), "notifyInitialized");
+		MyLog.entry();
 		final String notificationMessage = mContext.getString(R.string.notification_data_sync_started);
 		displayNotification(notificationMessage);
+		MyLog.exit();
 	}
 
 	public void notifyComputeSyncInitialized() {
-		Log.d(getClass().getName(), "notifyComputeSyncInitialized");
+		MyLog.entry();
 		final String notificationMessage = mContext.getString(R.string.notification_data_sync_computing);
 		displayNotification(notificationMessage);
+		MyLog.exit();
 	}
 
 	public void notifyComputeSyncProgress(RestCallRunningStep progress) {
-		Log.d(getClass().getName(), "notifyComputeSyncProgress : " + progress);
+		MyLog.entry("progress = " + progress);
+
 		String notificationMessage = "";
 		switch (progress) {
 			case STARTED:
@@ -49,34 +52,39 @@ public class SyncNotificationHelper extends NotificationHelper {
 				break;
 		}
 		displayNotification(notificationMessage);
+		MyLog.exit();
 	}
 
 	public void notifyComputeSyncFinished() {
-		Log.d(getClass().getName(), "notifyComputeSyncFinished");
+		MyLog.entry();
 		final String notificationMessage = mContext.getString(R.string.notification_data_sync_computed);
 		displayNotification(notificationMessage);
+		MyLog.exit();
 	}
 
 	public void notifyPushSyncInitialized() {
-		Log.d(getClass().getName(), "notifyPushSyncInitialized");
+		MyLog.entry();
 		final String notificationMessage = mContext.getString(R.string.notification_data_sync_pushing);
 		displayNotification(notificationMessage);
+		MyLog.exit();
 	}
 
 	public void notifyPushSyncProgress(int itemsPushedCount, int itemsToPushTotal) {
-		Log.d(getClass().getName(), "notifyPushSyncProgress : " + itemsPushedCount + "/" + itemsToPushTotal);
+		MyLog.entry(itemsPushedCount + "/" + itemsToPushTotal);
 		final String notificationMessage = mContext.getString(R.string.notification_data_sync_pushing);
 		displayNotificationWithProgress(notificationMessage, itemsPushedCount, itemsToPushTotal);
+		MyLog.exit();
 	}
 
 	public void notifyPushSyncFinished(int itemsPushedCount) {
-		Log.d(getClass().getName(), "notifyPushSyncFinished : " + itemsPushedCount);
+		MyLog.entry("itemsPushedCount = " + itemsPushedCount);
 		final String notificationMessage = mContext.getString(R.string.notification_data_sync_push_finished, itemsPushedCount);
 		displayNotification(notificationMessage);
+		MyLog.exit();
 	}
 
 	public void notifyError(AbstractAutoSyncReceiver.Error error, Throwable t) {
-		Log.d(getClass().getName(), "notifyError : " + error);
+		MyLog.entry("error = " + error);
 		switch (error) {
 			case NO_MATCHING_ACCOUNT:
 
@@ -94,5 +102,6 @@ public class SyncNotificationHelper extends NotificationHelper {
 				Toast.makeText(mContext, R.string.auto_sync_push_failed, Toast.LENGTH_LONG).show();
 				break;
 		}
+		MyLog.exit();
 	}
 }

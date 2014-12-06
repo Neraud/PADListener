@@ -2,9 +2,9 @@ package fr.neraud.padlistener.ui.fragment;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.service.AutoCaptureService;
@@ -17,7 +17,7 @@ public class ChoosePadVersionForCaptureDialogFragment extends ChoosePadVersionDi
 
 	@Override
 	protected void handlePadVersionChosen(PADVersion chosenVersion) {
-		Log.d(getClass().getName(), "handlePadVersionChosen : " + chosenVersion);
+		MyLog.entry("chosenVersion = " + chosenVersion);
 
 		final Intent serviceIntent = new Intent(getActivity(), AutoCaptureService.class);
 		AutoCaptureService.addPadVersionInIntent(serviceIntent, PADVersion.US);
@@ -25,7 +25,8 @@ public class ChoosePadVersionForCaptureDialogFragment extends ChoosePadVersionDi
 
 			@Override
 			public void notifyProgress(State state) {
-				Log.d(getClass().getName(), "notifyProgress : " + state);
+				MyLog.entry("state = " + state);
+				MyLog.exit();
 			}
 
 			@Override
@@ -35,5 +36,6 @@ public class ChoosePadVersionForCaptureDialogFragment extends ChoosePadVersionDi
 		});
 		getActivity().startService(serviceIntent);
 
+		MyLog.exit();
 	}
 }

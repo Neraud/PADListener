@@ -4,11 +4,11 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.PADVersion;
 
 /**
@@ -23,7 +23,8 @@ public class InstalledPadVersionsHelper {
 	}
 
 	public List<PADVersion> getInstalledPadVersion() {
-		Log.d(getClass().getName(), "getInstalledPadVersion");
+		MyLog.entry();
+
 		final List<PADVersion> padVersions = new ArrayList<PADVersion>();
 		final PackageManager packageManager = mContext.getPackageManager();
 		for (PADVersion version : PADVersion.values()) {
@@ -32,26 +33,33 @@ public class InstalledPadVersionsHelper {
 					packageManager.getApplicationInfo(version.getApplicationPackage(), 0);
 					padVersions.add(version);
 
-					Log.v(getClass().getName(), "initElements : added " + version.name());
+					MyLog.debug("added " + version.name());
 				} catch (PackageManager.NameNotFoundException e) {
 					// this version is not installed, ignored
-					Log.v(getClass().getName(), "initElements : ignored " + version.name());
+					MyLog.debug("ignored " + version.name());
 				}
 			}
 		}
+
+		MyLog.exit();
 		return padVersions;
 	}
 
 	public boolean isPadRunning(PADVersion version) {
-		Log.d(getClass().getName(), "isPadRunning");
+		MyLog.entry();
+
 		final ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
 		final List<ActivityManager.RunningAppProcessInfo> procInfos = activityManager.getRunningAppProcesses();
+		boolean running = false;
 		for (int i = 0; i < procInfos.size(); i++) {
 			if (procInfos.get(i).processName.equals(version.getApplicationPackage())) {
-				return true;
+				running = true;
+				break;
 			}
 		}
-		return false;
+
+		MyLog.exit();
+		return running;
 	}
 
 	public Drawable getPadIcon(PADVersion version) {

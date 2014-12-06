@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
@@ -43,15 +43,16 @@ public class ChooseSyncDataPagerHelper {
 	}
 
 	private void populate() {
-		Log.d(getClass().getName(), "populate");
+		MyLog.entry();
 		populateMaterialsUpdated();
 		populateMonsterFragment(SyncMode.UPDATED, R.string.choose_sync_monstersUpdated_label);
 		populateMonsterFragment(SyncMode.CREATED, R.string.choose_sync_monstersCreated_label);
 		populateMonsterFragment(SyncMode.DELETED, R.string.choose_sync_monstersDeleted_label);
+		MyLog.exit();
 	}
 
 	private void populateMaterialsUpdated() {
-		Log.d(getClass().getName(), "populateMaterialsUpdated");
+		MyLog.entry();
 		if (mResult.getSyncedMaterialsToUpdate().size() > 0) {
 			final Fragment fragment = new ChooseSyncMaterialsFragment();
 			addResultToFragmentArguments(fragment);
@@ -59,10 +60,11 @@ public class ChooseSyncDataPagerHelper {
 			mTitlesByPosition.put(mCount, R.string.choose_sync_materialsUpdated_label);
 			mCount++;
 		}
+		MyLog.exit();
 	}
 
 	private void populateMonsterFragment(SyncMode mode, int titleId) {
-		Log.d(getClass().getName(), "populateMonsterFragment : " + mode);
+		MyLog.entry("mode = " + mode);
 		if (mResult.getSyncedMonsters(mode).size() > 0) {
 			final Fragment fragment = createChoiceFragment(mPrefHelper.isChooseSyncGroupMonsters(mode));
 			addResultToFragmentArguments(fragment);
@@ -71,6 +73,7 @@ public class ChooseSyncDataPagerHelper {
 			mTitlesByPosition.put(mCount, titleId);
 			mCount++;
 		}
+		MyLog.exit();
 	}
 
 	private Fragment createChoiceFragment(boolean isGrouped) {

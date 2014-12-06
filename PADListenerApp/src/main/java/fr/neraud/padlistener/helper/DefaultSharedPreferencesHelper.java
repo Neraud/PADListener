@@ -3,7 +3,6 @@ package fr.neraud.padlistener.helper;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.PADVersion;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.constant.SyncMaterialInMonster;
@@ -41,7 +41,7 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 			if (server != null) {
 				targetHostNames.add(server.getServerHostName());
 			} else {
-				Log.w(getClass().getName(), "getAllListenerTargetHostnames : ignoring unknown server : " + selectedTargetServer);
+				MyLog.warn("ignoring unknown server : " + selectedTargetServer);
 			}
 		}
 
@@ -170,7 +170,7 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 					monsterIds.add(Integer.parseInt(idString));
 				} catch (NumberFormatException e) {
 					// Should not happen as the list is only set from setMonsterIgnoreList(Set<Integer>)
-					Log.w(getClass().getName(), "getMonsterIgnoreList : ignoring invalid number", e);
+					MyLog.warn("ignoring invalid number", e);
 				}
 			}
 		}

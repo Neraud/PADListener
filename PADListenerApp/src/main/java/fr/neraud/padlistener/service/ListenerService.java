@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import java.io.IOException;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.MyNotification;
 import fr.neraud.padlistener.constant.ProxyMode;
@@ -76,13 +76,14 @@ public class ListenerService extends Service {
 
 	@Override
 	public void onCreate() {
-		Log.d(getClass().getName(), "onCreate");
+		MyLog.entry();
+
 		super.onCreate();
 
 		if (started) {
-			Log.d(getClass().getName(), "onCreate : already started");
+			MyLog.debug("already started");
 		} else {
-			Log.d(getClass().getName(), "onCreate : starting !");
+			MyLog.debug("starting !");
 			try {
 				final ScriptAssetHelper scriptAssetHelper = new ScriptAssetHelper(getApplicationContext());
 				scriptAssetHelper.copyScriptsFromAssets();
@@ -90,39 +91,46 @@ public class ListenerService extends Service {
 				final ExecutableAssetHelper executableAssetHelper = new ExecutableAssetHelper(getApplicationContext());
 				executableAssetHelper.copyExecutablesFromAssets();
 			} catch (final IOException e) {
-				Log.e(getClass().getName(), "Asset install failed  : " + e.getMessage(), e);
+				MyLog.error("Asset install failed  : " + e.getMessage(), e);
 			}
 			proxyHelper = new ProxyHelper(getApplicationContext());
 		}
+
+		MyLog.exit();
 	}
 
 
 	@Override
 	public boolean onUnbind(Intent intent) {
-		Log.d(getClass().getName(), "onUnbind");
-		return super.onUnbind(intent);
+		MyLog.entry();
+		final boolean result = super.onUnbind(intent);
+		MyLog.exit();
+		return result;
 	}
 
 	@Override
 	public void onTaskRemoved(Intent rootIntent) {
-		Log.d(getClass().getName(), "onTaskRemoved");
+		MyLog.entry();
 		super.onTaskRemoved(rootIntent);
+		MyLog.exit();
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(getClass().getName(), "onStartCommand : " + this + " : " + startId + ": " + intent);
+		MyLog.entry(this + " : " + startId + ": " + intent);
 		// We want this service to continue running until it is explicitly stopped, so return sticky.
+		MyLog.exit();
 		return START_STICKY;
 	}
 
 	@Override
 	public void onDestroy() {
-		Log.d(getClass().getName(), "onDestroy");
+		MyLog.entry();
 		super.onDestroy();
 		if (started) {
 			doStopListener(null);
 		}
+		MyLog.exit();
 	}
 
 	@Override
@@ -131,13 +139,13 @@ public class ListenerService extends Service {
 	}
 
 	private void doStartListener(final ListenerServiceListener listener, CaptureListener captureListener) {
-		Log.d(getClass().getName(), "doStartListener");
+		MyLog.entry();
 
 		final StartListenerAsyncTask asyncTask = new StartListenerAsyncTask(getApplicationContext(), proxyHelper, captureListener) {
 
 			@Override
 			protected void onPostExecute(SwitchListenerResult switchListenerResult) {
-				Log.d(getClass().getName(), "onPostExecute");
+				MyLog.entry();
 
 				if (switchListenerResult.isSuccess()) {
 					started = true;
@@ -152,13 +160,15 @@ public class ListenerService extends Service {
 						listener.notifyActionFailed(switchListenerResult);
 					}
 				}
+				MyLog.exit();
 			}
 		};
 		asyncTask.execute();
+		MyLog.exit();
 	}
 
 	private Notification buildNotification(ProxyMode proxyMode) {
-		Log.d(getClass().getName(), "buildNotification");
+		MyLog.entry();
 
 		final String modeLabel = getString(proxyMode.getLabelResId());
 		final String notifTitle = getString(R.string.notification_listener_title, modeLabel);
@@ -184,16 +194,18 @@ public class ListenerService extends Service {
 		builder.setColor(getResources().getColor(R.color.theme_primary));
 		builder.setContentIntent(pendingIntent);
 
-		return builder.build();
+		final Notification notification = builder.build();
+		MyLog.exit();
+		return notification;
 	}
 
 	private void doStopListener(final ListenerServiceListener listener) {
-		Log.d(getClass().getName(), "doStopListener");
+		MyLog.entry();
 
 		final StopListenerAsyncTask asyncTask = new StopListenerAsyncTask(getApplicationContext(), proxyHelper) {
 			@Override
 			protected void onPostExecute(SwitchListenerResult switchListenerResult) {
-				Log.d(getClass().getName(), "onPostExecute");
+				MyLog.entry();
 
 				if (switchListenerResult.isSuccess()) {
 					started = false;
@@ -206,8 +218,11 @@ public class ListenerService extends Service {
 						listener.notifyActionFailed(switchListenerResult);
 					}
 				}
+
+				MyLog.exit();
 			}
 		};
 		asyncTask.execute();
+		MyLog.exit();
 	}
 }

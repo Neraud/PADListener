@@ -1,12 +1,12 @@
 package fr.neraud.padlistener.provider.sqlite.tables;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 
@@ -53,12 +53,11 @@ public class CapturedPlayerInfoTable implements ITable {
 		final List<String> queries = new ArrayList<String>();
 
 		if (oldVersion < getVersion()) {
-			Log.w(getClass().getName(), "Table " + CapturedPlayerInfoDescriptor.TABLE_NAME + " has changed, destroying table !");
+			MyLog.warn("Table " + CapturedPlayerInfoDescriptor.TABLE_NAME + " has changed, destroying table !");
 			queries.add(dropTable());
 			queries.add(createTable());
 		} else {
-			Log.i(getClass().getName(), "Table " + CapturedPlayerInfoDescriptor.TABLE_NAME
-					+ " is already up to date (hasn't changed since version " + getVersion() + ")");
+			MyLog.info("Table " + CapturedPlayerInfoDescriptor.TABLE_NAME + " is already up to date (hasn't changed since version " + getVersion() + ")");
 		}
 
 		return queries;

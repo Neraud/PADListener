@@ -3,13 +3,13 @@ package fr.neraud.padlistener.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.PushSyncStatModel;
@@ -38,10 +38,10 @@ public class PushSyncFragment extends Fragment {
 
 		@Override
 		public void updateState(PushSyncStatModel pushModel) {
-			Log.d(getClass().getName(), "updateState");
+			MyLog.entry();
+
 			if (pushModel != null) {
-				Log.d(getClass().getName(), "updateState : " + pushModel.getElementPushedCount() + pushModel.getElementErrorCount()
-						+ " / " + pushModel.getElementToPushCount());
+				MyLog.debug(pushModel.getElementPushedCount() + pushModel.getElementErrorCount() + " / " + pushModel.getElementToPushCount());
 
 				mProgress.setIndeterminate(false);
 				mProgress.setMax(pushModel.getElementToPushCount());
@@ -62,6 +62,8 @@ public class PushSyncFragment extends Fragment {
 					mHead.setText(R.string.push_sync_head_pushing);
 				}
 			}
+
+			MyLog.exit();
 		}
 
 		private void updateText(PushSyncStatModel pushModel, TextView tv, int resId, ElementToPush element) {
@@ -74,7 +76,7 @@ public class PushSyncFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(getClass().getName(), "onCreateView");
+		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.push_sync_fragment, container, false);
 
@@ -101,6 +103,7 @@ public class PushSyncFragment extends Fragment {
 		}
 		mTaskFragment.registerCallbacks(callbacks);
 
+		MyLog.exit();
 		return view;
 	}
 }
