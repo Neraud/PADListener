@@ -8,6 +8,7 @@ dependencies {
 	compile 'org.apache.commons:commons-lang3:3.3.2'
 	compile 'commons-io:commons-io:2.4'
 	compile 'com.jakewharton.timber:timber:2.5.0'
+	compile 'com.jakewharton:butterknife:6.0.0'
 	compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
 	compile 'com.github.gabrielemariotti.cards:library:1.9.1'
 	compile 'com.github.gabrielemariotti.cards:library:1.9.1'

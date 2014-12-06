@@ -106,6 +106,7 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="timber-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.2" level="project" />
+    <orderEntry type="library" exported="" name="butterknife-6.0.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.9.1" level="project" />
     <orderEntry type="library" exported="" name="ckchangelog-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />

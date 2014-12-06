@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="timber-2.5.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.timber/timber/2.5.0/5e743a8b1d28e7158f21dfe3a02bd933a1c6b54b/timber-2.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.timber/timber/2.5.0/41ff72a68af7eb5c4ea34ed93db5ba23123cb0bd/timber-2.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

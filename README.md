@@ -20,6 +20,7 @@ I use the following libraries :
 * [Picasso](https://github.com/square/picasso)
 * [Showcaseview](https://github.com/amlcurran/ShowcaseView)
 * [Timber](https://github.com/JakeWharton/timber)
+* [Butter Knife](https://github.com/JakeWharton/butterknife)
 
 
 Warning
