@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
@@ -25,17 +28,38 @@ import fr.neraud.padlistener.ui.constant.UiScreen;
  */
 public class HomeFragment extends Fragment {
 
+	@InjectView(R.id.home_capture_auto_button)
+	Button mCaptureAutoButton;
+	@InjectView(R.id.home_capture_manual_button)
+	Button mCaptureManualButton;
+
+	@InjectView(R.id.home_sync_auto_button)
+	Button mSyncAutoButton;
+	@InjectView(R.id.home_sync_manual_button)
+	Button mSyncManualButton;
+
+	@InjectView(R.id.home_capture_and_sync_auto_button)
+	Button mCaptureAndSyncAutoButton;
+
+	private boolean mCanAutoCapture;
+	private boolean mCanAutoSync;
+	private boolean mCanAutoCaptureAndSync;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
-		final View mainView = inflater.inflate(R.layout.home_fragment, container, false);
-
-		fillCaptureCard(mainView);
-		fillSyncCard(mainView);
+		final View view = inflater.inflate(R.layout.home_fragment, container, false);
+		ButterKnife.inject(this, view);
 
 		MyLog.exit();
-		return mainView;
+		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
 	}
 
 	@Override
@@ -43,63 +67,17 @@ public class HomeFragment extends Fragment {
 		MyLog.entry();
 
 		super.onResume();
+		mCanAutoCapture = canUseAutoCapture();
+		mCanAutoSync = canUseAutoSync(true);
+		mCanAutoCaptureAndSync = mCanAutoCapture && canUseAutoSync(false);
 
-		fillCaptureCard(getView());
-		fillSyncCard(getView());
-		fillCaptureAndSyncCard(getView());
+		fillButton(mCaptureAutoButton, mCanAutoCapture, R.drawable.button_primary);
+		fillButton(mCaptureManualButton, true, R.drawable.button_secondary);
 
-		MyLog.exit();
-	}
+		fillButton(mSyncAutoButton, mCanAutoSync, R.drawable.button_primary);
+		fillButton(mSyncManualButton, true, R.drawable.button_secondary);
 
-	private void fillCaptureCard(View mainView) {
-		MyLog.entry();
-
-		final Button autoButton = (Button) mainView.findViewById(R.id.home_capture_auto_button);
-
-		final boolean autoButtonEnabled;
-		final View.OnClickListener autoOnClickListener;
-		if (canUseAutoCapture()) {
-			autoButtonEnabled = true;
-			autoOnClickListener = new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					MyLog.entry();
-					showChoosePadVersionDialog(new ChoosePadVersionForCaptureDialogFragment());
-					MyLog.exit();
-				}
-			};
-		} else {
-			autoButtonEnabled = false;
-			autoOnClickListener = new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					MyLog.entry();
-
-					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setTitle(R.string.home_auto_capture_disabled_title);
-					builder.setCancelable(true);
-					builder.setMessage(R.string.home_auto_capture_disabled_message);
-					builder.create().show();
-
-					MyLog.exit();
-				}
-			};
-		}
-
-		fillButton(autoButton, autoButtonEnabled, autoOnClickListener, R.drawable.button_primary);
-
-		final Button manualButton = (Button) mainView.findViewById(R.id.home_capture_manual_button);
-
-		final View.OnClickListener manualOnClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				MyLog.entry();
-				((HomeActivity) getActivity()).goToScreen(UiScreen.SWITCH_LISTENER);
-				MyLog.exit();
-			}
-		};
-
-		fillButton(manualButton, true, manualOnClickListener, R.drawable.button_secondary);
+		fillButton(mCaptureAndSyncAutoButton, mCanAutoCaptureAndSync, R.drawable.button_primary);
 
 		MyLog.exit();
 	}
@@ -107,65 +85,6 @@ public class HomeFragment extends Fragment {
 	private boolean canUseAutoCapture() {
 		final DefaultSharedPreferencesHelper helper = new DefaultSharedPreferencesHelper(getActivity());
 		return helper.getProxyMode().isAutomatic();
-	}
-
-	private void fillSyncCard(View mainView) {
-		MyLog.entry();
-
-		final Button autoButton = (Button) mainView.findViewById(R.id.home_sync_auto_button);
-
-		final boolean autoButtonEnabled;
-		final View.OnClickListener autoOnClickListener;
-		if (canUseAutoSync(true)) {
-			autoButtonEnabled = true;
-			autoOnClickListener = new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					MyLog.entry();
-
-					final Bundle extras = new Bundle();
-					extras.putBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME, true);
-					((HomeActivity) getActivity()).goToScreen(UiScreen.COMPUTE_SYNC, extras);
-
-					MyLog.exit();
-				}
-			};
-		} else {
-			autoButtonEnabled = false;
-			autoOnClickListener = new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					MyLog.entry();
-
-					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setTitle(R.string.home_auto_sync_disabled_title);
-					builder.setCancelable(true);
-					builder.setMessage(R.string.home_auto_sync_disabled_message);
-					builder.create().show();
-
-					MyLog.exit();
-				}
-			};
-		}
-
-		fillButton(autoButton, autoButtonEnabled, autoOnClickListener, R.drawable.button_primary);
-
-		final Button manualButton = (Button) mainView.findViewById(R.id.home_sync_manual_button);
-
-		final View.OnClickListener manualOnClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				MyLog.entry();
-
-				((HomeActivity) getActivity()).goToScreen(UiScreen.COMPUTE_SYNC);
-
-				MyLog.exit();
-			}
-		};
-
-		fillButton(manualButton, true, manualOnClickListener, R.drawable.button_secondary);
-
-		MyLog.exit();
 	}
 
 	private boolean canUseAutoSync(boolean needsCapturedData) {
@@ -181,7 +100,7 @@ public class HomeFragment extends Fragment {
 		return hasAccounts && hasCaptured;
 	}
 
-	private void fillButton(Button button, boolean enabled, View.OnClickListener listener, int drawableResId) {
+	private void fillButton(Button button, boolean enabled, int drawableResId) {
 		if (enabled) {
 			button.setBackgroundResource(drawableResId);
 		} else {
@@ -193,49 +112,6 @@ public class HomeFragment extends Fragment {
 			//noinspection deprecation
 			button.setBackgroundDrawable(draw.getCurrent());
 		}
-
-		if (listener != null) {
-			button.setOnClickListener(listener);
-		}
-	}
-
-	private void fillCaptureAndSyncCard(View mainView) {
-		MyLog.entry();
-
-		final Button autoButton = (Button) mainView.findViewById(R.id.home_capture_and_sync_auto_button);
-
-		final boolean autoButtonEnabled;
-		final View.OnClickListener autoOnClickListener;
-		if (canUseAutoCapture() && canUseAutoSync(false)) {
-			autoButtonEnabled = true;
-			autoOnClickListener = new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					MyLog.entry();
-					showChoosePadVersionDialog(new ChoosePadVersionForCaptureAndSyncDialogFragment());
-					MyLog.exit();
-				}
-			};
-		} else {
-			autoButtonEnabled = false;
-			autoOnClickListener = new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					MyLog.entry();
-
-					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setTitle(R.string.home_auto_capture_and_sync_disabled_title);
-					builder.setCancelable(true);
-					builder.setMessage(R.string.home_auto_capture_and_sync_disabled_message);
-					builder.create().show();
-
-					MyLog.exit();
-				}
-			};
-		}
-		fillButton(autoButton, autoButtonEnabled, autoOnClickListener, R.drawable.button_primary);
-
-		MyLog.exit();
 	}
 
 	private void showChoosePadVersionDialog(ChoosePadVersionDialogFragment fragment) {
@@ -249,6 +125,79 @@ public class HomeFragment extends Fragment {
 		ft.addToBackStack(null);
 
 		fragment.show(ft, "choosePadDialog");
+
+		MyLog.exit();
+	}
+
+
+	@OnClick(R.id.home_capture_manual_button)
+	@SuppressWarnings("unused")
+	void onManualCaptureClicked() {
+		MyLog.entry();
+		((HomeActivity) getActivity()).goToScreen(UiScreen.SWITCH_LISTENER);
+		MyLog.exit();
+	}
+
+	@OnClick(R.id.home_capture_auto_button)
+	@SuppressWarnings("unused")
+	void onAutoCaptureClicked() {
+		MyLog.entry();
+
+		if (mCanAutoCapture) {
+			showChoosePadVersionDialog(new ChoosePadVersionForCaptureDialogFragment());
+		} else {
+			final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle(R.string.home_auto_capture_disabled_title);
+			builder.setCancelable(true);
+			builder.setMessage(R.string.home_auto_capture_disabled_message);
+			builder.create().show();
+		}
+
+		MyLog.exit();
+	}
+
+	@OnClick(R.id.home_sync_manual_button)
+	@SuppressWarnings("unused")
+	void onManualSyncClicked() {
+		MyLog.entry();
+		((HomeActivity) getActivity()).goToScreen(UiScreen.COMPUTE_SYNC);
+		MyLog.exit();
+	}
+
+	@OnClick(R.id.home_sync_auto_button)
+	@SuppressWarnings("unused")
+	void onAutoSyncClicked() {
+		MyLog.entry();
+
+		if (mCanAutoSync) {
+			final Bundle extras = new Bundle();
+			extras.putBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME, true);
+			((HomeActivity) getActivity()).goToScreen(UiScreen.COMPUTE_SYNC, extras);
+		} else {
+			final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle(R.string.home_auto_sync_disabled_title);
+			builder.setCancelable(true);
+			builder.setMessage(R.string.home_auto_sync_disabled_message);
+			builder.create().show();
+		}
+
+		MyLog.exit();
+	}
+
+	@OnClick(R.id.home_capture_and_sync_auto_button)
+	@SuppressWarnings("unused")
+	void onAutoCaptureAndSyncClicked() {
+		MyLog.entry();
+
+		if (mCanAutoCaptureAndSync) {
+			showChoosePadVersionDialog(new ChoosePadVersionForCaptureAndSyncDialogFragment());
+		} else {
+			final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle(R.string.home_auto_capture_and_sync_disabled_title);
+			builder.setCancelable(true);
+			builder.setMessage(R.string.home_auto_capture_and_sync_disabled_message);
+			builder.create().show();
+		}
 
 		MyLog.exit();
 	}

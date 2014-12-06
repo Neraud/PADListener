@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
@@ -25,23 +27,29 @@ public class ViewCapturedDataMonstersFragment extends Fragment implements Loader
 
 	private CapturedMonsterCursorAdapter mAdapter;
 
+	@InjectView(R.id.view_captured_data_monsters_grid)
+	GridView gridView;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.view_captured_data_fragment_monsters, container, false);
+		ButterKnife.inject(this, view);
 
 		mAdapter = new CapturedMonsterCursorAdapter(getActivity());
-
-		final GridView gridView = (GridView) view.findViewById(R.id.view_captured_data_monsters_grid);
 		gridView.setAdapter(mAdapter);
-
 		getLoaderManager().initLoader(0, null, this);
 
 		MyLog.exit();
 		return view;
 	}
 
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
+	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {

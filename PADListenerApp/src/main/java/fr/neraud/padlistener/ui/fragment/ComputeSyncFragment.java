@@ -6,10 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -20,6 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.DateFormat;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
@@ -49,12 +51,27 @@ public class ComputeSyncFragment extends Fragment {
 
 	private boolean mAutoSync;
 	private boolean mAccountFound = false;
-	private Button mStartButton;
-	private ProgressBar mProgress;
-	private TextView mStatus;
-	private TextView mErrorExplain;
-	private TextView mAutoNoMatchingAccount;
 	private int mAccountId = -1;
+
+	@InjectView(R.id.compute_sync_button)
+	Button mStartButton;
+	@InjectView(R.id.compute_sync_progress)
+	ProgressBar mProgress;
+	@InjectView(R.id.compute_sync_status)
+	TextView mStatus;
+	@InjectView(R.id.compute_sync_error_explain)
+	TextView mErrorExplain;
+	@InjectView(R.id.compute_sync_auto_no_matching_account)
+	TextView mAutoNoMatchingAccount;
+	@InjectView(R.id.compute_sync_content)
+	TextView mContent;
+	@InjectView(R.id.compute_sync_choose_account_spinner)
+	Spinner mChooseAccountSpinner;
+	@InjectView(R.id.compute_sync_missing_credentials_text)
+	TextView mMissingCredentials;
+	@InjectView(R.id.compute_sync_missing_capture_text)
+	TextView mMissingCapture;
+
 	private final ComputeSyncTaskFragment.CallBacks mCallBacks = new ComputeSyncTaskFragment.CallBacks() {
 
 		@Override
@@ -155,30 +172,24 @@ public class ComputeSyncFragment extends Fragment {
 		mAutoSync = extras != null ? extras.getBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME) : false;
 
 		final View view = inflater.inflate(R.layout.compute_sync_fragment, container, false);
+		ButterKnife.inject(this, view);
 
 		final TechnicalSharedPreferencesHelper techPrefHelper = new TechnicalSharedPreferencesHelper(getActivity());
 
-		final TextView content = (TextView) view.findViewById(R.id.compute_sync_content);
 		final String refreshDate = DateFormat.getDateTimeInstance().format(techPrefHelper.getLastCaptureDate());
-		content.setText(getString(R.string.compute_sync_content, refreshDate));
-		final Spinner chooseAccountSpinner = (Spinner) view.findViewById(R.id.compute_sync_choose_account_spinner);
-		mStartButton = (Button) view.findViewById(R.id.compute_sync_button);
-		mProgress = (ProgressBar) view.findViewById(R.id.compute_sync_progress);
-		mStatus = (TextView) view.findViewById(R.id.compute_sync_status);
-		mErrorExplain = (TextView) view.findViewById(R.id.compute_sync_error_explain);
-		mAutoNoMatchingAccount = (TextView) view.findViewById(R.id.compute_sync_auto_no_matching_account);
+		mContent.setText(getString(R.string.compute_sync_content, refreshDate));
 
 		final List<PADHerderAccountModel> accounts = new DefaultSharedPreferencesHelper(getActivity()).getPadHerderAccounts();
 
 		final AccountSpinnerAdapter adapter = new AccountSpinnerAdapter(getActivity(), accounts);
-		chooseAccountSpinner.setAdapter(adapter);
+		mChooseAccountSpinner.setAdapter(adapter);
 
 		final String lastCaptureAccountName = techPrefHelper.getLastCaptureName();
 		if (StringUtils.isNotBlank(lastCaptureAccountName)) {
 			for (final PADHerderAccountModel account : accounts) {
 				if (lastCaptureAccountName.equals(account.getName())) {
 					final int selectedPosition = adapter.getPositionById(account.getAccountId());
-					chooseAccountSpinner.setSelection(selectedPosition);
+					mChooseAccountSpinner.setSelection(selectedPosition);
 					mAccountId = account.getAccountId();
 					mAccountFound = true;
 					break;
@@ -194,57 +205,51 @@ public class ComputeSyncFragment extends Fragment {
 		} else {
 			mAccountId = mTaskFragment.getAccountId();
 			final int position = adapter.getPositionById(mAccountId);
-			chooseAccountSpinner.setSelection(position);
+			mChooseAccountSpinner.setSelection(position);
 		}
 		mTaskFragment.registerCallbacks(mCallBacks);
 
-		chooseAccountSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				MyLog.entry("id = " + id);
-				mAccountId = (int) id;
-				mTaskFragment.setAccountId(mAccountId);
-				MyLog.exit();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				MyLog.entry();
-				MyLog.exit();
-			}
-		});
-
-		mStartButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				MyLog.entry();
-				mTaskFragment.startComputeSyncService();
-				MyLog.exit();
-			}
-		});
-
-		final TextView missingCredentials = (TextView) view.findViewById(R.id.compute_sync_missing_credentials_text);
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 		if (prefHelper.getPadHerderAccounts().isEmpty()) {
-			missingCredentials.setTextColor(Color.RED);
+			mMissingCredentials.setTextColor(Color.RED);
 			mStartButton.setEnabled(false);
 		} else {
-			missingCredentials.setVisibility(View.GONE);
+			mMissingCredentials.setVisibility(View.GONE);
 		}
 
-		final TextView missingCapture = (TextView) view.findViewById(R.id.compute_sync_missing_capture_text);
 		final TechnicalSharedPreferencesHelper techHelper = new TechnicalSharedPreferencesHelper(getActivity());
 		if (techHelper.getLastCaptureDate().getTime() == 0) {
-			missingCapture.setTextColor(Color.RED);
+			mMissingCapture.setTextColor(Color.RED);
 			mStartButton.setEnabled(false);
 		} else {
-			missingCapture.setVisibility(View.GONE);
+			mMissingCapture.setVisibility(View.GONE);
 		}
 
 		MyLog.exit();
 		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
+	}
+
+	@OnItemSelected(R.id.compute_sync_choose_account_spinner)
+	@SuppressWarnings("unused")
+	void onAccountSelected(AdapterView<?> parent, View view, int position, long id) {
+		MyLog.entry("id = " + id);
+		mAccountId = (int) id;
+		mTaskFragment.setAccountId(mAccountId);
+		MyLog.exit();
+	}
+
+	@OnClick(R.id.compute_sync_button)
+	@SuppressWarnings("unused")
+	void onStartButtonClicked() {
+		MyLog.entry();
+		mTaskFragment.startComputeSyncService();
+		MyLog.exit();
 	}
 
 	@Override

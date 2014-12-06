@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.MonsterInfoModel;
@@ -21,6 +23,22 @@ import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
  */
 public class MonsterInfoCursorAdapter extends AbstractMonsterCursorAdapter {
 
+	static class ViewHolder {
+
+		@InjectView(R.id.view_monster_info_item_image)
+		ImageView monsterImageView;
+		@InjectView(R.id.view_monster_info_item_text_block)
+		ViewGroup monsterTextBlock;
+		@InjectView(R.id.view_monster_info_item_text_id)
+		TextView monsterIdText;
+		@InjectView(R.id.view_monster_info_item_text_name)
+		TextView monsterNameText;
+
+		public ViewHolder(View view) {
+			ButterKnife.inject(this, view);
+		}
+	}
+
 	public MonsterInfoCursorAdapter(Context context) {
 		super(context, R.layout.view_monster_info_item);
 	}
@@ -29,36 +47,31 @@ public class MonsterInfoCursorAdapter extends AbstractMonsterCursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		MyLog.entry();
 
+		final ViewHolder viewHolder = new ViewHolder(view);
 		final MonsterInfoModel model = MonsterInfoProviderHelper.cursorToModel(cursor);
 
-		final ImageView monsterImageView = fillImage(view, R.id.view_monster_info_item_image, model);
-		monsterImageView.clearColorFilter();
+		fillImage(viewHolder.monsterImageView, model);
+		viewHolder.monsterImageView.clearColorFilter();
+		viewHolder.monsterTextBlock.setVisibility(View.INVISIBLE);
+		viewHolder.monsterIdText.setText("" + model.getIdJP());
+		viewHolder.monsterNameText.setText(model.getName());
 
-		final ViewGroup monsterTextBlock = (ViewGroup) view.findViewById(R.id.view_monster_info_item_text_block);
-		monsterTextBlock.setVisibility(View.INVISIBLE);
-
-		final TextView monsterIdText = (TextView) view.findViewById(R.id.view_monster_info_item_text_id);
-		monsterIdText.setText("" + model.getIdJP());
-
-		final TextView monsterNameText = (TextView) view.findViewById(R.id.view_monster_info_item_text_name);
-		monsterNameText.setText(model.getName());
-
-		monsterImageView.setOnClickListener(new View.OnClickListener() {
+		viewHolder.monsterImageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				MyLog.entry("idJP = " + model.getIdJP());
-				monsterTextBlock.setVisibility(View.VISIBLE);
-				monsterImageView.setColorFilter(Color.parseColor("#99000000"), PorterDuff.Mode.DARKEN);
+				viewHolder.	monsterTextBlock.setVisibility(View.VISIBLE);
+				viewHolder.monsterImageView.setColorFilter(Color.parseColor("#99000000"), PorterDuff.Mode.DARKEN);
 				MyLog.exit();
 			}
 		});
 
-		monsterTextBlock.setOnClickListener(new View.OnClickListener() {
+		viewHolder.monsterTextBlock.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				MyLog.entry("idJP = " + model.getIdJP());
-				monsterTextBlock.setVisibility(View.INVISIBLE);
-				monsterImageView.clearColorFilter();
+				viewHolder.monsterTextBlock.setVisibility(View.INVISIBLE);
+				viewHolder.monsterImageView.clearColorFilter();
 				MyLog.exit();
 			}
 		});

@@ -23,13 +23,12 @@ public abstract class AbstractMonsterWithStatsCursorAdapter extends AbstractMons
 		mActivity = activity;
 	}
 
-	protected void fillTextView(View view, int textViewId, int value, int maxValue) {
-		final TextView text = (TextView) view.findViewById(textViewId);
+	protected void fillTextView(TextView textView, int value, int maxValue) {
 		if (value > 0) {
-			text.setVisibility(View.VISIBLE);
-			text.setText(value >= maxValue ? "*" : "" + value);
+			textView.setVisibility(View.VISIBLE);
+			textView.setText(value >= maxValue ? "*" : "" + value);
 		} else {
-			text.setVisibility(View.INVISIBLE);
+			textView.setVisibility(View.INVISIBLE);
 		}
 	}
 

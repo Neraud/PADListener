@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -29,28 +31,33 @@ import fr.neraud.padlistener.ui.adapter.MonsterInfoCursorAdapter;
 public class ViewMonsterInfoFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	private MonsterInfoCursorAdapter mAdapter;
-	private TextView mCurrentTextView;
+	@InjectView(R.id.monster_info_fetch_info_current)
+	TextView mCurrentTextView;
+	@InjectView(R.id.view_monster_info_monster_grid)
+	GridView mGridView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.view_monster_info_fragment_monsters, container, false);
+		ButterKnife.inject(this, view);
 
-		mCurrentTextView = (TextView) view.findViewById(R.id.monster_info_fetch_info_current);
 		refreshLastUpdate();
 
 		mAdapter = new MonsterInfoCursorAdapter(getActivity());
-
-		final GridView mGridView = (GridView) view.findViewById(R.id.view_monster_info_monster_grid);
 		mGridView.setAdapter(mAdapter);
-
 		getLoaderManager().initLoader(0, null, this);
 
 		MyLog.exit();
 		return view;
 	}
 
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
+	}
 
 	private void refreshLastUpdate() {
 		final Date lastRefreshDate = new TechnicalSharedPreferencesHelper(getActivity()).getMonsterInfoRefreshDate();

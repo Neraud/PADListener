@@ -11,6 +11,8 @@ import android.widget.ExpandableListView;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
@@ -28,16 +30,19 @@ import fr.neraud.padlistener.ui.helper.ChooseSyncGroupedContextMenuHelper;
  */
 public class ChooseSyncMonstersGroupedFragment extends Fragment {
 
-	private ChooseSyncGroupedContextMenuHelper menuHelper;
+	private ChooseSyncGroupedContextMenuHelper mMenuHelper;
+
+	@InjectView(R.id.choose_sync_monsters_list)
+	ExpandableListView mListView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.choose_sync_fragment_monsters_grouped, container, false);
+		ButterKnife.inject(this, view);
 
-		final ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.choose_sync_monsters_list);
-		registerForContextMenu(listView);
+		registerForContextMenu(mListView);
 
 		final ChooseSyncModel result = (ChooseSyncModel) getArguments().getSerializable(ChooseSyncDataPagerHelper.ARGUMENT_SYNC_RESULT_NAME);
 		final String modeName = getArguments().getString(ChooseSyncDataPagerHelper.ARGUMENT_SYNC_MODE_NAME);
@@ -46,21 +51,27 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 		final List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters = result.getSyncedMonsters(mode);
 
 		final ChooseSyncMonstersGroupedAdapter adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
-		menuHelper = new ChooseSyncGroupedContextMenuHelper(getActivity(), mode, adapter, result);
+		mMenuHelper = new ChooseSyncGroupedContextMenuHelper(getActivity(), mode, adapter, result);
 
-		listView.setAdapter(adapter);
+		mListView.setAdapter(adapter);
 
 		MyLog.exit();
 		return view;
 	}
 
 	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
+	}
+
+	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-		menuHelper.createContextMenu(menu, menuInfo);
+		mMenuHelper.createContextMenu(menu, menuInfo);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		return menuHelper.contextItemSelected(item);
+		return mMenuHelper.contextItemSelected(item);
 	}
 }

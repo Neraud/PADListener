@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -28,9 +30,13 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 
 	private static final String TAG_TASK_FRAGMENT = "view_monster_info_refresh_task";
 	private final MonsterInfoRefreshInfoTaskFragment.ProgressCallBacks mProgressCallbacks;
-	private TextView mStatusText;
-	private TextView mCurrentText;
-	private ProgressBar mProgress;
+
+	@InjectView(R.id.monster_info_refresh_info_status)
+	TextView mStatusText;
+	@InjectView(R.id.monster_info_refresh_info_current)
+	TextView mCurrentText;
+	@InjectView(R.id.monster_info_refresh_info_progress)
+	ProgressBar mProgress;
 
 	public MonsterInfoRefreshDialogFragment() {
 		mProgressCallbacks = new MonsterInfoRefreshInfoTaskFragment.ProgressCallBacks() {
@@ -103,10 +109,9 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.view_monster_info_fragment_refresh_info, container, false);
+		ButterKnife.inject(this, view);
+
 		getDialog().setTitle(R.string.monster_info_refresh_title);
-		mStatusText = (TextView) view.findViewById(R.id.monster_info_refresh_info_status);
-		mProgress = (ProgressBar) view.findViewById(R.id.monster_info_refresh_info_progress);
-		mCurrentText = (TextView) view.findViewById(R.id.monster_info_refresh_info_current);
 
 		refreshLastUpdate();
 
@@ -121,6 +126,12 @@ public class MonsterInfoRefreshDialogFragment extends DialogFragment {
 
 		MyLog.exit();
 		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
 	}
 
 	private void refreshLastUpdate() {

@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
@@ -46,6 +48,19 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 	// delay to launch nav drawer item, to allow close animation to play
 	private static final int NAVDRAWER_LAUNCH_DELAY = 250;
+
+	static class NavDrawerItemViewHolder {
+
+		@InjectView(R.id.icon)
+		ImageView iconView;
+
+		@InjectView(R.id.title)
+		TextView titleView;
+
+		public NavDrawerItemViewHolder(View view) {
+			ButterKnife.inject(this, view);
+		}
+	}
 
 	private Handler handler;
 
@@ -190,20 +205,19 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		container.addView(view);
 
 		navDrawerItems.put(item, view);
-		final ImageView iconView = (ImageView) view.findViewById(R.id.icon);
-		final TextView titleView = (TextView) view.findViewById(R.id.title);
+		final NavDrawerItemViewHolder viewHolder = new NavDrawerItemViewHolder(view);
 
 		// set icon and text
-		iconView.setVisibility(item.getIconResId() > 0 ? View.VISIBLE : View.GONE);
+		viewHolder.iconView.setVisibility(item.getIconResId() > 0 ? View.VISIBLE : View.GONE);
 		if (item.getIconResId() > 0) {
-			iconView.setImageResource(item.getIconResId());
+			viewHolder.iconView.setImageResource(item.getIconResId());
 		}
-		titleView.setText(getString(item.getTitleResId()));
+		viewHolder.titleView.setText(getString(item.getTitleResId()));
 		MyLog.debug("text = " + getString(item.getTitleResId()));
 
 		final boolean selected = item == getSelfNavDrawerItem();
 
-		formatNavDrawerItem(view, selected);
+		formatNavDrawerItem(viewHolder, selected);
 
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -215,15 +229,12 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		MyLog.exit();
 	}
 
-	private void formatNavDrawerItem(View view, boolean selected) {
-		final ImageView iconView = (ImageView) view.findViewById(R.id.icon);
-		final TextView titleView = (TextView) view.findViewById(R.id.title);
-
+	private void formatNavDrawerItem(NavDrawerItemViewHolder viewHolder, boolean selected) {
 		// configure its appearance according to whether or not it's selected
-		titleView.setTextColor(selected ?
+		viewHolder.titleView.setTextColor(selected ?
 				getResources().getColor(R.color.navdrawer_text_color_selected) :
 				getResources().getColor(R.color.navdrawer_text_color));
-		iconView.setColorFilter(selected ?
+		viewHolder.iconView.setColorFilter(selected ?
 				getResources().getColor(R.color.navdrawer_icon_tint_selected) :
 				getResources().getColor(R.color.navdrawer_icon_tint));
 	}
@@ -233,7 +244,8 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 
 		for (final NavigationDrawerItem item : navDrawerItems.keySet()) {
 			final View view = navDrawerItems.get(item);
-			formatNavDrawerItem(view, item == selectedItem);
+			final NavDrawerItemViewHolder viewHolder = new NavDrawerItemViewHolder(view);
+			formatNavDrawerItem(viewHolder, item == selectedItem);
 		}
 
 		MyLog.exit();

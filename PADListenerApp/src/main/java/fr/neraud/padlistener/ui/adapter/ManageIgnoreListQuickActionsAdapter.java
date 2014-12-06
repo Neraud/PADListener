@@ -15,6 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.InjectViews;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
@@ -31,6 +34,27 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 	private final ManageIgnoreListTaskFragment mTaskFragment;
 	private final MonsterImageHelper mImageHelper;
 
+	static class ViewHolder {
+
+		@InjectView(R.id.manage_ignore_list_quick_action_item_name)
+		TextView nameText;
+		@InjectView(R.id.manage_ignore_list_quick_action_item_remove_button)
+		Button removeButton;
+		@InjectView(R.id.manage_ignore_list_quick_action_item_add_button)
+		Button addButton;
+
+		@InjectViews({R.id.manage_ignore_list_quick_action_item_image_1,
+				R.id.manage_ignore_list_quick_action_item_image_2,
+				R.id.manage_ignore_list_quick_action_item_image_3,
+				R.id.manage_ignore_list_quick_action_item_image_4,
+				R.id.manage_ignore_list_quick_action_item_image_5})
+		List<ImageView> imageViews;
+
+		public ViewHolder(View view) {
+			ButterKnife.inject(this, view);
+		}
+	}
+
 	public ManageIgnoreListQuickActionsAdapter(Context context, List<IgnoreMonsterQuickActionModel> ignoreMonsterQuickActionModels, ManageIgnoreListTaskFragment mTaskFragment) {
 		super(context, 0, ignoreMonsterQuickActionModels);
 		this.mTaskFragment = mTaskFragment;
@@ -41,17 +65,20 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 	public View getView(int position, View view, ViewGroup parent) {
 		MyLog.entry();
 
-		if (view == null) {
-			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.manage_ignore_list_fragment_quick_actions_item, parent, false);
-		}
 		final IgnoreMonsterQuickActionModel item = super.getItem(position);
 		MyLog.debug("item = " + item);
 
-		final TextView nameText = (TextView) view.findViewById(R.id.manage_ignore_list_quick_action_item_name);
-		nameText.setText(getContext().getString(R.string.manage_ignore_list_quick_action_name, item.getQuickActionName()));
+		final ViewHolder viewHolder;
+		if (view == null) {
+			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.manage_ignore_list_fragment_quick_actions_item, parent, false);
+			viewHolder = new ViewHolder(view);
+			view.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) view.getTag();
+		}
 
-		final Integer[] imageIds = {R.id.manage_ignore_list_quick_action_item_image_1, R.id.manage_ignore_list_quick_action_item_image_2, R.id.manage_ignore_list_quick_action_item_image_3, R.id.manage_ignore_list_quick_action_item_image_4, R.id.manage_ignore_list_quick_action_item_image_5};
+		viewHolder.nameText.setText(getContext().getString(R.string.manage_ignore_list_quick_action_name, item.getQuickActionName()));
 
 		boolean hasAll = true;
 		boolean hasNone = true;
@@ -71,15 +98,14 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 				}
 			}
 
-			bindOneImage(view, i, monsterId, alreadyIgnored, imageIds[i]);
+			bindOneImage(i, viewHolder.imageViews.get(i), monsterId, alreadyIgnored);
 		}
 
-		final Button removeButton = (Button) view.findViewById(R.id.manage_ignore_list_quick_action_item_remove_button);
 		if (hasNone) {
-			removeButton.setVisibility(View.INVISIBLE);
+			viewHolder.removeButton.setVisibility(View.INVISIBLE);
 		} else {
-			removeButton.setVisibility(View.VISIBLE);
-			removeButton.setOnClickListener(new View.OnClickListener() {
+			viewHolder.removeButton.setVisibility(View.VISIBLE);
+			viewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					MyLog.entry();
@@ -89,12 +115,11 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 				}
 			});
 		}
-		final Button addButton = (Button) view.findViewById(R.id.manage_ignore_list_quick_action_item_add_button);
 		if (hasAll) {
-			addButton.setVisibility(View.INVISIBLE);
+			viewHolder.addButton.setVisibility(View.INVISIBLE);
 		} else {
-			addButton.setVisibility(View.VISIBLE);
-			addButton.setOnClickListener(new View.OnClickListener() {
+			viewHolder.addButton.setVisibility(View.VISIBLE);
+			viewHolder.addButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					MyLog.entry();
@@ -108,10 +133,9 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 		return view;
 	}
 
-	private void bindOneImage(View view, int position, Integer monsterId, boolean alreadyIgnored, int imageId) {
+	private void bindOneImage(int position, ImageView monsterImageView, Integer monsterId, boolean alreadyIgnored) {
 		MyLog.entry("position = " + position);
 
-		final ImageView monsterImageView = (ImageView) view.findViewById(imageId);
 		monsterImageView.clearColorFilter();
 
 		if (monsterId != null && mTaskFragment.getMonsterInfoHelper() != null) {
@@ -120,10 +144,10 @@ public class ManageIgnoreListQuickActionsAdapter extends ArrayAdapter<IgnoreMons
 				final MonsterInfoModel monsterInfo = mTaskFragment.getMonsterInfoHelper().getMonsterInfo(monsterId);
 				mImageHelper.fillImage(monsterImageView, monsterInfo);
 
-				if(!alreadyIgnored) {
+				if (!alreadyIgnored) {
 					monsterImageView.setColorFilter(Color.parseColor("#99000000"), PorterDuff.Mode.DARKEN);
 				}
-			} catch(UnknownMonsterException e) {
+			} catch (UnknownMonsterException e) {
 				Picasso.with(getContext())
 						.load(R.drawable.no_monster_image)
 						.into(monsterImageView);

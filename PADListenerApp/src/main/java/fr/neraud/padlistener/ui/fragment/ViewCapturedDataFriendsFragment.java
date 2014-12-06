@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
@@ -25,21 +27,28 @@ public class ViewCapturedDataFriendsFragment extends Fragment implements LoaderC
 
 	private CapturedFriendCursorAdapter mAdapter;
 
+	@InjectView(R.id.view_captured_data_friends_grid)
+	GridView mGridView;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.view_captured_data_fragment_friends, container, false);
+		ButterKnife.inject(this, view);
 
 		mAdapter = new CapturedFriendCursorAdapter(getActivity());
-
-		final GridView mGridView = (GridView) view.findViewById(R.id.view_captured_data_friends_grid);
 		mGridView.setAdapter(mAdapter);
-
 		getLoaderManager().initLoader(0, null, this);
 
 		MyLog.exit();
 		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
 	}
 
 	@Override

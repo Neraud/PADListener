@@ -1,8 +1,6 @@
 package fr.neraud.padlistener.ui.fragment;
 
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnPageChange;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.ui.widget.SlidingTabLayout;
@@ -23,13 +24,18 @@ import fr.neraud.padlistener.ui.widget.SlidingTabLayout;
  */
 public abstract class AbstractViewPagerFragment extends Fragment {
 
-	private ViewPager mViewPager;
+	@InjectView(R.id.viewPager)
+	ViewPager mViewPager;
+
+	@InjectView(R.id.sliding_tabs)
+	SlidingTabLayout mSlidingTabLayout;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.default_pager_fragment, container, false);
+		ButterKnife.inject(this, view);
 
 		final FragmentPagerAdapter mSectionsPagerAdapter = new FragmentPagerAdapter(getFragmentManager()) {
 
@@ -49,33 +55,37 @@ public abstract class AbstractViewPagerFragment extends Fragment {
 			}
 		};
 
-		mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position) {
-				MyLog.entry("position = " + position);
-				// When swiping between pages, select the corresponding tab.
-				final ActionBar actionBar = getActivity().getActionBar();
-				if (actionBar != null) {
-					actionBar.setSelectedNavigationItem(position);
-				}
-
-				// notifyFragmentSelected will be called in onTabSelected, ne need to call it twice
-				//notifyFragmentSelected(position);
-				MyLog.exit();
-			}
-		});
-
 		//registerTabsInActionBar(view);
-		registerTabsInCustomTabHost(view);
+		registerTabsInCustomTabHost();
 
 		MyLog.exit();
 		return view;
 	}
 
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
+	}
+
+	@OnPageChange(R.id.viewPager)
+	@SuppressWarnings("unused")
+	void onPageSelected(int position) {
+		MyLog.entry("position = " + position);
+		// When swiping between pages, select the corresponding tab.
+		final ActionBar actionBar = getActivity().getActionBar();
+		if (actionBar != null) {
+			actionBar.setSelectedNavigationItem(position);
+		}
+
+		// notifyFragmentSelected will be called in onTabSelected, ne need to call it twice
+		//notifyFragmentSelected(position);
+		MyLog.exit();
+	}
+
+	/*
 	private void registerTabsInActionBar(View view) {
 		MyLog.entry();
 
@@ -109,14 +119,14 @@ public abstract class AbstractViewPagerFragment extends Fragment {
 		}
 		MyLog.exit();
 	}
+	*/
 
-	private void registerTabsInCustomTabHost(View view) {
+	private void registerTabsInCustomTabHost() {
 		MyLog.entry();
-		final SlidingTabLayout slidingTabLayout = (SlidingTabLayout)view.findViewById(R.id.sliding_tabs);
-		slidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
-		slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.tab_selected_strip));
-		slidingTabLayout.setDistributeEvenly(true);
-		slidingTabLayout.setViewPager(mViewPager);
+		mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
+		mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.tab_selected_strip));
+		mSlidingTabLayout.setDistributeEvenly(true);
+		mSlidingTabLayout.setViewPager(mViewPager);
 		MyLog.exit();
 	}
 

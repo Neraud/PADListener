@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModel;
@@ -26,13 +28,20 @@ public class PushSyncFragment extends Fragment {
 	public static final String EXTRA_ACCOUNT_ID_NAME = "accountId";
 	private static final String TAG_TASK_FRAGMENT = "push_sync_task_fragment";
 
-	private TextView mHead;
-	private ProgressBar mProgress;
-	private TextView mSummaryUserInfoUpdated;
-	private TextView mSummaryMaterialsUpdated;
-	private TextView mSummaryMonstersUpdated;
-	private TextView mSummaryMonstersCreated;
-	private TextView mSummaryMonstersDeleted;
+	@InjectView(R.id.push_sync_head)
+	TextView mHead;
+	@InjectView(R.id.push_sync_progress)
+	ProgressBar mProgress;
+	@InjectView(R.id.push_sync_summary_userinfo_updated)
+	TextView mSummaryUserInfoUpdated;
+	@InjectView(R.id.push_sync_summary_materials_updated)
+	TextView mSummaryMaterialsUpdated;
+	@InjectView(R.id.push_sync_summary_monsters_updated)
+	TextView mSummaryMonstersUpdated;
+	@InjectView(R.id.push_sync_summary_monsters_created)
+	TextView mSummaryMonstersCreated;
+	@InjectView(R.id.push_sync_summary_monsters_deleted)
+	TextView mSummaryMonstersDeleted;
 
 	private final PushSyncTaskFragment.CallBacks callbacks = new PushSyncTaskFragment.CallBacks() {
 
@@ -79,14 +88,7 @@ public class PushSyncFragment extends Fragment {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.push_sync_fragment, container, false);
-
-		mHead = (TextView) view.findViewById(R.id.push_sync_head);
-		mProgress = (ProgressBar) view.findViewById(R.id.push_sync_progress);
-		mSummaryUserInfoUpdated = (TextView) view.findViewById(R.id.push_sync_summary_userinfo_updated);
-		mSummaryMaterialsUpdated = (TextView) view.findViewById(R.id.push_sync_summary_materials_updated);
-		mSummaryMonstersUpdated = (TextView) view.findViewById(R.id.push_sync_summary_monsters_updated);
-		mSummaryMonstersCreated = (TextView) view.findViewById(R.id.push_sync_summary_monsters_created);
-		mSummaryMonstersDeleted = (TextView) view.findViewById(R.id.push_sync_summary_monsters_deleted);
+		ButterKnife.inject(this, view);
 
 		final FragmentManager fm = getFragmentManager();
 		PushSyncTaskFragment mTaskFragment = (PushSyncTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
@@ -94,8 +96,7 @@ public class PushSyncFragment extends Fragment {
 			mTaskFragment = new PushSyncTaskFragment();
 			fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
 
-			final ChooseSyncModel result = (ChooseSyncModel) getActivity().getIntent().getSerializableExtra(
-					EXTRA_CHOOSE_SYNC_MODEL_NAME);
+			final ChooseSyncModel result = (ChooseSyncModel) getActivity().getIntent().getSerializableExtra(EXTRA_CHOOSE_SYNC_MODEL_NAME);
 			final int accountId = getActivity().getIntent().getIntExtra(EXTRA_ACCOUNT_ID_NAME, 0);
 
 			mTaskFragment.setChooseSyncModel(result);
@@ -105,5 +106,11 @@ public class PushSyncFragment extends Fragment {
 
 		MyLog.exit();
 		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
 	}
 }

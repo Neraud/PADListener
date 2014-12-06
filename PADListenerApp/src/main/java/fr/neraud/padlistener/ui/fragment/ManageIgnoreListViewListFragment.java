@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.exception.UnknownMonsterException;
@@ -29,15 +31,17 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 	private ManageIgnoreListTaskFragment mTaskFragment;
 	private IgnoredMonsterAdapter mAdapter;
 
+	@InjectView(R.id.manage_ignore_list_monsters_grid)
+	GridView mGridView;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.manage_ignore_list_fragment_list, container, false);
+		ButterKnife.inject(this, view);
 
 		mTaskFragment = (ManageIgnoreListTaskFragment) getFragmentManager().findFragmentByTag(ManageIgnoreListTaskFragment.TAG_TASK_FRAGMENT);
-
-		final GridView mGridView = (GridView) view.findViewById(R.id.manage_ignore_list_monsters_grid);
 		mAdapter = new IgnoredMonsterAdapter(getActivity(), mTaskFragment);
 		mGridView.setAdapter(mAdapter);
 
@@ -58,6 +62,7 @@ public class ManageIgnoreListViewListFragment extends Fragment {
 		MyLog.entry();
 		super.onDestroyView();
 		mTaskFragment.registerListFragment(null);
+		ButterKnife.reset(this);
 		MyLog.exit();
 	}
 

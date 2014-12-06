@@ -1,7 +1,6 @@
 package fr.neraud.padlistener.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 
@@ -22,7 +21,7 @@ public abstract class AbstractMonsterCursorAdapter extends SimpleCursorAdapter {
 		mContext = context;
 	}
 
-	protected ImageView fillImage(View view, int imageViewId, MonsterInfoModel model) {
-		return new MonsterImageHelper(mContext).fillImage(view, imageViewId, model);
+	protected void fillImage(ImageView imageView, MonsterInfoModel model) {
+		new MonsterImageHelper(mContext).fillImage(imageView, model);
 	}
 }

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnItemClick;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
@@ -18,6 +20,9 @@ import fr.neraud.padlistener.ui.adapter.ChoosePadVersionAdapter;
  * Created by Neraud on 25/11/2014.
  */
 public abstract class ChoosePadVersionDialogFragment extends DialogFragment {
+
+	@InjectView(R.id.choose_pad_version_list)
+	ListView mList;
 
 	public ChoosePadVersionDialogFragment() {
 	}
@@ -32,19 +37,10 @@ public abstract class ChoosePadVersionDialogFragment extends DialogFragment {
 		builder.setTitle(R.string.choose_pad_version_title);
 
 		final View view = inflater.inflate(R.layout.choose_pad_version_fragment, null);
+		ButterKnife.inject(this, view);
 
-		final ListView list = (ListView) view.findViewById(R.id.choose_pad_version_list);
 		final ChoosePadVersionAdapter adapter = new ChoosePadVersionAdapter(getActivity());
-		list.setAdapter(adapter);
-
-		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				final PADVersion chosenVersion = (PADVersion) list.getAdapter().getItem(position);
-				handlePadVersionChosen(chosenVersion);
-				dismiss();
-			}
-		});
+		mList.setAdapter(adapter);
 
 		builder.setView(view);
 		builder.setNegativeButton(R.string.choose_pad_version_cancel, null);
@@ -52,6 +48,16 @@ public abstract class ChoosePadVersionDialogFragment extends DialogFragment {
 
 		MyLog.exit();
 		return dialog;
+	}
+
+	@OnItemClick(R.id.choose_pad_version_list)
+	@SuppressWarnings("unused")
+	void onItemClick(int position) {
+		MyLog.entry();
+		final PADVersion chosenVersion = (PADVersion) mList.getAdapter().getItem(position);
+		handlePadVersionChosen(chosenVersion);
+		dismiss();
+		MyLog.exit();
 	}
 
 	protected abstract void handlePadVersionChosen(PADVersion chosenVersion);

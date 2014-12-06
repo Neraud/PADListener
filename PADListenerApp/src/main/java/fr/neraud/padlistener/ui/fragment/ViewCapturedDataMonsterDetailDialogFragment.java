@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
@@ -23,6 +25,17 @@ public class ViewCapturedDataMonsterDetailDialogFragment extends DialogFragment 
 
 	private BaseMonsterStatsModel mMonsterStatsModel;
 	private MonsterInfoModel mMonsterInfoModel;
+
+	@InjectView(R.id.view_captured_monster_detail_level)
+	TextView mLevelTextView;
+	@InjectView(R.id.view_captured_monster_detail_pluses)
+	TextView mPlusesTextView;
+	@InjectView(R.id.view_captured_monster_detail_awakenings)
+	TextView mAwakeningsTextView;
+	@InjectView(R.id.view_captured_monster_detail_skill_level)
+	TextView mSkillLevelTextView;
+	@InjectView(R.id.view_captured_monster_detail_image)
+	ImageView monsterImageView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,10 +64,11 @@ public class ViewCapturedDataMonsterDetailDialogFragment extends DialogFragment 
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.view_captured_data_fragment_monsters_detail, container, false);
+		ButterKnife.inject(this, view);
+
 		final String title = getString(R.string.view_captured_monster_detail_name, mMonsterInfoModel.getIdJP(), mMonsterInfoModel.getName());
 		getDialog().setTitle(title);
 
-		final ImageView monsterImageView = (ImageView) view.findViewById(R.id.view_captured_monster_detail_image);
 		final String imageUrl = PadHerderDescriptor.serverUrl + mMonsterInfoModel.getImage60Url();
 
 		Picasso.with(getActivity())
@@ -62,25 +76,24 @@ public class ViewCapturedDataMonsterDetailDialogFragment extends DialogFragment 
 				.error(R.drawable.no_monster_image)
 				.into(monsterImageView);
 
-		final TextView levelTextView = (TextView) view.findViewById(R.id.view_captured_monster_detail_level);
-		levelTextView.setText(getString(R.string.view_captured_monster_detail_level_value,
+		mLevelTextView.setText(getString(R.string.view_captured_monster_detail_level_value,
 				mMonsterStatsModel.getLevel(),
 				mMonsterStatsModel.getExp()));
-
-		final TextView plusesTextView = (TextView) view.findViewById(R.id.view_captured_monster_detail_pluses);
-		plusesTextView.setText(getString(R.string.view_captured_monster_detail_pluses_value,
+		mPlusesTextView.setText(getString(R.string.view_captured_monster_detail_pluses_value,
 				mMonsterStatsModel.getPlusHp(),
 				mMonsterStatsModel.getPlusAtk(),
 				mMonsterStatsModel.getPlusRcv()));
-
-		final TextView awakeningsTextView = (TextView) view.findViewById(R.id.view_captured_monster_detail_awakenings);
-		awakeningsTextView.setText(getString(R.string.view_captured_monster_detail_awakenings_value, mMonsterStatsModel.getAwakenings()));
-
-		final TextView skillLevelTextView = (TextView) view.findViewById(R.id.view_captured_monster_detail_skill_level);
-		skillLevelTextView.setText(getString(R.string.view_captured_monster_detail_skill_level_value, mMonsterStatsModel.getSkillLevel()));
+		mAwakeningsTextView.setText(getString(R.string.view_captured_monster_detail_awakenings_value, mMonsterStatsModel.getAwakenings()));
+		mSkillLevelTextView.setText(getString(R.string.view_captured_monster_detail_skill_level_value, mMonsterStatsModel.getSkillLevel()));
 
 		MyLog.exit();
 		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
 	}
 
 	public BaseMonsterStatsModel getMonsterStatsModel() {

@@ -9,18 +9,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.ProxyMode;
@@ -40,13 +41,22 @@ public class SwitchListenerFragment extends Fragment {
 	private static final String TAG_TASK_FRAGMENT = "switch_listener_task_fragment";
 	private final SwitchListenerTaskFragment.CallBacks mCallbacks;
 	private SwitchListenerTaskFragment mTaskFragment;
-	private TextView mListenerStatus;
-	private Switch mListenerSwitch;
-	private Button mSecondaryActionButton;
-	private TextView mProxyStartedTextView;
-	private Button mShowLogsButton;
-	private TextView mErrorText;
-	private OnCheckedChangeListener mOnCheckedListener;
+	private ProxyMode mProxyMode;
+	private boolean mSwitchListenerEnabled = true;
+	private SwitchListenerResult mResult;
+
+	@InjectView(R.id.switch_listener_status)
+	TextView mListenerStatus;
+	@InjectView(R.id.switch_listener_switch)
+	Switch mListenerSwitch;
+	@InjectView(R.id.switch_listener_secondary_action_button)
+	Button mSecondaryActionButton;
+	@InjectView(R.id.switch_listener_proxy_started)
+	TextView mProxyStartedTextView;
+	@InjectView(R.id.switch_listener_show_logs_button)
+	Button mShowLogsButton;
+	@InjectView(R.id.switch_listener_error_text)
+	TextView mErrorText;
 
 	public SwitchListenerFragment() {
 		mCallbacks = new SwitchListenerTaskFragment.CallBacks() {
@@ -54,6 +64,7 @@ public class SwitchListenerFragment extends Fragment {
 			@Override
 			public void updateState(SwitchListenerTaskFragment.ListenerState state, SwitchListenerResult result) {
 				MyLog.entry("state = " + state);
+				mResult = result;
 				mProxyStartedTextView.setVisibility(View.GONE);
 
 				resetState();
@@ -123,29 +134,12 @@ public class SwitchListenerFragment extends Fragment {
 		MyLog.entry();
 
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
-		final ProxyMode proxyMode = prefHelper.getProxyMode();
+		mProxyMode = prefHelper.getProxyMode();
 
-		if (proxyMode == ProxyMode.MANUAL || proxyMode == ProxyMode.AUTO_WIFI_PROXY) {
+		if (mProxyMode == ProxyMode.MANUAL || mProxyMode == ProxyMode.AUTO_WIFI_PROXY) {
 			mSecondaryActionButton.setText(R.string.switch_listener_launch_wifi_settings);
-			mSecondaryActionButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					MyLog.entry();
-					startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
-					MyLog.exit();
-				}
-			});
-		} else if (proxyMode == ProxyMode.AUTO_IPTABLES) {
+		} else if (mProxyMode == ProxyMode.AUTO_IPTABLES) {
 			mSecondaryActionButton.setText(R.string.switch_listener_force_stop);
-			mSecondaryActionButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					MyLog.entry();
-					mTaskFragment.stopListener(true);
-					MyLog.exit();
-				}
-			});
 		} else {
 			mSecondaryActionButton.setVisibility(View.INVISIBLE);
 		}
@@ -154,7 +148,7 @@ public class SwitchListenerFragment extends Fragment {
 		mErrorText.setVisibility(View.GONE);
 		mShowLogsButton.setVisibility(View.GONE);
 
-		final boolean requireWifi = proxyMode == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
+		final boolean requireWifi = mProxyMode == ProxyMode.AUTO_WIFI_PROXY || prefHelper.isListenerNonLocalEnabled();
 		final WifiHelper wifiHelper = new WifiHelper(getActivity());
 
 		if (prefHelper.getAllListenerTargetHostnames().isEmpty()) {
@@ -174,29 +168,7 @@ public class SwitchListenerFragment extends Fragment {
 		MyLog.entry();
 
 		final View view = inflater.inflate(R.layout.switch_listener_fragment, container, false);
-
-		mListenerStatus = (TextView) view.findViewById(R.id.switch_listener_status);
-		mListenerSwitch = (Switch) view.findViewById(R.id.switch_listener_switch);
-
-		mOnCheckedListener = new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				MyLog.entry("isChecked = " + isChecked);
-				if (isChecked) {
-					mTaskFragment.startListener();
-				} else {
-					mTaskFragment.stopListener(false);
-				}
-				MyLog.exit();
-			}
-		};
-		mListenerSwitch.setOnCheckedChangeListener(mOnCheckedListener);
-
-		mProxyStartedTextView = (TextView) view.findViewById(R.id.switch_listener_proxy_started);
-		mSecondaryActionButton = (Button) view.findViewById(R.id.switch_listener_secondary_action_button);
-		mErrorText = (TextView) view.findViewById(R.id.switch_listener_error_text);
-		mShowLogsButton = (Button) view.findViewById(R.id.switch_listener_show_logs_button);
+		ButterKnife.inject(this, view);
 
 		final FragmentManager fm = getFragmentManager();
 		mTaskFragment = (SwitchListenerTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
@@ -208,6 +180,12 @@ public class SwitchListenerFragment extends Fragment {
 
 		MyLog.exit();
 		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
 	}
 
 	private void updateMissingRequirement(int textResId) {
@@ -225,58 +203,13 @@ public class SwitchListenerFragment extends Fragment {
 	private void updateError(String errorMessage, final SwitchListenerResult result) {
 		MyLog.entry();
 
+		mResult = result;
 		mListenerSwitch.setClickable(false);
 		mSecondaryActionButton.setClickable(false);
 		mErrorText.setTextColor(Color.RED);
 		mErrorText.setVisibility(View.VISIBLE);
 		mErrorText.setText(errorMessage);
-
 		mShowLogsButton.setVisibility(View.VISIBLE);
-		mShowLogsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				MyLog.entry();
-
-				final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-				alert.setTitle(R.string.switch_listener_show_logs_title);
-
-				final WebView wv = new WebView(getActivity());
-				final StringBuilder dataBuilder = new StringBuilder();
-				dataBuilder.append("<html><body>");
-				if (result.getError() != null) {
-					dataBuilder.append("<h2>").append(result.getError().getMessage()).append("</h2><br/>");
-					final StringWriter sw = new StringWriter();
-					final PrintWriter pw = new PrintWriter(sw);
-					result.getError().printStackTrace(pw);
-					final String stackTrace = sw.toString();
-					pw.close();
-					dataBuilder.append("<b>Stacktrace</b> : <br/>");
-					dataBuilder.append("<pre>").append(stackTrace).append("</pre>");
-				}
-
-				if (result.getLogs() != null) {
-					dataBuilder.append("<b>Logs</b> : <br/>");
-					dataBuilder.append("<pre>");
-					for (final String logLine : result.getLogs()) {
-						dataBuilder.append(logLine).append("\n");
-					}
-					dataBuilder.append("</pre>");
-				}
-
-				dataBuilder.append("</body></html>");
-				wv.loadDataWithBaseURL("", dataBuilder.toString(), "text/html", "UTF-8", "");
-
-				alert.setView(wv);
-				alert.setNegativeButton(R.string.switch_listener_show_logs_close, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-				alert.show();
-				MyLog.exit();
-			}
-		});
 
 		MyLog.exit();
 	}
@@ -301,10 +234,81 @@ public class SwitchListenerFragment extends Fragment {
 
 	private void forceToggledWithoutListener(boolean checked) {
 		if (mListenerSwitch.isChecked() != checked) {
-			mListenerSwitch.setOnCheckedChangeListener(null);
+			mSwitchListenerEnabled = false;
 			mListenerSwitch.setChecked(checked);
-			mListenerSwitch.setOnCheckedChangeListener(mOnCheckedListener);
+			mSwitchListenerEnabled = true;
 		}
+	}
+
+	@OnCheckedChanged(R.id.switch_listener_switch)
+	@SuppressWarnings("unused")
+	void onListenerCheckChanged(boolean isChecked) {
+		MyLog.entry("isChecked = " + isChecked);
+		if(mSwitchListenerEnabled) {
+			if (isChecked) {
+				mTaskFragment.startListener();
+			} else {
+				mTaskFragment.stopListener(false);
+			}
+		}
+		MyLog.exit();
+	}
+
+	@OnClick(R.id.switch_listener_show_logs_button)
+	@SuppressWarnings("unused")
+	void onShowLogsButtonClicked() {
+		MyLog.entry();
+
+		final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+		alert.setTitle(R.string.switch_listener_show_logs_title);
+
+		final WebView wv = new WebView(getActivity());
+		final StringBuilder dataBuilder = new StringBuilder();
+		dataBuilder.append("<html><body>");
+		if (mResult.getError() != null) {
+			dataBuilder.append("<h2>").append(mResult.getError().getMessage()).append("</h2><br/>");
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter(sw);
+			mResult.getError().printStackTrace(pw);
+			final String stackTrace = sw.toString();
+			pw.close();
+			dataBuilder.append("<b>Stacktrace</b> : <br/>");
+			dataBuilder.append("<pre>").append(stackTrace).append("</pre>");
+		}
+
+		if (mResult.getLogs() != null) {
+			dataBuilder.append("<b>Logs</b> : <br/>");
+			dataBuilder.append("<pre>");
+			for (final String logLine : mResult.getLogs()) {
+				dataBuilder.append(logLine).append("\n");
+			}
+			dataBuilder.append("</pre>");
+		}
+
+		dataBuilder.append("</body></html>");
+		wv.loadDataWithBaseURL("", dataBuilder.toString(), "text/html", "UTF-8", "");
+
+		alert.setView(wv);
+		alert.setNegativeButton(R.string.switch_listener_show_logs_close, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.dismiss();
+			}
+		});
+		alert.show();
+		MyLog.exit();
+	}
+
+	@OnClick(R.id.switch_listener_secondary_action_button)
+	@SuppressWarnings("unused")
+	void onSecondaryActionClicked() {
+		MyLog.entry();
+		if (mProxyMode == ProxyMode.MANUAL || mProxyMode == ProxyMode.AUTO_WIFI_PROXY) {
+			startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+		} else if (mProxyMode == ProxyMode.AUTO_IPTABLES) {
+			mTaskFragment.stopListener(true);
+		}
+		MyLog.exit();
 	}
 
 }

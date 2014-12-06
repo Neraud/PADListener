@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
@@ -21,6 +23,20 @@ public class ChoosePadVersionAdapter extends ArrayAdapter<PADVersion> {
 
 	private final Context mContext;
 	private final InstalledPadVersionsHelper padVersionHelper;
+
+	static class ViewHolder {
+
+		@InjectView(R.id.home_fragment_launch_item_icon)
+		ImageView image;
+		@InjectView(R.id.home_fragment_launch_item_name_text)
+		TextView nameText;
+		@InjectView(R.id.home_fragment_launch_item_running_text)
+		TextView runningText;
+
+		public ViewHolder(View view) {
+			ButterKnife.inject(this, view);
+		}
+	}
 
 	public ChoosePadVersionAdapter(Context context) {
 		super(context, 0);
@@ -40,25 +56,28 @@ public class ChoosePadVersionAdapter extends ArrayAdapter<PADVersion> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		MyLog.entry("position = " + position);
 
+		final PADVersion version = super.getItem(position);
+
+		final ViewHolder viewHolder;
 		if (convertView == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.choose_pad_version_item, parent, false);
+			viewHolder = new ViewHolder(convertView);
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
 		convertView.setFocusable(false);
-		final ImageView image = (ImageView) convertView.findViewById(R.id.home_fragment_launch_item_icon);
-		final TextView nameText = (TextView) convertView.findViewById(R.id.home_fragment_launch_item_name_text);
-		final TextView runningText = (TextView) convertView.findViewById(R.id.home_fragment_launch_item_running_text);
 
-		final PADVersion version = super.getItem(position);
 
-		nameText.setText(version.name());
+		viewHolder.nameText.setText(version.name());
 
 		final Drawable padIcon = padVersionHelper.getPadIcon(version);
-		image.setImageDrawable(padIcon);
+		viewHolder.image.setImageDrawable(padIcon);
 
 		final boolean padRunning = padVersionHelper.isPadRunning(version);
-		runningText.setVisibility(padRunning ? View.VISIBLE : View.GONE);
+		viewHolder.runningText.setVisibility(padRunning ? View.VISIBLE : View.GONE);
 
 		MyLog.exit();
 		return convertView;

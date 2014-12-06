@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
@@ -28,6 +30,22 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 	private Integer mDefaultTextColor = null;
 	private MonsterImageHelper mImageHelper;
 
+	static class ViewHolder {
+
+		@InjectView(R.id.choose_sync_materials_item_checkbox)
+		CheckBox checkBox;
+		@InjectView(R.id.choose_sync_materials_item_image)
+		ImageView image;
+		@InjectView(R.id.choose_sync_materials_item_name)
+		TextView nameText;
+		@InjectView(R.id.choose_sync_materials_item_quantities)
+		TextView quantitiesText;
+
+		public ViewHolder(View view) {
+			ButterKnife.inject(this, view);
+		}
+	}
+
 	public ChooseSyncMaterialsAdapter(Context context, List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
 		super(context, 0, syncedMaterialsToUpdate);
 		mImageHelper = new MonsterImageHelper(context);
@@ -39,16 +57,19 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 
 		final ChooseSyncModelContainer<SyncedMaterialModel> item = super.getItem(position);
 
+		final ViewHolder viewHolder;
 		if (view == null) {
 			final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.choose_sync_item_materials, parent, false);
-			mDefaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_materials_item_quantities)).getTextColors()
-					.getDefaultColor();
+			mDefaultTextColor = ((TextView) view.findViewById(R.id.choose_sync_materials_item_quantities)).getTextColors().getDefaultColor();
+			viewHolder = new ViewHolder(view);
+			view.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) view.getTag();
 		}
 
-		final CheckBox checkBox = (CheckBox) view.findViewById(R.id.choose_sync_materials_item_checkbox);
-		checkBox.setChecked(item.isChosen());
-		checkBox.setOnClickListener(new OnClickListener() {
+		viewHolder.checkBox.setChecked(item.isChosen());
+		viewHolder.checkBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				MyLog.entry();
@@ -57,24 +78,22 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 			}
 		});
 
-		final ImageView image = mImageHelper.fillImage(view, R.id.choose_sync_materials_item_image, item.getSyncedModel().getDisplayedMonsterInfo());
-		image.setOnClickListener(new OnClickListener() {
+		mImageHelper.fillImage(viewHolder.image, item.getSyncedModel().getDisplayedMonsterInfo());
+		viewHolder.image.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				MyLog.entry();
 				item.setChosen(!item.isChosen());
-				checkBox.setChecked(item.isChosen());
+				viewHolder.checkBox.setChecked(item.isChosen());
 				MyLog.exit();
 			}
 		});
 
-		final TextView nameText = (TextView) view.findViewById(R.id.choose_sync_materials_item_name);
-		nameText.setText(getContext().getString(R.string.choose_sync_materials_item_name,
+		viewHolder.nameText.setText(getContext().getString(R.string.choose_sync_materials_item_name,
 				item.getSyncedModel().getDisplayedMonsterInfo().getIdJP(),
 				item.getSyncedModel().getDisplayedMonsterInfo().getName()));
 
-		final TextView quantitiesText = (TextView) view.findViewById(R.id.choose_sync_materials_item_quantities);
-		quantitiesText.setText(getContext().getString(R.string.choose_sync_materials_item_quantities,
+		viewHolder.quantitiesText.setText(getContext().getString(R.string.choose_sync_materials_item_quantities,
 				item.getSyncedModel().getPadherderInfo(), item.getSyncedModel().getCapturedInfo()));
 
 		int textColor;
@@ -86,7 +105,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 			// Shouldn't happen
 			textColor = mDefaultTextColor;
 		}
-		quantitiesText.setTextColor(textColor);
+		viewHolder.quantitiesText.setTextColor(textColor);
 
 		MyLog.exit();
 		return view;

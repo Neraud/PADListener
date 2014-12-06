@@ -5,8 +5,11 @@ import android.database.Cursor;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.BaseMonsterStatsModel;
@@ -21,6 +24,46 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 
 	private FragmentActivity mActivity;
 
+	static class ViewHolder {
+
+		@InjectView(R.id.view_captured_data_friend_name)
+		TextView friendNameTextView;
+		@InjectView(R.id.view_captured_data_friend_id)
+		TextView friendIdTextView;
+		@InjectView(R.id.view_captured_data_friend_rank)
+		TextView friendRankTextView;
+
+		@InjectView(R.id.view_captured_data_friend_leader1_container)
+		ViewGroup leader1Container;
+		@InjectView(R.id.view_captured_data_friend_leader1_image)
+		ImageView leader1Image;
+		@InjectView(R.id.view_captured_data_friend_leader1_awakenings)
+		TextView leader1Awakenings;
+		@InjectView(R.id.view_captured_data_friend_leader1_level)
+		TextView leader1Level;
+		@InjectView(R.id.view_captured_data_friend_leader1_skill_level)
+		TextView leader1SkillLevel;
+		@InjectView(R.id.view_captured_data_friend_leader1_pluses)
+		TextView leader1Pluses;
+
+		@InjectView(R.id.view_captured_data_friend_leader2_container)
+		ViewGroup leader2Container;
+		@InjectView(R.id.view_captured_data_friend_leader2_image)
+		ImageView leader2Image;
+		@InjectView(R.id.view_captured_data_friend_leader2_awakenings)
+		TextView leader2Awakenings;
+		@InjectView(R.id.view_captured_data_friend_leader2_level)
+		TextView leader2Level;
+		@InjectView(R.id.view_captured_data_friend_leader2_skill_level)
+		TextView leader2SkillLevel;
+		@InjectView(R.id.view_captured_data_friend_leader2_pluses)
+		TextView leader2Pluses;
+
+		public ViewHolder(View view) {
+			ButterKnife.inject(this, view);
+		}
+	}
+
 	public CapturedFriendCursorAdapter(FragmentActivity activity) {
 		super(activity, R.layout.view_captured_data_fragment_friends_item);
 		mActivity = activity;
@@ -30,47 +73,40 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 	public void bindView(View view, Context context, Cursor cursor) {
 		MyLog.entry();
 
+		final ViewHolder viewHolder = new ViewHolder(view);
+
 		final CapturedFriendFullInfoModel model = CapturedPlayerFriendProviderHelper.cursorWithInfoToModel(cursor);
 
-		final TextView friendNameTextView = (TextView) view.findViewById(R.id.view_captured_data_friend_name);
-		friendNameTextView.setText(model.getFriendModel().getName());
+		viewHolder.friendNameTextView.setText(model.getFriendModel().getName());
+		viewHolder.friendIdTextView.setText(mActivity.getString(R.string.view_captured_data_friend_id, model.getFriendModel().getId()));
+		viewHolder.friendRankTextView.setText(mActivity.getString(R.string.view_captured_data_friend_rank, model.getFriendModel().getRank()));
 
-		final TextView friendIdTextView = (TextView) view.findViewById(R.id.view_captured_data_friend_id);
-		friendIdTextView.setText(mActivity.getString(R.string.view_captured_data_friend_id, model.getFriendModel().getId()));
-
-		final TextView friendRankTextView = (TextView) view.findViewById(R.id.view_captured_data_friend_rank);
-		friendRankTextView.setText(mActivity.getString(R.string.view_captured_data_friend_rank, model.getFriendModel().getRank()));
-
-		fillLeader1(view, model.getLeader1Info(), model.getFriendModel().getLeader1());
-		fillLeader2(view, model.getLeader2Info(), model.getFriendModel().getLeader2());
+		fillLeader1(viewHolder, model.getLeader1Info(), model.getFriendModel().getLeader1());
+		fillLeader2(viewHolder, model.getLeader2Info(), model.getFriendModel().getLeader2());
 
 		MyLog.exit();
 	}
 
-	private void fillLeader1(View view, MonsterInfoModel monsterInfoModel, BaseMonsterStatsModel monsterStatsModel) {
-		final ViewGroup leaderContainer = (ViewGroup) view.findViewById(R.id.view_captured_data_friend_leader1_container);
+	private void fillLeader1(ViewHolder viewHolder, MonsterInfoModel monsterInfoModel, BaseMonsterStatsModel monsterStatsModel) {
+		fillImage(viewHolder.leader1Image, monsterInfoModel);
+		addDetailDialog(viewHolder.leader1Container, monsterInfoModel, monsterStatsModel);
 
-		fillImage(leaderContainer, R.id.view_captured_data_friend_leader1_image, monsterInfoModel);
-		addDetailDialog(leaderContainer, monsterInfoModel, monsterStatsModel);
-
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader1_awakenings, monsterStatsModel.getAwakenings(), monsterInfoModel.getAwokenSkillIds().size());
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader1_level, monsterStatsModel.getLevel(), monsterInfoModel.getMaxLevel());
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader1_skill_level, monsterStatsModel.getSkillLevel(), 999); // TODO
+		fillTextView(viewHolder.leader1Awakenings, monsterStatsModel.getAwakenings(), monsterInfoModel.getAwokenSkillIds().size());
+		fillTextView(viewHolder.leader1Level, monsterStatsModel.getLevel(), monsterInfoModel.getMaxLevel());
+		fillTextView(viewHolder.leader1SkillLevel, monsterStatsModel.getSkillLevel(), 999); // TODO
 		final int totalPluses = monsterStatsModel.getPlusHp() + monsterStatsModel.getPlusAtk() + monsterStatsModel.getPlusRcv();
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader1_pluses, totalPluses, 3 * 99);
+		fillTextView(viewHolder.leader1Pluses, totalPluses, 3 * 99);
 	}
 
-	private void fillLeader2(View view, MonsterInfoModel monsterInfoModel, BaseMonsterStatsModel monsterStatsModel) {
-		final ViewGroup leaderContainer = (ViewGroup) view.findViewById(R.id.view_captured_data_friend_leader2_container);
+	private void fillLeader2(ViewHolder viewHolder, MonsterInfoModel monsterInfoModel, BaseMonsterStatsModel monsterStatsModel) {
+		fillImage(viewHolder.leader2Image, monsterInfoModel);
+		addDetailDialog(viewHolder.leader2Container, monsterInfoModel, monsterStatsModel);
 
-		fillImage(leaderContainer, R.id.view_captured_data_friend_leader2_image, monsterInfoModel);
-		addDetailDialog(leaderContainer, monsterInfoModel, monsterStatsModel);
-
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader2_awakenings, monsterStatsModel.getAwakenings(), monsterInfoModel.getAwokenSkillIds().size());
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader2_level, monsterStatsModel.getLevel(), monsterInfoModel.getMaxLevel());
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader2_skill_level, monsterStatsModel.getSkillLevel(), 999); // TODO
+		fillTextView(viewHolder.leader2Awakenings, monsterStatsModel.getAwakenings(), monsterInfoModel.getAwokenSkillIds().size());
+		fillTextView(viewHolder.leader2Level, monsterStatsModel.getLevel(), monsterInfoModel.getMaxLevel());
+		fillTextView(viewHolder.leader2SkillLevel, monsterStatsModel.getSkillLevel(), 999); // TODO
 		final int totalPluses = monsterStatsModel.getPlusHp() + monsterStatsModel.getPlusAtk() + monsterStatsModel.getPlusRcv();
-		fillTextView(leaderContainer, R.id.view_captured_data_friend_leader2_pluses, totalPluses, 3 * 99);
+		fillTextView(viewHolder.leader2Pluses, totalPluses, 3 * 99);
 	}
 
 }
