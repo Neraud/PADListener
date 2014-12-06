@@ -19,6 +19,7 @@ I use the following libraries :
 * [libsuperuser](https://github.com/Chainfire/libsuperuser)
 * [Picasso](https://github.com/square/picasso)
 * [Showcaseview](https://github.com/amlcurran/ShowcaseView)
+* [Timber](https://github.com/JakeWharton/timber)
 
 
 Warning
