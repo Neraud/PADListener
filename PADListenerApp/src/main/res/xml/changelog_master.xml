@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #61 : auto capture and sync crashes when unknown monsters are encountered</change>
+	</release>
+	<release
 		version="2.0.0" versioncode="43">
 		<change>Misc technical changes</change>
 	</release>

@@ -1,12 +1,12 @@
 package fr.neraud.padlistener.service;
 
-import android.app.AlertDialog;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ResultReceiver;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -172,10 +172,8 @@ public class AutoSyncService extends IntentService {
 		final ChooseSyncModel mChooseResult = initHelper.filterSyncResult();
 
 		if (result.isHasEncounteredUnknownMonster()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.choose_sync_alert_unknown_monster_encountered_title);
-			builder.setMessage(R.string.choose_sync_alert_unknown_monster_encountered_content);
-			builder.create().show();
+			MyLog.info("Unknown monsters encountered");
+			Toast.makeText(this, R.string.choose_sync_alert_unknown_monster_encountered_toast, Toast.LENGTH_LONG).show();
 		}
 
 		MyLog.exit();
