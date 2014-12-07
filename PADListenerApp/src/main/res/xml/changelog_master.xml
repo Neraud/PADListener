@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="2.0.0" versioncode="43">
+		<change>Misc technical changes</change>
+	</release>
+	<release
 		version="2.0.b3" versioncode="42">
 		<change>Fixed crash when rotating the device while a monster popup is opened</change>
 		<change>Misc UI changes</change>
