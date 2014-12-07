@@ -386,6 +386,7 @@
 	<string name="choose_sync_info_label">Summary</string>
 	<string name="choose_sync_alert_unknown_monster_encountered_title">Unknown monsters</string>
 	<string name="choose_sync_alert_unknown_monster_encountered_content">The sync process encountered unknown monsters, they have been ignored. You should refresh the monster information (from the "View monster info" screen) and capture your box again.</string>
+	<string name="choose_sync_alert_unknown_monster_encountered_toast">The sync process encountered unknown monsters, they have been ignored.</string>
 	<string name="choose_sync_materialsUpdated_label">^ Materials</string>
 	<string name="choose_sync_monstersUpdated_label">^ Monsters</string>
 	<string name="choose_sync_monstersCreated_label">+ Monsters</string>

@@ -45,7 +45,11 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:text="@string/switch_listener_show_logs"/>
+			android:background="@drawable/button_secondary"
+			android:minWidth="96dp"
+			android:text="@string/switch_listener_show_logs"
+			android:textAllCaps="true"
+			android:textColor="@color/theme_primary"/>
 
 		<TextView
 			android:id="@+id/switch_listener_error_text"
@@ -63,6 +67,10 @@
 		android:id="@+id/switch_listener_secondary_action_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center"/>
+		android:layout_gravity="center"
+		android:background="@drawable/button_secondary"
+		android:minWidth="144dp"
+		android:textAllCaps="true"
+		android:textColor="@color/theme_primary"/>
 
 </LinearLayout>
