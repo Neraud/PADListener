@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.0.1" versioncode="44">
 		<change>Fixed #61 : auto capture and sync crashes when unknown monsters are encountered</change>
 	</release>
 	<release
