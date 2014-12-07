@@ -3,6 +3,7 @@
                   android:title="@string/settings_padherder_page">
 
 	<EditTextPreference
+		android:defaultValue="1"
 		android:inputType="number"
 		android:key="padherder_account_number"
 		android:summary="@string/settings_padherder_account_number_summary"

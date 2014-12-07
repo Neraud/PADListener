@@ -69,7 +69,7 @@ public class DefaultSharedPreferencesHelper extends AbstractSharedPreferencesHel
 	}
 
 	public int getPadHerderAccountNumber() {
-		return getIntFromStringPreference("padherder_account_number", 3);
+		return getIntFromStringPreference("padherder_account_number", 1);
 	}
 
 	@SuppressLint("UseSparseArrays")
