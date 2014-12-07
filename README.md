@@ -6,7 +6,7 @@ TL;DR description
 PADListener is an Android application aimed at synchronizing your PAD monster box to [PADherder](https://www.padherder.com).
 It's similar to [padherder_sync](https://github.com/madcowfred/padherder-sync) or [padproxy.py](https://bitbucket.org/mywaifu/padproxy/), but doesn't require a computer.
 
-You can watch a [demonstration on youtube](https://www.youtube.com/watch?v=6zCGqFWgW80).
+You can watch a [demonstration on youtube](http://youtu.be/tKrHvC7k03Y).
 
 To sum up, this application starts a local proxy on your Android device and captures the data sent by GungHo servers to PAD. It then syncs your monster box using PADherder's APIs.
 
