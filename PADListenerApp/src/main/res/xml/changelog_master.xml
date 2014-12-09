@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.0.2" versioncode="45">
 		<change>Fixed #64 : auto capture crashes when listener fails to start</change>
 		<change>Fixed #65 : Auto capture (and sync) always stars NA PAD</change>
 		<change>Fixed #63 : Added support for Korean PAD</change>
