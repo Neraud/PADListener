@@ -1,5 +1,7 @@
 package fr.neraud.padlistener.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
@@ -15,11 +17,19 @@ import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
  */
 public class ChoosePadVersionForCaptureDialogFragment extends ChoosePadVersionDialogFragment {
 
+	private Context mContext;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mContext = activity.getApplicationContext();
+	}
+
 	@Override
 	protected void handlePadVersionChosen(PADVersion chosenVersion) {
 		MyLog.entry("chosenVersion = " + chosenVersion);
 
-		final Intent serviceIntent = new Intent(getActivity(), AutoCaptureService.class);
+		final Intent serviceIntent = new Intent(mContext, AutoCaptureService.class);
 		AutoCaptureService.addPadVersionInIntent(serviceIntent, PADVersion.US);
 		AutoCaptureService.addCaptureListenerInIntent(serviceIntent, new AbstractAutoCaptureReceiver(new Handler()) {
 
@@ -31,10 +41,10 @@ public class ChoosePadVersionForCaptureDialogFragment extends ChoosePadVersionDi
 
 			@Override
 			public void notifyListenerError(Exception error) {
-				Toast.makeText(getActivity(), R.string.auto_capture_start_listener_failed, Toast.LENGTH_LONG).show();
+				Toast.makeText(mContext, R.string.auto_capture_start_listener_failed, Toast.LENGTH_LONG).show();
 			}
 		});
-		getActivity().startService(serviceIntent);
+		mContext.startService(serviceIntent);
 
 		MyLog.exit();
 	}

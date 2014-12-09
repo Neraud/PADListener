@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #64 : auto capture crashes when listener fails to start</change>
+	</release>
+	<release
 		version="2.0.1" versioncode="44">
 		<change>Fixed #61 : auto capture and sync crashes when unknown monsters are encountered</change>
 	</release>
