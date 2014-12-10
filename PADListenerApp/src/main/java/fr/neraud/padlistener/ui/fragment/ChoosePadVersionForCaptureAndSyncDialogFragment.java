@@ -32,7 +32,7 @@ public class ChoosePadVersionForCaptureAndSyncDialogFragment extends ChoosePadVe
 		MyLog.entry("chosenVersion = " + chosenVersion);
 
 		final Intent serviceIntent = new Intent(mContext, AutoCaptureService.class);
-		AutoCaptureService.addPadVersionInIntent(serviceIntent, PADVersion.US);
+		AutoCaptureService.addPadVersionInIntent(serviceIntent, chosenVersion);
 		AutoCaptureService.addCaptureListenerInIntent(serviceIntent, new AbstractAutoCaptureReceiver(new Handler()) {
 
 			@Override

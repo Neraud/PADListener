@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release
-		version="2.0.2" versioncode="45">
-		<change>Fixed #64 : auto capture crashes when listener fails to start</change>
-		<change>Fixed #65 : Auto capture (and sync) always stars NA PAD</change>
-		<change>Fixed #63 : Added support for Korean PAD</change>
-	</release>
+    <release
+        version="" versioncode="">
+        <change>Fixed #66 : Auto capture and sync still starts NA PAD</change>
+    </release>
+    <release
+        version="2.0.2" versioncode="45">
+        <change>Fixed #64 : auto capture crashes when listener fails to start</change>
+        <change>Fixed #65 : Auto capture (and sync) always starts NA PAD</change>
+        <change>Fixed #63 : Added support for Korean PAD</change>
+    </release>
 	<release
 		version="2.0.1" versioncode="44">
 		<change>Fixed #61 : auto capture and sync crashes when unknown monsters are encountered</change>
