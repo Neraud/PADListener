@@ -367,6 +367,8 @@
 	<string name="compute_sync_check_padherder_status">This error can occur if PADherder is down. Please check the website.</string>
 	<string name="compute_sync_missing_credentials">You haven\'t set your PADHerder credentiels ! You need to set them in the settings before being able to sync.</string>
 	<string name="compute_sync_missing_capture">You did not capture any data from PAD, there is nothing to sync !</string>
+	<string name="compute_sync_nothing_to_sync">Your PADherder account is already up to date, nothing to sync.</string>
+	<string name="compute_sync_nothing_chosen_to_sync">Your PADherder account is not completely up to date, but your sync pre-selection settings have excluded all differences. You can sync manually, or update those settings.</string>
 	<string name="compute_sync_auto_no_matching_account">You last captured data for the account : %1$s\n\nUnfortunately, this account name doesn\'t match with any account you have set in PADListener.\nYou can edit your PAD account names in the settings.</string>
 
 

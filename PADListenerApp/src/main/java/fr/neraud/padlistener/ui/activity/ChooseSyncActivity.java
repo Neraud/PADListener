@@ -12,7 +12,6 @@ import java.util.List;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
-import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.model.ChooseSyncModel;
 import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
@@ -27,7 +26,7 @@ import fr.neraud.padlistener.ui.helper.BaseHelpManager;
  */
 public class ChooseSyncActivity extends AbstractPADListenerActivity {
 
-	public static final String EXTRA_ACCOUNT_ID_NAME = "mAccountId";
+	public static final String EXTRA_ACCOUNT_ID_NAME = "account_id";
 	public static final String EXTRA_SYNC_RESULT_NAME = "sync_result";
 	public static final String EXTRA_CHOOSE_SYNC_RESULT_NAME = "choose_sync_result";
 	private int mAccountId;
@@ -43,11 +42,7 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 
 		final ComputeSyncResultModel result = (ComputeSyncResultModel) extras.getSerializable(EXTRA_SYNC_RESULT_NAME);
 		mAccountId = extras.getInt(EXTRA_ACCOUNT_ID_NAME);
-
-		final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(this, result);
-		mChooseResult = initHelper.filterSyncResult();
-		MyLog.debug("putting mChooseResult in extras (" + EXTRA_CHOOSE_SYNC_RESULT_NAME + ") : " + mChooseResult);
-		getIntent().putExtra(EXTRA_CHOOSE_SYNC_RESULT_NAME, mChooseResult);
+		mChooseResult = (ChooseSyncModel) extras.getSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME);
 
 		if (result.isHasEncounteredUnknownMonster()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -149,5 +144,9 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 				}
 			}
 		};
+	}
+
+	public ChooseSyncModel getChooseResult() {
+		return mChooseResult;
 	}
 }

@@ -71,6 +71,8 @@ public class ComputeSyncFragment extends Fragment {
 	TextView mMissingCredentials;
 	@InjectView(R.id.compute_sync_missing_capture_text)
 	TextView mMissingCapture;
+	@InjectView(R.id.compute_sync_nothing_to_sync_text)
+	TextView mNothingToSync;
 
 	private final ComputeSyncTaskFragment.CallBacks mCallBacks = new ComputeSyncTaskFragment.CallBacks() {
 
@@ -114,20 +116,30 @@ public class ComputeSyncFragment extends Fragment {
 						mStatus.setText(getString(R.string.compute_sync_status, getString(R.string.compute_sync_status_finished)));
 						mProgress.setProgress(4);
 
+						final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(getActivity(), syncResult);
+						final ChooseSyncModel chooseSyncModel = initHelper.filterSyncResult();
+
 						if (mAutoSync) {
-							final Bundle extras = new Bundle();
-
-							final ChooseSyncInitHelper initHelper = new ChooseSyncInitHelper(getActivity(), syncResult);
-							final ChooseSyncModel chooseSyncModel = initHelper.filterSyncResult();
-
-							extras.putSerializable(PushSyncFragment.EXTRA_CHOOSE_SYNC_MODEL_NAME, chooseSyncModel);
-							extras.putInt(PushSyncFragment.EXTRA_ACCOUNT_ID_NAME, mAccountId);
-							((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.PUSH_SYNC, extras);
+							if (initHelper.isHasChosenDataToSync()) {
+								final Bundle extras = new Bundle();
+								extras.putSerializable(PushSyncFragment.EXTRA_CHOOSE_SYNC_MODEL_NAME, chooseSyncModel);
+								extras.putInt(PushSyncFragment.EXTRA_ACCOUNT_ID_NAME, mAccountId);
+								((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.PUSH_SYNC, extras);
+							} else {
+								mNothingToSync.setText(initHelper.isHasDataToSync() ? R.string.compute_sync_nothing_chosen_to_sync : R.string.compute_sync_nothing_to_sync);
+								mNothingToSync.setVisibility(View.VISIBLE);
+							}
 						} else {
-							final Bundle extras = new Bundle();
-							extras.putSerializable(ChooseSyncActivity.EXTRA_SYNC_RESULT_NAME, syncResult);
-							extras.putInt(ChooseSyncActivity.EXTRA_ACCOUNT_ID_NAME, mAccountId);
-							((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.CHOOSE_SYNC, extras);
+							if (initHelper.isHasDataToSync()) {
+								final Bundle extras = new Bundle();
+								extras.putSerializable(ChooseSyncActivity.EXTRA_SYNC_RESULT_NAME, syncResult);
+								extras.putSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME, chooseSyncModel);
+								extras.putInt(ChooseSyncActivity.EXTRA_ACCOUNT_ID_NAME, mAccountId);
+								((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.CHOOSE_SYNC, extras);
+							} else {
+								mNothingToSync.setText(R.string.compute_sync_nothing_to_sync);
+								mNothingToSync.setVisibility(View.VISIBLE);
+							}
 						}
 						break;
 					case FAILED:
@@ -169,7 +181,7 @@ public class ComputeSyncFragment extends Fragment {
 		MyLog.entry();
 
 		final Bundle extras = getActivity().getIntent().getExtras();
-		mAutoSync = extras != null ? extras.getBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME) : false;
+		mAutoSync = extras != null && extras.getBoolean(ComputeSyncActivity.AUTO_SYNC_EXTRA_NAME);
 
 		final View view = inflater.inflate(R.layout.compute_sync_fragment, container, false);
 		ButterKnife.inject(this, view);
@@ -224,6 +236,8 @@ public class ComputeSyncFragment extends Fragment {
 		} else {
 			mMissingCapture.setVisibility(View.GONE);
 		}
+
+		mNothingToSync.setVisibility(View.GONE);
 
 		MyLog.exit();
 		return view;

@@ -24,10 +24,7 @@ public class ChooseSyncFragment extends AbstractViewPagerFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		MyLog.entry();
 
-		final Bundle extras = getActivity().getIntent().getExtras();
-
-		final ChooseSyncModel chooseResult = (ChooseSyncModel) extras.getSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME);
-		MyLog.debug("getting chooseResult in extras (" + ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME + ") : " + chooseResult);
+		final ChooseSyncModel chooseResult = ((ChooseSyncActivity) getActivity()).getChooseResult();
 		mHelper = new ChooseSyncDataPagerHelper(getActivity(), chooseResult);
 
 		final View view = super.onCreateView(inflater, container, savedInstanceState);

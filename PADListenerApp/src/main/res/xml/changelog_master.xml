@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release
-        version="2.0.3" versioncode="46">
-        <change>Fixed #66 : Auto capture and sync still starts NA PAD</change>
-    </release>
+	<release
+		version="" versioncode="">
+		<change>Fixed #67 : Added "Nothing to sync" message</change>
+		<change>Fixed #68 : back button closes the help overlays</change>
+	</release>
+	<release
+		version="2.0.3" versioncode="46">
+		<change>Fixed #66 : Auto capture and sync still starts NA PAD</change>
+	</release>
     <release
         version="2.0.2" versioncode="45">
         <change>Fixed #64 : auto capture crashes when listener fails to start</change>
