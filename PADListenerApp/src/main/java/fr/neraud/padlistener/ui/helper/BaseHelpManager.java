@@ -20,6 +20,7 @@ public abstract class BaseHelpManager {
 	private final String mHelpTag;
 	private final int mHelpVersion;
 	private final TechnicalSharedPreferencesHelper mTechHelper;
+	private ShowcaseViewHelper mShowcaseViewHelper = null;
 
 	public class PageBuilder {
 
@@ -67,7 +68,7 @@ public abstract class BaseHelpManager {
 		MyLog.entry();
 
 		final int lastHelpDisplayedVersion = mTechHelper.getLastHelpDisplayedVersionForTag(mHelpTag);
-		if(lastHelpDisplayedVersion < mHelpVersion) {
+		if (lastHelpDisplayedVersion < mHelpVersion) {
 			final PageBuilder builder = new PageBuilder();
 			buildDeltaHelpPages(builder, lastHelpDisplayedVersion);
 
@@ -87,7 +88,17 @@ public abstract class BaseHelpManager {
 	}
 
 	private void doShow(PageBuilder builder) {
-		new ShowcaseViewHelper(mActivity, builder.getHelpPages()).showHelp();
+		mShowcaseViewHelper = new ShowcaseViewHelper(mActivity, builder.getHelpPages(), new ShowcaseViewHelper.ShowcaseViewListener() {
+			@Override
+			public void showingHelp(int pageId) {
+			}
+
+			@Override
+			public void finished() {
+				mShowcaseViewHelper = null;
+			}
+		});
+		mShowcaseViewHelper.showHelp();
 		mTechHelper.setLastHelpDisplayedVersionForTag(mHelpTag, mHelpVersion);
 	}
 
@@ -95,6 +106,12 @@ public abstract class BaseHelpManager {
 
 	public abstract void buildDeltaHelpPages(PageBuilder builder, int lastDisplayedVersion);
 
+	public boolean isShowingHelp() {
+		return mShowcaseViewHelper != null && mShowcaseViewHelper.isShowingHelp();
+	}
 
+	public void closeHelp() {
+		if (mShowcaseViewHelper != null) mShowcaseViewHelper.closeHelp();
+	}
 
 }

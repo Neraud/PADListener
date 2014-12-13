@@ -21,13 +21,23 @@ public class ShowcaseViewHelper {
 
 	private final Activity mActivity;
 	private final List<ShowcaseHelpPageModel> mHelpPages;
+	private final ShowcaseViewListener mListener;
 	private int mCounter;
+	private boolean mIsShowingHelp = false;
 	private ShowcaseView mShowcaseView;
-	private ShowcaseHelpPageModel.HelpPageListener previousPageListener = null;
+	private ShowcaseHelpPageModel.HelpPageListener mPreviousPageListener = null;
 
-	public ShowcaseViewHelper(Activity activity, List<ShowcaseHelpPageModel> helpPages) {
+	public static interface ShowcaseViewListener {
+
+		public void showingHelp(int pageId);
+
+		public void finished();
+	}
+
+	public ShowcaseViewHelper(Activity activity, List<ShowcaseHelpPageModel> helpPages, ShowcaseViewListener listener) {
 		mActivity = activity;
 		mHelpPages = helpPages;
+		mListener = listener;
 	}
 
 	public void showHelp() {
@@ -37,7 +47,7 @@ public class ShowcaseViewHelper {
 			mCounter = 0;
 			mShowcaseView = new ShowcaseView.Builder(mActivity, true).build();
 
-			fillShowcaseView();
+			showPage();
 			mShowcaseView.overrideButtonClick(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -45,14 +55,9 @@ public class ShowcaseViewHelper {
 					mCounter++;
 
 					if (mCounter < mHelpPages.size()) {
-						fillShowcaseView();
+						showPage();
 					} else {
-						mShowcaseView.hide();
-
-						if (previousPageListener != null) {
-							previousPageListener.onPostDisplay();
-							previousPageListener = null;
-						}
+						closeHelp();
 					}
 					MyLog.exit();
 				}
@@ -68,8 +73,8 @@ public class ShowcaseViewHelper {
 		final ShowcaseHelpPageModel pageModel = mHelpPages.get(mCounter);
 		final ShowcaseHelpPageModel.HelpPageListener pageListener = pageModel.getPageListener();
 
-		if (previousPageListener != null) {
-			previousPageListener.onPostDisplay();
+		if (mPreviousPageListener != null) {
+			mPreviousPageListener.onPostDisplay();
 		}
 
 		if (pageListener != null) {
@@ -99,7 +104,38 @@ public class ShowcaseViewHelper {
 		// TODO : find a cleaner way
 		mShowcaseView.setShouldCentreText(false);
 
-		previousPageListener = pageListener;
+		mPreviousPageListener = pageListener;
+
+		MyLog.exit();
+	}
+
+	public boolean isShowingHelp() {
+		return mIsShowingHelp;
+	}
+
+	private void showPage() {
+		mIsShowingHelp = true;
+		if (mListener != null) {
+			mListener.showingHelp(mCounter);
+		}
+		fillShowcaseView();
+	}
+
+	public void closeHelp() {
+		MyLog.entry();
+
+		mIsShowingHelp = false;
+
+		if (mListener != null) {
+			mListener.finished();
+		}
+
+		mShowcaseView.hide();
+
+		if (mPreviousPageListener != null) {
+			mPreviousPageListener.onPostDisplay();
+			mPreviousPageListener = null;
+		}
 
 		MyLog.exit();
 	}

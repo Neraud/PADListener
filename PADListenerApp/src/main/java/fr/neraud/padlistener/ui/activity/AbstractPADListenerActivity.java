@@ -392,6 +392,18 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		MyLog.exit();
 	}
 
+	public void onBackPressed() {
+		MyLog.entry();
+
+		if(mHelpManager != null && mHelpManager.isShowingHelp()) {
+			mHelpManager.closeHelp();
+		} else {
+			super.onBackPressed();
+		}
+
+		MyLog.exit();
+	}
+
 	protected NavigationDrawerItem getSelfNavDrawerItem() {
 		return null;
 	}
