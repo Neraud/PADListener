@@ -4,6 +4,7 @@
 		version="" versioncode="">
 		<change>Fixed #67 : Added "Nothing to sync" message</change>
 		<change>Fixed #68 : back button closes the help overlays</change>
+		<change>Fixed #53 : After achieving target Ult Evo, PADherder shows devolution as the next step instead of "None"</change>
 	</release>
 	<release
 		version="2.0.3" versioncode="46">

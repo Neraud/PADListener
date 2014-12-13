@@ -7,25 +7,25 @@ import java.io.Serializable;
  *
  * @author Neraud
  */
-public abstract class SyncedBaseModel<T> implements Serializable {
+public abstract class SyncedBaseModel<C, P> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private T capturedInfo;
-	private T padherderInfo;
+	private C capturedInfo;
+	private P padherderInfo;
 
-	public T getCapturedInfo() {
+	public C getCapturedInfo() {
 		return capturedInfo;
 	}
 
-	public void setCapturedInfo(T capturedInfo) {
+	public void setCapturedInfo(C capturedInfo) {
 		this.capturedInfo = capturedInfo;
 	}
 
-	public T getPadherderInfo() {
+	public P getPadherderInfo() {
 		return padherderInfo;
 	}
 
-	public void setPadherderInfo(T padherderInfo) {
+	public void setPadherderInfo(P padherderInfo) {
 		this.padherderInfo = padherderInfo;
 	}
 

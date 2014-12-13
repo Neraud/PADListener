@@ -5,7 +5,7 @@ package fr.neraud.padlistener.model;
  *
  * @author Neraud
  */
-public abstract class SyncedBaseCardModel<T> extends SyncedBaseModel<T> {
+public abstract class SyncedBaseCardModel<C, P> extends SyncedBaseModel<C, P> {
 
 	private static final long serialVersionUID = 1L;
 	private MonsterInfoModel padherderMonsterInfo;

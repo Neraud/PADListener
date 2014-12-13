@@ -5,7 +5,7 @@ package fr.neraud.padlistener.model;
  *
  * @author Neraud
  */
-public class SyncedUserInfoModel extends SyncedBaseModel<Integer> {
+public class SyncedUserInfoModel extends SyncedBaseModel<Integer, Integer> {
 
 	private static final long serialVersionUID = 1L;
 	private int profileApiId;

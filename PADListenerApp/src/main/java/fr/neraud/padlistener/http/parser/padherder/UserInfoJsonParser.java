@@ -129,7 +129,7 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		monster.setExp(monsterJson.getInt("current_xp"));
 		monster.setSkillLevel(monsterJson.getInt("current_skill"));
 		monster.setAwakenings(monsterJson.getInt("current_awakening"));
-		monster.setTargetEvolutionId(monsterJson.optInt("target_evolution"));
+		monster.setTargetEvolutionIdJp(monsterJson.optInt("target_evolution"));
 		monster.setPlusHp(monsterJson.optInt("plus_hp"));
 		monster.setPlusAtk(monsterJson.optInt("plus_atk"));
 		monster.setPlusRcv(monsterJson.optInt("plus_rcv"));
