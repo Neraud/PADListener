@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="bc">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/SandroProxyLib/libs/bc.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

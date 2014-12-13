@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="htmlparser">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/SandroProxyLib/libs/htmlparser.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

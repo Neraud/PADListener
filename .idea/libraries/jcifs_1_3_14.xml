@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="jcifs-1.3.14">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/SandroProxyLib/libs/jcifs-1.3.14.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
