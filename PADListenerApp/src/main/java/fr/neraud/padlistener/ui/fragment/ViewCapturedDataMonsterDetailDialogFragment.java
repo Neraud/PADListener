@@ -8,15 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.http.helper.PadHerderDescriptor;
 import fr.neraud.padlistener.model.BaseMonsterStatsModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 
 /**
  * Created by Neraud on 28/09/2014.
@@ -69,16 +67,17 @@ public class ViewCapturedDataMonsterDetailDialogFragment extends DialogFragment 
 		final String title = getString(R.string.view_captured_monster_detail_name, mMonsterInfoModel.getIdJP(), mMonsterInfoModel.getName());
 		getDialog().setTitle(title);
 
-		final String imageUrl = PadHerderDescriptor.serverUrl + mMonsterInfoModel.getImage60Url();
+		new MonsterImageHelper(getActivity()).fillImage(monsterImageView, mMonsterInfoModel);
 
-		Picasso.with(getActivity())
-				.load(imageUrl)
-				.error(R.drawable.no_monster_image)
-				.into(monsterImageView);
+		if (mMonsterStatsModel.getExp() > 0) {
+			mLevelTextView.setText(getString(R.string.view_captured_monster_detail_level_with_exp_value,
+					mMonsterStatsModel.getLevel(),
+					mMonsterStatsModel.getExp()));
+		} else {
+			mLevelTextView.setText(getString(R.string.view_captured_monster_detail_level_without_exp_value,
+					mMonsterStatsModel.getLevel()));
+		}
 
-		mLevelTextView.setText(getString(R.string.view_captured_monster_detail_level_value,
-				mMonsterStatsModel.getLevel(),
-				mMonsterStatsModel.getExp()));
 		mPlusesTextView.setText(getString(R.string.view_captured_monster_detail_pluses_value,
 				mMonsterStatsModel.getPlusHp(),
 				mMonsterStatsModel.getPlusAtk(),

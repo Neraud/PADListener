@@ -1,8 +1,9 @@
-package fr.neraud.padlistener.model;
+package fr.neraud.padlistener.pad.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
+import fr.neraud.padlistener.model.BaseMonsterStatsModel;
 import fr.neraud.padlistener.pad.constant.StartingColor;
 
 /**
@@ -10,14 +11,15 @@ import fr.neraud.padlistener.pad.constant.StartingColor;
  *
  * @author Neraud
  */
-public class CapturedFriendModel implements Serializable {
+public class PADCapturedFriendModel implements Serializable {
 
 	private long id;
 	private String name;
 	private int rank;
 	private StartingColor startingColor;
 	private Date lastActivityDate;
-	private boolean favourite;
+	private BaseMonsterStatsModel leader1;
+	private BaseMonsterStatsModel leader2;
 
 	public long getId() {
 		return id;
@@ -59,12 +61,20 @@ public class CapturedFriendModel implements Serializable {
 		this.lastActivityDate = lastActivityDate;
 	}
 
-	public boolean isFavourite() {
-		return favourite;
+	public BaseMonsterStatsModel getLeader1() {
+		return leader1;
 	}
 
-	public void setFavourite(boolean favourite) {
-		this.favourite = favourite;
+	public void setLeader1(BaseMonsterStatsModel leader1) {
+		this.leader1 = leader1;
+	}
+
+	public BaseMonsterStatsModel getLeader2() {
+		return leader2;
+	}
+
+	public void setLeader2(BaseMonsterStatsModel leader2) {
+		this.leader2 = leader2;
 	}
 
 	@Override

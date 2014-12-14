@@ -7,6 +7,7 @@ import java.util.List;
 
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
+import fr.neraud.padlistener.provider.helper.BaseProviderHelper;
 
 /**
  * The player_info table
@@ -22,25 +23,11 @@ public class CapturedPlayerFriendTable implements ITable {
 		/* */CapturedPlayerFriendDescriptor.Fields.ID.getColName() + " INTEGER NOT NULL," +
 		/* */CapturedPlayerFriendDescriptor.Fields.NAME.getColName() + " TEXT NOT NULL," +
 		/* */CapturedPlayerFriendDescriptor.Fields.RANK.getColName() + " INTEGER NOT NULL," +
+		/* */CapturedPlayerFriendDescriptor.Fields.FAVOURITE.getColName() + " INTEGER NOT NULL DEFAULT " + BaseProviderHelper.BOOLEAN_FALSE + "," +
 		/* */CapturedPlayerFriendDescriptor.Fields.STARTING_COLOR.getColName() + " INTEGER NOT NULL," +
 		/* */CapturedPlayerFriendDescriptor.Fields.LAST_ACTIVITY.getColName() + " INTEGER NOT NULL," +
-
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_ID_JP.getColName() + " INTEGER NOT NULL," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_LEVEL.getColName() + " INTEGER NOT NULL," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_SKILL_LEVEL.getColName() + " INTEGER NOT NULL," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_PLUS_HP.getColName() + " INTEGER NOT NULL," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_PLUS_ATK.getColName() + " INTEGER NOT NULL," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_PLUS_RCV.getColName() + " INTEGER NOT NULL," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_AWAKENINGS.getColName() + " INTEGER NOT NULL," +
-
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_ID_JP.getColName() + " INTEGER," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_LEVEL.getColName() + " INTEGER," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_SKILL_LEVEL.getColName() + " INTEGER," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_PLUS_HP.getColName() + " INTEGER," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_PLUS_ATK.getColName() + " INTEGER," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_PLUS_RCV.getColName() + " INTEGER," +
-		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_AWAKENINGS.getColName() + " INTEGER" +
-
+		/* */CapturedPlayerFriendDescriptor.Fields.LEADER1_ID.getColName() + " INTEGER NOT NULL," +
+		/* */CapturedPlayerFriendDescriptor.Fields.LEADER2_ID.getColName() + " INTEGER" +
 		/* */");";
 	}
 
@@ -51,7 +38,7 @@ public class CapturedPlayerFriendTable implements ITable {
 
 	@Override
 	public int getVersion() {
-		return 10;
+		return 11;
 	}
 
 	@Override

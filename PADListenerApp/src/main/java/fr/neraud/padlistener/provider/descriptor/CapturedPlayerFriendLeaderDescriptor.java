@@ -10,16 +10,13 @@ import android.provider.BaseColumns;
  *
  * @author Neraud
  */
-public class CapturedPlayerFriendDescriptor {
+public class CapturedPlayerFriendLeaderDescriptor {
 
-	public static final String TABLE_NAME = "player_friend";
-	private static final String AUTHORITY = "fr.neraud.padlistener.provider.player_friend";
-	private static final String BASE_PATH = "player_friend";
+	public static final String TABLE_NAME = "player_friend_leader";
+	private static final String AUTHORITY = "fr.neraud.padlistener.provider.player_friend_leader";
+	private static final String BASE_PATH = "player_friend_leader";
 
-	public static final String ALL_WITH_INFO_LEADER1_PREFIX = "L1_";
-	public static final String ALL_WITH_INFO_LEADER1_INFO_PREFIX = "L1_INFO_";
-	public static final String ALL_WITH_INFO_LEADER2_PREFIX = "L2_";
-	public static final String ALL_WITH_INFO_LEADER2_INFO_PREFIX = "L2_INFO_";
+	public static final String ALL_WITH_INFO_PREFIX = "INFO_";
 
 	private static final UriMatcher URI_MATCHER = buildUriMatcher();
 
@@ -30,8 +27,9 @@ public class CapturedPlayerFriendDescriptor {
 	 */
 	public enum Paths {
 
-		ALL(1, BASE_PATH, ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend"),
-		ALL_WITH_INFO(2, BASE_PATH + "/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_with_info");
+		ALL(1, BASE_PATH, ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_leader"),
+		ALL_WITH_INFO(2, BASE_PATH + "/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_leader_with_info"),
+		ALL_WITH_INFO_BY_ID(3, BASE_PATH + "/#/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_leader_with_info");
 
 		private final int id;
 		private final String path;
@@ -55,15 +53,16 @@ public class CapturedPlayerFriendDescriptor {
 	 */
 	public enum Fields implements IField {
 
-		FAKE_ID(BaseColumns._ID),
-		ID("player_id"),
-		NAME("name"),
-		RANK("rank"),
-		FAVOURITE("favourite"),
-		STARTING_COLOR("starting_color"),
-		LAST_ACTIVITY("last_activity"),
-		LEADER1_ID("leader1_id"),
-		LEADER2_ID("leader2_id");
+		_ID(BaseColumns._ID),
+		PLAYER_ID("player_id"),
+		LAST_SEEN("last_seen"),
+		ID_JP("leader_id_jp"),
+		LEVEL("leader_level"),
+		SKILL_LEVEL("leader_skillLevel"),
+		PLUS_HP("leader_plusHp"),
+		PLUS_ATK("leader_plusAtk"),
+		PLUS_RCV("leader_plusRcv"),
+		AWAKENINGS("leader_awakenings");
 
 		private final String colName;
 
@@ -109,6 +108,7 @@ public class CapturedPlayerFriendDescriptor {
 
 		matcher.addURI(AUTHORITY, Paths.ALL.path, Paths.ALL.id);
 		matcher.addURI(AUTHORITY, Paths.ALL_WITH_INFO.path, Paths.ALL_WITH_INFO.id);
+		matcher.addURI(AUTHORITY, Paths.ALL_WITH_INFO_BY_ID.path, Paths.ALL_WITH_INFO_BY_ID.id);
 
 		return matcher;
 	}

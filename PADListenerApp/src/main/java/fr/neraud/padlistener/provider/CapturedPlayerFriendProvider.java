@@ -11,6 +11,7 @@ import java.util.Map;
 
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
+import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendLeaderDescriptor;
 import fr.neraud.padlistener.provider.descriptor.MonsterInfoDescriptor;
 
 /**
@@ -97,23 +98,42 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 				final Map<String, String> columnMap = new HashMap<String, String>();
 				fillColumnMapWithPrefix(columnMap, CapturedPlayerFriendDescriptor.TABLE_NAME, "", CapturedPlayerFriendDescriptor.Fields.values());
 
-				final String leader1TableAlias = "L1";
-				fillColumnMapWithPrefix(columnMap, leader1TableAlias, CapturedPlayerFriendDescriptor.ALL_WITH_INFO_LEADER1_PREFIX, MonsterInfoDescriptor.Fields.values());
 				final StringBuilder tableBuilder = new StringBuilder(CapturedPlayerFriendDescriptor.TABLE_NAME);
-				tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME).append(" ").append(leader1TableAlias);
+
+				final String leader1TableAlias = "L1";
+				fillColumnMapWithPrefix(columnMap, leader1TableAlias, CapturedPlayerFriendDescriptor.ALL_WITH_INFO_LEADER1_PREFIX, CapturedPlayerFriendLeaderDescriptor.Fields.values());
+				tableBuilder.append(" LEFT OUTER JOIN ").append(CapturedPlayerFriendLeaderDescriptor.TABLE_NAME).append(" ").append(leader1TableAlias);
 				tableBuilder.append(" ON ");
-				tableBuilder.append(CapturedPlayerFriendDescriptor.TABLE_NAME).append(".").append(CapturedPlayerFriendDescriptor.Fields.LEADER1_ID_JP.getColName());
+				tableBuilder.append(CapturedPlayerFriendDescriptor.TABLE_NAME).append(".").append(CapturedPlayerFriendDescriptor.Fields.LEADER1_ID.getColName());
 				tableBuilder.append(" = ");
-				tableBuilder.append(leader1TableAlias).append(".").append(MonsterInfoDescriptor.Fields.ID_JP.getColName());
+				tableBuilder.append(leader1TableAlias).append(".").append(CapturedPlayerFriendLeaderDescriptor.Fields._ID.getColName());
+				tableBuilder.append("");
+
+				final String leader1InfoTableAlias = "L1_INFO";
+				fillColumnMapWithPrefix(columnMap, leader1InfoTableAlias, CapturedPlayerFriendDescriptor.ALL_WITH_INFO_LEADER1_INFO_PREFIX, MonsterInfoDescriptor.Fields.values());
+				tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME).append(" ").append(leader1InfoTableAlias);
+				tableBuilder.append(" ON ");
+				tableBuilder.append(leader1TableAlias).append(".").append(CapturedPlayerFriendLeaderDescriptor.Fields.ID_JP.getColName());
+				tableBuilder.append(" = ");
+				tableBuilder.append(leader1InfoTableAlias).append(".").append(MonsterInfoDescriptor.Fields.ID_JP.getColName());
 				tableBuilder.append("");
 
 				final String leader2TableAlias = "L2";
-				fillColumnMapWithPrefix(columnMap, leader2TableAlias, CapturedPlayerFriendDescriptor.ALL_WITH_INFO_LEADER2_PREFIX, MonsterInfoDescriptor.Fields.values());
-				tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME).append(" ").append(leader2TableAlias);
+				fillColumnMapWithPrefix(columnMap, leader2TableAlias, CapturedPlayerFriendDescriptor.ALL_WITH_INFO_LEADER2_PREFIX, CapturedPlayerFriendLeaderDescriptor.Fields.values());
+				tableBuilder.append(" LEFT OUTER JOIN ").append(CapturedPlayerFriendLeaderDescriptor.TABLE_NAME).append(" ").append(leader2TableAlias);
 				tableBuilder.append(" ON ");
-				tableBuilder.append(CapturedPlayerFriendDescriptor.TABLE_NAME).append(".").append(CapturedPlayerFriendDescriptor.Fields.LEADER2_ID_JP.getColName());
+				tableBuilder.append(CapturedPlayerFriendDescriptor.TABLE_NAME).append(".").append(CapturedPlayerFriendDescriptor.Fields.LEADER2_ID.getColName());
 				tableBuilder.append(" = ");
-				tableBuilder.append(leader2TableAlias).append(".").append(MonsterInfoDescriptor.Fields.ID_JP.getColName());
+				tableBuilder.append(leader2TableAlias).append(".").append(CapturedPlayerFriendLeaderDescriptor.Fields._ID.getColName());
+				tableBuilder.append("");
+
+				final String leader2InfoTableAlias = "L2_INFO";
+				fillColumnMapWithPrefix(columnMap, leader2InfoTableAlias, CapturedPlayerFriendDescriptor.ALL_WITH_INFO_LEADER2_INFO_PREFIX, MonsterInfoDescriptor.Fields.values());
+				tableBuilder.append(" LEFT OUTER JOIN ").append(MonsterInfoDescriptor.TABLE_NAME).append(" ").append(leader2InfoTableAlias);
+				tableBuilder.append(" ON ");
+				tableBuilder.append(leader2TableAlias).append(".").append(CapturedPlayerFriendLeaderDescriptor.Fields.ID_JP.getColName());
+				tableBuilder.append(" = ");
+				tableBuilder.append(leader2InfoTableAlias).append(".").append(MonsterInfoDescriptor.Fields.ID_JP.getColName());
 				tableBuilder.append("");
 
 				builder.setTables(tableBuilder.toString());
@@ -123,7 +143,7 @@ public class CapturedPlayerFriendProvider extends AbstractPADListenerDbContentPr
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
-		final Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+		final Cursor cursor = builder.query(db, projection, selection, null, null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
 		MyLog.exit();

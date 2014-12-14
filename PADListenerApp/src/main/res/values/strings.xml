@@ -306,16 +306,30 @@
 
 	<string name="view_captured_monster_detail_name">#%1$d. %2$s</string>
 	<string name="view_captured_monster_detail_level_label">Level :</string>
-	<string name="view_captured_monster_detail_level_value">lv %1$d (%2$d xp)</string>
+	<string name="view_captured_monster_detail_level_with_exp_value">lv %1$d (%2$d xp)</string>
+	<string name="view_captured_monster_detail_level_without_exp_value">%1$d</string>
 	<string name="view_captured_monster_detail_pluses_label">Pluses :</string>
 	<string name="view_captured_monster_detail_pluses_value">+%1$d +%2$d +%3$d</string>
-	<string name="view_captured_monster_detail_awakenings_label">Awakenings :</string>
+	<string name="view_captured_monster_detail_awakenings_label">Awa. :</string>
 	<string name="view_captured_monster_detail_awakenings_value">%1$d</string>
 	<string name="view_captured_monster_detail_skill_level_label">Skill :</string>
 	<string name="view_captured_monster_detail_skill_level_value">%1$d</string>
 
-	<string name="view_captured_data_friend_id">Id : %1$d</string>
 	<string name="view_captured_data_friend_rank">Rank : %1$d</string>
+	<string name="view_captured_data_friend_leader_history">Leader history</string>
+
+	<string name="view_captured_friend_leader_title">%1$s\'s leaders</string>
+	<string name="view_captured_friend_leader_level_label">Level :</string>
+	<string name="view_captured_friend_leader_level_value">%1$d</string>
+	<string name="view_captured_friend_leader_pluses_label">Pluses :</string>
+	<string name="view_captured_friend_leader_pluses_value">+%1$d +%2$d +%3$d</string>
+	<string name="view_captured_friend_leader_awakenings_label">Awa. :</string>
+	<string name="view_captured_friend_leader_awakenings_value">%1$d</string>
+	<string name="view_captured_friend_leader_skill_level_label">Skill :</string>
+	<string name="view_captured_friend_leader_skill_level_value">%1$d</string>
+	<string name="view_captured_friend_leader_last_seen">Last seen : %1$s</string>
+	<string name="view_captured_friend_leader_close">Close</string>
+
 
 
 	<!-- ManageIgnoreList activity -->

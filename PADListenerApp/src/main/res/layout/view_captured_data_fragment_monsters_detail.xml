@@ -44,7 +44,7 @@
 					android:id="@+id/view_captured_monster_detail_level"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="@string/view_captured_monster_detail_level_value"
+					android:text="@string/view_captured_monster_detail_level_with_exp_value"
 					android:textSize="@dimen/text_size_large"
 					/>
 			</TableRow>

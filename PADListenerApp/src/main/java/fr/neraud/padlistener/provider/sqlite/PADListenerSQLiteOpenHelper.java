@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.neraud.log.MyLog;
+import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerFriendLeaderTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerFriendTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerInfoTable;
 import fr.neraud.padlistener.provider.sqlite.tables.CapturedPlayerMonsterTable;
@@ -21,7 +22,7 @@ import fr.neraud.padlistener.provider.sqlite.tables.MonsterInfoTable;
  */
 public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 
-	private static final int DB_VERSION = 10;
+	private static final int DB_VERSION = 11;
 	private static final String DATABASE_NAME = "padlistener.db";
 
 	private static final List<ITable> TABLES = new ArrayList<ITable>();
@@ -32,6 +33,7 @@ public class PADListenerSQLiteOpenHelper extends SQLiteOpenHelper {
 		addTable(new CapturedPlayerMonsterTable());
 		addTable(new MonsterInfoTable());
 		addTable(new CapturedPlayerFriendTable());
+		addTable(new CapturedPlayerFriendLeaderTable());
 	}
 
 	private final Context context;

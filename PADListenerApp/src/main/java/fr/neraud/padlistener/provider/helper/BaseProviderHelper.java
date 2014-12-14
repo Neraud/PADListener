@@ -17,8 +17,8 @@ import fr.neraud.padlistener.provider.descriptor.IField;
  */
 public class BaseProviderHelper {
 
-	private static final int BOOLEAN_FALSE = 0;
-	private static final int BOOLEAN_TRUE = 1;
+	public static final int BOOLEAN_FALSE = 0;
+	public static final int BOOLEAN_TRUE = 1;
 
 	private static int getColIndex(Cursor cursor, String prefix, IField field) {
 		return cursor.getColumnIndex(StringUtils.isNotBlank(prefix) ? prefix + field.getColName() : field.getColName());

@@ -6,6 +6,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,14 +17,18 @@ import fr.neraud.padlistener.helper.JsonCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.pad.GetPlayerDataJsonParser;
-import fr.neraud.padlistener.model.CapturedFriendModel;
+import fr.neraud.padlistener.model.BaseMonsterStatsModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.pad.model.ApiCallModel;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
+import fr.neraud.padlistener.pad.model.PADCapturedFriendModel;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
+import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendLeaderDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerInfoDescriptor;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerMonsterDescriptor;
+import fr.neraud.padlistener.provider.helper.BaseProviderHelper;
+import fr.neraud.padlistener.provider.helper.CapturedPlayerFriendLeaderProviderHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerFriendProviderHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerInfoProviderHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerMonsterProviderHelper;
@@ -136,23 +143,84 @@ public class ApiCallHandlerThread extends Thread {
 		MyLog.exit();
 	}
 
-	private void saveFriends(List<CapturedFriendModel> friends) {
+	private void saveFriends(List<PADCapturedFriendModel> friends) {
 		MyLog.entry();
 
 		final ContentResolver cr = context.getContentResolver();
-		final Uri uri = CapturedPlayerFriendDescriptor.UriHelper.uriForAll();
+		final Uri uriFriends = CapturedPlayerFriendDescriptor.UriHelper.uriForAll();
+		final List<Long> friendIds = new ArrayList<Long>();
 
-		cr.delete(uri, null, null);
 		int i = 0;
 		final int count = friends.size();
-		for (final CapturedFriendModel friend : friends) {
+		for (final PADCapturedFriendModel friend : friends) {
 			i++;
 			notifySavingFriend(i, count, friend);
-			final ContentValues values = CapturedPlayerFriendProviderHelper.modelToValues(friend);
-			cr.insert(uri, values);
+
+			final Long leader1Id = saveFriendLeader(friend, friend.getLeader1());
+			final Long leader2Id = saveFriendLeader(friend, friend.getLeader2());
+
+			final ContentValues values = CapturedPlayerFriendProviderHelper.modelToValues(friend, leader1Id, leader2Id);
+
+			final String[] selection = {CapturedPlayerFriendDescriptor.Fields.ID.getColName()};
+			final String projection = CapturedPlayerFriendDescriptor.Fields.ID.getColName() + "=" + friend.getId();
+
+			final Cursor cursor = cr.query(uriFriends, selection, projection, null, null);
+
+			if (cursor.moveToFirst()) {
+				cr.update(uriFriends, values, projection, null);
+			} else {
+				cr.insert(uriFriends, values);
+			}
+			cursor.close();
+
+			friendIds.add(friend.getId());
 		}
 
+		final String notInIds = " NOT IN (" + StringUtils.join(friendIds, ",") + ")";
+
+		final String deleteFriendsWhere = CapturedPlayerFriendDescriptor.Fields.ID.getColName() + notInIds;
+		cr.delete(uriFriends, deleteFriendsWhere, null);
+
+		final Uri uriLeaders = CapturedPlayerFriendLeaderDescriptor.UriHelper.uriForAll();
+		final String deleteLeadersWhere = CapturedPlayerFriendLeaderDescriptor.Fields.PLAYER_ID.getColName() + notInIds;
+		cr.delete(uriLeaders, deleteLeadersWhere, null);
+
 		MyLog.exit();
+	}
+
+	private Long saveFriendLeader(PADCapturedFriendModel friend, BaseMonsterStatsModel leader) {
+		final ContentResolver cr = context.getContentResolver();
+
+		final Uri uri = CapturedPlayerFriendLeaderDescriptor.UriHelper.uriForAll();
+		final ContentValues values = CapturedPlayerFriendLeaderProviderHelper.modelToValues(friend, leader, new Date());
+
+		Long leaderPK = fetchFriendLeaderId(friend, leader);
+		if (leaderPK != null) {
+			final String updateProjection = CapturedPlayerFriendLeaderDescriptor.Fields._ID.getColName() + "=" + leaderPK;
+			cr.update(uri, values, updateProjection, null);
+		} else {
+			cr.insert(uri, values);
+			leaderPK = fetchFriendLeaderId(friend, leader);
+		}
+
+		return leaderPK;
+	}
+
+	private Long fetchFriendLeaderId(PADCapturedFriendModel friend, BaseMonsterStatsModel leader) {
+		Long leaderPK = null;
+		final ContentResolver cr = context.getContentResolver();
+		final Uri uri = CapturedPlayerFriendLeaderDescriptor.UriHelper.uriForAll();
+		final String[] selection = {CapturedPlayerFriendLeaderDescriptor.Fields._ID.getColName()};
+		final String projection = CapturedPlayerFriendLeaderDescriptor.Fields.PLAYER_ID.getColName() + "=" + friend.getId() +
+				" AND " + CapturedPlayerFriendLeaderDescriptor.Fields.ID_JP.getColName() + "=" + leader.getIdJp();
+
+		final Cursor cursor = cr.query(uri, selection, projection, null, null);
+
+		if (cursor.moveToFirst()) {
+			leaderPK = BaseProviderHelper.getLong(cursor, CapturedPlayerFriendLeaderDescriptor.Fields._ID);
+		}
+		cursor.close();
+		return leaderPK;
 	}
 
 	private void notifyCaptureStarted() {
@@ -167,7 +235,7 @@ public class ApiCallHandlerThread extends Thread {
 		}
 	}
 
-	private void notifySavingFriend(int num, int count, CapturedFriendModel friend) {
+	private void notifySavingFriend(int num, int count, PADCapturedFriendModel friend) {
 		if (captureListener != null) {
 			captureListener.notifySavingFriends(num, count, friend);
 		}

@@ -20,11 +20,11 @@ import fr.neraud.padlistener.helper.MonsterIdConverterHelper;
 import fr.neraud.padlistener.http.exception.ParsingException;
 import fr.neraud.padlistener.http.parser.AbstractJsonParser;
 import fr.neraud.padlistener.model.BaseMonsterStatsModel;
-import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.CapturedPlayerInfoModel;
 import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.pad.constant.StartingColor;
 import fr.neraud.padlistener.pad.model.GetPlayerDataApiCallResult;
+import fr.neraud.padlistener.pad.model.PADCapturedFriendModel;
 
 /**
  * JSON parser used to parse PAD GetPlayerData
@@ -81,11 +81,11 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 			model.setMonsterCards(monsters);
 
 			// "friends"
-			final List<CapturedFriendModel> friends = new ArrayList<CapturedFriendModel>();
+			final List<PADCapturedFriendModel> friends = new ArrayList<PADCapturedFriendModel>();
 			final JSONArray friendResults = json.getJSONArray("friends");
 			for (int i = 0; i < friendResults.length(); i++) {
 				final JSONArray friendResult = (JSONArray) friendResults.get(i);
-				final CapturedFriendModel friend = parseFriend(friendResult);
+				final PADCapturedFriendModel friend = parseFriend(friendResult);
 
 				friends.add(friend);
 			}
@@ -123,11 +123,11 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 	}
 
 
-	private CapturedFriendModel parseFriend(final JSONArray friendResult) throws JSONException {
+	private PADCapturedFriendModel parseFriend(final JSONArray friendResult) throws JSONException {
 		MyLog.entry();
 
 		//[4, 333300602, "NeraudMule", 17, 1, "140829151957", 9, 29, 6, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0]
-		final CapturedFriendModel friend = new CapturedFriendModel();
+		final PADCapturedFriendModel friend = new PADCapturedFriendModel();
 		friend.setId(friendResult.getLong(1));
 		friend.setName(friendResult.getString(2));
 		friend.setRank(friendResult.getInt(3));

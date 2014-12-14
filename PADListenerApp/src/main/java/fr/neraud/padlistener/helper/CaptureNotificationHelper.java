@@ -8,8 +8,8 @@ import android.widget.Toast;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.MyNotification;
-import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.MonsterModel;
+import fr.neraud.padlistener.pad.model.PADCapturedFriendModel;
 import fr.neraud.padlistener.service.ListenerService;
 
 /**
@@ -52,7 +52,7 @@ public class CaptureNotificationHelper extends NotificationHelper implements Lis
 	}
 
 	@Override
-	public void notifySavingFriends(int num, int total, CapturedFriendModel friend) {
+	public void notifySavingFriends(int num, int total, PADCapturedFriendModel friend) {
 		MyLog.entry("num = " + num);
 
 		final String notificationMessage = mContext.getString(R.string.notification_data_capture_saving_friends, friend.getId(), friend.getName());

@@ -1,10 +1,19 @@
 package fr.neraud.padlistener.ui.adapter;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,24 +23,28 @@ import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.BaseMonsterStatsModel;
 import fr.neraud.padlistener.model.CapturedFriendFullInfoModel;
+import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
+import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendDescriptor;
+import fr.neraud.padlistener.provider.helper.BaseProviderHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerFriendProviderHelper;
+import fr.neraud.padlistener.ui.fragment.ViewCapturedDataFriendLeadersFragment;
 
 /**
  * Created by Neraud on 28/09/2014.
  */
 public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorAdapter {
 
-	private FragmentActivity mActivity;
+	private final FragmentActivity mActivity;
 
 	static class ViewHolder {
 
 		@InjectView(R.id.view_captured_data_friend_name)
 		TextView friendNameTextView;
-		@InjectView(R.id.view_captured_data_friend_id)
-		TextView friendIdTextView;
 		@InjectView(R.id.view_captured_data_friend_rank)
 		TextView friendRankTextView;
+		@InjectView(R.id.view_captured_data_friend_favourite)
+		ImageView favouriteImageView;
 
 		@InjectView(R.id.view_captured_data_friend_leader1_container)
 		ViewGroup leader1Container;
@@ -59,10 +72,42 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 		@InjectView(R.id.view_captured_data_friend_leader2_pluses)
 		TextView leader2Pluses;
 
+		@InjectView(R.id.view_captured_data_friend_leader_history)
+		Button leaderHistoryButton;
+
 		public ViewHolder(View view) {
 			ButterKnife.inject(this, view);
 		}
 	}
+
+	private static class FavouriteUpdateAsyncTask extends AsyncTask<CapturedFriendModel, Void, Void> {
+
+		private final Context mContext;
+
+		private FavouriteUpdateAsyncTask(Context context) {
+			mContext = context;
+		}
+
+		@Override
+		protected Void doInBackground(CapturedFriendModel... params) {
+			MyLog.entry();
+
+			final ContentResolver cr = mContext.getContentResolver();
+			final Uri uriFriends = CapturedPlayerFriendDescriptor.UriHelper.uriForAll();
+
+			for (CapturedFriendModel friend : params) {
+				final ContentValues values = new ContentValues();
+				BaseProviderHelper.putValue(values, CapturedPlayerFriendDescriptor.Fields.FAVOURITE, friend.isFavourite());
+				final String projection = CapturedPlayerFriendDescriptor.Fields.ID.getColName() + "=" + friend.getId();
+				cr.update(uriFriends, values, projection, null);
+			}
+
+			MyLog.exit();
+			return null;
+		}
+	}
+
+	;
 
 	public CapturedFriendCursorAdapter(FragmentActivity activity) {
 		super(activity, R.layout.view_captured_data_fragment_friends_item);
@@ -70,7 +115,7 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 	}
 
 	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
+	public void bindView(View view, final Context context, Cursor cursor) {
 		MyLog.entry();
 
 		final ViewHolder viewHolder = new ViewHolder(view);
@@ -78,11 +123,27 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 		final CapturedFriendFullInfoModel model = CapturedPlayerFriendProviderHelper.cursorWithInfoToModel(cursor);
 
 		viewHolder.friendNameTextView.setText(model.getFriendModel().getName());
-		viewHolder.friendIdTextView.setText(mActivity.getString(R.string.view_captured_data_friend_id, model.getFriendModel().getId()));
 		viewHolder.friendRankTextView.setText(mActivity.getString(R.string.view_captured_data_friend_rank, model.getFriendModel().getRank()));
 
-		fillLeader1(viewHolder, model.getLeader1Info(), model.getFriendModel().getLeader1());
-		fillLeader2(viewHolder, model.getLeader2Info(), model.getFriendModel().getLeader2());
+		final int drawableResId = model.getFriendModel().isFavourite() ? R.drawable.ic_action_favourite : R.drawable.ic_action_not_favourite;
+		viewHolder.favouriteImageView.setImageDrawable(context.getResources().getDrawable(drawableResId));
+
+		viewHolder.favouriteImageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onFavouriteClicked(v, context, model);
+			}
+		});
+
+		viewHolder.leaderHistoryButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onLeaderHistoryClicked(model);
+			}
+		});
+
+		fillLeader1(viewHolder, model.getLeader1Info(), model.getLeader1());
+		fillLeader2(viewHolder, model.getLeader2Info(), model.getLeader2());
 
 		MyLog.exit();
 	}
@@ -107,6 +168,42 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 		fillTextView(viewHolder.leader2SkillLevel, monsterStatsModel.getSkillLevel(), 999); // TODO
 		final int totalPluses = monsterStatsModel.getPlusHp() + monsterStatsModel.getPlusAtk() + monsterStatsModel.getPlusRcv();
 		fillTextView(viewHolder.leader2Pluses, totalPluses, 3 * 99);
+	}
+
+	private void onFavouriteClicked(View v, Context context, CapturedFriendFullInfoModel model) {
+		MyLog.entry();
+
+		final boolean newValue = !model.getFriendModel().isFavourite();
+		model.getFriendModel().setFavourite(newValue);
+
+		final int drawableResId = newValue ? R.drawable.ic_action_favourite : R.drawable.ic_action_not_favourite;
+		((ImageView) v).setImageDrawable(context.getResources().getDrawable(drawableResId));
+		final AsyncTask<CapturedFriendModel, Void, Void> task = new FavouriteUpdateAsyncTask(context);
+		task.execute(model.getFriendModel());
+
+		MyLog.exit();
+	}
+
+	private void onLeaderHistoryClicked(CapturedFriendFullInfoModel model) {
+		MyLog.entry();
+
+		final ViewCapturedDataFriendLeadersFragment fragment = new ViewCapturedDataFriendLeadersFragment();
+
+		final Bundle args = new Bundle();
+		ViewCapturedDataFriendLeadersFragment.fillCapturedFriendModel(args, model.getFriendModel());
+		fragment.setArguments(args);
+
+		final FragmentManager fragmentManager = mActivity.getSupportFragmentManager();
+		final FragmentTransaction ft = fragmentManager.beginTransaction();
+		final Fragment prev = fragmentManager.findFragmentByTag("leaderHistoryDialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+
+		fragment.show(ft, "leaderHistoryDialog");
+
+		MyLog.exit();
 	}
 
 }

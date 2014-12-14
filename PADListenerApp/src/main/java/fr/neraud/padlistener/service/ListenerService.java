@@ -16,8 +16,8 @@ import fr.neraud.padlistener.constant.MyNotification;
 import fr.neraud.padlistener.constant.ProxyMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.WifiHelper;
-import fr.neraud.padlistener.model.CapturedFriendModel;
 import fr.neraud.padlistener.model.MonsterModel;
+import fr.neraud.padlistener.pad.model.PADCapturedFriendModel;
 import fr.neraud.padlistener.proxy.helper.ProxyHelper;
 import fr.neraud.padlistener.service.task.StartListenerAsyncTask;
 import fr.neraud.padlistener.service.task.StopListenerAsyncTask;
@@ -43,7 +43,7 @@ public class ListenerService extends Service {
 
 		public void notifySavingMonsters(int num, int total, MonsterModel monster);
 
-		public void notifySavingFriends(int num, int total, CapturedFriendModel friend);
+		public void notifySavingFriends(int num, int total, PADCapturedFriendModel friend);
 
 		public void notifyCaptureFinished(String playerName);
 	}

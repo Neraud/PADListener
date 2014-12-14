@@ -15,32 +15,47 @@
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="wrap_content"
 		android:orientation="vertical">
 
-		<TextView
-			android:id="@+id/view_captured_data_friend_name"
-			android:layout_width="wrap_content"
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="16dp"
-			android:textSize="@dimen/text_size_medium"
-			android:textStyle="bold"/>
+			android:gravity="center_vertical"
+			android:orientation="horizontal">
 
-		<TextView
-			android:id="@+id/view_captured_data_friend_id"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="16dp"
-			android:text="@string/view_captured_data_friend_id"
-			/>
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical">
 
-		<TextView
-			android:id="@+id/view_captured_data_friend_rank"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="16dp"
-			android:text="@string/view_captured_data_friend_rank"
-			/>
+				<TextView
+					android:id="@+id/view_captured_data_friend_name"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="16dp"
+					android:textSize="@dimen/text_size_medium"
+					android:textStyle="bold"/>
+
+				<TextView
+					android:id="@+id/view_captured_data_friend_rank"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="16dp"
+					android:text="@string/view_captured_data_friend_rank"
+					/>
+			</LinearLayout>
+
+			<ImageView
+				android:id="@+id/view_captured_data_friend_favourite"
+				android:layout_width="36dp"
+				android:layout_height="36dp"
+				android:layout_margin="4dp"
+				android:src="@drawable/ic_action_favourite"
+				android:tint="@color/theme_primary"
+				/>
+		</LinearLayout>
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -177,6 +192,25 @@
 				</RelativeLayout>
 			</FrameLayout>
 
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="8dp"
+			android:gravity="center_horizontal">
+
+			<Button
+				android:id="@+id/view_captured_data_friend_leader_history"
+				android:layout_width="wrap_content"
+				android:layout_height="36dp"
+				android:layout_gravity="center_vertical"
+				android:background="@drawable/button_secondary"
+				android:minWidth="128dp"
+				android:text="@string/view_captured_data_friend_leader_history"
+				android:textAllCaps="true"
+				android:textColor="@color/theme_primary"
+				android:textSize="@dimen/text_size_medium"/>
 		</LinearLayout>
 	</LinearLayout>
 
