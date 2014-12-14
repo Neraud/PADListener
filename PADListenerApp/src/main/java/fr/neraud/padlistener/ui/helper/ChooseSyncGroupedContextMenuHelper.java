@@ -15,8 +15,8 @@ import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
@@ -93,8 +93,8 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	private void createContextMenuForChild(ContextMenu menu, ContextMenu.ContextMenuInfo menuInfo) {
 		MyLog.entry("menuInfo = " + menuInfo);
 
-		final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = getChildMonsterItem(menuInfo);
-		menu.setHeaderTitle(getContext().getString(R.string.choose_sync_context_menu_one_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName()));
+		final ChooseModelContainer<SyncedMonsterModel> monsterItem = getChildMonsterItem(menuInfo);
+		menu.setHeaderTitle(getContext().getString(R.string.choose_sync_context_menu_one_title, monsterItem.getModel().getDisplayedMonsterInfo().getName()));
 		if (monsterItem.isChosen()) {
 			menu.add(getGroupId(), MENU_ID_DESELECT, 0, R.string.choose_sync_context_menu_one_deselect);
 		} else {
@@ -116,13 +116,13 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 
 		switch (menuItem.getItemId()) {
 			case MENU_ID_SELECT_ALL:
-				for (final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
+				for (final ChooseModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
 					monsterItem.setChosen(true);
 				}
 				notifyDataSetChanged();
 				break;
 			case MENU_ID_DESELECT_ALL:
-				for (final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
+				for (final ChooseModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
 					monsterItem.setChosen(false);
 				}
 				notifyDataSetChanged();
@@ -138,8 +138,8 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 					public void onClick(DialogInterface dialogInterface, int i) {
 						MyLog.entry("i = " + i);
 						final MonsterPriority priority = MonsterPriority.findByOrdinal(i);
-						for (final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
-							monsterItem.getSyncedModel().getCapturedInfo().setPriority(priority);
+						for (final ChooseModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
+							monsterItem.getModel().getCapturedInfo().setPriority(priority);
 						}
 
 						dialogInterface.dismiss();
@@ -161,8 +161,8 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 					public void onClick(DialogInterface dialog, int whichButton) {
 						MyLog.entry();
 						String newNote = input.getText().toString().trim();
-						for (final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
-							monsterItem.getSyncedModel().getCapturedInfo().setNote(newNote);
+						for (final ChooseModelContainer<SyncedMonsterModel> monsterItem : getGroupChildMonsterItems(menuItem.getMenuInfo())) {
+							monsterItem.getModel().getCapturedInfo().setNote(newNote);
 						}
 						notifyDataSetChanged();
 						MyLog.exit();
@@ -191,7 +191,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	public boolean doContextItemSelectedForChild(MenuItem menuItem) {
 		MyLog.entry("menuItem = " + menuItem);
 
-		final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = getChildMonsterItem(menuItem.getMenuInfo());
+		final ChooseModelContainer<SyncedMonsterModel> monsterItem = getChildMonsterItem(menuItem.getMenuInfo());
 
 		switch (menuItem.getItemId()) {
 			case MENU_ID_SELECT:
@@ -204,10 +204,10 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				break;
 			case MENU_ID_CHANGE_PRIORITY:
 				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-				final String dialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_priority_dialog_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName());
+				final String dialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_priority_dialog_title, monsterItem.getModel().getDisplayedMonsterInfo().getName());
 				builder.setTitle(dialogTitle);
 				final CharSequence[] priorities = new CharSequence[MonsterPriority.values().length];
-				int selected = monsterItem.getSyncedModel().getCapturedInfo().getPriority().ordinal();
+				int selected = monsterItem.getModel().getCapturedInfo().getPriority().ordinal();
 
 				for (MonsterPriority priority : MonsterPriority.values()) {
 					priorities[priority.ordinal()] = getContext().getString(priority.getLabelResId());
@@ -218,7 +218,7 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 					public void onClick(DialogInterface dialogInterface, int i) {
 						MyLog.entry("i = " + i);
 						final MonsterPriority priority = MonsterPriority.findByOrdinal(i);
-						monsterItem.getSyncedModel().getCapturedInfo().setPriority(priority);
+						monsterItem.getModel().getCapturedInfo().setPriority(priority);
 						dialogInterface.dismiss();
 						notifyDataSetChanged();
 						MyLog.exit();
@@ -229,17 +229,17 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 				break;
 			case MENU_ID_CHANGE_NOTE:
 				AlertDialog.Builder noteDialogBuilder = new AlertDialog.Builder(getContext());
-				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName());
+				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterItem.getModel().getDisplayedMonsterInfo().getName());
 				noteDialogBuilder.setTitle(noteDialogTitle);
 
 				final EditText input = new EditText(getContext());
-				input.setText(monsterItem.getSyncedModel().getCapturedInfo().getNote());
+				input.setText(monsterItem.getModel().getCapturedInfo().getNote());
 				noteDialogBuilder.setView(input);
 				noteDialogBuilder.setPositiveButton(R.string.choose_sync_context_menu_change_note_dialog_ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						MyLog.entry();
 						String newNote = input.getText().toString().trim();
-						monsterItem.getSyncedModel().getCapturedInfo().setNote(newNote);
+						monsterItem.getModel().getCapturedInfo().setNote(newNote);
 						notifyDataSetChanged();
 						MyLog.exit();
 					}
@@ -278,17 +278,17 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<ChooseSyncModelContainer<SyncedMonsterModel>> getGroupChildMonsterItems(ContextMenu.ContextMenuInfo menuInfo) {
+	private List<ChooseModelContainer<SyncedMonsterModel>> getGroupChildMonsterItems(ContextMenu.ContextMenuInfo menuInfo) {
 		MyLog.entry("menuInfo = " + menuInfo);
 
 		final ExpandableListView.ExpandableListContextMenuInfo listItem = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 		final int groupPosition = ExpandableListView.getPackedPositionGroup(listItem.packedPosition);
 
-		final List<ChooseSyncModelContainer<SyncedMonsterModel>> monsterItems = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
+		final List<ChooseModelContainer<SyncedMonsterModel>> monsterItems = new ArrayList<ChooseModelContainer<SyncedMonsterModel>>();
 		final int childCount = adapter.getChildrenCount(groupPosition);
 
 		for (int i = 0; i < childCount; i++) {
-			final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = adapter.getChild(groupPosition, i);
+			final ChooseModelContainer<SyncedMonsterModel> monsterItem = adapter.getChild(groupPosition, i);
 			monsterItems.add(monsterItem);
 		}
 
@@ -297,13 +297,13 @@ public class ChooseSyncGroupedContextMenuHelper extends ChooseSyncBaseContextMen
 	}
 
 	@SuppressWarnings("unchecked")
-	private ChooseSyncModelContainer<SyncedMonsterModel> getChildMonsterItem(ContextMenu.ContextMenuInfo menuInfo) {
+	private ChooseModelContainer<SyncedMonsterModel> getChildMonsterItem(ContextMenu.ContextMenuInfo menuInfo) {
 		MyLog.entry("menuInfo = " + menuInfo);
 
 		final ExpandableListView.ExpandableListContextMenuInfo listItem = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 		int groupPosition = ExpandableListView.getPackedPositionGroup(listItem.packedPosition);
 		int childPosition = ExpandableListView.getPackedPositionChild(listItem.packedPosition);
-		final ChooseSyncModelContainer result = adapter.getChild(groupPosition, childPosition);
+		final ChooseModelContainer result = adapter.getChild(groupPosition, childPosition);
 
 		MyLog.exit();
 		return result;

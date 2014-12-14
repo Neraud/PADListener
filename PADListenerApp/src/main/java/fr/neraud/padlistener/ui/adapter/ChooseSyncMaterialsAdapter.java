@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 
@@ -25,7 +25,7 @@ import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
  *
  * @author Neraud
  */
-public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMaterialModel>> {
+public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseModelContainer<SyncedMaterialModel>> {
 
 	private Integer mDefaultTextColor = null;
 	private MonsterImageHelper mImageHelper;
@@ -46,7 +46,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		}
 	}
 
-	public ChooseSyncMaterialsAdapter(Context context, List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
+	public ChooseSyncMaterialsAdapter(Context context, List<ChooseModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
 		super(context, 0, syncedMaterialsToUpdate);
 		mImageHelper = new MonsterImageHelper(context);
 	}
@@ -55,7 +55,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 	public View getView(int position, View view, ViewGroup parent) {
 		MyLog.entry();
 
-		final ChooseSyncModelContainer<SyncedMaterialModel> item = super.getItem(position);
+		final ChooseModelContainer<SyncedMaterialModel> item = super.getItem(position);
 
 		final ViewHolder viewHolder;
 		if (view == null) {
@@ -78,7 +78,7 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 			}
 		});
 
-		mImageHelper.fillImage(viewHolder.image, item.getSyncedModel().getDisplayedMonsterInfo());
+		mImageHelper.fillImage(viewHolder.image, item.getModel().getDisplayedMonsterInfo());
 		viewHolder.image.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -90,16 +90,16 @@ public class ChooseSyncMaterialsAdapter extends ArrayAdapter<ChooseSyncModelCont
 		});
 
 		viewHolder.nameText.setText(getContext().getString(R.string.choose_sync_materials_item_name,
-				item.getSyncedModel().getDisplayedMonsterInfo().getIdJP(),
-				item.getSyncedModel().getDisplayedMonsterInfo().getName()));
+				item.getModel().getDisplayedMonsterInfo().getIdJP(),
+				item.getModel().getDisplayedMonsterInfo().getName()));
 
 		viewHolder.quantitiesText.setText(getContext().getString(R.string.choose_sync_materials_item_quantities,
-				item.getSyncedModel().getPadherderInfo(), item.getSyncedModel().getCapturedInfo()));
+				item.getModel().getPadherderInfo(), item.getModel().getCapturedInfo()));
 
 		int textColor;
-		if (item.getSyncedModel().getPadherderInfo() < item.getSyncedModel().getCapturedInfo()) {
+		if (item.getModel().getPadherderInfo() < item.getModel().getCapturedInfo()) {
 			textColor = getContext().getResources().getColor(R.color.text_increase);
-		} else if (item.getSyncedModel().getPadherderInfo() > item.getSyncedModel().getCapturedInfo()) {
+		} else if (item.getModel().getPadherderInfo() > item.getModel().getCapturedInfo()) {
 			textColor = getContext().getResources().getColor(R.color.text_decrease);
 		} else {
 			// Shouldn't happen

@@ -8,8 +8,8 @@ import java.util.Set;
 
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
@@ -51,9 +51,9 @@ public class ChooseSyncInitHelper {
 	private void fillUserInfo() {
 		MyLog.entry();
 
-		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseSyncModelContainer<SyncedUserInfoModel>();
+		final ChooseModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = new ChooseModelContainer<SyncedUserInfoModel>();
 		syncedUserInfoToUpdate.setChosen(mPrefHelper.isChooseSyncPreselectUserInfoToUpdate());
-		syncedUserInfoToUpdate.setSyncedModel(mSyncResult.getSyncedUserInfo());
+		syncedUserInfoToUpdate.setModel(mSyncResult.getSyncedUserInfo());
 
 		mChooseSyncModel.setSyncedUserInfoToUpdate(syncedUserInfoToUpdate);
 
@@ -63,16 +63,16 @@ public class ChooseSyncInitHelper {
 	private void fillMaterials() {
 		MyLog.entry();
 
-		final List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMaterialModel>>();
+		final List<ChooseModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate = new ArrayList<ChooseModelContainer<SyncedMaterialModel>>();
 
 		for (final SyncedMaterialModel material : mSyncResult.getSyncedMaterials()) {
 			if (material.getCapturedInfo().equals(material.getPadherderInfo())) {
 				MyLog.debug("ignoring material : " + material);
 			} else {
 				MyLog.debug("keeping material : " + material);
-				final ChooseSyncModelContainer<SyncedMaterialModel> container = new ChooseSyncModelContainer<SyncedMaterialModel>();
+				final ChooseModelContainer<SyncedMaterialModel> container = new ChooseModelContainer<SyncedMaterialModel>();
 				container.setChosen(mPrefHelper.isChooseSyncPreselectMaterialsUpdated());
-				container.setSyncedModel(material);
+				container.setModel(material);
 				syncedMaterialsToUpdate.add(container);
 				flagDataToSync(container);
 			}
@@ -85,15 +85,15 @@ public class ChooseSyncInitHelper {
 	private void fillMonsters() {
 		MyLog.entry();
 
-		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
-		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
-		final List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete = new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>();
+		final List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate = new ArrayList<ChooseModelContainer<SyncedMonsterModel>>();
+		final List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToCreate = new ArrayList<ChooseModelContainer<SyncedMonsterModel>>();
+		final List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToDelete = new ArrayList<ChooseModelContainer<SyncedMonsterModel>>();
 
 		final Set<Integer> ignoredIds = mPrefHelper.getMonsterIgnoreList();
 
 		for (final SyncedMonsterModel monster : mSyncResult.getSyncedMonsters()) {
-			final ChooseSyncModelContainer<SyncedMonsterModel> container = new ChooseSyncModelContainer<SyncedMonsterModel>();
-			container.setSyncedModel(monster);
+			final ChooseModelContainer<SyncedMonsterModel> container = new ChooseModelContainer<SyncedMonsterModel>();
+			container.setModel(monster);
 
 			if (monster.getCapturedInfo() == null) {
 				boolean ignored = mPrefHelper.isChooseSyncUseIgnoreListForMonsters(SyncMode.DELETED) && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
@@ -134,9 +134,9 @@ public class ChooseSyncInitHelper {
 		MyLog.exit();
 	}
 
-	private void flagDataToSync(ChooseSyncModelContainer container) {
+	private void flagDataToSync(ChooseModelContainer container) {
 		mHasDataToSync = true;
-		if(container.isChosen()) {
+		if (container.isChosen()) {
 			mHasChosenDataToSync = true;
 		}
 	}
@@ -144,6 +144,7 @@ public class ChooseSyncInitHelper {
 	public boolean isHasDataToSync() {
 		return mHasDataToSync;
 	}
+
 	public boolean isHasChosenDataToSync() {
 		return mHasChosenDataToSync;
 	}

@@ -20,8 +20,8 @@ import fr.neraud.padlistener.exception.NoMatchingAccountException;
 import fr.neraud.padlistener.helper.ChooseSyncInitHelper;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.model.PADHerderAccountModel;
 import fr.neraud.padlistener.service.constant.RestCallError;
@@ -185,7 +185,7 @@ public class AutoSyncService extends IntentService {
 
 		notifyPushSyncInitialized();
 
-		final boolean hasUserInfoToUpdate = chooseModel.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync();
+		final boolean hasUserInfoToUpdate = chooseModel.getSyncedUserInfoToUpdate().getModel().hasDataToSync();
 		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && chooseModel.getSyncedUserInfoToUpdate().isChosen();
 		final int materialToUpdateChosenCount = countChosenItems(chooseModel.getSyncedMaterialsToUpdate());
 		final int monsterToUpdateChosenCount = countChosenItems(chooseModel.getSyncedMonsters(SyncMode.UPDATED));
@@ -212,9 +212,9 @@ public class AutoSyncService extends IntentService {
 		MyLog.exit();
 	}
 
-	private static <T extends Serializable> int countChosenItems(List<ChooseSyncModelContainer<T>> list) {
+	private static <T extends Serializable> int countChosenItems(List<ChooseModelContainer<T>> list) {
 		int count = 0;
-		for (final ChooseSyncModelContainer<?> item : list) {
+		for (final ChooseModelContainer<?> item : list) {
 			if (item.isChosen()) {
 				count++;
 			}

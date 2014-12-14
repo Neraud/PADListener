@@ -17,7 +17,7 @@ import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.ui.adapter.ChooseSyncMonstersGroupedAdapter;
 import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
@@ -48,7 +48,7 @@ public class ChooseSyncMonstersGroupedFragment extends Fragment {
 		final String modeName = getArguments().getString(ChooseSyncDataPagerHelper.ARGUMENT_SYNC_MODE_NAME);
 		final SyncMode mode = SyncMode.valueOf(modeName);
 
-		final List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters = result.getSyncedMonsters(mode);
+		final List<ChooseModelContainer<SyncedMonsterModel>> monsters = result.getSyncedMonsters(mode);
 
 		final ChooseSyncMonstersGroupedAdapter adapter = new ChooseSyncMonstersGroupedAdapter(getActivity().getApplicationContext(), monsters);
 		mMenuHelper = new ChooseSyncGroupedContextMenuHelper(getActivity(), mode, adapter, result);

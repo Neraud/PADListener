@@ -14,11 +14,11 @@ public class ChooseSyncModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private boolean hasEncounteredUnknownMonster = false;
-	private ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate;
-	private List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate;
-	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate;
-	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToCreate;
-	private List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToDelete;
+	private ChooseModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate;
+	private List<ChooseModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate;
+	private List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate;
+	private List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToCreate;
+	private List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToDelete;
 
 	public boolean isHasEncounteredUnknownMonster() {
 		return hasEncounteredUnknownMonster;
@@ -28,23 +28,23 @@ public class ChooseSyncModel implements Serializable {
 		this.hasEncounteredUnknownMonster = hasEncounteredUnknownMonster;
 	}
 
-	public ChooseSyncModelContainer<SyncedUserInfoModel> getSyncedUserInfoToUpdate() {
+	public ChooseModelContainer<SyncedUserInfoModel> getSyncedUserInfoToUpdate() {
 		return syncedUserInfoToUpdate;
 	}
 
-	public void setSyncedUserInfoToUpdate(ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate) {
+	public void setSyncedUserInfoToUpdate(ChooseModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate) {
 		this.syncedUserInfoToUpdate = syncedUserInfoToUpdate;
 	}
 
-	public List<ChooseSyncModelContainer<SyncedMaterialModel>> getSyncedMaterialsToUpdate() {
+	public List<ChooseModelContainer<SyncedMaterialModel>> getSyncedMaterialsToUpdate() {
 		return syncedMaterialsToUpdate;
 	}
 
-	public void setSyncedMaterialsToUpdate(List<ChooseSyncModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
+	public void setSyncedMaterialsToUpdate(List<ChooseModelContainer<SyncedMaterialModel>> syncedMaterialsToUpdate) {
 		this.syncedMaterialsToUpdate = syncedMaterialsToUpdate;
 	}
 
-	public List<ChooseSyncModelContainer<SyncedMonsterModel>> getSyncedMonsters(SyncMode mode) {
+	public List<ChooseModelContainer<SyncedMonsterModel>> getSyncedMonsters(SyncMode mode) {
 		switch (mode) {
 			case UPDATED:
 				return syncedMonstersToUpdate;
@@ -57,7 +57,7 @@ public class ChooseSyncModel implements Serializable {
 		}
 	}
 
-	public void setSyncedMonsters(SyncMode mode, List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters) {
+	public void setSyncedMonsters(SyncMode mode, List<ChooseModelContainer<SyncedMonsterModel>> syncedMonsters) {
 		switch (mode) {
 			case UPDATED:
 				syncedMonstersToUpdate = syncedMonsters;

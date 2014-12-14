@@ -12,8 +12,8 @@ import java.util.List;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.ComputeSyncResultModel;
 import fr.neraud.padlistener.ui.constant.UiScreen;
 import fr.neraud.padlistener.ui.fragment.PushSyncFragment;
@@ -76,7 +76,7 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 	private void pushSync() {
 		MyLog.entry();
 
-		final boolean hasUserInfoToUpdate = mChooseResult.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync();
+		final boolean hasUserInfoToUpdate = mChooseResult.getSyncedUserInfoToUpdate().getModel().hasDataToSync();
 		final boolean hasUserInfoToUpdateChosen = hasUserInfoToUpdate && mChooseResult.getSyncedUserInfoToUpdate().isChosen();
 		final int materialToUpdateCount = mChooseResult.getSyncedMaterialsToUpdate().size();
 		final int materialToUpdateChosenCount = countChosenItems(mChooseResult.getSyncedMaterialsToUpdate());
@@ -116,9 +116,9 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 		MyLog.exit();
 	}
 
-	private static <T extends Serializable> int countChosenItems(List<ChooseSyncModelContainer<T>> list) {
+	private static <T extends Serializable> int countChosenItems(List<ChooseModelContainer<T>> list) {
 		int count = 0;
-		for (final ChooseSyncModelContainer<?> item : list) {
+		for (final ChooseModelContainer<?> item : list) {
 			if (item.isChosen()) {
 				count++;
 			}
@@ -140,7 +140,8 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 			@Override
 			public void buildDeltaHelpPages(PageBuilder builder, int lastDisplayedVersion) {
 				switch (lastDisplayedVersion) {
-					default: buildHelpPages(builder);
+					default:
+						buildHelpPages(builder);
 				}
 			}
 		};

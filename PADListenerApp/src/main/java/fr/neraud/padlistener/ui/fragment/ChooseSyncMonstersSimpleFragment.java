@@ -10,8 +10,8 @@ import java.util.List;
 
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.ui.adapter.ChooseSyncMonstersSimpleAdapter;
 import fr.neraud.padlistener.ui.helper.ChooseSyncDataPagerHelper;
@@ -37,7 +37,7 @@ public class ChooseSyncMonstersSimpleFragment extends ListFragment {
 		final String modeName = getArguments().getString(ChooseSyncDataPagerHelper.ARGUMENT_SYNC_MODE_NAME);
 		final SyncMode mode = SyncMode.valueOf(modeName);
 
-		final List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters = result.getSyncedMonsters(mode);
+		final List<ChooseModelContainer<SyncedMonsterModel>> monsters = result.getSyncedMonsters(mode);
 
 		final ChooseSyncMonstersSimpleAdapter adapter = new ChooseSyncMonstersSimpleAdapter(getActivity().getApplicationContext(), monsters);
 		menuHelper = new ChooseSyncSimpleContextMenuHelper(getActivity(), mode, adapter, result);

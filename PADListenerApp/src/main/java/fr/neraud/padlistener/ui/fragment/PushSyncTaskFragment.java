@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.PushSyncStatModel;
 import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
 import fr.neraud.padlistener.service.PushSyncService;
@@ -108,13 +108,13 @@ public class PushSyncTaskFragment extends Fragment {
 		final PushSyncStatModel pushModel = new PushSyncStatModel();
 
 		int count = 0;
-		if (result.getSyncedUserInfoToUpdate().getSyncedModel().hasDataToSync() && result.getSyncedUserInfoToUpdate().isChosen()) {
+		if (result.getSyncedUserInfoToUpdate().getModel().hasDataToSync() && result.getSyncedUserInfoToUpdate().isChosen()) {
 			count++;
 		}
 		pushModel.initElementsToPush(ElementToPush.USER_INFO, count);
 
 		count = 0;
-		for (final ChooseSyncModelContainer<?> element : result.getSyncedMaterialsToUpdate()) {
+		for (final ChooseModelContainer<?> element : result.getSyncedMaterialsToUpdate()) {
 			if (element.isChosen()) {
 				count++;
 			}
@@ -122,7 +122,7 @@ public class PushSyncTaskFragment extends Fragment {
 		pushModel.initElementsToPush(ElementToPush.MATERIAL_TO_UPDATE, count);
 
 		count = 0;
-		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonsters(SyncMode.UPDATED)) {
+		for (final ChooseModelContainer<?> element : result.getSyncedMonsters(SyncMode.UPDATED)) {
 			if (element.isChosen()) {
 				count++;
 			}
@@ -130,7 +130,7 @@ public class PushSyncTaskFragment extends Fragment {
 		pushModel.initElementsToPush(ElementToPush.MONSTER_TO_UPDATE, count);
 
 		count = 0;
-		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonsters(SyncMode.CREATED)) {
+		for (final ChooseModelContainer<?> element : result.getSyncedMonsters(SyncMode.CREATED)) {
 			if (element.isChosen()) {
 				count++;
 			}
@@ -138,7 +138,7 @@ public class PushSyncTaskFragment extends Fragment {
 		pushModel.initElementsToPush(ElementToPush.MONSTER_TO_CREATE, count);
 
 		count = 0;
-		for (final ChooseSyncModelContainer<?> element : result.getSyncedMonsters(SyncMode.DELETED)) {
+		for (final ChooseModelContainer<?> element : result.getSyncedMonsters(SyncMode.DELETED)) {
 			if (element.isChosen()) {
 				count++;
 			}

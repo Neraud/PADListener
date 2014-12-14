@@ -8,8 +8,8 @@ import android.os.ResultReceiver;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.PushSyncHelper;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.PushSyncStatModel.ElementToPush;
 import fr.neraud.padlistener.model.SyncedMaterialModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
@@ -57,10 +57,10 @@ public class PushSyncService extends IntentService {
 	private void pushUserInfoToUpdate(PushSyncHelper helper, ResultReceiver receiver, ChooseSyncModel result) {
 		MyLog.entry();
 
-		final ChooseSyncModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = result.getSyncedUserInfoToUpdate();
-		if (syncedUserInfoToUpdate.getSyncedModel().hasDataToSync() && syncedUserInfoToUpdate.isChosen()) {
+		final ChooseModelContainer<SyncedUserInfoModel> syncedUserInfoToUpdate = result.getSyncedUserInfoToUpdate();
+		if (syncedUserInfoToUpdate.getModel().hasDataToSync() && syncedUserInfoToUpdate.isChosen()) {
 			try {
-				helper.pushUserInfoToUpdate(syncedUserInfoToUpdate.getSyncedModel());
+				helper.pushUserInfoToUpdate(syncedUserInfoToUpdate.getModel());
 				notifyUserInfoUpdated(receiver);
 			} catch (final Exception e) {
 				MyLog.error("error syncing", e);
@@ -76,8 +76,8 @@ public class PushSyncService extends IntentService {
 	private void pushMaterialsToUpdate(PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
 		MyLog.entry();
 
-		for (final ChooseSyncModelContainer<SyncedMaterialModel> syncModel : result.getSyncedMaterialsToUpdate()) {
-			final SyncedMaterialModel model = syncModel.getSyncedModel();
+		for (final ChooseModelContainer<SyncedMaterialModel> syncModel : result.getSyncedMaterialsToUpdate()) {
+			final SyncedMaterialModel model = syncModel.getModel();
 			if (syncModel.isChosen()) {
 				try {
 					helper.pushMaterialToUpdate(model);
@@ -97,8 +97,8 @@ public class PushSyncService extends IntentService {
 	private void pushMonsters(SyncMode mode, PushSyncHelper helper, ResultReceiver receiver, final ChooseSyncModel result) {
 		MyLog.entry();
 
-		for (final ChooseSyncModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonsters(mode)) {
-			final SyncedMonsterModel model = syncModel.getSyncedModel();
+		for (final ChooseModelContainer<SyncedMonsterModel> syncModel : result.getSyncedMonsters(mode)) {
+			final SyncedMonsterModel model = syncModel.getModel();
 			if (syncModel.isChosen()) {
 				try {
 					helper.pushMonster(mode, model);
@@ -116,11 +116,15 @@ public class PushSyncService extends IntentService {
 	}
 
 	private ElementToPush extractMonsterElementToPushFromSyncMode(SyncMode mode) {
-		switch(mode) {
-			case CREATED: return ElementToPush.MONSTER_TO_CREATE;
-			case UPDATED: return ElementToPush.MONSTER_TO_UPDATE;
-			case DELETED: return ElementToPush.MONSTER_TO_DELETE;
-			default : return null;
+		switch (mode) {
+			case CREATED:
+				return ElementToPush.MONSTER_TO_CREATE;
+			case UPDATED:
+				return ElementToPush.MONSTER_TO_UPDATE;
+			case DELETED:
+				return ElementToPush.MONSTER_TO_DELETE;
+			default:
+				return null;
 		}
 	}
 

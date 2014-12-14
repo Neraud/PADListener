@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
@@ -38,11 +38,11 @@ import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
 public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter {
 
 	private final Context mContext;
-	private final List<ChooseSyncModelContainer<SyncedMonsterModel>> mSyncedMonsters;
+	private final List<ChooseModelContainer<SyncedMonsterModel>> mSyncedMonsters;
+	private final MonsterImageHelper mImageHelper;
 	private List<MonsterInfoModel> mGroups;
-	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> mSortedSyncedMonsters;
+	private Map<MonsterInfoModel, List<ChooseModelContainer<SyncedMonsterModel>>> mSortedSyncedMonsters;
 	private Integer mDefaultTextColor = null;
-	private MonsterImageHelper mImageHelper;
 
 	static class GroupViewHolder {
 
@@ -99,23 +99,23 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 		}
 	}
 
-	public ChooseSyncMonstersGroupedAdapter(Context context, List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonsters) {
+	public ChooseSyncMonstersGroupedAdapter(Context context, List<ChooseModelContainer<SyncedMonsterModel>> syncedMonsters) {
 		this.mContext = context;
 		this.mSyncedMonsters = syncedMonsters;
 		refreshData();
 		mImageHelper = new MonsterImageHelper(context);
 	}
 
-	private Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> reorgMonsters(
-			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
+	private Map<MonsterInfoModel, List<ChooseModelContainer<SyncedMonsterModel>>> reorgMonsters(
+			List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
 		MyLog.entry();
 
-		final Map<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>> syncedMonsters = new HashMap<MonsterInfoModel, List<ChooseSyncModelContainer<SyncedMonsterModel>>>();
+		final Map<MonsterInfoModel, List<ChooseModelContainer<SyncedMonsterModel>>> syncedMonsters = new HashMap<MonsterInfoModel, List<ChooseModelContainer<SyncedMonsterModel>>>();
 
-		for (final ChooseSyncModelContainer<SyncedMonsterModel> container : syncedMonstersToUpdate) {
-			final MonsterInfoModel monster = container.getSyncedModel().getDisplayedMonsterInfo();
+		for (final ChooseModelContainer<SyncedMonsterModel> container : syncedMonstersToUpdate) {
+			final MonsterInfoModel monster = container.getModel().getDisplayedMonsterInfo();
 			if (!syncedMonsters.containsKey(monster)) {
-				syncedMonsters.put(monster, new ArrayList<ChooseSyncModelContainer<SyncedMonsterModel>>());
+				syncedMonsters.put(monster, new ArrayList<ChooseModelContainer<SyncedMonsterModel>>());
 			}
 			syncedMonsters.get(monster).add(container);
 		}
@@ -140,7 +140,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	}
 
 	@Override
-	public ChooseSyncModelContainer<SyncedMonsterModel> getChild(int groupPosition, int childPosition) {
+	public ChooseModelContainer<SyncedMonsterModel> getChild(int groupPosition, int childPosition) {
 		return mSortedSyncedMonsters.get(mGroups.get(groupPosition)).get(childPosition);
 	}
 
@@ -188,7 +188,7 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
 		MyLog.entry();
 
-		final ChooseSyncModelContainer<SyncedMonsterModel> item = getChild(groupPosition, childPosition);
+		final ChooseModelContainer<SyncedMonsterModel> item = getChild(groupPosition, childPosition);
 
 		final ChildViewHolder viewHolder;
 		if (view == null) {
@@ -218,12 +218,12 @@ public class ChooseSyncMonstersGroupedAdapter extends BaseExpandableListAdapter 
 			}
 		});
 
-		final MonsterModel padherder = item.getSyncedModel().getPadherderInfo();
-		final MonsterModel captured = item.getSyncedModel().getCapturedInfo();
+		final MonsterModel padherder = item.getModel().getPadherderInfo();
+		final MonsterModel captured = item.getModel().getCapturedInfo();
 
 		if (padherder != null && captured != null && padherder.getIdJp() != captured.getIdJp()) {
 			viewHolder.evoText.setVisibility(View.VISIBLE);
-			final MonsterInfoModel evolvedFrom = item.getSyncedModel().getPadherderMonsterInfo();
+			final MonsterInfoModel evolvedFrom = item.getModel().getPadherderMonsterInfo();
 
 			viewHolder.evoText.setText(mContext.getString(R.string.choose_sync_monsters_item_evo,
 					evolvedFrom.getIdJP(),

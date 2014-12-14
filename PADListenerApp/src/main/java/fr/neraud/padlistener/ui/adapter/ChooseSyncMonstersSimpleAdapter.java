@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.model.MonsterModel;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
@@ -31,7 +31,7 @@ import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
  *
  * @author Neraud
  */
-public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncModelContainer<SyncedMonsterModel>> {
+public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseModelContainer<SyncedMonsterModel>> {
 
 	private Integer mDefaultTextColor = null;
 	private final MonsterImageHelper mImageHelper;
@@ -83,13 +83,13 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 	}
 
 	public ChooseSyncMonstersSimpleAdapter(Context context,
-			List<ChooseSyncModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
+			List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate) {
 		super(context, R.layout.choose_sync_item_monsters_simple, syncedMonstersToUpdate);
 
-		final Comparator<ChooseSyncModelContainer<SyncedMonsterModel>> comparator = new Comparator<ChooseSyncModelContainer<SyncedMonsterModel>>() {
+		final Comparator<ChooseModelContainer<SyncedMonsterModel>> comparator = new Comparator<ChooseModelContainer<SyncedMonsterModel>>() {
 			@Override
-			public int compare(ChooseSyncModelContainer<SyncedMonsterModel> a, ChooseSyncModelContainer<SyncedMonsterModel> b) {
-				return a.getSyncedModel().getDisplayedMonsterInfo().getIdJP() - b.getSyncedModel().getDisplayedMonsterInfo().getIdJP();
+			public int compare(ChooseModelContainer<SyncedMonsterModel> a, ChooseModelContainer<SyncedMonsterModel> b) {
+				return a.getModel().getDisplayedMonsterInfo().getIdJP() - b.getModel().getDisplayedMonsterInfo().getIdJP();
 			}
 		};
 		Collections.sort(syncedMonstersToUpdate, comparator);
@@ -101,7 +101,7 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 	public View getView(int position, View view, ViewGroup parent) {
 		MyLog.entry();
 
-		final ChooseSyncModelContainer<SyncedMonsterModel> item = super.getItem(position);
+		final ChooseModelContainer<SyncedMonsterModel> item = super.getItem(position);
 
 		final ViewHolder viewHolder;
 		if (view == null) {
@@ -131,18 +131,18 @@ public class ChooseSyncMonstersSimpleAdapter extends ArrayAdapter<ChooseSyncMode
 			}
 		});
 
-		mImageHelper.fillImage(viewHolder.imageView, item.getSyncedModel().getDisplayedMonsterInfo());
+		mImageHelper.fillImage(viewHolder.imageView, item.getModel().getDisplayedMonsterInfo());
 
 		viewHolder.nameText.setText(getContext().getString(R.string.choose_sync_monsters_item_name_simple,
-				item.getSyncedModel().getDisplayedMonsterInfo().getIdJP(),
-				item.getSyncedModel().getDisplayedMonsterInfo().getName()));
+				item.getModel().getDisplayedMonsterInfo().getIdJP(),
+				item.getModel().getDisplayedMonsterInfo().getName()));
 
-		final MonsterModel padherder = item.getSyncedModel().getPadherderInfo();
-		final MonsterModel captured = item.getSyncedModel().getCapturedInfo();
+		final MonsterModel padherder = item.getModel().getPadherderInfo();
+		final MonsterModel captured = item.getModel().getCapturedInfo();
 
 		if (padherder != null && captured != null && padherder.getIdJp() != captured.getIdJp()) {
 			viewHolder.evoText.setVisibility(View.VISIBLE);
-			final MonsterInfoModel evolvedFrom = item.getSyncedModel().getPadherderMonsterInfo();
+			final MonsterInfoModel evolvedFrom = item.getModel().getPadherderMonsterInfo();
 
 			viewHolder.evoText.setText(getContext().getString(R.string.choose_sync_monsters_item_evo,
 					evolvedFrom.getIdJP(),

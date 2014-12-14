@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 
@@ -92,12 +92,12 @@ public abstract class ChooseSyncBaseContextMenuHelper {
 		MyLog.exit();
 	}
 
-	private void filterMonsterList(SyncMode mode, List<ChooseSyncModelContainer<SyncedMonsterModel>> monsters, int monsterId) {
+	private void filterMonsterList(SyncMode mode, List<ChooseModelContainer<SyncedMonsterModel>> monsters, int monsterId) {
 		MyLog.entry("mode = " + mode);
-		final Iterator<ChooseSyncModelContainer<SyncedMonsterModel>> iter = monsters.iterator();
+		final Iterator<ChooseModelContainer<SyncedMonsterModel>> iter = monsters.iterator();
 		while (iter.hasNext()) {
-			final ChooseSyncModelContainer<SyncedMonsterModel> item = iter.next();
-			if (item.getSyncedModel().getDisplayedMonsterInfo().getIdJP() == monsterId) {
+			final ChooseModelContainer<SyncedMonsterModel> item = iter.next();
+			if (item.getModel().getDisplayedMonsterInfo().getIdJP() == monsterId) {
 				MyLog.debug(" - removing " + item);
 				iter.remove();
 			}

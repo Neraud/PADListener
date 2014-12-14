@@ -12,8 +12,8 @@ import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.SyncMode;
 import fr.neraud.padlistener.helper.DefaultSharedPreferencesHelper;
+import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.model.ChooseSyncModel;
-import fr.neraud.padlistener.model.ChooseSyncModelContainer;
 import fr.neraud.padlistener.model.SyncedMonsterModel;
 import fr.neraud.padlistener.padherder.constant.MonsterPriority;
 import fr.neraud.padlistener.ui.adapter.ChooseSyncMonstersSimpleAdapter;
@@ -40,8 +40,8 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 	public void createContextMenu(ContextMenu menu, ContextMenu.ContextMenuInfo menuInfo) {
 		MyLog.entry("menuInfo = " + menuInfo);
 
-		final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = getMonsterItem(menuInfo);
-		menu.setHeaderTitle(getContext().getString(R.string.choose_sync_context_menu_one_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName()));
+		final ChooseModelContainer<SyncedMonsterModel> monsterItem = getMonsterItem(menuInfo);
+		menu.setHeaderTitle(getContext().getString(R.string.choose_sync_context_menu_one_title, monsterItem.getModel().getDisplayedMonsterInfo().getName()));
 		if (monsterItem.isChosen()) {
 			menu.add(getGroupId(), MENU_ID_DESELECT, 0, R.string.choose_sync_context_menu_one_deselect);
 		} else {
@@ -63,7 +63,7 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 	public boolean doContextItemSelected(MenuItem menuItem) {
 		MyLog.entry("menuItem = " + menuItem);
 
-		final ChooseSyncModelContainer<SyncedMonsterModel> monsterItem = getMonsterItem(menuItem.getMenuInfo());
+		final ChooseModelContainer<SyncedMonsterModel> monsterItem = getMonsterItem(menuItem.getMenuInfo());
 
 		switch (menuItem.getItemId()) {
 			case MENU_ID_SELECT:
@@ -76,9 +76,9 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 				break;
 			case MENU_ID_CHANGE_PRIORITY:
 				final AlertDialog.Builder priorityDialogBuilder = new AlertDialog.Builder(getContext());
-				final String priorityDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_priority_dialog_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName());
+				final String priorityDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_priority_dialog_title, monsterItem.getModel().getDisplayedMonsterInfo().getName());
 				priorityDialogBuilder.setTitle(priorityDialogTitle);
-				int selected = monsterItem.getSyncedModel().getCapturedInfo().getPriority().ordinal();
+				int selected = monsterItem.getModel().getCapturedInfo().getPriority().ordinal();
 				final CharSequence[] priorities = buildPriorityList();
 
 				priorityDialogBuilder.setSingleChoiceItems(priorities, selected, new DialogInterface.OnClickListener() {
@@ -86,7 +86,7 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 					public void onClick(DialogInterface dialogInterface, int i) {
 						MyLog.entry("i = " + i);
 						final MonsterPriority priority = MonsterPriority.findByOrdinal(i);
-						monsterItem.getSyncedModel().getCapturedInfo().setPriority(priority);
+						monsterItem.getModel().getCapturedInfo().setPriority(priority);
 						dialogInterface.dismiss();
 						notifyDataSetChanged();
 						MyLog.exit();
@@ -97,17 +97,17 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 				break;
 			case MENU_ID_CHANGE_NOTE:
 				final AlertDialog.Builder noteDialogBuilder = new AlertDialog.Builder(getContext());
-				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterItem.getSyncedModel().getDisplayedMonsterInfo().getName());
+				final String noteDialogTitle = getContext().getString(R.string.choose_sync_context_menu_one_change_note_dialog_title, monsterItem.getModel().getDisplayedMonsterInfo().getName());
 				noteDialogBuilder.setTitle(noteDialogTitle);
 
 				final EditText input = new EditText(getContext());
-				input.setText(monsterItem.getSyncedModel().getCapturedInfo().getNote());
+				input.setText(monsterItem.getModel().getCapturedInfo().getNote());
 				noteDialogBuilder.setView(input);
 				noteDialogBuilder.setPositiveButton(R.string.choose_sync_context_menu_change_note_dialog_ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						MyLog.entry();
 						String newNote = input.getText().toString().trim();
-						monsterItem.getSyncedModel().getCapturedInfo().setNote(newNote);
+						monsterItem.getModel().getCapturedInfo().setNote(newNote);
 						notifyDataSetChanged();
 						MyLog.exit();
 					}
@@ -122,7 +122,7 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 
 				break;
 			case MENU_ID_ADD_TO_IGNORE_LIST:
-				addMonsterToIgnoreList(monsterItem.getSyncedModel().getDisplayedMonsterInfo().getIdJP());
+				addMonsterToIgnoreList(monsterItem.getModel().getDisplayedMonsterInfo().getIdJP());
 				notifyDataSetChanged();
 				break;
 			default:
@@ -132,11 +132,11 @@ public class ChooseSyncSimpleContextMenuHelper extends ChooseSyncBaseContextMenu
 		return true;
 	}
 
-	private ChooseSyncModelContainer<SyncedMonsterModel> getMonsterItem(ContextMenu.ContextMenuInfo menuInfo) {
+	private ChooseModelContainer<SyncedMonsterModel> getMonsterItem(ContextMenu.ContextMenuInfo menuInfo) {
 		MyLog.entry("menuItem = " + menuInfo);
 
 		final AdapterView.AdapterContextMenuInfo listItem = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		final ChooseSyncModelContainer<SyncedMonsterModel> result = adapter.getItem(listItem.position);
+		final ChooseModelContainer<SyncedMonsterModel> result = adapter.getItem(listItem.position);
 
 		MyLog.exit();
 		return result;
