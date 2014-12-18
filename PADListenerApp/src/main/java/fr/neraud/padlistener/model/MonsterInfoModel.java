@@ -293,6 +293,23 @@ public class MonsterInfoModel implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		MonsterInfoModel that = (MonsterInfoModel) o;
+
+		if (idJP != that.idJP) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return idJP;
+	}
+
+	@Override
 	public String toString() {
 		return "(" + idJP + ") " + name;
 	}

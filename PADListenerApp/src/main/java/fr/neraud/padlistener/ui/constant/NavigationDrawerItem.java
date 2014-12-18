@@ -12,6 +12,7 @@ public enum NavigationDrawerItem {
 	VIEW_MONSTER_INFO(R.id.drawer_view_monster_info, R.drawable.ic_drawer_monster_info, R.string.drawer_view_monster_info_title, UiScreen.VIEW_MONSTER_INFO),
 	VIEW_CAPTURED_DATA(R.id.drawer_view_captured_data, R.drawable.ic_drawer_captured_data, R.string.drawer_view_captured_data_title, UiScreen.VIEW_CAPTURED_DATA),
 	MANAGE_IGNORE_LIST(R.id.drawer_manage_ignore_list, R.drawable.ic_drawer_ignore_list, R.string.drawer_manage_ignore_list_title, UiScreen.MANAGE_IGNORE_LIST),
+	FILTER_FRIENDS(R.id.drawer_filter_friends, R.drawable.ic_action_filter_friends, R.string.drawer_filter_friends_title, UiScreen.FILTER_FRIENDS_CHOOSE),
 
 	SETTINGS(R.id.drawer_settings, R.drawable.ic_drawer_settings, R.string.drawer_settings_title, null),
 	CHANGELOG(R.id.drawer_changelog, R.drawable.ic_drawer_changelog, R.string.drawer_changelog_title, null),

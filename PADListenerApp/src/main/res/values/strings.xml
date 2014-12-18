@@ -8,6 +8,7 @@
 	<string name="drawer_view_monster_info_title">View monster info</string>
 	<string name="drawer_view_captured_data_title">View captured data</string>
 	<string name="drawer_manage_ignore_list_title">Manage ignore list</string>
+	<string name="drawer_filter_friends_title">Filter friends</string>
 	<string name="drawer_settings_title">Settings</string>
 	<string name="drawer_changelog_title">Changelog</string>
 	<string name="drawer_about_title">About</string>
@@ -465,5 +466,28 @@
 	<string name="push_sync_summary_monsters_updated"> - %1$d / %2$d monsters updated (%3$d errors)</string>
 	<string name="push_sync_summary_monsters_created"> - %1$d / %2$d monsters created (%3$d errors)</string>
 	<string name="push_sync_summary_monsters_deleted"> - %1$d / %2$d monsters deleted (%3$d errors)</string>
+
+
+	<!-- Filter friends choose leaders -->
+	<string name="label_filterFriendChooseLeaders">Filter Friends</string>
+
+	<string name="filter_friends_choose_leaders_help_summary_title">Filter leaders</string>
+	<string name="filter_friends_choose_leaders_help_summary_content">This feature helps you to filter your friends by selecting the leaders that are really useful for you.</string>
+	<string name="filter_friends_choose_leaders_help_selection_title">Selection</string>
+	<string name="filter_friends_choose_leaders_help_selection_content">All the leaders that have been used by your friends are listed here. You can select those you want to keep.</string>
+
+	<string name="filter_friends_choose_leaders_action_filter">Filter</string>
+	<string name="filter_friends_choose_leaders_item_parent_name_group">%1$d x (%2$d) %3$s</string>
+	<string name="filter_friends_choose_leaders_item_child_label_level">Lv</string>
+	<string name="filter_friends_choose_leaders_item_child_label_skill">Sk</string>
+	<string name="filter_friends_choose_leaders_item_child_label_awakenings">Aw</string>
+	<string name="filter_friends_choose_leaders_item_child_label_plusHp">+Hp</string>
+	<string name="filter_friends_choose_leaders_item_child_label_plusAtk">+Atk</string>
+	<string name="filter_friends_choose_leaders_item_child_label_plusRcv">+Rcv</string>
+	<string name="filter_friends_choose_leaders_item_parent_select_all">All</string>
+	<string name="filter_friends_choose_leaders_item_parent_select_none">None</string>
+	<string name="filter_friends_choose_leaders_context_menu_all_title">%1$s</string>
+	<string name="filter_friends_choose_leaders_context_menu_all_select">Select all</string>
+	<string name="filter_friends_choose_leaders_context_menu_all_deselect">Deselect all</string>
 
 </resources>

@@ -178,6 +178,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.VIEW_MONSTER_INFO);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.VIEW_CAPTURED_DATA);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.MANAGE_IGNORE_LIST);
+		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.FILTER_FRIENDS);
 		addNavDrawerSeparator(drawerItemsListContainer);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.SETTINGS);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.CHANGELOG);

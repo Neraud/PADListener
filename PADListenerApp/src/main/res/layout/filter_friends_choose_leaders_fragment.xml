@@ -1,0 +1,8 @@
+<ExpandableListView
+	android:id="@+id/filter_friends_choose_leaders_list"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.activity.FilterFriendsChooseLeadersActivity"
+	tools:listitem="@layout/filter_friends_choose_leaders_item_parent"/>

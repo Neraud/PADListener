@@ -28,6 +28,11 @@
 		android:layout_height="wrap_content"/>
 
 	<View
+		android:id="@+id/drawer_filter_friends"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
 		android:id="@+id/drawer_settings"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>

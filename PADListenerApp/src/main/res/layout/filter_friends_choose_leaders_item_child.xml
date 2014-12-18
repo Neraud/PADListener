@@ -1,0 +1,75 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	tools:context=".ui.activity.FilterFriendsChooseLeadersActivity">
+
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:layout_margin="4dp">
+
+		<RelativeLayout
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<CheckBox
+				android:id="@+id/filter_friends_choose_leaders_item_child_checkbox"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+		</RelativeLayout>
+
+		<TextView
+			android:id="@+id/filter_friends_choose_leaders_item_child_padherder_level"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:textColor="@color/body_text_1"
+			android:textSize="12sp"/>
+
+		<TextView
+			android:id="@+id/filter_friends_choose_leaders_item_child_padherder_skill"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:textColor="@color/body_text_1"
+			android:textSize="12sp"/>
+
+		<TextView
+			android:id="@+id/filter_friends_choose_leaders_item_child_padherder_awakenings"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:textColor="@color/body_text_1"
+			android:textSize="12sp"/>
+
+		<TextView
+			android:id="@+id/filter_friends_choose_leaders_item_child_padherder_plusHp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:textColor="@color/body_text_1"
+			android:textSize="12sp"/>
+
+		<TextView
+			android:id="@+id/filter_friends_choose_leaders_item_child_padherder_plusAtk"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:textColor="@color/body_text_1"
+			android:textSize="12sp"/>
+
+		<TextView
+			android:id="@+id/filter_friends_choose_leaders_item_child_padherder_plusRcv"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:textColor="@color/body_text_1"
+			android:textSize="12sp"/>
+	</TableRow>
+
+</LinearLayout>
