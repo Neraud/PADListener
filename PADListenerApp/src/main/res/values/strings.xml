@@ -490,4 +490,20 @@
 	<string name="filter_friends_choose_leaders_context_menu_all_select">Select all</string>
 	<string name="filter_friends_choose_leaders_context_menu_all_deselect">Deselect all</string>
 
+	<!-- Filter friends list useless -->
+	<string name="label_filterFriendListUseless">List useless</string>
+	<string name="filter_friends_list_useless_help_summary_title">List</string>
+	<string name="filter_friends_list_useless_help_summary_content">This screen will list all the friends that do now use any useful leaders</string>
+	<string name="filter_friends_list_useless_help_filter_title">Filter</string>
+	<string name="filter_friends_list_useless_help_filter_content">You can choose if your favourite friends are also listed</string>
+	<string name="filter_friends_list_useless_help_notifications_title">Notifications</string>
+	<string name="filter_friends_list_useless_help_notifications_content">You can generate notifications to track the names of the friends you want to delete and use them in PAD.</string>
+
+	<string name="filter_friends_list_useless_filter">Filter</string>
+	<string name="filter_friends_list_useless_generate_notifications">Generate notifications</string>
+	<string name="filter_friends_list_useless_no_friend_to_delete_toast">No friend to delete !</string>
+	<string name="filter_friends_list_useless_notification_title">Friend to delete</string>
+	<string name="filter_friends_list_useless_notification_content">%1$s</string>
+
+
 </resources>

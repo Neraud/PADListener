@@ -22,9 +22,9 @@ public class NotificationHelper {
 	private final int mTitleId;
 
 	public NotificationHelper(Context context, MyNotification notification, int titleId) {
-		this.mContext = context;
-		this.mNotification = notification;
-		this.mTitleId = titleId;
+		mContext = context;
+		mNotification = notification;
+		mTitleId = titleId;
 	}
 
 	private NotificationCompat.Builder prepareNotification() {
@@ -41,21 +41,25 @@ public class NotificationHelper {
 		return builder;
 	}
 
-	private void showNotification(NotificationCompat.Builder builder) {
+	private void showNotification(NotificationCompat.Builder builder, int increment) {
 		final NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.notify(mNotification.getId(), builder.build());
+		mNotificationManager.notify(mNotification.getId() + increment, builder.build());
 	}
 
 	public void displayNotification(final String notificationMessage) {
+		displayNotification(notificationMessage, 0);
+	}
+
+	public void displayNotification(final String notificationMessage, int increment) {
 		final NotificationCompat.Builder builder = prepareNotification();
 		builder.setContentText(notificationMessage);
-		showNotification(builder);
+		showNotification(builder, increment);
 	}
 
 	public void displayNotificationWithProgress(final String notificationMessage, int nb, int max) {
 		final NotificationCompat.Builder builder = prepareNotification();
 		builder.setContentText(notificationMessage);
 		builder.setProgress(max, nb, false);
-		showNotification(builder);
+		showNotification(builder, 0);
 	}
 }

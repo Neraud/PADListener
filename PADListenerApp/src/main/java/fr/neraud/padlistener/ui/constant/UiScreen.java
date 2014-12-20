@@ -5,6 +5,7 @@ import android.app.Activity;
 import fr.neraud.padlistener.ui.activity.ChooseSyncActivity;
 import fr.neraud.padlistener.ui.activity.ComputeSyncActivity;
 import fr.neraud.padlistener.ui.activity.FilterFriendsChooseLeadersActivity;
+import fr.neraud.padlistener.ui.activity.FilterFriendsListUselessActivity;
 import fr.neraud.padlistener.ui.activity.HomeActivity;
 import fr.neraud.padlistener.ui.activity.ManageIgnoreListActivity;
 import fr.neraud.padlistener.ui.activity.PushSyncActivity;
@@ -24,7 +25,8 @@ public enum UiScreen {
 	VIEW_MONSTER_INFO(ViewMonsterInfoActivity.class),
 	VIEW_CAPTURED_DATA(ViewCapturedDataActivity.class),
 	MANAGE_IGNORE_LIST(ManageIgnoreListActivity.class),
-	FILTER_FRIENDS_CHOOSE(FilterFriendsChooseLeadersActivity.class),
+	FILTER_FRIENDS_CHOOSE_LEADERS(FilterFriendsChooseLeadersActivity.class),
+	FILTER_FRIENDS_LIST_USELESS(FilterFriendsListUselessActivity.class),
 	COMPUTE_SYNC(ComputeSyncActivity.class, true),
 	CHOOSE_SYNC(ChooseSyncActivity.class, true),
 	PUSH_SYNC(PushSyncActivity.class, true);

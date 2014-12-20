@@ -34,7 +34,7 @@ public class CapturedPlayerFriendLeaderProviderHelper extends BaseProviderHelper
 		final CapturedFriendLeaderModel model = new CapturedFriendLeaderModel();
 
 		model.setIdJp(getInt(cursor, prefix, CapturedPlayerFriendLeaderDescriptor.Fields.ID_JP));
-		model.setIdJp(getInt(cursor, prefix, CapturedPlayerFriendLeaderDescriptor.Fields.ID_JP));
+		model.setFriendId(getInt(cursor, prefix, CapturedPlayerFriendLeaderDescriptor.Fields.PLAYER_ID));
 		model.setLevel(getInt(cursor, prefix, CapturedPlayerFriendLeaderDescriptor.Fields.LEVEL));
 		model.setSkillLevel(getInt(cursor, prefix, CapturedPlayerFriendLeaderDescriptor.Fields.SKILL_LEVEL));
 		model.setPlusHp(getInt(cursor, prefix, CapturedPlayerFriendLeaderDescriptor.Fields.PLUS_HP));

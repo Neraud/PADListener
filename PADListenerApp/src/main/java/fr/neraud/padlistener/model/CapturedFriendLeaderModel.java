@@ -7,7 +7,16 @@ import java.util.Date;
  */
 public class CapturedFriendLeaderModel extends BaseMonsterStatsModel {
 
+	private long friendId;
 	private Date lastSeen;
+
+	public long getFriendId() {
+		return friendId;
+	}
+
+	public void setFriendId(long friendId) {
+		this.friendId = friendId;
+	}
 
 	public Date getLastSeen() {
 		return lastSeen;

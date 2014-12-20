@@ -64,6 +64,9 @@
 		<activity
 			android:name=".ui.activity.FilterFriendsChooseLeadersActivity"
 			android:label="@string/label_filterFriendChooseLeaders" />
+		<activity
+			android:name=".ui.activity.FilterFriendsListUselessActivity"
+			android:label="@string/label_filterFriendListUseless" />
 
 
 		<service

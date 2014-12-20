@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.HashSet;
 import java.util.List;
 
 import fr.neraud.log.MyLog;
@@ -11,6 +12,7 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.CapturedFriendLeaderModel;
 import fr.neraud.padlistener.model.ChooseModelContainer;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
+import fr.neraud.padlistener.ui.constant.UiScreen;
 import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 
 /**
@@ -46,7 +48,8 @@ public class FilterFriendsChooseLeadersActivity extends AbstractPADListenerActiv
 			@Override
 			public void buildDeltaHelpPages(PageBuilder builder, int lastDisplayedVersion) {
 				switch (lastDisplayedVersion) {
-					default: buildHelpPages(builder);
+					default:
+						buildHelpPages(builder);
 				}
 			}
 		};
@@ -72,8 +75,17 @@ public class FilterFriendsChooseLeadersActivity extends AbstractPADListenerActiv
 	private void filterLeaders() {
 		MyLog.entry();
 
-		if(mLeaders != null) {
-			// TODO
+		if (mLeaders != null) {
+			final HashSet<Long> usefulFriendIds = new HashSet<>();
+			for (ChooseModelContainer<CapturedFriendLeaderModel> container : mLeaders) {
+				if (container.isChosen()) {
+					usefulFriendIds.add(container.getModel().getFriendId());
+				}
+			}
+
+			final Bundle bundle = new Bundle();
+			FilterFriendsListUselessActivity.addUsefulFriendIds(bundle, usefulFriendIds);
+			goToScreen(UiScreen.FILTER_FRIENDS_LIST_USELESS, bundle);
 		}
 
 		MyLog.exit();
