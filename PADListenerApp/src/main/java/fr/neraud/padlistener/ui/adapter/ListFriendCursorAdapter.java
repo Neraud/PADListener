@@ -33,46 +33,46 @@ import fr.neraud.padlistener.ui.fragment.ViewCapturedDataFriendLeadersFragment;
 /**
  * Created by Neraud on 28/09/2014.
  */
-public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorAdapter {
+public class ListFriendCursorAdapter extends AbstractMonsterWithStatsCursorAdapter {
 
 	private final FragmentActivity mActivity;
 
 	static class ViewHolder {
 
-		@InjectView(R.id.view_captured_data_friend_name)
+		@InjectView(R.id.list_friends_item_name)
 		TextView friendNameTextView;
-		@InjectView(R.id.view_captured_data_friend_rank)
+		@InjectView(R.id.list_friends_item_rank)
 		TextView friendRankTextView;
-		@InjectView(R.id.view_captured_data_friend_favourite)
+		@InjectView(R.id.list_friends_item_favourite)
 		ImageView favouriteImageView;
 
-		@InjectView(R.id.view_captured_data_friend_leader1_container)
+		@InjectView(R.id.list_friends_item_leader1_container)
 		ViewGroup leader1Container;
-		@InjectView(R.id.view_captured_data_friend_leader1_image)
+		@InjectView(R.id.list_friends_item_leader1_image)
 		ImageView leader1Image;
-		@InjectView(R.id.view_captured_data_friend_leader1_awakenings)
+		@InjectView(R.id.list_friends_item_leader1_awakenings)
 		TextView leader1Awakenings;
-		@InjectView(R.id.view_captured_data_friend_leader1_level)
+		@InjectView(R.id.list_friends_item_leader1_level)
 		TextView leader1Level;
-		@InjectView(R.id.view_captured_data_friend_leader1_skill_level)
+		@InjectView(R.id.list_friends_item_leader1_skill_level)
 		TextView leader1SkillLevel;
-		@InjectView(R.id.view_captured_data_friend_leader1_pluses)
+		@InjectView(R.id.list_friends_item_leader1_pluses)
 		TextView leader1Pluses;
 
-		@InjectView(R.id.view_captured_data_friend_leader2_container)
+		@InjectView(R.id.list_friends_item_leader2_container)
 		ViewGroup leader2Container;
-		@InjectView(R.id.view_captured_data_friend_leader2_image)
+		@InjectView(R.id.list_friends_item_leader2_image)
 		ImageView leader2Image;
-		@InjectView(R.id.view_captured_data_friend_leader2_awakenings)
+		@InjectView(R.id.list_friends_item_leader2_awakenings)
 		TextView leader2Awakenings;
-		@InjectView(R.id.view_captured_data_friend_leader2_level)
+		@InjectView(R.id.list_friends_item_leader2_level)
 		TextView leader2Level;
-		@InjectView(R.id.view_captured_data_friend_leader2_skill_level)
+		@InjectView(R.id.list_friends_item_leader2_skill_level)
 		TextView leader2SkillLevel;
-		@InjectView(R.id.view_captured_data_friend_leader2_pluses)
+		@InjectView(R.id.list_friends_item_leader2_pluses)
 		TextView leader2Pluses;
 
-		@InjectView(R.id.view_captured_data_friend_leader_history)
+		@InjectView(R.id.list_friends_item_leader_history)
 		Button leaderHistoryButton;
 
 		public ViewHolder(View view) {
@@ -107,10 +107,8 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 		}
 	}
 
-	;
-
-	public CapturedFriendCursorAdapter(FragmentActivity activity) {
-		super(activity, R.layout.view_captured_data_fragment_friends_item);
+	public ListFriendCursorAdapter(FragmentActivity activity) {
+		super(activity, R.layout.list_friends_item);
 		mActivity = activity;
 	}
 
@@ -123,7 +121,7 @@ public class CapturedFriendCursorAdapter extends AbstractMonsterWithStatsCursorA
 		final CapturedFriendFullInfoModel model = CapturedPlayerFriendProviderHelper.cursorWithInfoToModel(cursor);
 
 		viewHolder.friendNameTextView.setText(model.getFriendModel().getName());
-		viewHolder.friendRankTextView.setText(mActivity.getString(R.string.view_captured_data_friend_rank, model.getFriendModel().getRank()));
+		viewHolder.friendRankTextView.setText(mActivity.getString(R.string.list_friends_item_rank, model.getFriendModel().getRank()));
 
 		final int drawableResId = model.getFriendModel().isFavourite() ? R.drawable.ic_action_favourite : R.drawable.ic_action_not_favourite;
 		viewHolder.favouriteImageView.setImageDrawable(context.getResources().getDrawable(drawableResId));

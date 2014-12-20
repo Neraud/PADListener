@@ -31,7 +31,7 @@
 				android:orientation="vertical">
 
 				<TextView
-					android:id="@+id/view_captured_data_friend_name"
+					android:id="@+id/list_friends_item_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="16dp"
@@ -39,16 +39,16 @@
 					android:textStyle="bold"/>
 
 				<TextView
-					android:id="@+id/view_captured_data_friend_rank"
+					android:id="@+id/list_friends_item_rank"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="16dp"
-					android:text="@string/view_captured_data_friend_rank"
+					android:text="@string/list_friends_item_rank"
 					/>
 			</LinearLayout>
 
 			<ImageView
-				android:id="@+id/view_captured_data_friend_favourite"
+				android:id="@+id/list_friends_item_favourite"
 				android:layout_width="36dp"
 				android:layout_height="36dp"
 				android:layout_margin="4dp"
@@ -63,7 +63,7 @@
 			android:orientation="horizontal">
 
 			<FrameLayout
-				android:id="@+id/view_captured_data_friend_leader1_container"
+				android:id="@+id/list_friends_item_leader1_container"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_weight="1">
@@ -74,51 +74,51 @@
 					android:layout_gravity="center">
 
 					<ImageView
-						android:id="@+id/view_captured_data_friend_leader1_image"
+						android:id="@+id/list_friends_item_leader1_image"
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
 						android:layout_margin="8dp"
 						android:src="@drawable/no_monster_image"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader1_awakenings"
+						android:id="@+id/list_friends_item_leader1_awakenings"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignLeft="@+id/view_captured_data_friend_leader1_image"
-						android:layout_alignTop="@+id/view_captured_data_friend_leader1_image"
+						android:layout_alignLeft="@+id/list_friends_item_leader1_image"
+						android:layout_alignTop="@+id/list_friends_item_leader1_image"
 						android:background="@drawable/layer_monster_awakenings"
 						android:gravity="center"
 						android:minWidth="24dp"
 						android:textColor="@color/body_text_1_inverse"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader1_level"
+						android:id="@+id/list_friends_item_leader1_level"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignRight="@+id/view_captured_data_friend_leader1_image"
-						android:layout_alignTop="@+id/view_captured_data_friend_leader1_image"
+						android:layout_alignRight="@+id/list_friends_item_leader1_image"
+						android:layout_alignTop="@+id/list_friends_item_leader1_image"
 						android:background="@drawable/layer_monster_level"
 						android:gravity="center"
 						android:minWidth="24dp"
 						android:textColor="@color/body_text_1_inverse"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader1_skill_level"
+						android:id="@+id/list_friends_item_leader1_skill_level"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignBottom="@+id/view_captured_data_friend_leader1_image"
-						android:layout_alignRight="@+id/view_captured_data_friend_leader1_image"
+						android:layout_alignBottom="@+id/list_friends_item_leader1_image"
+						android:layout_alignRight="@+id/list_friends_item_leader1_image"
 						android:background="@drawable/layer_monster_skill_level"
 						android:gravity="center"
 						android:minWidth="24dp"
 						android:textColor="@color/body_text_1_inverse"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader1_pluses"
+						android:id="@+id/list_friends_item_leader1_pluses"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignBottom="@+id/view_captured_data_friend_leader1_image"
-						android:layout_alignLeft="@+id/view_captured_data_friend_leader1_image"
+						android:layout_alignBottom="@+id/list_friends_item_leader1_image"
+						android:layout_alignLeft="@+id/list_friends_item_leader1_image"
 						android:background="@drawable/layer_monster_pluses"
 						android:gravity="center"
 						android:minWidth="24dp"
@@ -128,7 +128,7 @@
 			</FrameLayout>
 
 			<FrameLayout
-				android:id="@+id/view_captured_data_friend_leader2_container"
+				android:id="@+id/list_friends_item_leader2_container"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_weight="1">
@@ -139,51 +139,51 @@
 					android:layout_gravity="center">
 
 					<ImageView
-						android:id="@+id/view_captured_data_friend_leader2_image"
+						android:id="@+id/list_friends_item_leader2_image"
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
 						android:layout_margin="8dp"
 						android:src="@drawable/no_monster_image"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader2_awakenings"
+						android:id="@+id/list_friends_item_leader2_awakenings"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignLeft="@+id/view_captured_data_friend_leader2_image"
-						android:layout_alignTop="@+id/view_captured_data_friend_leader2_image"
+						android:layout_alignLeft="@+id/list_friends_item_leader2_image"
+						android:layout_alignTop="@+id/list_friends_item_leader2_image"
 						android:background="@drawable/layer_monster_awakenings"
 						android:gravity="center"
 						android:minWidth="24dp"
 						android:textColor="@color/body_text_1_inverse"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader2_level"
+						android:id="@+id/list_friends_item_leader2_level"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignRight="@+id/view_captured_data_friend_leader2_image"
-						android:layout_alignTop="@+id/view_captured_data_friend_leader2_image"
+						android:layout_alignRight="@+id/list_friends_item_leader2_image"
+						android:layout_alignTop="@+id/list_friends_item_leader2_image"
 						android:background="@drawable/layer_monster_level"
 						android:gravity="center"
 						android:minWidth="24dp"
 						android:textColor="@color/body_text_1_inverse"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader2_skill_level"
+						android:id="@+id/list_friends_item_leader2_skill_level"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignBottom="@+id/view_captured_data_friend_leader2_image"
-						android:layout_alignRight="@+id/view_captured_data_friend_leader2_image"
+						android:layout_alignBottom="@+id/list_friends_item_leader2_image"
+						android:layout_alignRight="@+id/list_friends_item_leader2_image"
 						android:background="@drawable/layer_monster_skill_level"
 						android:gravity="center"
 						android:minWidth="24dp"
 						android:textColor="@color/body_text_1_inverse"/>
 
 					<TextView
-						android:id="@+id/view_captured_data_friend_leader2_pluses"
+						android:id="@+id/list_friends_item_leader2_pluses"
 						android:layout_width="wrap_content"
 						android:layout_height="24dp"
-						android:layout_alignBottom="@+id/view_captured_data_friend_leader2_image"
-						android:layout_alignLeft="@+id/view_captured_data_friend_leader2_image"
+						android:layout_alignBottom="@+id/list_friends_item_leader2_image"
+						android:layout_alignLeft="@+id/list_friends_item_leader2_image"
 						android:background="@drawable/layer_monster_pluses"
 						android:gravity="center"
 						android:minWidth="24dp"
@@ -201,13 +201,13 @@
 			android:gravity="center_horizontal">
 
 			<Button
-				android:id="@+id/view_captured_data_friend_leader_history"
+				android:id="@+id/list_friends_item_leader_history"
 				android:layout_width="wrap_content"
 				android:layout_height="36dp"
 				android:layout_gravity="center_vertical"
 				android:background="@drawable/button_secondary"
 				android:minWidth="128dp"
-				android:text="@string/view_captured_data_friend_leader_history"
+				android:text="@string/list_friends_item_leader_history"
 				android:textAllCaps="true"
 				android:textColor="@color/theme_primary"
 				android:textSize="@dimen/text_size_medium"/>

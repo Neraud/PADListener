@@ -316,8 +316,8 @@
 	<string name="view_captured_monster_detail_skill_level_label">Skill :</string>
 	<string name="view_captured_monster_detail_skill_level_value">%1$d</string>
 
-	<string name="view_captured_data_friend_rank">Rank : %1$d</string>
-	<string name="view_captured_data_friend_leader_history">Leader history</string>
+	<string name="list_friends_item_rank">Rank : %1$d</string>
+	<string name="list_friends_item_leader_history">Leader history</string>
 
 	<string name="view_captured_friend_leader_title">%1$s\'s leaders</string>
 	<string name="view_captured_friend_leader_level_label">Level :</string>
