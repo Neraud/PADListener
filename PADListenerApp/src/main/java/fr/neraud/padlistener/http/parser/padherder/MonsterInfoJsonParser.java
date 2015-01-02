@@ -49,7 +49,7 @@ public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoMo
 		monster.setIdJP(monsterJson.getInt("id"));
 		if (monsterJson.has("us_id")) {
 			monster.setIdUS(monsterJson.getInt("us_id"));
-		} else if (!monsterJson.getBoolean("jp_only")) {
+		} else /*if (!monsterJson.getBoolean("jp_only"))*/ {
 			monster.setIdUS(monsterJson.getInt("id"));
 		}
 		monster.setName(monsterJson.getString("name"));

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #71 : Ignore PADherder 'jp_only' flag</change>
+	</release>
+	<release
 		version="2.1.0" versioncode="48">
 		<change>Fixed #69 : Fixed support for the NA Amazon version</change>
 		<change>Added filter friends feature</change>
