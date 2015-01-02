@@ -144,7 +144,7 @@
 
 
 	<!-- Home activity -->
-	<string name="label_home">Home</string>
+	<string name="label_home">PADListener</string><!--Also shown in the app drawer for some launchers -->
 	<string name="home_help_welcome_title">Welcome !</string>
 	<string name="home_help_welcome_content">Welcome to PADListener !
 \n\nThese help pages are automatically displayed the first time you access a new screen of the app.

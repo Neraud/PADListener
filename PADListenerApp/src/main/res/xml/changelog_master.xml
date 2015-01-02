@@ -2,6 +2,7 @@
 <changelog>
 	<release
 		version="" versioncode="">
+		<change>Fixed #70 : Wrong app name with some launchers ("Home" instead of "PADListener")</change>
 		<change>Fixed #71 : Ignore PADherder 'jp_only' flag</change>
 	</release>
 	<release
