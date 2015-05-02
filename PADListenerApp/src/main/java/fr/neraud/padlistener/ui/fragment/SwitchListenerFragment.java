@@ -89,7 +89,7 @@ public class SwitchListenerFragment extends Fragment {
 							forceToggledWithoutListener(true);
 							mListenerStatus.setText(generateStatusStartedText());
 
-							String proxyUrl = "localhost:8008";
+							String proxyUrl = "127.0.0.1:8008";
 							final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getActivity());
 							if (prefHelper.isListenerNonLocalEnabled()) {
 								final WifiHelper wifiHelper = new WifiHelper(getActivity());

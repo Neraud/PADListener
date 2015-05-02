@@ -33,7 +33,7 @@ public class WifiAutoProxyHelper {
 
 		final WifiConfigHelper helper = getWifiConfigHelper();
 		try {
-			helper.modifyWifiProxySettings("localhost", 8008);
+			helper.modifyWifiProxySettings("127.0.0.1", 8008);
 		} catch (final Exception e) {
 			throw new Exception("Error activating auto proxy", e);
 		}

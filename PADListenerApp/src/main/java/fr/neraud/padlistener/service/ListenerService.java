@@ -173,7 +173,7 @@ public class ListenerService extends Service {
 		final String modeLabel = getString(proxyMode.getLabelResId());
 		final String notifTitle = getString(R.string.notification_listener_title, modeLabel);
 
-		String proxyUrl = "localhost:8008";
+		String proxyUrl = "127.0.0.1:8008";
 		final DefaultSharedPreferencesHelper prefHelper = new DefaultSharedPreferencesHelper(getApplicationContext());
 		if (prefHelper.isListenerNonLocalEnabled()) {
 			final WifiHelper wifiHelper = new WifiHelper(getApplicationContext());
