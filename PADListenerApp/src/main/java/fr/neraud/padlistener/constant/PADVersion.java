@@ -4,7 +4,7 @@ public enum PADVersion {
 
 	US(PADRegion.US, "api-na-adr.padsv.gungho.jp", "jp.gungho.padEN"),
 	JP(PADRegion.JP, "api-adrv2.padsv.gungho.jp", "jp.gungho.pad"),
-	HK_TW(PADRegion.HK_TW, "api-ht-adr.padsv.gungho.jp", "jp.gungho.padHT"),
+	HK_TW(PADRegion.HK_TW, "api-ht-adrv2.padsv.gungho.jp", "jp.gungho.padHT"),
 	KO(PADRegion.KO, "api-kr-adr.padsv.gungho.jp", "jp.gungho.padKO"),
 	AMAZON_US(PADRegion.US, "api-na-amz.padsv.gungho.jp", "jp.gungho.padKINEN");
 
