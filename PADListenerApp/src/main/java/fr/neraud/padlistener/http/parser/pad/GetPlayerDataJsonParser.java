@@ -33,161 +33,194 @@ import fr.neraud.padlistener.pad.model.PADCapturedFriendModel;
  */
 public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApiCallResult> {
 
-	private final PADRegion region;
-	private final MonsterIdConverterHelper idConverter;
+    private final PADRegion region;
+    private final MonsterIdConverterHelper idConverter;
 
-	public GetPlayerDataJsonParser(Context context, PADRegion region) {
-		this.region = region;
-		this.idConverter = new MonsterIdConverterHelper(context, region);
-	}
+    public GetPlayerDataJsonParser(Context context, PADRegion region) {
+        this.region = region;
+        this.idConverter = new MonsterIdConverterHelper(context, region);
+    }
 
-	@Override
-	protected GetPlayerDataApiCallResult parseJsonObject(JSONObject json) throws JSONException, ParsingException {
-		MyLog.entry();
+    @Override
+    protected GetPlayerDataApiCallResult parseJsonObject(JSONObject json) throws JSONException, ParsingException {
+        MyLog.entry();
 
-		final GetPlayerDataApiCallResult model = new GetPlayerDataApiCallResult();
-		final int res = json.getInt("res");
-		model.setRes(res);
+        final GetPlayerDataApiCallResult model = new GetPlayerDataApiCallResult();
+        final int res = json.getInt("res");
+        model.setRes(res);
 
-		if (model.isResOk()) {
-			final CapturedPlayerInfoModel playerInfo = new CapturedPlayerInfoModel();
-			// "friendMax": 30, "cardMax": 30, "name": "NeraudMule", "lv": 19, "exp": 29209, "cost": 32, "sta": 26, "sta_max": 26, "gold": 5, "coin": 63468, "curLvExp": 27188, "nextLvExp": 30954,
-			playerInfo.setLastUpdate(new Date());
-			playerInfo.setFriendMax(json.getInt("friendMax"));
-			playerInfo.setCardMax(json.getInt("cardMax"));
-			playerInfo.setName(json.getString("name"));
-			playerInfo.setRank(json.getInt("lv"));
-			playerInfo.setExp(json.getLong("exp"));
-			playerInfo.setCostMax(json.getInt("cost"));
-			playerInfo.setStamina(json.getInt("sta"));
-			playerInfo.setStaminaMax(json.getInt("sta_max"));
-			playerInfo.setStones(json.getInt("gold"));
-			playerInfo.setCoins(json.getLong("coin"));
-			playerInfo.setCurrentLevelExp(json.getLong("curLvExp"));
-			playerInfo.setNextLevelExp(json.getLong("nextLvExp"));
-			playerInfo.setRegion(region);
+        if (model.isResOk()) {
+            final CapturedPlayerInfoModel playerInfo = new CapturedPlayerInfoModel();
+            // "friendMax": 30, "cardMax": 30, "name": "NeraudMule", "lv": 19, "exp": 29209, "cost": 32, "sta": 26, "sta_max": 26, "gold": 5, "coin": 63468, "curLvExp": 27188, "nextLvExp": 30954,
+            playerInfo.setLastUpdate(new Date());
+            playerInfo.setFriendMax(json.getInt("friendMax"));
+            playerInfo.setCardMax(json.getInt("cardMax"));
+            playerInfo.setName(json.getString("name"));
+            playerInfo.setRank(json.getInt("lv"));
+            playerInfo.setExp(json.getLong("exp"));
+            playerInfo.setCostMax(json.getInt("cost"));
+            playerInfo.setStamina(json.getInt("sta"));
+            playerInfo.setStaminaMax(json.getInt("sta_max"));
+            playerInfo.setStones(json.getInt("gold"));
+            playerInfo.setCoins(json.getLong("coin"));
+            playerInfo.setCurrentLevelExp(json.getLong("curLvExp"));
+            playerInfo.setNextLevelExp(json.getLong("nextLvExp"));
+            playerInfo.setRegion(region);
 
-			model.setPlayerInfo(playerInfo);
+            model.setPlayerInfo(playerInfo);
 
-			// "card"
-			final List<MonsterModel> monsters = new ArrayList<MonsterModel>();
-			final JSONArray cardResults = json.getJSONArray("card");
-			for (int i = 0; i < cardResults.length(); i++) {
-				final JSONObject cardResult = (JSONObject) cardResults.get(i);
-				final MonsterModel monster = parseMonster(cardResult);
+            // "card"
+            final List<MonsterModel> monsters = new ArrayList<MonsterModel>();
+            final JSONArray cardResults = json.getJSONArray("card");
+            for (int i = 0; i < cardResults.length(); i++) {
+                MyLog.info(" - card #" + i + " : " + cardResults.get(i));
+                final Object cardResult = cardResults.get(i);
 
-				monsters.add(monster);
-			}
-			model.setMonsterCards(monsters);
+                final MonsterModel monster;
+                if (cardResult instanceof JSONObject) {
+                    monster = parseMonsterFromObject((JSONObject) cardResult);
+                } else {
+                    monster = parseMonsterFromArray((JSONArray) cardResult);
+                }
 
-			// "friends"
-			final List<PADCapturedFriendModel> friends = new ArrayList<PADCapturedFriendModel>();
-			final JSONArray friendResults = json.getJSONArray("friends");
-			for (int i = 0; i < friendResults.length(); i++) {
-				final JSONArray friendResult = (JSONArray) friendResults.get(i);
-				final PADCapturedFriendModel friend = parseFriend(friendResult);
+                monsters.add(monster);
+            }
+            model.setMonsterCards(monsters);
 
-				friends.add(friend);
-			}
-			model.setFriends(friends);
-		}
+            // "friends"
+            final List<PADCapturedFriendModel> friends = new ArrayList<PADCapturedFriendModel>();
+            final JSONArray friendResults = json.getJSONArray("friends");
+            for (int i = 0; i < friendResults.length(); i++) {
+                final JSONArray friendResult = (JSONArray) friendResults.get(i);
+                final PADCapturedFriendModel friend = parseFriend(friendResult);
 
-		MyLog.exit();
-		return model;
-	}
+                friends.add(friend);
+            }
+            model.setFriends(friends);
+        }
 
-	private MonsterModel parseMonster(final JSONObject cardResult) throws JSONException {
-		MyLog.entry();
+        MyLog.exit();
+        return model;
+    }
 
-		//"cuid": 1, "exp": 15939, "lv": 16, "slv": 1, "mcnt": 11, "no": 3, "plus": [0, 0, 0, 0]
-		final MonsterModel monster = new MonsterModel();
-		monster.setExp(cardResult.getLong("exp"));
-		monster.setLevel(cardResult.getInt("lv"));
-		monster.setSkillLevel(cardResult.getInt("slv"));
-		final int origId = cardResult.getInt("no");
-		int idJp = -1;
-		try {
-			idJp = idConverter.getMonsterRefIdByCapturedId(origId);
-		} catch (UnknownMonsterException e) {
-			MyLog.warn(e.getMessage());
-		}
-		monster.setIdJp(idJp);
-		final JSONArray plusResults = cardResult.getJSONArray("plus");
-		monster.setPlusHp(plusResults.getInt(0));
-		monster.setPlusAtk(plusResults.getInt(1));
-		monster.setPlusRcv(plusResults.getInt(2));
-		monster.setAwakenings(plusResults.getInt(3));
+    private MonsterModel parseMonsterFromObject(final JSONObject cardResult) throws JSONException {
+        MyLog.entry();
 
-		MyLog.exit();
-		return monster;
-	}
+        //"cuid": 1, "exp": 15939, "lv": 16, "slv": 1, "mcnt": 11, "no": 3, "plus": [0, 0, 0, 0]
+        final MonsterModel monster = new MonsterModel();
+        monster.setExp(cardResult.getLong("exp"));
+        monster.setLevel(cardResult.getInt("lv"));
+        monster.setSkillLevel(cardResult.getInt("slv"));
+        final int origId = cardResult.getInt("no");
+        int idJp = -1;
+        try {
+            idJp = idConverter.getMonsterRefIdByCapturedId(origId);
+        } catch (UnknownMonsterException e) {
+            MyLog.warn(e.getMessage());
+        }
+        monster.setIdJp(idJp);
+        final JSONArray plusResults = cardResult.getJSONArray("plus");
+        monster.setPlusHp(plusResults.getInt(0));
+        monster.setPlusAtk(plusResults.getInt(1));
+        monster.setPlusRcv(plusResults.getInt(2));
+        monster.setAwakenings(plusResults.getInt(3));
+
+        MyLog.exit();
+        return monster;
+    }
+
+    private MonsterModel parseMonsterFromArray(final JSONArray cardResult) throws JSONException {
+        MyLog.entry();
+
+        //[8,190542,30,1,0,1655,0,0,0,0,0]
+        final MonsterModel monster = new MonsterModel();
+        monster.setExp(cardResult.getLong(1));
+        monster.setLevel(cardResult.getInt(2));
+        monster.setSkillLevel(cardResult.getInt(3));
+        final int origId = cardResult.getInt(5);
+        int idJp = -1;
+        try {
+            idJp = idConverter.getMonsterRefIdByCapturedId(origId);
+        } catch (UnknownMonsterException e) {
+            MyLog.warn(e.getMessage());
+        }
+        monster.setIdJp(idJp);
+        //TODO not sure about these ... what's the #10 field for ?!
+        monster.setPlusHp(cardResult.getInt(6));
+        monster.setPlusAtk(cardResult.getInt(7));
+        monster.setPlusRcv(cardResult.getInt(8));
+        monster.setAwakenings(cardResult.getInt(9));
+
+        MyLog.exit();
+        return monster;
+    }
 
 
-	private PADCapturedFriendModel parseFriend(final JSONArray friendResult) throws JSONException {
-		MyLog.entry();
+    private PADCapturedFriendModel parseFriend(final JSONArray friendResult) throws JSONException {
+        MyLog.entry();
 
-		//[4, 333300602, "NeraudMule", 17, 1, "140829151957", 9, 29, 6, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0]
-		final PADCapturedFriendModel friend = new PADCapturedFriendModel();
-		friend.setId(friendResult.getLong(1));
-		friend.setName(friendResult.getString(2));
-		friend.setRank(friendResult.getInt(3));
-		friend.setStartingColor(StartingColor.valueByCode(friendResult.getInt(4)));
-		final String lastActivityDateString = friendResult.getString(5);
-		try {
-			final DateFormat parseFormat = new SimpleDateFormat("yyMMddHHmmss");
-			parseFormat.setTimeZone(region.getTimeZone());
-			final Date lastActivityDate = parseFormat.parse(lastActivityDateString);
-			friend.setLastActivityDate(lastActivityDate);
-		} catch (ParseException e) {
-			MyLog.warn("error parsing lastActivityDate : " + e.getMessage());
-		}
+        //[4, 333300602, "NeraudMule", 17, 1, "140829151957", 9, 29, 6, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0]
+        final PADCapturedFriendModel friend = new PADCapturedFriendModel();
+        friend.setId(friendResult.getLong(1));
+        friend.setName(friendResult.getString(2));
+        friend.setRank(friendResult.getInt(3));
+        friend.setStartingColor(StartingColor.valueByCode(friendResult.getInt(4)));
+        final String lastActivityDateString = friendResult.getString(5);
+        try {
+            final DateFormat parseFormat = new SimpleDateFormat("yyMMddHHmmss");
+            parseFormat.setTimeZone(region.getTimeZone());
+            final Date lastActivityDate = parseFormat.parse(lastActivityDateString);
+            friend.setLastActivityDate(lastActivityDate);
+        } catch (ParseException e) {
+            MyLog.warn("error parsing lastActivityDate : " + e.getMessage());
+        }
 
-		final BaseMonsterStatsModel leader1 = new BaseMonsterStatsModel();
+        final BaseMonsterStatsModel leader1 = new BaseMonsterStatsModel();
 
-		final int origId1 = friendResult.getInt(14);
-		int idJp1 = -1;
-		try {
-			idJp1 = idConverter.getMonsterRefIdByCapturedId(origId1);
-		} catch (UnknownMonsterException e) {
-			MyLog.warn("leader 1 : " + e.getMessage());
-		}
+        final int origId1 = friendResult.getInt(14);
+        int idJp1 = -1;
+        try {
+            idJp1 = idConverter.getMonsterRefIdByCapturedId(origId1);
+        } catch (UnknownMonsterException e) {
+            MyLog.warn("leader 1 : " + e.getMessage());
+        }
 
-		leader1.setIdJp(idJp1);
-		leader1.setLevel(friendResult.getInt(15));
-		leader1.setSkillLevel(friendResult.getInt(16));
-		leader1.setPlusHp(friendResult.getInt(17));
-		leader1.setPlusAtk(friendResult.getInt(18));
-		leader1.setPlusRcv(friendResult.getInt(19));
-		leader1.setAwakenings(friendResult.getInt(20));
-		friend.setLeader1(leader1);
+        leader1.setIdJp(idJp1);
+        leader1.setLevel(friendResult.getInt(15));
+        leader1.setSkillLevel(friendResult.getInt(16));
+        leader1.setPlusHp(friendResult.getInt(17));
+        leader1.setPlusAtk(friendResult.getInt(18));
+        leader1.setPlusRcv(friendResult.getInt(19));
+        leader1.setAwakenings(friendResult.getInt(20));
+        friend.setLeader1(leader1);
 
-		final BaseMonsterStatsModel leader2 = new BaseMonsterStatsModel();
+        final BaseMonsterStatsModel leader2 = new BaseMonsterStatsModel();
 
-		final int origId2 = friendResult.getInt(21);
-		int idJp2 = -1;
-		try {
-			idJp2 = idConverter.getMonsterRefIdByCapturedId(origId2);
-		} catch (UnknownMonsterException e) {
-			MyLog.warn("leader 2 : " + e.getMessage());
-		}
+        final int origId2 = friendResult.getInt(21);
+        int idJp2 = -1;
+        try {
+            idJp2 = idConverter.getMonsterRefIdByCapturedId(origId2);
+        } catch (UnknownMonsterException e) {
+            MyLog.warn("leader 2 : " + e.getMessage());
+        }
 
-		leader2.setIdJp(idJp2);
-		leader2.setLevel(friendResult.getInt(22));
-		leader2.setSkillLevel(friendResult.getInt(23));
-		leader2.setPlusHp(friendResult.getInt(24));
-		leader2.setPlusAtk(friendResult.getInt(25));
-		leader2.setPlusRcv(friendResult.getInt(26));
-		leader2.setAwakenings(friendResult.getInt(27));
-		friend.setLeader2(leader2);
+        leader2.setIdJp(idJp2);
+        leader2.setLevel(friendResult.getInt(22));
+        leader2.setSkillLevel(friendResult.getInt(23));
+        leader2.setPlusHp(friendResult.getInt(24));
+        leader2.setPlusAtk(friendResult.getInt(25));
+        leader2.setPlusRcv(friendResult.getInt(26));
+        leader2.setAwakenings(friendResult.getInt(27));
+        friend.setLeader2(leader2);
 
-		MyLog.exit();
-		return friend;
-	}
+        MyLog.exit();
+        return friend;
+    }
 
-	@Override
-	protected GetPlayerDataApiCallResult parseJsonArray(JSONArray json) throws JSONException, ParsingException {
-		throw new ParsingException("Cannot parse JSONArray, JSONObject expected");
-	}
+    @Override
+    protected GetPlayerDataApiCallResult parseJsonArray(JSONArray json) throws JSONException, ParsingException {
+        throw new ParsingException("Cannot parse JSONArray, JSONObject expected");
+    }
 
 }
 
