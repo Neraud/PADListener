@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.1.3" versioncode="51">
 		<change>Updated HK server</change>
 	</release>
 	<release
-		version="2.1.3" versioncode="51">
+		version="2.1.2" versioncode="50">
 		<change>Fixed #72 : Typo in the settings : "zeo" priority</change>
 		<change>Fixed #80 : changed proxy settings from "localhost" to "127.0.0.1"</change>
 		<change>Fixed #82 : updated JP server and handled new JSON format for cards</change>
