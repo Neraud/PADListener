@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Updated JP and HK servers, again</change>
+	</release>
+	<release
 		version="2.1.3" versioncode="51">
 		<change>Updated HK server</change>
 	</release>
