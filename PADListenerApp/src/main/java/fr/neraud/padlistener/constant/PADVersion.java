@@ -2,10 +2,10 @@ package fr.neraud.padlistener.constant;
 
 public enum PADVersion {
 
-	US(PADRegion.US, "api-na-adr.padsv.gungho.jp", "jp.gungho.padEN"),
+	US(PADRegion.US, "api-na-adrv2.padsv.gungho.jp", "jp.gungho.padEN"),
 	JP(PADRegion.JP, "api-adr.padsv.gungho.jp", "jp.gungho.pad"),
 	HK_TW(PADRegion.HK_TW, "api-ht-adr.padsv.gungho.jp", "jp.gungho.padHT"),
-	KO(PADRegion.KO, "api-kr-adr.padsv.gungho.jp", "jp.gungho.padKO"),
+	KO(PADRegion.KO, "api-kr-adrv2.padsv.gungho.jp", "jp.gungho.padKO"),
 	AMAZON_US(PADRegion.US, "api-na-amz.padsv.gungho.jp", "jp.gungho.padKINEN");
 
 	private final PADRegion region;
