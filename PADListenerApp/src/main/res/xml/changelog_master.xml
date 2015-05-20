@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.1.5" versioncode="53">
 		<change>Updated NA and KO servers</change>
 	</release>
 	<release
