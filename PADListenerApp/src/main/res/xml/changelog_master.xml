@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.1.6" versioncode="54">
 		<change>Updated Amazon server</change>
 	</release>
 	<release
