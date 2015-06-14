@@ -1,7 +1,10 @@
 package fr.neraud.padlistener.ui.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +17,7 @@ import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.model.CapturedFriendLeaderModel;
 import fr.neraud.padlistener.model.MonsterInfoModel;
 import fr.neraud.padlistener.provider.descriptor.CapturedPlayerFriendLeaderDescriptor;
+import fr.neraud.padlistener.provider.helper.BaseProviderHelper;
 import fr.neraud.padlistener.provider.helper.CapturedPlayerFriendLeaderProviderHelper;
 import fr.neraud.padlistener.provider.helper.MonsterInfoProviderHelper;
 import fr.neraud.padlistener.ui.helper.MonsterImageHelper;
@@ -48,15 +52,40 @@ public class CapturedFriendLeadersCursorAdapter extends AbstractMonsterWithStats
 	}
 
 	@Override
-	public void bindView(View view, final Context context, Cursor cursor) {
+	public void bindView(View view, final Context context, final Cursor cursor) {
 		MyLog.entry();
 
 		final ViewHolder viewHolder = new ViewHolder(view);
 
 		final CapturedFriendLeaderModel statsModel = CapturedPlayerFriendLeaderProviderHelper.cursorWithInfoToModel(cursor);
+		final int leaderFriendPk = BaseProviderHelper.getInt(cursor, CapturedPlayerFriendLeaderDescriptor.Fields._ID);
 		final MonsterInfoModel infoModel = MonsterInfoProviderHelper.cursorToModelWithPrefix(cursor, CapturedPlayerFriendLeaderDescriptor.ALL_WITH_INFO_PREFIX);
 
 		new MonsterImageHelper(context).fillImage(viewHolder.image, infoModel);
+
+		viewHolder.image.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				builder.setTitle(R.string.view_captured_friend_leader_delete_dialog_title);
+				builder.setMessage(getActivity().getString(R.string.view_captured_friend_leader_delete_dialog_content, infoModel.getName()));
+				builder.setPositiveButton(R.string.view_captured_friend_leader_delete_dialog_confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						MyLog.debug("Removing " + statsModel);
+
+						final Uri uri = CapturedPlayerFriendLeaderDescriptor.UriHelper.uriForAll();
+						final String where = CapturedPlayerFriendLeaderDescriptor.Fields._ID + " = ?";
+						final String[] args = new String[]{"" + leaderFriendPk};
+
+						getActivity().getContentResolver().delete(uri, where, args);
+						// TODO : if you remove the current leaders, ViewCapturedDataFragment should probably be refreshed to prevent from showing NULLs
+					}
+				});
+				builder.setNegativeButton(R.string.view_captured_friend_leader_delete_dialog_cancel, null);
+				builder.create().show();
+			}
+		});
 
 		viewHolder.levelTextView.setText(context.getString(R.string.view_captured_friend_leader_level_value, statsModel.getLevel()));
 		viewHolder.plusesTextView.setText(context.getString(R.string.view_captured_friend_leader_pluses_value,

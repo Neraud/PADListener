@@ -45,4 +45,8 @@ public abstract class AbstractMonsterWithStatsCursorAdapter extends AbstractMons
 			}
 		});
 	}
+
+	protected FragmentActivity getActivity() {
+		return mActivity;
+	}
 }

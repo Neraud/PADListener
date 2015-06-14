@@ -330,6 +330,10 @@
 	<string name="view_captured_friend_leader_skill_level_value">%1$d</string>
 	<string name="view_captured_friend_leader_last_seen">Last seen : %1$s</string>
 	<string name="view_captured_friend_leader_close">Close</string>
+	<string name="view_captured_friend_leader_delete_dialog_title">Remove leader</string>
+	<string name="view_captured_friend_leader_delete_dialog_content">Do you want to remove %1$s from your friend\'s history ?</string>
+	<string name="view_captured_friend_leader_delete_dialog_confirm">Remove</string>
+	<string name="view_captured_friend_leader_delete_dialog_cancel">Cancel</string>
 
 
 

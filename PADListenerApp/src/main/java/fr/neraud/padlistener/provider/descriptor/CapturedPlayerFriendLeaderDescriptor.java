@@ -28,8 +28,7 @@ public class CapturedPlayerFriendLeaderDescriptor {
 	public enum Paths {
 
 		ALL(1, BASE_PATH, ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_leader"),
-		ALL_WITH_INFO(2, BASE_PATH + "/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_leader_with_info"),
-		ALL_WITH_INFO_BY_ID(3, BASE_PATH + "/#/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_leader_with_info");
+		ALL_WITH_INFO(2, BASE_PATH + "/withInfo", ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.fr.neraud.padlistener.player_friend_leader_with_info");
 
 		private final int id;
 		private final String path;
@@ -108,7 +107,6 @@ public class CapturedPlayerFriendLeaderDescriptor {
 
 		matcher.addURI(AUTHORITY, Paths.ALL.path, Paths.ALL.id);
 		matcher.addURI(AUTHORITY, Paths.ALL_WITH_INFO.path, Paths.ALL_WITH_INFO.id);
-		matcher.addURI(AUTHORITY, Paths.ALL_WITH_INFO_BY_ID.path, Paths.ALL_WITH_INFO_BY_ID.id);
 
 		return matcher;
 	}

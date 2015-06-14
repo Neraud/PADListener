@@ -2,7 +2,8 @@
 <changelog>
 	<release
 		version="" versioncode="">
-		<change>Fixed #83 : Friends' leader broken and deleted corrupted leaders</change>
+		<change>Fixed #83 : Friends' leader broken and deleted corrupted leaders. You'll need to capture again to show the proper last used leaders</change>
+		<change>Added the ability to manually remove a friend's leader</change>
 	</release>
 	<release
 		version="2.1.6" versioncode="54">
