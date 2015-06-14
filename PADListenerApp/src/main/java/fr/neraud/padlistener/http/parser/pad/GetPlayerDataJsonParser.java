@@ -160,6 +160,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
         MyLog.entry();
 
         //[4, 333300602, "NeraudMule", 17, 1, "140829151957", 9, 29, 6, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0, 2, 15, 1, 0, 0, 0, 0]
+        // New [5, 329993422, "HFR|Neraud", 292, 1, "150613152858", 48, 50, 6, 1, 0, 0, 0, 0, 0, 1422, 99, 1, 13, 12, 9, 6, 0, 1217, 99, 6, 99, 99, 99, 6, 0]
         final PADCapturedFriendModel friend = new PADCapturedFriendModel();
         friend.setId(friendResult.getLong(1));
         friend.setName(friendResult.getString(2));
@@ -175,10 +176,10 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
             MyLog.warn("error parsing lastActivityDate : " + e.getMessage());
         }
 
-        final BaseMonsterStatsModel leader1 = extractFriendLeader(friendResult, 14);
+        final BaseMonsterStatsModel leader1 = extractFriendLeader(friendResult, 15);
         friend.setLeader1(leader1);
 
-        final BaseMonsterStatsModel leader2 = extractFriendLeader(friendResult, 21);
+        final BaseMonsterStatsModel leader2 = extractFriendLeader(friendResult, 23);
         friend.setLeader2(leader2);
 
         MyLog.exit();

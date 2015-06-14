@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #83 : Friends' leader broken</change>
+	</release>
+	<release
 		version="2.1.6" versioncode="54">
 		<change>Updated Amazon server</change>
 	</release>
