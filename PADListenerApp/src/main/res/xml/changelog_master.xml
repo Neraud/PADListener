@@ -2,7 +2,7 @@
 <changelog>
 	<release
 		version="" versioncode="">
-		<change>Fixed #83 : Friends' leader broken</change>
+		<change>Fixed #83 : Friends' leader broken and deleted corrupted leaders</change>
 	</release>
 	<release
 		version="2.1.6" versioncode="54">

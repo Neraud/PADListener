@@ -40,7 +40,7 @@ public class CapturedPlayerFriendLeaderTable implements ITable {
 
 	@Override
 	public int getVersion() {
-		return 11;
+		return 12;
 	}
 
 	@Override
@@ -48,9 +48,22 @@ public class CapturedPlayerFriendLeaderTable implements ITable {
 		final List<String> queries = new ArrayList<String>();
 
 		if (oldVersion < getVersion()) {
-			MyLog.warn("Table " + CapturedPlayerFriendLeaderDescriptor.TABLE_NAME + " has changed, destroying table !");
-			queries.add(dropTable());
-			queries.add(createTable());
+			if (oldVersion == 11 && newVersion == 12) {
+				MyLog.debug("Deleting corrupted leaders");
+				final StringBuilder queryBuilder = new StringBuilder("DELETE FROM ");
+				queryBuilder.append(CapturedPlayerFriendLeaderDescriptor.TABLE_NAME);
+				queryBuilder.append(" WHERE ").append(CapturedPlayerFriendLeaderDescriptor.Fields.ID_JP.getColName()).append(" = -1");
+				queryBuilder.append(" OR ").append(CapturedPlayerFriendLeaderDescriptor.Fields.SKILL_LEVEL.getColName()).append(" > 50");
+				queryBuilder.append(" OR ").append(CapturedPlayerFriendLeaderDescriptor.Fields.PLUS_HP.getColName()).append(" > 99");
+				queryBuilder.append(" OR ").append(CapturedPlayerFriendLeaderDescriptor.Fields.PLUS_ATK.getColName()).append(" > 99");
+				queryBuilder.append(" OR ").append(CapturedPlayerFriendLeaderDescriptor.Fields.PLUS_RCV.getColName()).append(" > 99");
+				queryBuilder.append(" OR ").append(CapturedPlayerFriendLeaderDescriptor.Fields.AWAKENINGS.getColName()).append(" > 25");
+				queries.add(queryBuilder.toString());
+			} else {
+				MyLog.warn("Table " + CapturedPlayerFriendLeaderDescriptor.TABLE_NAME + " has changed, destroying table !");
+				queries.add(dropTable());
+				queries.add(createTable());
+			}
 		} else {
 			MyLog.info("Table " + CapturedPlayerFriendLeaderDescriptor.TABLE_NAME + " is already up to date (hasn't changed since version " + getVersion() + ")");
 		}
@@ -65,5 +78,6 @@ public class CapturedPlayerFriendLeaderTable implements ITable {
 
 	@Override
 	public void postUpgrade(Context context, int oldVersion, int newVersion) {
+
 	}
 }
