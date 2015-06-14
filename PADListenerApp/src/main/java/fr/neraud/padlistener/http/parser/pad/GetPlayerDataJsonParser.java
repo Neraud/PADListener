@@ -175,46 +175,36 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
             MyLog.warn("error parsing lastActivityDate : " + e.getMessage());
         }
 
-        final BaseMonsterStatsModel leader1 = new BaseMonsterStatsModel();
-
-        final int origId1 = friendResult.getInt(14);
-        int idJp1 = -1;
-        try {
-            idJp1 = idConverter.getMonsterRefIdByCapturedId(origId1);
-        } catch (UnknownMonsterException e) {
-            MyLog.warn("leader 1 : " + e.getMessage());
-        }
-
-        leader1.setIdJp(idJp1);
-        leader1.setLevel(friendResult.getInt(15));
-        leader1.setSkillLevel(friendResult.getInt(16));
-        leader1.setPlusHp(friendResult.getInt(17));
-        leader1.setPlusAtk(friendResult.getInt(18));
-        leader1.setPlusRcv(friendResult.getInt(19));
-        leader1.setAwakenings(friendResult.getInt(20));
+        final BaseMonsterStatsModel leader1 = extractFriendLeader(friendResult, 14);
         friend.setLeader1(leader1);
 
-        final BaseMonsterStatsModel leader2 = new BaseMonsterStatsModel();
-
-        final int origId2 = friendResult.getInt(21);
-        int idJp2 = -1;
-        try {
-            idJp2 = idConverter.getMonsterRefIdByCapturedId(origId2);
-        } catch (UnknownMonsterException e) {
-            MyLog.warn("leader 2 : " + e.getMessage());
-        }
-
-        leader2.setIdJp(idJp2);
-        leader2.setLevel(friendResult.getInt(22));
-        leader2.setSkillLevel(friendResult.getInt(23));
-        leader2.setPlusHp(friendResult.getInt(24));
-        leader2.setPlusAtk(friendResult.getInt(25));
-        leader2.setPlusRcv(friendResult.getInt(26));
-        leader2.setAwakenings(friendResult.getInt(27));
+        final BaseMonsterStatsModel leader2 = extractFriendLeader(friendResult, 21);
         friend.setLeader2(leader2);
 
         MyLog.exit();
         return friend;
+    }
+
+    private BaseMonsterStatsModel extractFriendLeader(final JSONArray friendResult, int startPosition) throws JSONException {
+        final BaseMonsterStatsModel leader = new BaseMonsterStatsModel();
+
+        // 2, 15, 1, 0, 0, 0, 0
+        final int origId1 = friendResult.getInt(startPosition++);
+        int idJp1 = -1;
+        try {
+            idJp1 = idConverter.getMonsterRefIdByCapturedId(origId1);
+        } catch (UnknownMonsterException e) {
+            MyLog.warn("leader : " + e.getMessage());
+        }
+
+        leader.setIdJp(idJp1);
+        leader.setLevel(friendResult.getInt(startPosition++));
+        leader.setSkillLevel(friendResult.getInt(startPosition++));
+        leader.setPlusHp(friendResult.getInt(startPosition++));
+        leader.setPlusAtk(friendResult.getInt(startPosition++));
+        leader.setPlusRcv(friendResult.getInt(startPosition++));
+        leader.setAwakenings(friendResult.getInt(startPosition++));
+        return leader;
     }
 
     @Override
