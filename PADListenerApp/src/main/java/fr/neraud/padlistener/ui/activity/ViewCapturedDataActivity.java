@@ -48,14 +48,13 @@ public class ViewCapturedDataActivity extends AbstractPADListenerActivity {
 			case R.id.menu_view_captured_data_action_share:
 				final JsonCaptureHelper jsonCaptureHelper = new JsonCaptureHelper(this);
 				if (jsonCaptureHelper.hasPadCapturedData()) {
-					Intent sendIntent = new Intent(Intent.ACTION_SEND);
-					//sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					final Intent sendIntent = new Intent(Intent.ACTION_SEND);
 					sendIntent.setType("text/plain");
 
-					Uri uri = Uri.fromFile(jsonCaptureHelper.getPadCapturedDataFile());
+					final Uri uri = Uri.fromFile(jsonCaptureHelper.getPadCapturedDataFile());
 					sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
-					startActivity(Intent.createChooser(sendIntent, getText(R.string.view_captured_info_item_share_dialog_label)));
+					startActivityForResult(Intent.createChooser(sendIntent, getText(R.string.view_captured_info_item_share_dialog_label)), 0);
 				}
 				return true;
 			default:

@@ -3,6 +3,7 @@
 	<release
 		version="" versioncode="">
 		<change>Fixed #86 : added support for monster type Machine and Vendor. Also handled unknown monster type to prevent further issue</change>
+		<change>Fixed #88 : Sharing captured data via Gmail was not working</change>
 	</release>
 	<release
 		version="2.1.7" versioncode="55">
