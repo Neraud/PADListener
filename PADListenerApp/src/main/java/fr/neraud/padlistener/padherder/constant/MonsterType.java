@@ -7,25 +7,23 @@ package fr.neraud.padlistener.padherder.constant;
  */
 public enum MonsterType {
 
-	EVO_MATERIAL(0, true),
-	BALANCED(1, false),
-	PHYSICAL(2, false),
-	HEALER(3, false),
-	DRAGON(4, false),
-	GOD(5, false),
-	ATTACKER(6, false),
-	DEVIL(7, false),
-	AWOKEN_SKILL_MATERIAL(12, true),
-	PROTECTED(13, false),
-	ENHANCE_MATERIAL(14, true);
+	EVO_MATERIAL(0),
+	BALANCED(1),
+	PHYSICAL(2),
+	HEALER(3),
+	DRAGON(4),
+	GOD(5),
+	ATTACKER(6),
+	DEVIL(7),
+	AWOKEN_SKILL_MATERIAL(12),
+	PROTECTED(13),
+	ENHANCE_MATERIAL(14);
 
 	// typeId in ParHerder API
 	private final int typeId;
-	//private final boolean material;
 
-	private MonsterType(int typeId, boolean material) {
+	MonsterType(int typeId) {
 		this.typeId = typeId;
-		//this.material = material;
 	}
 
 	public static MonsterType findById(int id) {
@@ -36,12 +34,6 @@ public enum MonsterType {
 		}
 		return null;
 	}
-
-	/*
-	public boolean isMaterial() {
-		return material;
-	}
-	*/
 
 	public int getTypeId() {
 		return typeId;
