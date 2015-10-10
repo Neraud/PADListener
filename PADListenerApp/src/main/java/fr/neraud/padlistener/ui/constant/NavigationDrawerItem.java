@@ -16,6 +16,7 @@ public enum NavigationDrawerItem {
 
 	SETTINGS(R.id.drawer_settings, R.drawable.ic_drawer_settings, R.string.drawer_settings_title, null),
 	CHANGELOG(R.id.drawer_changelog, R.drawable.ic_drawer_changelog, R.string.drawer_changelog_title, null),
+	MOCK_CAPTURE(R.id.drawer_mock_capture, R.drawable.ic_action_refresh, R.string.drawer_mock_capture_title, null),
 	ABOUT(R.id.drawer_about, R.drawable.ic_drawer_about, R.string.drawer_about_title, null);
 
 	private final int itemViewId;

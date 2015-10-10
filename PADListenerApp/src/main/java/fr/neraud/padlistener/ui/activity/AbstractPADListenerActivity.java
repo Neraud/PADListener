@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
+import fr.neraud.padlistener.helper.MockCaptureHelper;
 import fr.neraud.padlistener.helper.TechnicalSharedPreferencesHelper;
 import fr.neraud.padlistener.provider.sqlite.PADListenerSQLiteOpenHelper;
 import fr.neraud.padlistener.ui.constant.NavigationDrawerItem;
@@ -182,6 +183,9 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 		addNavDrawerSeparator(drawerItemsListContainer);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.SETTINGS);
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.CHANGELOG);
+		if (new MockCaptureHelper(this).hasMockData()) {
+			addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.MOCK_CAPTURE);
+		}
 		addNavDrawerItem(drawerItemsListContainer, NavigationDrawerItem.ABOUT);
 
 		drawerToggle.syncState();
@@ -295,6 +299,9 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 					case CHANGELOG:
 						new ChangeLogHelper(this).displayChangeLog();
 						break;
+					case MOCK_CAPTURE:
+						new MockCaptureHelper(this).loadMockCapture();
+						break;
 					case ABOUT:
 						openAboutDialog();
 						break;
@@ -396,7 +403,7 @@ public abstract class AbstractPADListenerActivity extends FragmentActivity {
 	public void onBackPressed() {
 		MyLog.entry();
 
-		if(mHelpManager != null && mHelpManager.isShowingHelp()) {
+		if (mHelpManager != null && mHelpManager.isShowingHelp()) {
 			mHelpManager.closeHelp();
 		} else {
 			super.onBackPressed();

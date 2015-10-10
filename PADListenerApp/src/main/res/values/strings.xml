@@ -11,6 +11,7 @@
 	<string name="drawer_filter_friends_title">Filter friends</string>
 	<string name="drawer_settings_title">Settings</string>
 	<string name="drawer_changelog_title">Changelog</string>
+	<string name="drawer_mock_capture_title">Mock capture</string>
 	<string name="drawer_about_title">About</string>
 
 	<!-- Accessibility description saying that the app's navigation drawer has been closed -->

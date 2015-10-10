@@ -29,6 +29,31 @@ public class MockCaptureHelper {
 		this.context = context;
 	}
 
+	public boolean hasMockData() {
+		MyLog.entry();
+		InputStream is = null;
+		boolean result = false;
+
+		try {
+			is = context.getAssets().open(MOCK_CAPTURE_FILE_NAME);
+			MyLog.debug("Mock data found");
+			result = true;
+		} catch (IOException e) {
+			MyLog.debug("Error reading mock data : " + e.getMessage());
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (final IOException e) {
+					MyLog.warn("Error closing in stream", e);
+				}
+			}
+		}
+
+		MyLog.exit();
+		return result;
+	}
+
 	public void loadMockCapture() {
 		MyLog.entry();
 
@@ -65,7 +90,7 @@ public class MockCaptureHelper {
 				try {
 					is.close();
 				} catch (final IOException e) {
-					MyLog.warn("Error closing in stream");
+					MyLog.warn("Error closing in stream", e);
 				}
 			}
 		}

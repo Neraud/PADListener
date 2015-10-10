@@ -43,6 +43,11 @@
 		android:layout_height="wrap_content"/>
 
 	<View
+		android:id="@+id/drawer_mock_capture"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<View
 		android:id="@+id/drawer_about"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"/>
