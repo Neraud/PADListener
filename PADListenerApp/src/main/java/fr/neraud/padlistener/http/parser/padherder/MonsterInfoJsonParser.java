@@ -57,7 +57,9 @@ public class MonsterInfoJsonParser extends AbstractJsonParser<List<MonsterInfoMo
 		monster.setElement1(MonsterElement.findById(monsterJson.getInt("element")));
 		monster.setElement2(MonsterElement.findById(monsterJson.optInt("element2", -1)));
 		monster.setType1(MonsterType.findById(monsterJson.getInt("type")));
-		monster.setType2(MonsterType.findById(monsterJson.optInt("type2", -1)));
+		if(monsterJson.has("type2")) {
+			monster.setType2(MonsterType.findById(monsterJson.optInt("type2")));
+		}
 		monster.setActiveSkillName(monsterJson.optString("active_skill"));
 		monster.setLeaderSkillName(monsterJson.optString("leader_skill"));
 

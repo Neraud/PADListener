@@ -1,11 +1,15 @@
 package fr.neraud.padlistener.padherder.constant;
 
+import fr.neraud.log.MyLog;
+
 /**
  * Enum of monster types
  *
  * @author Neraud
  */
 public enum MonsterType {
+
+	UNKNOWN(-1),
 
 	EVO_MATERIAL(0),
 	BALANCED(1),
@@ -15,9 +19,11 @@ public enum MonsterType {
 	GOD(5),
 	ATTACKER(6),
 	DEVIL(7),
+	MACHINE(8),
 	AWOKEN_SKILL_MATERIAL(12),
 	PROTECTED(13),
-	ENHANCE_MATERIAL(14);
+	ENHANCE_MATERIAL(14),
+	VENDOR(15);
 
 	// typeId in ParHerder API
 	private final int typeId;
@@ -32,7 +38,9 @@ public enum MonsterType {
 				return type;
 			}
 		}
-		return null;
+
+		MyLog.warn("Monster type " + id + " is unknown");
+		return MonsterType.UNKNOWN;
 	}
 
 	public int getTypeId() {

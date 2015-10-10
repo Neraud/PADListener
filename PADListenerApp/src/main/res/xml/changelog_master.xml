@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #86 : added support for monster type Machine and Vendor. Also handled unknown monster type to prevent further issue</change>
+	</release>
+	<release
 		version="2.1.7" versioncode="55">
 		<change>Fixed #83 : Friends' leader broken and deleted corrupted leaders. You'll need to capture again to show the proper last used leaders</change>
 		<change>Added the ability to manually remove a friend's leader</change>
