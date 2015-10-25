@@ -1,5 +1,5 @@
 
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 dependencies {
 	compile fileTree(dir: 'libs', include: '*.jar')
@@ -8,6 +8,8 @@ dependencies {
 android {
 	compileSdkVersion rootProject.ext.compileSdkVersion
 	buildToolsVersion rootProject.ext.buildToolsVersion
+
+	useLibrary 'org.apache.http.legacy'
 
 	lintOptions {
 		abortOnError false
