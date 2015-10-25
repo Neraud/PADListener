@@ -208,7 +208,7 @@
 
 
 	<!-- Auto-capture / sync -->
-	<string name="auto_capture_start_listener_failed">Start listener failed</string>
+	<string name="auto_capture_start_listener_failed">Start listener failed : %1$s</string>
 	<string name="auto_sync_no_matching_account_title">No matching account found</string>
 	<string name="auto_sync_no_matching_account_content">You last captured data for the account : %1$s\n\nUnfortunately, this account name doesn\'t match with any account you have set in PADListener.\nYou can edit your PAD account names in the settings.</string>
 	<string name="auto_sync_compute_failed">Computing sync failed</string>

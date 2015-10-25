@@ -9,6 +9,7 @@ import android.widget.Toast;
 import fr.neraud.log.MyLog;
 import fr.neraud.padlistener.R;
 import fr.neraud.padlistener.constant.PADVersion;
+import fr.neraud.padlistener.exception.MissingRequirementException;
 import fr.neraud.padlistener.service.AutoCaptureService;
 import fr.neraud.padlistener.service.receiver.AbstractAutoCaptureReceiver;
 
@@ -41,7 +42,12 @@ public class ChoosePadVersionForCaptureDialogFragment extends ChoosePadVersionDi
 
 			@Override
 			public void notifyListenerError(Exception error) {
-				Toast.makeText(mContext, R.string.auto_capture_start_listener_failed, Toast.LENGTH_LONG).show();
+				String reason = error.getMessage();
+				if(error instanceof MissingRequirementException) {
+					reason = mContext.getString(((MissingRequirementException) error).getRequirement().getErrorTextResId());
+				}
+				final String label = mContext.getString(R.string.auto_capture_start_listener_failed, reason);
+				Toast.makeText(mContext, label, Toast.LENGTH_LONG).show();
 			}
 		});
 		mContext.startService(serviceIntent);
