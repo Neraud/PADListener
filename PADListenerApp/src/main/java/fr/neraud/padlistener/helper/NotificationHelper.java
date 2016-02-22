@@ -53,6 +53,7 @@ public class NotificationHelper {
 	public void displayNotification(final String notificationMessage, int increment) {
 		final NotificationCompat.Builder builder = prepareNotification();
 		builder.setContentText(notificationMessage);
+		builder.setAutoCancel(true);
 		showNotification(builder, increment);
 	}
 

@@ -4,6 +4,7 @@
 		version="" versioncode="">
 		<change>Fixed #81 : Fixed friends broken by the new Best Friend flag (thanks QuasiTD !)</change>
 		<change>Fixed #90 : repaired Manual capture for M (thanks olifozzy !)</change>
+		<change>Fixed #91 : Tapping on "PAD data captured" notification dismisses it</change>
 	</release>
 	<release
 		version="2.1.8" versioncode="56">
