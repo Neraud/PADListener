@@ -795,7 +795,7 @@ public class ConnectionHandler implements Runnable {
         SSLSocket sslsock;
         try {
             int sockPort = sock.getPort();
-            String hostName = hostData.tcpAddress != null ? hostData.tcpAddress : hostData.name;
+            String hostName = sock.getInetAddress().getHostName();
             sslsock = (SSLSocket) factory.createSocket(sock, hostName, sockPort, false);
             if (useOnlyWiresharkDissCiphers){
                 // force chiper that can be decrypted with wireshark
