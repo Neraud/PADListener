@@ -2,6 +2,7 @@ package fr.neraud.padlistener.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -375,6 +376,39 @@ public class SyncHelper {
 
 		final Iterator<MonsterModel> capturedIter = capturedMonstersWork.iterator();
 
+		// Matching monsters on CARD_ID
+		capturedLoop:
+		while (capturedIter.hasNext()) {
+			final MonsterModel captured = capturedIter.next();
+			if (captured.getCardId() != null) {
+				final Iterator<UserInfoMonsterModel> parherderIter = padherderMonstersWork.iterator();
+				while (parherderIter.hasNext()) {
+					final UserInfoMonsterModel padherder = parherderIter.next();
+					if (captured.getCardId().equals(padherder.getCardId())) {
+						if (MonsterComparatorHelper.areMonstersEqual(captured, padherder)) {
+							MyLog.debug("matching ids and equal, removing : " + captured);
+							capturedIter.remove();
+							parherderIter.remove();
+							continue capturedLoop;
+						} else {
+							try {
+								final SyncedMonsterModel model = fillUpdatedSyncedMonsterModel(padherder, captured);
+								syncedMonsters.add(model);
+								MyLog.debug("matching ids and different, updating : " + model);
+							} catch (UnknownMonsterException e) {
+								// Should not happen as monsters are checked before during the reorg phase
+								MyLog.warn("missing monster info for id = " + e.getMonsterId());
+								hasEncounteredUnknownMonster = true;
+							}
+							capturedIter.remove();
+							parherderIter.remove();
+							continue capturedLoop;
+						}
+					}
+				}
+			}
+		}
+
 		// Filter "equals" monsters
 		capturedLoop:
 		while (capturedIter.hasNext()) {
@@ -383,7 +417,7 @@ public class SyncHelper {
 			while (parherderIter.hasNext()) {
 				final UserInfoMonsterModel padherder = parherderIter.next();
 				if (MonsterComparatorHelper.areMonstersEqual(captured, padherder)) {
-					MyLog.debug("equals, removing : " + captured);
+					MyLog.debug("equal, removing : " + captured);
 					capturedIter.remove();
 					parherderIter.remove();
 					continue capturedLoop;
@@ -395,46 +429,19 @@ public class SyncHelper {
 		final int nbPadherder = padherderMonstersWork.size();
 
 		for (int i = 0; i < Math.max(nbCaptured, nbPadherder); i++) {
-			final SyncedMonsterModel model = new SyncedMonsterModel();
+			final SyncedMonsterModel model;
 			try {
 				if (i < nbCaptured && i < nbPadherder) {
 					// Update while we have enough monsters in each list
-					model.setPadherderId(padherderMonstersWork.get(i).getPadherderId());
-
-					final UserInfoMonsterModel padherder = padherderMonstersWork.get(i);
-					final MonsterModel captured = capturedMonstersWork.get(i);
-
-					model.setPadherderMonsterInfo(monsterInfoHelper.getMonsterInfo(padherder.getIdJp()));
-					model.setCapturedMonsterInfo(monsterInfoHelper.getMonsterInfo(captured.getIdJp()));
-
-					// Keep priority and note
-					captured.setPriority(padherder.getPriority());
-					captured.setNote(padherder.getNote());
-
-					model.setCapturedInfo(captured);
-					model.setPadherderInfo(padherder);
+					model = fillUpdatedSyncedMonsterModel(padherderMonstersWork.get(i), capturedMonstersWork.get(i));
 					MyLog.debug("updated : " + model);
 				} else if (i < nbCaptured) {
 					// more captured -> creating
-					final MonsterModel captured = capturedMonstersWork.get(i);
-
-					model.setCapturedMonsterInfo(monsterInfoHelper.getMonsterInfo(captured.getIdJp()));
-
-					// default create priority
-					captured.setPriority(helper.getDefaultMonsterCreatePriority());
-					model.setCapturedInfo(capturedMonstersWork.get(i));
-
-					model.setPadherderInfo(null);
+					model = fillCreatedSyncedMonsterModel(capturedMonstersWork.get(i));
 					MyLog.debug("added : " + model);
 				} else {
 					// not enough captured -> deleting
-					final UserInfoMonsterModel padherder = padherderMonstersWork.get(i);
-
-					model.setPadherderMonsterInfo(monsterInfoHelper.getMonsterInfo(padherder.getIdJp()));
-
-					model.setPadherderId(padherder.getPadherderId());
-					model.setCapturedInfo(null);
-					model.setPadherderInfo(padherderMonstersWork.get(i));
+					model = fillDeletedSyncedMonsterModel(padherderMonstersWork.get(i));
 					MyLog.debug("deleted : " + model);
 				}
 
@@ -448,5 +455,46 @@ public class SyncHelper {
 
 		MyLog.exit();
 		return syncedMonsters;
+	}
+
+	@NonNull
+	private SyncedMonsterModel fillUpdatedSyncedMonsterModel(UserInfoMonsterModel padherder, MonsterModel captured) throws UnknownMonsterException {
+		final SyncedMonsterModel model = new SyncedMonsterModel();
+		model.setPadherderId(padherder.getPadherderId());
+		model.setPadherderMonsterInfo(monsterInfoHelper.getMonsterInfo(padherder.getIdJp()));
+		model.setCapturedMonsterInfo(monsterInfoHelper.getMonsterInfo(captured.getIdJp()));
+
+		// Keep priority and note
+		captured.setPriority(padherder.getPriority());
+		captured.setNote(padherder.getNote());
+
+		model.setCapturedInfo(captured);
+		model.setPadherderInfo(padherder);
+		return model;
+	}
+
+	@NonNull
+	private SyncedMonsterModel fillCreatedSyncedMonsterModel(MonsterModel captured) throws UnknownMonsterException {
+		final SyncedMonsterModel model = new SyncedMonsterModel();
+		model.setCapturedMonsterInfo(monsterInfoHelper.getMonsterInfo(captured.getIdJp()));
+
+		// default create priority
+		captured.setPriority(helper.getDefaultMonsterCreatePriority());
+		model.setCapturedInfo(captured);
+
+		model.setPadherderInfo(null);
+		return model;
+	}
+
+
+	@NonNull
+	private SyncedMonsterModel fillDeletedSyncedMonsterModel(UserInfoMonsterModel padherder) throws UnknownMonsterException {
+		final SyncedMonsterModel model = new SyncedMonsterModel();
+		model.setPadherderMonsterInfo(monsterInfoHelper.getMonsterInfo(padherder.getIdJp()));
+
+		model.setPadherderId(padherder.getPadherderId());
+		model.setCapturedInfo(null);
+		model.setPadherderInfo(padherder);
+		return model;
 	}
 }

@@ -134,6 +134,7 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
 
         //[8,190542,30,1,0,1655,0,0,0,0,0]
         final MonsterModel monster = new MonsterModel();
+        monster.setCardId(cardResult.getLong(0));
         monster.setExp(cardResult.getLong(1));
         monster.setLevel(cardResult.getInt(2));
         monster.setSkillLevel(cardResult.getInt(3));

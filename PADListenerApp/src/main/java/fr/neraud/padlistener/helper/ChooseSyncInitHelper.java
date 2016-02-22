@@ -27,6 +27,7 @@ public class ChooseSyncInitHelper {
 	private ChooseSyncModel mChooseSyncModel = null;
 	private boolean mHasDataToSync = false;
 	private boolean mHasChosenDataToSync = false;
+	private int nbElementsToSync = 0;
 
 	public ChooseSyncInitHelper(Context context, ComputeSyncResultModel syncResult) {
 		super();
@@ -44,6 +45,8 @@ public class ChooseSyncInitHelper {
 		fillMaterials();
 		fillMonsters();
 
+		MyLog.info("nbElementsToSync : " + nbElementsToSync);
+
 		MyLog.exit();
 		return mChooseSyncModel;
 	}
@@ -56,6 +59,7 @@ public class ChooseSyncInitHelper {
 		syncedUserInfoToUpdate.setModel(mSyncResult.getSyncedUserInfo());
 
 		mChooseSyncModel.setSyncedUserInfoToUpdate(syncedUserInfoToUpdate);
+		nbElementsToSync++;
 
 		MyLog.exit();
 	}
@@ -74,6 +78,7 @@ public class ChooseSyncInitHelper {
 				container.setChosen(mPrefHelper.isChooseSyncPreselectMaterialsUpdated());
 				container.setModel(material);
 				syncedMaterialsToUpdate.add(container);
+				nbElementsToSync++;
 				flagDataToSync(container);
 			}
 		}
@@ -85,9 +90,9 @@ public class ChooseSyncInitHelper {
 	private void fillMonsters() {
 		MyLog.entry();
 
-		final List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToUpdate = new ArrayList<ChooseModelContainer<SyncedMonsterModel>>();
-		final List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToCreate = new ArrayList<ChooseModelContainer<SyncedMonsterModel>>();
-		final List<ChooseModelContainer<SyncedMonsterModel>> syncedMonstersToDelete = new ArrayList<ChooseModelContainer<SyncedMonsterModel>>();
+		mChooseSyncModel.setSyncedMonsters(SyncMode.UPDATED, new ArrayList<ChooseModelContainer<SyncedMonsterModel>>());
+		mChooseSyncModel.setSyncedMonsters(SyncMode.CREATED, new ArrayList<ChooseModelContainer<SyncedMonsterModel>>());
+		mChooseSyncModel.setSyncedMonsters(SyncMode.DELETED, new ArrayList<ChooseModelContainer<SyncedMonsterModel>>());
 
 		final Set<Integer> ignoredIds = mPrefHelper.getMonsterIgnoreList();
 
@@ -101,9 +106,7 @@ public class ChooseSyncInitHelper {
 					MyLog.debug("ignoring deleted monster : " + monster);
 				} else {
 					MyLog.debug("adding deleted monster : " + monster);
-					container.setChosen(mPrefHelper.isChooseSyncPreselectMonsters(SyncMode.DELETED));
-					syncedMonstersToDelete.add(container);
-					flagDataToSync(container);
+					addMonsterToSync(SyncMode.DELETED, container);
 				}
 			} else if (monster.getPadherderInfo() == null) {
 				boolean ignored = mPrefHelper.isChooseSyncUseIgnoreListForMonsters(SyncMode.CREATED) && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
@@ -111,9 +114,7 @@ public class ChooseSyncInitHelper {
 					MyLog.debug("ignoring created monster : " + monster);
 				} else {
 					MyLog.debug("adding created monster : " + monster);
-					container.setChosen(mPrefHelper.isChooseSyncPreselectMonsters(SyncMode.CREATED));
-					syncedMonstersToCreate.add(container);
-					flagDataToSync(container);
+					addMonsterToSync(SyncMode.CREATED, container);
 				}
 			} else {
 				boolean ignored = mPrefHelper.isChooseSyncUseIgnoreListForMonsters(SyncMode.UPDATED) && ignoredIds.contains(monster.getDisplayedMonsterInfo().getIdJP());
@@ -121,20 +122,23 @@ public class ChooseSyncInitHelper {
 					MyLog.debug("ignoring updated monster : " + monster);
 				} else {
 					MyLog.debug("adding updated monster : " + monster);
-					container.setChosen(mPrefHelper.isChooseSyncPreselectMonsters(SyncMode.UPDATED));
-					syncedMonstersToUpdate.add(container);
-					flagDataToSync(container);
+					addMonsterToSync(SyncMode.UPDATED, container);
 				}
 			}
 		}
-		mChooseSyncModel.setSyncedMonsters(SyncMode.UPDATED, syncedMonstersToUpdate);
-		mChooseSyncModel.setSyncedMonsters(SyncMode.CREATED, syncedMonstersToCreate);
-		mChooseSyncModel.setSyncedMonsters(SyncMode.DELETED, syncedMonstersToDelete);
+
 
 		MyLog.exit();
 	}
 
+	private void addMonsterToSync(SyncMode mode, ChooseModelContainer<SyncedMonsterModel> container) {
+		container.setChosen(mPrefHelper.isChooseSyncPreselectMonsters(mode));
+		mChooseSyncModel.getSyncedMonsters(mode).add(container);
+		flagDataToSync(container);
+	}
+
 	private void flagDataToSync(ChooseModelContainer container) {
+		nbElementsToSync++;
 		mHasDataToSync = true;
 		if (container.isChosen()) {
 			mHasChosenDataToSync = true;

@@ -85,6 +85,10 @@ public class PushSyncHelper {
 		final JSONObject json = new JSONObject();
 		json.put("monster", model.getCapturedInfo().getIdJp());
 
+		if (model.getCapturedInfo().getCardId() != null && !model.getCapturedInfo().getCardId().equals(model.getPadherderInfo().getCardId())) {
+			json.put("pad_id", model.getCapturedInfo().getCardId());
+		}
+
 		if (model.getCapturedInfo().getIdJp() != model.getPadherderInfo().getIdJp()) {
 			// Monster evolution, reset the target to the max
 			json.put("target_level", model.getCapturedMonsterInfo().getMaxLevel());
@@ -140,6 +144,9 @@ public class PushSyncHelper {
 		*/
 		final JSONObject json = new JSONObject();
 		json.put("monster", model.getDisplayedMonsterInfo().getIdJP());
+		if (model.getCapturedInfo().getCardId() != null) {
+			json.put("pad_id", model.getCapturedInfo().getCardId());
+		}
 		json.put("current_xp", model.getCapturedInfo().getExp());
 		json.put("current_skill", model.getCapturedInfo().getSkillLevel());
 		json.put("current_awakening", model.getCapturedInfo().getAwakenings());

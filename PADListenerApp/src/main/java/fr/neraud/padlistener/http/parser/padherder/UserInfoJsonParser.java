@@ -117,11 +117,15 @@ public class UserInfoJsonParser extends AbstractJsonParser<UserInfoModel> {
 		"target_evolution": 480, 
 		"plus_hp": 3, 
 		"plus_atk": 3, 
-		"plus_rcv": 0
+		"plus_rcv": 0,
+        "pad_id": 784
 		*/
 
 		final UserInfoMonsterModel monster = new UserInfoMonsterModel();
 
+		if (monsterJson.has("pad_id")) {
+			monster.setCardId(monsterJson.getLong("pad_id"));
+		}
 		monster.setPadherderId(monsterJson.getLong("id"));
 		monster.setIdJp(monsterJson.getInt("monster"));
 		monster.setNote(monsterJson.getString("note"));
