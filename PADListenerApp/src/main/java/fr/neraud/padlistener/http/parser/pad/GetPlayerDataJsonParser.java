@@ -176,10 +176,10 @@ public class GetPlayerDataJsonParser extends AbstractJsonParser<GetPlayerDataApi
             MyLog.warn("error parsing lastActivityDate : " + e.getMessage());
         }
 
-        final BaseMonsterStatsModel leader1 = extractFriendLeader(friendResult, 15);
+        final BaseMonsterStatsModel leader1 = extractFriendLeader(friendResult, 16);
         friend.setLeader1(leader1);
 
-        final BaseMonsterStatsModel leader2 = extractFriendLeader(friendResult, 23);
+        final BaseMonsterStatsModel leader2 = extractFriendLeader(friendResult, 24);
         friend.setLeader2(leader2);
 
         MyLog.exit();
