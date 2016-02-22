@@ -2,6 +2,7 @@
 <changelog>
 	<release
 		version="" versioncode="">
+		<change>Fixed #81 : Fixed friends broken by the new Best Friend flag (thanks QuasiTD !)</change>
 		<change>Fixed #90 : repaired Manual capture for M (thanks olifozzy !)</change>
 	</release>
 	<release
