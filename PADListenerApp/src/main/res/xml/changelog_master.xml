@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.1.9" versioncode="57">
 		<change>Fixed #81 : Fixed friends broken by the new Best Friend flag (thanks QuasiTD !)</change>
 		<change>Fixed #90 : repaired Manual capture for M (thanks olifozzy !)</change>
 		<change>Fixed #91 : Tapping on "PAD data captured" notification dismisses it</change>
