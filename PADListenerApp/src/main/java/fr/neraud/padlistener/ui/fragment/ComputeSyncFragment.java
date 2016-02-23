@@ -132,7 +132,6 @@ public class ComputeSyncFragment extends Fragment {
 						} else {
 							if (initHelper.isHasDataToSync()) {
 								final Bundle extras = new Bundle();
-								extras.putSerializable(ChooseSyncActivity.EXTRA_SYNC_RESULT_NAME, syncResult);
 								extras.putSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME, chooseSyncModel);
 								extras.putInt(ChooseSyncActivity.EXTRA_ACCOUNT_ID_NAME, mAccountId);
 								((AbstractPADListenerActivity) getActivity()).goToScreen(UiScreen.CHOOSE_SYNC, extras);

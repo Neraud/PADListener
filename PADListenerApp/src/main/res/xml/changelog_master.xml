@@ -6,6 +6,7 @@
 		<change>Fixed #90 : repaired Manual capture for M (thanks olifozzy !)</change>
 		<change>Fixed #91 : Tapping on "PAD data captured" notification dismisses it</change>
 		<change>Fixed #94 : Added support for CardID</change>
+		<change>Fixed #101 : the app crashed when too many monsters are synced at the same time</change>
 	</release>
 	<release
 		version="2.1.8" versioncode="56">

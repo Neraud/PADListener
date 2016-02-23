@@ -27,7 +27,6 @@ import fr.neraud.padlistener.ui.helper.BaseHelpManager;
 public class ChooseSyncActivity extends AbstractPADListenerActivity {
 
 	public static final String EXTRA_ACCOUNT_ID_NAME = "account_id";
-	public static final String EXTRA_SYNC_RESULT_NAME = "sync_result";
 	public static final String EXTRA_CHOOSE_SYNC_RESULT_NAME = "choose_sync_result";
 	private int mAccountId;
 	private ChooseSyncModel mChooseResult;
@@ -40,11 +39,10 @@ public class ChooseSyncActivity extends AbstractPADListenerActivity {
 
 		final Bundle extras = getIntent().getExtras();
 
-		final ComputeSyncResultModel result = (ComputeSyncResultModel) extras.getSerializable(EXTRA_SYNC_RESULT_NAME);
 		mAccountId = extras.getInt(EXTRA_ACCOUNT_ID_NAME);
 		mChooseResult = (ChooseSyncModel) extras.getSerializable(ChooseSyncActivity.EXTRA_CHOOSE_SYNC_RESULT_NAME);
 
-		if (result.isHasEncounteredUnknownMonster()) {
+		if (mChooseResult.isHasEncounteredUnknownMonster()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.choose_sync_alert_unknown_monster_encountered_title);
 			builder.setMessage(R.string.choose_sync_alert_unknown_monster_encountered_content);
