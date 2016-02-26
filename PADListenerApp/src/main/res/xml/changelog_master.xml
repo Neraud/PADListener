@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
-		version="" versioncode="">
+		version="2.1.10" versioncode="58">
 		<change>Fixed #103 : Monsters kept being updated</change>
 	</release>
 	<release
