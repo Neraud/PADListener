@@ -9,9 +9,17 @@ import fr.neraud.padlistener.model.MonsterModel;
  */
 public class MonsterComparatorHelper {
 
+	private static boolean compareCardId(MonsterModel a, MonsterModel b) {
+		if (a.getCardId() == null) {
+			return b.getCardId() == null;
+		} else {
+			return a.getCardId().equals(b.getCardId());
+		}
+	}
+
 	public static boolean areMonstersEqual(MonsterModel a, MonsterModel b) {
 		return a.getIdJp() == b.getIdJp() &&
-				a.getCardId() == b.getCardId() &&
+				compareCardId(a, b) &&
 				a.getExp() == b.getExp() &&
 				a.getSkillLevel() == b.getSkillLevel() &&
 				a.getPlusHp() == b.getPlusHp() &&

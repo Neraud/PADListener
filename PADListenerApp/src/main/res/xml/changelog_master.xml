@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 	<release
+		version="" versioncode="">
+		<change>Fixed #103 : Monsters kept being updated</change>
+	</release>
+	<release
 		version="2.1.9" versioncode="57">
 		<change>Fixed #81 : Fixed friends broken by the new Best Friend flag (thanks QuasiTD !)</change>
 		<change>Fixed #90 : repaired Manual capture for M (thanks olifozzy !)</change>
